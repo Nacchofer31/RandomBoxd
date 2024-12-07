@@ -1,5 +1,6 @@
 package com.nacchofer31.randomboxd.di
 
+import com.nacchofer31.randomboxd.core.data.RandomBoxdHttpClientFactory
 import com.nacchofer31.randomboxd.dependencies.MyRepository
 import com.nacchofer31.randomboxd.dependencies.MyRepositoryImpl
 import com.nacchofer31.randomboxd.dependencies.MyViewModel
@@ -12,6 +13,7 @@ import org.koin.dsl.module
 expect val platformModule: Module
 
 val sharedModule = module {
+    single { RandomBoxdHttpClientFactory.create(get()) }
     singleOf(::MyRepositoryImpl).bind<MyRepository>()
     viewModelOf(::MyViewModel)
 }
