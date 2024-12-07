@@ -28,6 +28,9 @@ proguard/
 # Log Files
 *.log
 
+# Fleet
+.fleet
+
 # Android Studio Navigation editor temp files
 .navigation/
 
