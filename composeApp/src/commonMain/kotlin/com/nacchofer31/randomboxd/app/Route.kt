@@ -8,6 +8,6 @@ sealed interface RandomBoxdRoute {
     data object Home: RandomBoxdRoute
 
     @Serializable
-    data object FilmList: RandomBoxdRoute
+    data object RandomFilm: RandomBoxdRoute
 
 }

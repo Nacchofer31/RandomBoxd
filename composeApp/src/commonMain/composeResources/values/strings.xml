@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">RandomBoxd</string>
+    <string name="enter_your_user_name">Enter your username</string>
+    <string name="submit">Submit</string>
+</resources>
