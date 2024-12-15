@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
@@ -41,6 +42,14 @@ fun UserNameTextField(
             placeholder = { Text(hint) },
             shape = RoundedCornerShape(topStart = 10.dp, bottomStart = 10.dp),
             singleLine = true,
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                selectionColors = TextSelectionColors(
+                    handleColor = RandomBoxdColors.OrangeAccent,
+                    backgroundColor = RandomBoxdColors.OrangeAccent
+                )
+            ),
             modifier = modifier,
             trailingIcon = {
                 if (value.trim().isNotEmpty()) {
