@@ -4,11 +4,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.runtime.Composable
@@ -39,13 +38,6 @@ fun UserNameTextField(
             value = value,
             onValueChange = onChange,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.White,
-                cursorColor = RandomBoxdColors.OrangeAccent,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                textColor = RandomBoxdColors.TextColor
-            ),
             placeholder = { Text(hint) },
             shape = RoundedCornerShape(topStart = 10.dp, bottomStart = 10.dp),
             singleLine = true,
