@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
+import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.presentation.components.FilmPoster
 import com.nacchofer31.randomboxd.random_film.presentation.components.UserNameTextField
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
@@ -46,12 +47,19 @@ import randomboxd.composeapp.generated.resources.release_year_label
 import randomboxd.composeapp.generated.resources.submit
 
 @Composable
-fun RandomFilmScreenRoot(viewModel: RandomFilmViewModel = koinViewModel()) {
+fun RandomFilmScreenRoot(
+    viewModel: RandomFilmViewModel = koinViewModel(),
+    onFilmClicked: (Film) -> Unit,
+) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     RandomFilmScreen(
         state = state,
         onAction = { action ->
+            when(action) {
+                is RandomFilmAction.OnFilmClicked -> onFilmClicked(action.film)
+                else -> Unit
+            }
             viewModel.onAction(action)
         }
     )
@@ -60,7 +68,7 @@ fun RandomFilmScreenRoot(viewModel: RandomFilmViewModel = koinViewModel()) {
 @Composable
 fun RandomFilmScreen(
     state: RandomFilmState,
-    onAction: (RandomFilmAction) -> Unit
+    onAction: (RandomFilmAction) -> Unit,
 ) {
 
     var userName by remember { mutableStateOf("") }
@@ -87,7 +95,13 @@ fun RandomFilmScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(vertical = 20.dp)
             ) {
-                FilmPoster(state.resultFilm.imageUrl)
+                FilmPoster(state.resultFilm.imageUrl, onClick = {
+                    onAction(
+                        RandomFilmAction.OnFilmClicked(
+                            film = state.resultFilm
+                        )
+                    )
+                })
                 Box(modifier = Modifier.height(20.dp))
                 Text(state.resultFilm.name,
                     color = RandomBoxdColors.White,
@@ -135,7 +149,7 @@ fun RandomFilmScreen(
                     .fillMaxHeight()
 
             ) {
-                Text(stringResource(Res.string.submit).uppercase(), color = Color.White, maxLines = 1,)
+                Text(stringResource(Res.string.submit).uppercase(), color = Color.White, maxLines = 1)
             }
         }
     }

@@ -3,6 +3,7 @@ package com.nacchofer31.randomboxd.random_film.presentation.components
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
@@ -26,7 +27,8 @@ import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 @Composable
 fun FilmPoster(
     imageUrl: String,
-){
+    onClick: () -> Unit, // Acción que se ejecutará al hacer clic
+) {
     var imageLoadResult by remember {
         mutableStateOf<Result<Painter>?>(null)
     }
@@ -34,7 +36,7 @@ fun FilmPoster(
         model = imageUrl,
         onSuccess = {
             val size = it.painter.intrinsicSize
-            imageLoadResult = if(size.width > 1 && size.height > 1) {
+            imageLoadResult = if (size.width > 1 && size.height > 1) {
                 Result.success(it.painter)
             } else {
                 Result.failure(Exception("Invalid image dimensions"))
@@ -50,7 +52,9 @@ fun FilmPoster(
     ) { result ->
         when (result) {
             null -> Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable { onClick() },
                 contentAlignment = Alignment.Center
             ) {
 
@@ -58,9 +62,6 @@ fun FilmPoster(
 
             else -> {
                 Image(
-                    /*painter = if (result.isSuccess) painter else {
-                        painterResource(// Error res Res.drawable...)
-                    },*/
                     painter = painter,
                     contentDescription = "film_image",
                     modifier = Modifier
@@ -72,14 +73,14 @@ fun FilmPoster(
                             spotColor = Color.Black.copy(alpha = 0.7f)
                         )
                         .clip(RoundedCornerShape(15.dp))
-                        .border(4.dp, RandomBoxdColors.White, RoundedCornerShape(15.dp)),
+                        .border(4.dp, RandomBoxdColors.White, RoundedCornerShape(15.dp))
+                        .clickable { onClick() },
                     contentScale = if (result.isSuccess) {
                         ContentScale.Crop
                     } else {
                         ContentScale.Fit
                     }
                 )
-
             }
         }
     }

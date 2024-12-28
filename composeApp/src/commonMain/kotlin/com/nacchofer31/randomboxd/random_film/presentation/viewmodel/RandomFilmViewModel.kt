@@ -25,6 +25,7 @@ class RandomFilmViewModel(private val repository: RandomFilmRepository): ViewMod
             is RandomFilmAction.OnSubmitButtonClick ->{
                 observeRandomFilm(action.userName)
             }
+            else -> Unit
         }
     }
 
