@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">RandomBoxd</string>
     <string name="enter_your_user_name">Enter your username</string>
+    <string name="enter_description">Please enter a valid LetterBoxd username to retrieve a random film from their watchlist. Alternatively you can input public lists in "username/list-title" format.</string>
     <string name="submit">Submit</string>
     <string name="release_year_label">Release year:</string>
 </resources>
