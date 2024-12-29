@@ -6,8 +6,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,7 +31,7 @@ import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 @Composable
 fun FilmPoster(
     imageUrl: String,
-    onClick: () -> Unit, // Acción que se ejecutará al hacer clic
+    onClick: () -> Unit,
 ) {
     var imageLoadResult by remember {
         mutableStateOf<Result<Painter>?>(null)
@@ -80,6 +84,14 @@ fun FilmPoster(
                     } else {
                         ContentScale.Fit
                     }
+                )
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    contentDescription = "info_icon",
+                    tint = RandomBoxdColors.White,
+                    modifier = Modifier
+                        .padding(all = 10.dp)
+                        .clickable { onClick() }
                 )
             }
         }

@@ -48,7 +48,8 @@ class RandomFilmViewModel(private val repository: RandomFilmRepository): ViewMod
             .onError {
                 _state.update {
                     it.copy(
-                        isLoading = false
+                        isLoading = false,
+                        resultFilm = null
                     )
                 }
             }

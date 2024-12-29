@@ -31,10 +31,12 @@ fun UserNameTextField(
     onRemoveButtonClick: () -> Unit,
 ) {
 
-    CompositionLocalProvider(LocalTextSelectionColors provides TextSelectionColors(
-        handleColor = RandomBoxdColors.OrangeAccent,
-        backgroundColor = Color.White
-    )) {
+    CompositionLocalProvider(
+        LocalTextSelectionColors provides TextSelectionColors(
+            handleColor = RandomBoxdColors.OrangeAccent,
+            backgroundColor = Color.White
+        )
+    ) {
         TextField(
             value = value,
             onValueChange = onChange,
