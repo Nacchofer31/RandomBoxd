@@ -25,16 +25,19 @@ internal fun ActionRow(
     isLoading: Boolean,
     focusManager: FocusManager,
     onAction: (RandomFilmAction) -> Unit,
-    onUserNameChange: (String) -> Unit
+    onUserNameChange: (String) -> Unit,
 ) = Row(
     horizontalArrangement = Arrangement.Center,
-    modifier = Modifier.height(56.dp)
+    modifier = Modifier.height(56.dp),
 ) {
     UserNameTextField(
         value = userName,
         onChange = onUserNameChange,
-        onRemoveButtonClick = { onUserNameChange("") },
-        modifier = Modifier.weight(1f)
+        onRemoveButtonClick = {
+            onUserNameChange("")
+            onAction(RandomFilmAction.OnClearButtonClick)
+        },
+        modifier = Modifier.weight(1f),
     )
     Button(
         onClick = {
@@ -44,15 +47,15 @@ internal fun ActionRow(
         enabled = userName.trim().isNotEmpty() && !isLoading,
         colors = ButtonDefaults.buttonColors(
             containerColor = RandomBoxdColors.BackgroundLightColor,
-            disabledContainerColor = Color.Gray
+            disabledContainerColor = Color.Gray,
         ),
         shape = RoundedCornerShape(topEnd = 10.dp, bottomEnd = 10.dp),
-        modifier = Modifier.fillMaxHeight()
+        modifier = Modifier.fillMaxHeight(),
     ) {
         Text(
             stringResource(Res.string.submit).uppercase(),
             color = Color.White,
-            maxLines = 1
+            maxLines = 1,
         )
     }
 }

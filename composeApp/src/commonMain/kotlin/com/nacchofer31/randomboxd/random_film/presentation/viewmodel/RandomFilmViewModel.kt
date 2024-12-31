@@ -25,6 +25,9 @@ class RandomFilmViewModel(private val repository: RandomFilmRepository): ViewMod
             is RandomFilmAction.OnSubmitButtonClick ->{
                 observeRandomFilm(action.userName)
             }
+            is RandomFilmAction.OnClearButtonClick -> {
+                clearSelectedFilm()
+            }
             else -> Unit
         }
     }
@@ -53,5 +56,13 @@ class RandomFilmViewModel(private val repository: RandomFilmRepository): ViewMod
                     )
                 }
             }
+    }
+
+    private fun clearSelectedFilm() {
+        _state.update {
+            it.copy(
+                resultFilm = null
+            )
+        }
     }
 }
