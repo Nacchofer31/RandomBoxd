@@ -26,35 +26,33 @@ internal fun ActionRow(
     focusManager: FocusManager,
     onAction: (RandomFilmAction) -> Unit,
     onUserNameChange: (String) -> Unit
+) = Row(
+    horizontalArrangement = Arrangement.Center,
+    modifier = Modifier.height(56.dp)
 ) {
-    Row(
-        horizontalArrangement = Arrangement.Center,
-        modifier = Modifier.height(56.dp)
+    UserNameTextField(
+        value = userName,
+        onChange = onUserNameChange,
+        onRemoveButtonClick = { onUserNameChange("") },
+        modifier = Modifier.weight(1f)
+    )
+    Button(
+        onClick = {
+            focusManager.clearFocus()
+            onAction(RandomFilmAction.OnSubmitButtonClick(userName))
+        },
+        enabled = userName.trim().isNotEmpty() && !isLoading,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = RandomBoxdColors.BackgroundLightColor,
+            disabledContainerColor = Color.Gray
+        ),
+        shape = RoundedCornerShape(topEnd = 10.dp, bottomEnd = 10.dp),
+        modifier = Modifier.fillMaxHeight()
     ) {
-        UserNameTextField(
-            value = userName,
-            onChange = onUserNameChange,
-            onRemoveButtonClick = { onUserNameChange("") },
-            modifier = Modifier.weight(1f)
+        Text(
+            stringResource(Res.string.submit).uppercase(),
+            color = Color.White,
+            maxLines = 1
         )
-        Button(
-            onClick = {
-                focusManager.clearFocus()
-                onAction(RandomFilmAction.OnSubmitButtonClick(userName))
-            },
-            enabled = userName.trim().isNotEmpty() && !isLoading,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = RandomBoxdColors.BackgroundLightColor,
-                disabledContainerColor = Color.Gray
-            ),
-            shape = RoundedCornerShape(topEnd = 10.dp, bottomEnd = 10.dp),
-            modifier = Modifier.fillMaxHeight()
-        ) {
-            Text(
-                stringResource(Res.string.submit).uppercase(),
-                color = Color.White,
-                maxLines = 1
-            )
-        }
     }
 }

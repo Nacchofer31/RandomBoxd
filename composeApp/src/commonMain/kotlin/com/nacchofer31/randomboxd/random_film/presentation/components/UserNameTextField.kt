@@ -29,9 +29,7 @@ fun UserNameTextField(
     modifier: Modifier = Modifier,
     hint: String = stringResource(Res.string.enter_your_user_name),
     onRemoveButtonClick: () -> Unit,
-) {
-
-    CompositionLocalProvider(
+) = CompositionLocalProvider(
         LocalTextSelectionColors provides TextSelectionColors(
             handleColor = RandomBoxdColors.OrangeAccent,
             backgroundColor = Color.White
@@ -66,4 +64,3 @@ fun UserNameTextField(
         )
     }
 
-}
