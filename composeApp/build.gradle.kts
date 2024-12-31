@@ -1,4 +1,7 @@
 
+import com.android.build.gradle.AppPlugin
+import com.android.build.gradle.LibraryPlugin
+import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -8,6 +11,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.spotless)
 }
 
 kotlin {
@@ -110,3 +114,16 @@ dependencies {
     debugImplementation(compose.uiTooling)
 }
 
+subprojects {
+    plugins.matching { anyPlugin -> anyPlugin is AppPlugin || anyPlugin is LibraryPlugin }.whenPluginAdded {
+        apply(plugin = libs.plugins.spotless.get().pluginId)
+        extensions.configure<SpotlessExtension> {
+            kotlin {
+                target("**/*.kt")
+                targetExclude("${layout.buildDirectory}/**/*.kt")
+                ktlint()
+                    .setEditorConfigPath("${project.rootDir}/spotless/.editorconfig")
+            }
+        }
+    }
+}
