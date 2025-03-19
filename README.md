@@ -56,10 +56,8 @@ RandomBoxd is built with **full localization support**, allowing the app to be t
 ## 🔧 Tech Stack
 - **Kotlin Multiplatform Mobile (KMM)** - Shared logic for Android and iOS.
 - **Jetpack Compose** - UI for Android.
-- **SwiftUI** - UI for iOS.
 - **Ktor** - Network requests.
 - **Coroutines & Flow** - Asynchronous programming.
-- **SQLDelight** - Local database.
 - **Koin** - Dependency Injection.
 - **Coil** - Image loading.
 - **Navigation Compose** - Jetpack Compose navigation.
@@ -69,10 +67,12 @@ RandomBoxd is built with **full localization support**, allowing the app to be t
 ## 🚀 Getting Started
 1. Clone the repository:
    ```sh
-   git clone https://github.com/your-repo/randomboxd.git
+   git clone https://github.com/Nacchofer31/RandomBoxd.git
    ```
-2. Open the project in **Android Studio (latest version with KMM plugin)**.
+
+2. Open the project in **Android Studio (latest version with [KMP Plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform))**.
 3. Run on an **Android Emulator** or an **iOS Simulator**.
+   <img src="screenshots/run-config.png" width="400" />
 4. Start selecting random movies from Letterboxd lists! 🎞️
 
 ## 🤝 Contributing
