@@ -5,10 +5,11 @@ import com.nacchofer31.randomboxd.random_film.domain.model.Film
 
 
 fun FilmDto.toFilm(): Film {
+    val releaseYearValue = if (releaseYear.isEmpty()) null else releaseYear.toInt()
     return Film(
         slug = slug,
         name = name,
         imageUrl = imageUrl,
-        releaseYear = releaseYear.toInt()
+        releaseYear = releaseYearValue
     )
 }

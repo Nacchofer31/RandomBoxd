@@ -39,7 +39,7 @@ internal fun FilmDisplay(
         fontWeight = FontWeight.Bold
     )
     Text(
-        "${stringResource(Res.string.release_year_label)} ${film.releaseYear}",
+        "${stringResource(Res.string.release_year_label)} ${film.releaseYear ?: '-'}",
         color = RandomBoxdColors.BackgroundLightColor,
         textAlign = TextAlign.Center
     )
