@@ -81,7 +81,7 @@ fun RandomFilmScreen(
             ) {
                 state.resultFilm?.takeIf { !state.isLoading }?.let {
                     FilmDisplay(it, onAction)
-                } ?: LoadingOrPrompt(state, userName)
+                } ?: LoadingOrPrompt(state)
 
                 ActionRow(userName, state.isLoading, focusManager, onAction) { userName = it }
             }
