@@ -12,6 +12,12 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.spotless)
+    jacoco
+}
+
+jacoco {
+    toolVersion = "0.8.12"
+    reportsDirectory = layout.buildDirectory.dir("reports/jacoco")
 }
 
 kotlin {
@@ -80,6 +86,33 @@ kotlin {
             // ktor
             implementation(libs.ktor.client.darwin)
         }
+        tasks.register("jacocoTestReport", JacocoReport::class) {
+            dependsOn(tasks.withType(Test::class))
+            val coverageSourceDirs = arrayOf(
+                "src/commonMain",
+                "src/androidMain",
+                "src/iosMain",
+            )
+
+            val buildDirectory = layout.buildDirectory
+
+            val classFiles = buildDirectory.dir("classes/kotlin/jvm").get().asFile
+                .walkBottomUp()
+                .toSet()
+
+            classDirectories.setFrom(classFiles)
+            sourceDirectories.setFrom(files(coverageSourceDirs))
+
+            buildDirectory.files("jacoco/jvmTest.exec").let {
+                executionData.setFrom(it)
+            }
+
+            reports {
+                xml.required = true
+                csv.required = true
+                html.required = true
+            }
+        }
     }
 }
 
@@ -119,10 +152,16 @@ subprojects {
         apply(plugin = libs.plugins.spotless.get().pluginId)
         extensions.configure<SpotlessExtension> {
             kotlin {
-                target("**/*.kt")
+                target("src/**/*.kt")
                 targetExclude("${layout.buildDirectory}/**/*.kt")
+                trimTrailingWhitespace()
+                endWithNewline()
                 ktlint()
                     .setEditorConfigPath("${project.rootDir}/spotless/.editorconfig")
+            }
+            kotlinGradle {
+                target("*.kts")
+                ktlint()
             }
         }
     }
