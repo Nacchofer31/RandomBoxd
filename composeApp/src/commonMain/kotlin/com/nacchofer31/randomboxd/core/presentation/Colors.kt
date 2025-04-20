@@ -11,4 +11,3 @@ object RandomBoxdColors {
     val BlueAccent = Color(0xff40bcf4)
     val White = Color.White
 }
-

@@ -1,7 +1,4 @@
 
-import com.android.build.gradle.AppPlugin
-import com.android.build.gradle.LibraryPlugin
-import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -27,31 +24,31 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
         }
     }
-    
+
     sourceSets {
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
 
-            //splash
+            // splash
             implementation(libs.core.splashscreen)
 
-            //koin
+            // koin
             implementation(libs.koin.android)
 
-            //ktor
+            // ktor
             implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
@@ -88,17 +85,19 @@ kotlin {
         }
         tasks.register("jacocoTestReport", JacocoReport::class) {
             dependsOn(tasks.withType(Test::class))
-            val coverageSourceDirs = arrayOf(
-                "src/commonMain",
-                "src/androidMain",
-                "src/iosMain",
-            )
+            val coverageSourceDirs =
+                arrayOf(
+                    "src/commonMain",
+                    "src/androidMain",
+                    "src/iosMain",
+                )
 
             val buildDirectory = layout.buildDirectory
 
-            val classFiles = buildDirectory.dir("classes/kotlin/jvm").get().asFile
-                .walkBottomUp()
-                .toSet()
+            val classFiles =
+                buildDirectory.dir("classes/kotlin/jvm").get().asFile
+                    .walkBottomUp()
+                    .toSet()
 
             classDirectories.setFrom(classFiles)
             sourceDirectories.setFrom(files(coverageSourceDirs))
@@ -147,22 +146,15 @@ dependencies {
     debugImplementation(compose.uiTooling)
 }
 
-subprojects {
-    plugins.matching { anyPlugin -> anyPlugin is AppPlugin || anyPlugin is LibraryPlugin }.whenPluginAdded {
-        apply(plugin = libs.plugins.spotless.get().pluginId)
-        extensions.configure<SpotlessExtension> {
-            kotlin {
-                target("src/**/*.kt")
-                targetExclude("${layout.buildDirectory}/**/*.kt")
-                trimTrailingWhitespace()
-                endWithNewline()
-                ktlint()
-                    .setEditorConfigPath("${project.rootDir}/spotless/.editorconfig")
-            }
-            kotlinGradle {
-                target("*.kts")
-                ktlint()
-            }
-        }
+spotless {
+    kotlin {
+        target("src/**/*.kt")
+        targetExclude("${layout.buildDirectory}/**/*.kt")
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    kotlinGradle {
+        target("*.gradle.kts")
+        ktlint()
     }
 }

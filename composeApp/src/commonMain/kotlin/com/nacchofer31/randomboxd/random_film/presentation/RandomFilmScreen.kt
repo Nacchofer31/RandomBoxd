@@ -88,7 +88,3 @@ fun RandomFilmScreen(
         }
     )
 }
-
-
-
-
