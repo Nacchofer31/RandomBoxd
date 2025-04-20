@@ -11,18 +11,21 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class RandomFilmViewModel(private val repository: RandomFilmRepository): ViewModel() {
-
+class RandomFilmViewModel(
+    private val repository: RandomFilmRepository,
+) : ViewModel() {
     private val _state = MutableStateFlow(RandomFilmState())
-    val state = _state
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000L),
-            _state.value
-        )
+    val state =
+        _state
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000L),
+                _state.value,
+            )
+
     fun onAction(action: RandomFilmAction) {
-        when(action){
-            is RandomFilmAction.OnSubmitButtonClick ->{
+        when (action) {
+            is RandomFilmAction.OnSubmitButtonClick -> {
                 observeRandomFilm(action.userName)
             }
             is RandomFilmAction.OnClearButtonClick -> {
@@ -32,36 +35,36 @@ class RandomFilmViewModel(private val repository: RandomFilmRepository): ViewMod
         }
     }
 
-    private fun observeRandomFilm(userName: String) = viewModelScope.launch {
-        _state.update {
-            it.copy(
-                isLoading = true
-            )
+    private fun observeRandomFilm(userName: String) =
+        viewModelScope.launch {
+            _state.update {
+                it.copy(
+                    isLoading = true,
+                )
+            }
+            repository
+                .getRandomMovie(userName)
+                .onSuccess { film ->
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            resultFilm = film,
+                        )
+                    }
+                }.onError {
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            resultFilm = null,
+                        )
+                    }
+                }
         }
-        repository
-            .getRandomMovie(userName)
-            .onSuccess { film ->
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        resultFilm = film
-                    )
-                }
-            }
-            .onError {
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        resultFilm = null
-                    )
-                }
-            }
-    }
 
     private fun clearSelectedFilm() {
         _state.update {
             it.copy(
-                resultFilm = null
+                resultFilm = null,
             )
         }
     }

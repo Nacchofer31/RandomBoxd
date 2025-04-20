@@ -10,31 +10,28 @@ import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.coroutines.ensureActive
 import kotlin.coroutines.coroutineContext
 
-suspend inline fun <reified T> safeCall(
-    execute: () -> HttpResponse
-): ResultData<T, DataError.Remote> {
-    val response = try {
-        execute()
-    } catch(e: SocketTimeoutException) {
-        return ResultData.Error(DataError.Remote.REQUEST_TIMEOUT)
-    } catch(e: UnresolvedAddressException) {
-        return ResultData.Error(DataError.Remote.NO_INTERNET)
-    } catch (e: Exception) {
-        coroutineContext.ensureActive()
-        return ResultData.Error(DataError.Remote.UNKNOWN)
-    }
+suspend inline fun <reified T> safeCall(execute: () -> HttpResponse): ResultData<T, DataError.Remote> {
+    val response =
+        try {
+            execute()
+        } catch (e: SocketTimeoutException) {
+            return ResultData.Error(DataError.Remote.REQUEST_TIMEOUT)
+        } catch (e: UnresolvedAddressException) {
+            return ResultData.Error(DataError.Remote.NO_INTERNET)
+        } catch (e: Exception) {
+            coroutineContext.ensureActive()
+            return ResultData.Error(DataError.Remote.UNKNOWN)
+        }
 
     return responseToResult(response)
 }
 
-suspend inline fun <reified T> responseToResult(
-    response: HttpResponse
-): ResultData<T, DataError.Remote> {
-    return when(response.status.value) {
+suspend inline fun <reified T> responseToResult(response: HttpResponse): ResultData<T, DataError.Remote> =
+    when (response.status.value) {
         in 200..299 -> {
             try {
                 ResultData.Success(response.body<T>())
-            } catch(e: NoTransformationFoundException) {
+            } catch (e: NoTransformationFoundException) {
                 ResultData.Error(DataError.Remote.SERIALIZATION)
             }
         }
@@ -43,4 +40,3 @@ suspend inline fun <reified T> responseToResult(
         in 500..599 -> ResultData.Error(DataError.Remote.SERVER)
         else -> ResultData.Error(DataError.Remote.UNKNOWN)
     }
-}

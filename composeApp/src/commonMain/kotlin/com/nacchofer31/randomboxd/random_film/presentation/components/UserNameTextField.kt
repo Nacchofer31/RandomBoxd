@@ -4,12 +4,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -30,36 +30,39 @@ fun UserNameTextField(
     hint: String = stringResource(Res.string.enter_your_user_name),
     onRemoveButtonClick: () -> Unit,
 ) = CompositionLocalProvider(
-        LocalTextSelectionColors provides TextSelectionColors(
+    LocalTextSelectionColors provides
+        TextSelectionColors(
             handleColor = RandomBoxdColors.OrangeAccent,
-            backgroundColor = Color.White
-        )
-    ) {
-        TextField(
-            value = value,
-            onValueChange = onChange,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-            placeholder = { Text(hint) },
-            shape = RoundedCornerShape(topStart = 10.dp, bottomStart = 10.dp),
-            singleLine = true,
-            colors = TextFieldDefaults.colors(
+            backgroundColor = Color.White,
+        ),
+) {
+    TextField(
+        value = value,
+        onValueChange = onChange,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        placeholder = { Text(hint) },
+        shape = RoundedCornerShape(topStart = 10.dp, bottomStart = 10.dp),
+        singleLine = true,
+        colors =
+            TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                selectionColors = TextSelectionColors(
-                    handleColor = RandomBoxdColors.OrangeAccent,
-                    backgroundColor = RandomBoxdColors.OrangeAccent
-                )
+                selectionColors =
+                    TextSelectionColors(
+                        handleColor = RandomBoxdColors.OrangeAccent,
+                        backgroundColor = RandomBoxdColors.OrangeAccent,
+                    ),
             ),
-            modifier = modifier,
-            trailingIcon = {
-                if (value.trim().isNotEmpty()) {
-                    IconButton(onClick = onRemoveButtonClick) {
-                        Icon(
-                            imageVector = Icons.Outlined.Close,
-                            contentDescription = null
-                        )
-                    }
+        modifier = modifier,
+        trailingIcon = {
+            if (value.trim().isNotEmpty()) {
+                IconButton(onClick = onRemoveButtonClick) {
+                    Icon(
+                        imageVector = Icons.Outlined.Close,
+                        contentDescription = null,
+                    )
                 }
             }
-        )
-    }
+        },
+    )
+}

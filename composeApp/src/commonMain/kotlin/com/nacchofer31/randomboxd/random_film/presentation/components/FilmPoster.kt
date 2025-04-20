@@ -36,62 +36,67 @@ fun FilmPoster(
     var imageLoadResult by remember {
         mutableStateOf<Result<Painter>?>(null)
     }
-    val painter = rememberAsyncImagePainter(
-        model = imageUrl,
-        onSuccess = {
-            val size = it.painter.intrinsicSize
-            imageLoadResult = if (size.width > 1 && size.height > 1) {
-                Result.success(it.painter)
-            } else {
-                Result.failure(Exception("Invalid image dimensions"))
-            }
-        },
-        onError = {
-            it.result.throwable.printStackTrace()
-        }
-    )
+    val painter =
+        rememberAsyncImagePainter(
+            model = imageUrl,
+            onSuccess = {
+                val size = it.painter.intrinsicSize
+                imageLoadResult =
+                    if (size.width > 1 && size.height > 1) {
+                        Result.success(it.painter)
+                    } else {
+                        Result.failure(Exception("Invalid image dimensions"))
+                    }
+            },
+            onError = {
+                it.result.throwable.printStackTrace()
+            },
+        )
 
     AnimatedContent(
-        targetState = imageLoadResult
+        targetState = imageLoadResult,
     ) { result ->
         when (result) {
-            null -> Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clickable { onClick() },
-                contentAlignment = Alignment.Center
-            ) {
-
-            }
+            null ->
+                Box(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .clickable { onClick() },
+                    contentAlignment = Alignment.Center,
+                ) {
+                }
 
             else -> {
                 Image(
                     painter = painter,
                     contentDescription = "film_image",
-                    modifier = Modifier
-                        .width(200.dp)
-                        .shadow(
-                            elevation = 16.dp,
-                            shape = RoundedCornerShape(15.dp),
-                            ambientColor = Color.Black.copy(alpha = 0.5f),
-                            spotColor = Color.Black.copy(alpha = 0.7f)
-                        )
-                        .clip(RoundedCornerShape(15.dp))
-                        .border(4.dp, RandomBoxdColors.White, RoundedCornerShape(15.dp))
-                        .clickable { onClick() },
-                    contentScale = if (result.isSuccess) {
-                        ContentScale.Crop
-                    } else {
-                        ContentScale.Fit
-                    }
+                    modifier =
+                        Modifier
+                            .width(200.dp)
+                            .shadow(
+                                elevation = 16.dp,
+                                shape = RoundedCornerShape(15.dp),
+                                ambientColor = Color.Black.copy(alpha = 0.5f),
+                                spotColor = Color.Black.copy(alpha = 0.7f),
+                            ).clip(RoundedCornerShape(15.dp))
+                            .border(4.dp, RandomBoxdColors.White, RoundedCornerShape(15.dp))
+                            .clickable { onClick() },
+                    contentScale =
+                        if (result.isSuccess) {
+                            ContentScale.Crop
+                        } else {
+                            ContentScale.Fit
+                        },
                 )
                 Icon(
                     imageVector = Icons.Default.Info,
                     contentDescription = "info_icon",
                     tint = RandomBoxdColors.White,
-                    modifier = Modifier
-                        .padding(all = 10.dp)
-                        .clickable { onClick() }
+                    modifier =
+                        Modifier
+                            .padding(all = 10.dp)
+                            .clickable { onClick() },
                 )
             }
         }

@@ -45,10 +45,11 @@ internal fun ActionRow(
             onAction(RandomFilmAction.OnSubmitButtonClick(userName))
         },
         enabled = userName.trim().isNotEmpty() && !isLoading,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = RandomBoxdColors.BackgroundLightColor,
-            disabledContainerColor = Color.Gray,
-        ),
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = RandomBoxdColors.BackgroundLightColor,
+                disabledContainerColor = Color.Gray,
+            ),
         shape = RoundedCornerShape(topEnd = 10.dp, bottomEnd = 10.dp),
         modifier = Modifier.fillMaxHeight(),
     ) {

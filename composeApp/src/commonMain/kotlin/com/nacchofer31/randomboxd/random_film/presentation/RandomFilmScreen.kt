@@ -47,7 +47,7 @@ fun RandomFilmScreenRoot(
                 else -> Unit
             }
             viewModel.onAction(action)
-        }
+        },
     )
 }
 
@@ -64,20 +64,21 @@ fun RandomFilmScreen(
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(
-                                RandomBoxdColors.BackgroundDarkColor,
-                                RandomBoxdColors.BackgroundColor
-                            )
-                        )
-                    )
-                    .statusBarsPadding()
-                    .padding(20.dp)
-                    .verticalScroll(rememberScrollState())
-                    .pointerInput(Unit) { detectTapGestures { focusManager.clearFocus() } }
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(
+                            Brush.verticalGradient(
+                                colors =
+                                    listOf(
+                                        RandomBoxdColors.BackgroundDarkColor,
+                                        RandomBoxdColors.BackgroundColor,
+                                    ),
+                            ),
+                        ).statusBarsPadding()
+                        .padding(20.dp)
+                        .verticalScroll(rememberScrollState())
+                        .pointerInput(Unit) { detectTapGestures { focusManager.clearFocus() } },
             ) {
                 state.resultFilm?.takeIf { !state.isLoading }?.let {
                     FilmDisplay(it, onAction)
@@ -85,6 +86,6 @@ fun RandomFilmScreen(
 
                 ActionRow(userName, state.isLoading, focusManager, onAction) { userName = it }
             }
-        }
+        },
     )
 }

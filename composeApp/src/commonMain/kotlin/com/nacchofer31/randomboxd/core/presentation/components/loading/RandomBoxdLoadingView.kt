@@ -23,18 +23,24 @@ import androidx.compose.ui.unit.dp
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 
 @Composable
-fun RandomBoxdLoadingView(modifier: Modifier = Modifier, bubbleData: List<BubbleData>? = null) {
+fun RandomBoxdLoadingView(
+    modifier: Modifier = Modifier,
+    bubbleData: List<BubbleData>? = null,
+) {
     val infiniteTransition = rememberInfiniteTransition()
 
-    val bubbles = bubbleData?: listOf(
-        BubbleData(delay = 0, color = RandomBoxdColors.OrangeAccent),
-        BubbleData(delay = 150, color = RandomBoxdColors.GreenAccent),
-        BubbleData(delay = 300, color = RandomBoxdColors.BlueAccent)
-    )
+    val bubbles =
+        bubbleData
+            ?:
+            listOf(
+                BubbleData(delay = 0, color = RandomBoxdColors.OrangeAccent),
+                BubbleData(delay = 150, color = RandomBoxdColors.GreenAccent),
+                BubbleData(delay = 300, color = RandomBoxdColors.BlueAccent),
+            )
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier
+        modifier = modifier,
     ) {
         bubbles.forEach { bubble ->
             RandomBoxdLoadingViewBubble(bubble, infiniteTransition)
@@ -43,23 +49,31 @@ fun RandomBoxdLoadingView(modifier: Modifier = Modifier, bubbleData: List<Bubble
 }
 
 @Composable
-fun RandomBoxdLoadingViewBubble(bubble: BubbleData, transition: InfiniteTransition) {
+fun RandomBoxdLoadingViewBubble(
+    bubble: BubbleData,
+    transition: InfiniteTransition,
+) {
     val yOffset by transition.animateFloat(
         initialValue = 0f,
         targetValue = -10f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(600, delayMillis = bubble.delay, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(600, delayMillis = bubble.delay, easing = LinearEasing),
+                repeatMode = RepeatMode.Reverse,
+            ),
     )
 
     Box(
-        modifier = Modifier
-            .size(20.dp)
-            .offset(y = yOffset.dp)
-            .clip(CircleShape)
-            .background(bubble.color)
+        modifier =
+            Modifier
+                .size(20.dp)
+                .offset(y = yOffset.dp)
+                .clip(CircleShape)
+                .background(bubble.color),
     )
 }
 
-data class BubbleData(val delay: Int, val color: Color)
+data class BubbleData(
+    val delay: Int,
+    val color: Color,
+)

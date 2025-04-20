@@ -12,15 +12,16 @@ import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import kotlinx.serialization.json.Json
 
-class RandomFilmRepositoryImpl(private val httpClient: HttpClient) : RandomFilmRepository {
-
-    override suspend fun getRandomMovie(userName :String): ResultData<Film, DataError.Remote> {
+class RandomFilmRepositoryImpl(
+    private val httpClient: HttpClient,
+) : RandomFilmRepository {
+    override suspend fun getRandomMovie(userName: String): ResultData<Film, DataError.Remote> {
         try {
             val filmResponse =
-                httpClient.get(
-                    urlString = RandomBoxdEndpoints.getUserRandomFilm(userName)
-                )
-                    .bodyAsText()
+                httpClient
+                    .get(
+                        urlString = RandomBoxdEndpoints.getUserRandomFilm(userName),
+                    ).bodyAsText()
 
             val json = Json { ignoreUnknownKeys = true }
 

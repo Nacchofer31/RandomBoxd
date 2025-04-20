@@ -14,8 +14,8 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 object RandomBoxdHttpClientFactory {
-    fun create(engine: HttpClientEngine): HttpClient {
-        return HttpClient(engine) {
+    fun create(engine: HttpClientEngine): HttpClient =
+        HttpClient(engine) {
             defaultRequest {
                 url {
                     protocol = URLProtocol.HTTPS
@@ -25,9 +25,10 @@ object RandomBoxdHttpClientFactory {
             }
             install(ContentNegotiation) {
                 json(
-                    json = Json {
-                        ignoreUnknownKeys = true
-                    }
+                    json =
+                        Json {
+                            ignoreUnknownKeys = true
+                        },
                 )
             }
             install(HttpTimeout) {
@@ -35,13 +36,13 @@ object RandomBoxdHttpClientFactory {
                 requestTimeoutMillis = 20_000L
             }
             install(Logging) {
-                logger = object : Logger {
-                    override fun log(message: String) {
-                        println(message)
+                logger =
+                    object : Logger {
+                        override fun log(message: String) {
+                            println(message)
+                        }
                     }
-                }
                 level = LogLevel.ALL
             }
         }
-    }
 }

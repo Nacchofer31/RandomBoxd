@@ -22,10 +22,10 @@ import randomboxd.composeapp.generated.resources.release_year_label
 @Composable
 internal fun FilmDisplay(
     film: Film,
-    onAction: (RandomFilmAction) -> Unit
+    onAction: (RandomFilmAction) -> Unit,
 ) = Column(
     horizontalAlignment = Alignment.CenterHorizontally,
-    modifier = Modifier.padding(vertical = 20.dp)
+    modifier = Modifier.padding(vertical = 20.dp),
 ) {
     FilmPoster(film.imageUrl) {
         onAction(RandomFilmAction.OnFilmClicked(film))
@@ -36,11 +36,11 @@ internal fun FilmDisplay(
         color = RandomBoxdColors.White,
         fontSize = 30.sp,
         textAlign = TextAlign.Center,
-        fontWeight = FontWeight.Bold
+        fontWeight = FontWeight.Bold,
     )
     Text(
         "${stringResource(Res.string.release_year_label)} ${film.releaseYear ?: '-'}",
         color = RandomBoxdColors.BackgroundLightColor,
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Center,
     )
 }

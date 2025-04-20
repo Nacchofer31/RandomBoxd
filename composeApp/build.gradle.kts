@@ -152,6 +152,8 @@ spotless {
         targetExclude("${layout.buildDirectory}/**/*.kt")
         trimTrailingWhitespace()
         endWithNewline()
+        ktlint()
+            .setEditorConfigPath("${project.rootDir}/spotless/.editorconfig")
     }
     kotlinGradle {
         target("*.gradle.kts")

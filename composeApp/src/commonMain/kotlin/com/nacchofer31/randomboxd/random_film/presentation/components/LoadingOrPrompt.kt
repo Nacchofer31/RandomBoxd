@@ -19,7 +19,7 @@ import randomboxd.composeapp.generated.resources.enter_description
 internal fun LoadingOrPrompt(state: RandomFilmState) {
     if (state.isLoading) {
         return RandomBoxdLoadingView(
-            modifier = Modifier.padding(vertical = 30.dp)
+            modifier = Modifier.padding(vertical = 30.dp),
         )
     }
     return Text(
@@ -27,6 +27,6 @@ internal fun LoadingOrPrompt(state: RandomFilmState) {
         color = RandomBoxdColors.BackgroundLightColor,
         textAlign = TextAlign.Center,
         fontSize = 16.sp,
-        modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp)
+        modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp),
     )
 }

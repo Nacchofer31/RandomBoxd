@@ -12,8 +12,9 @@ import org.koin.dsl.module
 
 expect val platformModule: Module
 
-val sharedModule = module {
-    single { RandomBoxdHttpClientFactory.create(get()) }
-    singleOf(::RandomFilmRepositoryImpl).bind<RandomFilmRepository>()
-    viewModelOf(::RandomFilmViewModel)
-}
+val sharedModule =
+    module {
+        single { RandomBoxdHttpClientFactory.create(get()) }
+        singleOf(::RandomFilmRepositoryImpl).bind<RandomFilmRepository>()
+        viewModelOf(::RandomFilmViewModel)
+    }

@@ -22,19 +22,19 @@ import org.koin.compose.viewmodel.koinViewModel
 @Preview
 internal fun RandomBoxdApp() {
     MaterialTheme(
-        typography = RandomBoxdTypography()
+        typography = RandomBoxdTypography(),
     ) {
         val navController = rememberNavController()
         val localUriHandler = LocalUriHandler.current
         KoinContext {
             NavHost(
                 navController = navController,
-                startDestination = RandomBoxdRoute.Home
+                startDestination = RandomBoxdRoute.Home,
             ) {
                 navigation<RandomBoxdRoute.Home>(
-                    startDestination = RandomBoxdRoute.RandomFilm
+                    startDestination = RandomBoxdRoute.RandomFilm,
                 ) {
-                    composable<RandomBoxdRoute.RandomFilm>{
+                    composable<RandomBoxdRoute.RandomFilm> {
                         val viewModel = koinViewModel<RandomFilmViewModel>()
                         RandomFilmScreenRoot(
                             viewModel = viewModel,
@@ -44,21 +44,19 @@ internal fun RandomBoxdApp() {
                         )
                     }
                 }
-
             }
         }
     }
 }
 
 @Composable
-private inline fun <reified T: ViewModel> NavBackStackEntry.sharedKoinViewModel(
-    navController: NavController
-): T {
+private inline fun <reified T : ViewModel> NavBackStackEntry.sharedKoinViewModel(navController: NavController): T {
     val navGraphRoute = destination.parent?.route ?: return koinViewModel<T>()
-    val parentEntry = remember(this) {
-        navController.getBackStackEntry(navGraphRoute)
-    }
+    val parentEntry =
+        remember(this) {
+            navController.getBackStackEntry(navGraphRoute)
+        }
     return koinViewModel(
-        viewModelStoreOwner = parentEntry
+        viewModelStoreOwner = parentEntry,
     )
 }
