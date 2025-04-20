@@ -31,8 +31,7 @@ fun RandomBoxdLoadingView(
 
     val bubbles =
         bubbleData
-            ?:
-            listOf(
+            ?: listOf(
                 BubbleData(delay = 0, color = RandomBoxdColors.OrangeAccent),
                 BubbleData(delay = 150, color = RandomBoxdColors.GreenAccent),
                 BubbleData(delay = 300, color = RandomBoxdColors.BlueAccent),

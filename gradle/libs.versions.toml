@@ -34,6 +34,12 @@ coil3 = "3.0.4"
 # spotless
 spotless = "6.25.0"
 
+# jacoco
+jacoco = "0.8.12"
+
+# kotest
+kotest = "5.8.1"
+
 [libraries]
 # Kotlin
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -81,6 +87,13 @@ coil-mp = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 
+# plugins used in build-logic
+plugin-kotlin = {group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin"}
+plugin-android = {group = "org.android.tools.build", name = "gradle", version.ref = "agp"}
+
+# Jacoco
+plugin-jacoco = { module = "org.jacoco:org.jacoco.core", version.ref = "jacoco"}
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
@@ -89,6 +102,7 @@ composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "k
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+jacoco = { id = "jacoco-kotlin"}
 
 [bundles]
 ktor = [

@@ -1,4 +1,3 @@
-
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -13,8 +12,7 @@ plugins {
 }
 
 jacoco {
-    toolVersion = "0.8.12"
-    reportsDirectory = layout.buildDirectory.dir("reports/jacoco")
+    toolVersion = libs.versions.jacoco.get()
 }
 
 kotlin {
@@ -80,37 +78,10 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
         }
         nativeMain.dependencies {
-            // ktor
             implementation(libs.ktor.client.darwin)
         }
-        tasks.register("jacocoTestReport", JacocoReport::class) {
-            dependsOn(tasks.withType(Test::class))
-            val coverageSourceDirs =
-                arrayOf(
-                    "src/commonMain",
-                    "src/androidMain",
-                    "src/iosMain",
-                )
-
-            val buildDirectory = layout.buildDirectory
-
-            val classFiles =
-                buildDirectory.dir("classes/kotlin/jvm").get().asFile
-                    .walkBottomUp()
-                    .toSet()
-
-            classDirectories.setFrom(classFiles)
-            sourceDirectories.setFrom(files(coverageSourceDirs))
-
-            buildDirectory.files("jacoco/jvmTest.exec").let {
-                executionData.setFrom(it)
-            }
-
-            reports {
-                xml.required = true
-                csv.required = true
-                html.required = true
-            }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
         }
     }
 }
@@ -158,5 +129,81 @@ spotless {
     kotlinGradle {
         target("*.gradle.kts")
         ktlint()
+    }
+}
+
+val fileFilter = listOf<String>()
+
+tasks.register("jacocoTestReport", JacocoReport::class) {
+    dependsOn(tasks.withType(Test::class))
+
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports."
+
+    val coverageSourceDirs =
+        arrayOf(
+            "src/commonMain",
+            "src/androidMain",
+        )
+
+    val classFiles =
+        layout.buildDirectory
+            .dir("tmp/kotlin-classes/debug")
+            .get()
+            .asFileTree
+            .matching {
+                include("**/*.class")
+                exclude(fileFilter)
+            }
+
+    classDirectories.setFrom(classFiles)
+    sourceDirectories.setFrom(files(coverageSourceDirs))
+    executionData.setFrom(layout.buildDirectory.file("jacoco/testDebugUnitTest.exec"))
+
+    reports {
+        xml.required.set(true)
+        csv.required.set(true)
+        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml").get())
+    }
+}
+
+tasks.register("jacocoTestCoverageVerification", JacocoCoverageVerification::class) {
+    dependsOn(tasks.withType(Test::class))
+
+    group = "Reporting"
+    description = "Verifies code coverage metrics based on specific rules."
+
+    val coverageSourceDirs =
+        arrayOf(
+            "src/commonMain",
+            "src/androidMain",
+        )
+
+    val buildDirectory = layout.buildDirectory
+
+    val classFiles =
+        buildDirectory
+            .dir("tmp/kotlin-classes/debug")
+            .get()
+            .asFileTree
+            .matching {
+                include("**/*.class")
+                exclude(fileFilter)
+            }
+
+    classDirectories.setFrom(classFiles)
+    sourceDirectories.setFrom(files(coverageSourceDirs))
+    executionData.setFrom(buildDirectory.file("jacoco/testDebugUnitTest.exec"))
+
+    violationRules {
+        isFailOnViolation = true
+        rule {
+            element = "BUNDLE"
+            limit {
+                counter = "LINE"
+                value = "COVEREDRATIO"
+                minimum = BigDecimal("0.70")
+            }
+        }
     }
 }
