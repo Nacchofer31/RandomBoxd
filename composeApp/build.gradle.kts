@@ -81,7 +81,14 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
         commonTest.dependencies {
+            implementation(libs.junit)
+            implementation(libs.androidx.junit)
+            implementation(libs.androidx.espresso.core)
             implementation(libs.kotlin.test)
+            implementation(libs.ktor.client.mock)
+            implementation(libs.assertk)
+            implementation(libs.turbine)
+            implementation(libs.coroutines.test)
         }
     }
 }

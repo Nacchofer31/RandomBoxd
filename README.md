@@ -25,6 +25,20 @@ This project follows the **Clean Architecture** principles to ensure a scalable 
   - Even if you're sharing UI with **Compose Multiplatform**, this folder is the **entry point** for the iOS app.
   - This is also where you can add **SwiftUI** code if needed.
 
+## 🔧 Tech Stack
+- **Kotlin Multiplatform Mobile (KMM)** - Shared logic for Android and iOS.
+- **Jetpack Compose** - UI for Android.
+- **Ktor** - Network requests.
+- **Coroutines & Flow** - Asynchronous programming.
+- **Koin** - Dependency Injection.
+- **Coil** - Image loading.
+- **Navigation Compose** - Jetpack Compose navigation.
+- **Kotlinx Serialization** - JSON serialization.
+- **Spotless** - Code formatting.
+- **Junit5** - Unit testing.
+- **Turbine** - State testing.
+- **Jacoco** - Code coverage.
+
 ## 🌍 Localization Support
 
 RandomBoxd is built with **full localization support**, allowing the app to be translated into **any language**.
@@ -32,6 +46,14 @@ RandomBoxd is built with **full localization support**, allowing the app to be t
 - 📝 Supports dynamic text updates based on user preferences.
 - 🌐 Easily adaptable for different regions and languages.
 
+
+## ✅ Testing
+
+RandomBoxd's **codebase** is **tested** with:
+- 🧪 **JUnit5** for unit tests.
+- 🌊 **Turbine** for verifying Kotlin Flow emissions and state changes.
+- 🔌 **Ktor Client Mock** for mocking and testing network requests.
+- 📈 **Jacoco** to measure and ensure code coverage across the project.
 
 ## 📸 Screenshots
 
@@ -53,16 +75,7 @@ RandomBoxd is built with **full localization support**, allowing the app to be t
   <img src="screenshots/search-user-list-2.png" width="200" />
 </p>
 
-## 🔧 Tech Stack
-- **Kotlin Multiplatform Mobile (KMM)** - Shared logic for Android and iOS.
-- **Jetpack Compose** - UI for Android.
-- **Ktor** - Network requests.
-- **Coroutines & Flow** - Asynchronous programming.
-- **Koin** - Dependency Injection.
-- **Coil** - Image loading.
-- **Navigation Compose** - Jetpack Compose navigation.
-- **Kotlinx Serialization** - JSON serialization.
-- **Spotless** - Code formatting.
+
 
 ## 🚀 Getting Started
 1. Clone the repository:
@@ -73,7 +86,15 @@ RandomBoxd is built with **full localization support**, allowing the app to be t
 2. Open the project in **Android Studio (latest version with [KMP Plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform))**.
 3. Run on an **Android Emulator** or an **iOS Simulator**.
    <img src="screenshots/run-config.png" width="400" />
-4. Start selecting random movies from Letterboxd lists! 🎞️
+4. Run spotless commmands:
+   ```sh
+   ./gradlew :composeApp:spotlessApply 
+   ```
+5. Generate jacoco reports:
+   ```sh
+   ./gradlew :composeApp:jacocoTestReport
+   ```
+6. Start selecting random movies from Letterboxd lists! 🎞️
 
 ## 🤝 Contributing
 Feel free to **open issues** or **submit pull requests** to improve the project. 🛠️

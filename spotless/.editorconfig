@@ -11,6 +11,7 @@ ktlint_standard = enabled
 ktlint_experimental = enabled
 ktlint_code_style = ktlint_official
 
+max_line_length = off
 ktlint_standard_package-name = disabled
 ktlint_experimental_package-naming = disabled
 ktlint_function_naming_ignore_when_annotated_with=Composable
