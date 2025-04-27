@@ -83,12 +83,20 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.junit)
             implementation(libs.androidx.junit)
+            implementation(libs.androidx.ui.test.junit4)
             implementation(libs.androidx.espresso.core)
             implementation(libs.kotlin.test)
+            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
             implementation(libs.ktor.client.mock)
             implementation(libs.assertk)
             implementation(libs.turbine)
             implementation(libs.coroutines.test)
+        }
+        androidInstrumentedTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.assertk)
+            implementation(kotlin("test"))
         }
     }
 }
@@ -103,17 +111,21 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -121,7 +133,10 @@ android {
 }
 
 dependencies {
+    debugImplementation(libs.androidx.ui.test.junit4.android)
+    debugImplementation(libs.androidx.ui.test.android)
     debugImplementation(compose.uiTooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
 }
 
 spotless {
@@ -142,7 +157,7 @@ spotless {
 val fileFilter = listOf<String>()
 
 tasks.register("jacocoTestReport", JacocoReport::class) {
-    dependsOn(tasks.withType(Test::class))
+    dependsOn(tasks.withType(Test::class), "connectedDebugAndroidTest")
 
     group = "Reporting"
     description = "Generate Jacoco coverage reports."
@@ -165,17 +180,22 @@ tasks.register("jacocoTestReport", JacocoReport::class) {
 
     classDirectories.setFrom(classFiles)
     sourceDirectories.setFrom(files(coverageSourceDirs))
-    executionData.setFrom(layout.buildDirectory.file("jacoco/testDebugUnitTest.exec"))
+    executionData.setFrom(
+        arrayOf(
+            layout.buildDirectory.file("jacoco/testDebugUnitTest.exec"),
+            layout.buildDirectory.file("outputs/code_coverage/connected/coverage.ec"),
+        ),
+    )
 
     reports {
         xml.required.set(true)
         csv.required.set(true)
-        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml").get())
+        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
     }
 }
 
 tasks.register("jacocoTestCoverageVerification", JacocoCoverageVerification::class) {
-    dependsOn(tasks.withType(Test::class))
+    dependsOn(tasks.withType(Test::class), "connectedDebugAndroidTest")
 
     group = "Reporting"
     description = "Verifies code coverage metrics based on specific rules."
@@ -186,10 +206,8 @@ tasks.register("jacocoTestCoverageVerification", JacocoCoverageVerification::cla
             "src/androidMain",
         )
 
-    val buildDirectory = layout.buildDirectory
-
     val classFiles =
-        buildDirectory
+        layout.buildDirectory
             .dir("tmp/kotlin-classes/debug")
             .get()
             .asFileTree
@@ -200,7 +218,12 @@ tasks.register("jacocoTestCoverageVerification", JacocoCoverageVerification::cla
 
     classDirectories.setFrom(classFiles)
     sourceDirectories.setFrom(files(coverageSourceDirs))
-    executionData.setFrom(buildDirectory.file("jacoco/testDebugUnitTest.exec"))
+    executionData.setFrom(
+        files(
+            layout.buildDirectory.file("jacoco/testDebugUnitTest.exec"),
+            layout.buildDirectory.file("outputs/code_coverage/connected/coverage.ec"),
+        ),
+    )
 
     violationRules {
         isFailOnViolation = true
@@ -213,4 +236,10 @@ tasks.register("jacocoTestCoverageVerification", JacocoCoverageVerification::cla
             }
         }
     }
+}
+
+tasks.register("fullCoverageReport") {
+    group = "Reporting"
+    description = "Runs all tests (unit + android) and generates full coverage report."
+    dependsOn("testDebugUnitTest", "connectedDebugAndroidTest", "jacocoTestReport")
 }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -19,7 +20,7 @@ import randomboxd.composeapp.generated.resources.enter_description
 internal fun LoadingOrPrompt(state: RandomFilmState) {
     if (state.isLoading) {
         return RandomBoxdLoadingView(
-            modifier = Modifier.padding(vertical = 30.dp),
+            modifier = Modifier.padding(vertical = 30.dp).testTag("test-loading-indicator"),
         )
     }
     return Text(

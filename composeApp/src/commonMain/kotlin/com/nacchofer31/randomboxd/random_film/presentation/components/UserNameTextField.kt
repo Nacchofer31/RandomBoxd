@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
@@ -56,7 +57,7 @@ fun UserNameTextField(
         modifier = modifier,
         trailingIcon = {
             if (value.trim().isNotEmpty()) {
-                IconButton(onClick = onRemoveButtonClick) {
+                IconButton(onClick = onRemoveButtonClick, modifier = Modifier.testTag("test-random-film-user-name-text-field-clear-button")) {
                     Icon(
                         imageVector = Icons.Outlined.Close,
                         contentDescription = null,

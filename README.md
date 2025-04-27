@@ -16,7 +16,7 @@ RandomBoxd is a **Kotlin Multiplatform** project designed to fetch a random movi
 ## 🏗️ Project Architecture
 This project follows the **Clean Architecture** principles to ensure a scalable and maintainable codebase.
 
-### 🏛️ KMP Structure
+### 🏛️ KMM Structure
 - **`/composeApp`** is for code that will be shared across your **Compose Multiplatform** applications.
   - `commonMain` contains code common for all targets.
   - Other folders include platform-specific code (e.g., `iosMain` for iOS-specific code like **CoreCrypto** integration).
@@ -83,7 +83,7 @@ RandomBoxd's **codebase** is **tested** with:
    git clone https://github.com/Nacchofer31/RandomBoxd.git
    ```
 
-2. Open the project in **Android Studio (latest version with [KMP Plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform))**.
+2. Open the project in **Android Studio (latest version with [KMM Plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform))**.
 3. Run on an **Android Emulator** or an **iOS Simulator**.
    <img src="screenshots/run-config.png" width="400" />
 4. Run spotless commmands:

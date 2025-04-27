@@ -15,14 +15,8 @@ import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headers
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
-import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -36,22 +30,16 @@ class RandomFilmViewModelTest {
     private lateinit var httpClient: HttpClient
     private lateinit var mockEngine: HttpClientEngine
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val testDispatcher = UnconfinedTestDispatcher()
-
     private var defaultResponseData =
         HttpResponseData(
             content = """{"slug":"test-slug","image_url":"test-image_url","release_year":"2000","film_name":"test-film_name","film_length":""}""",
             statusCode = HttpStatusCode.OK,
         )
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @BeforeTest
     fun setUp() {
-        Dispatchers.setMain(testDispatcher)
         mockEngine =
             MockEngine.create {
-                dispatcher = testDispatcher
                 addHandler { request ->
                     val relativeUrl = request.url.encodedPathAndQuery
                     when (relativeUrl) {
@@ -78,12 +66,6 @@ class RandomFilmViewModelTest {
             )
         repository = RandomFilmRepositoryImpl(httpClient)
         viewModel = RandomFilmViewModel(repository)
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @AfterTest
-    fun tearDown() {
-        Dispatchers.resetMain()
     }
 
     @Test

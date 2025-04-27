@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
@@ -37,7 +38,7 @@ internal fun ActionRow(
             onUserNameChange("")
             onAction(RandomFilmAction.OnClearButtonClick)
         },
-        modifier = Modifier.weight(1f),
+        modifier = Modifier.weight(1f).testTag("test-random-film-user-name-text-field"),
     )
     Button(
         onClick = {
@@ -51,7 +52,7 @@ internal fun ActionRow(
                 disabledContainerColor = Color.Gray,
             ),
         shape = RoundedCornerShape(topEnd = 10.dp, bottomEnd = 10.dp),
-        modifier = Modifier.fillMaxHeight(),
+        modifier = Modifier.fillMaxHeight().testTag("test-random-film-submit-button"),
     ) {
         Text(
             stringResource(Res.string.submit).uppercase(),
