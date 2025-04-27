@@ -97,6 +97,7 @@ kotlin {
             implementation(libs.kotlin.test)
             implementation(libs.assertk)
             implementation(kotlin("test"))
+            implementation(libs.androidx.test.runner)
         }
     }
 }
@@ -121,6 +122,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            enableAndroidTestCoverage = true
+        }
         getByName("release") {
             isMinifyEnabled = false
         }
@@ -181,10 +185,10 @@ tasks.register("jacocoTestReport", JacocoReport::class) {
     classDirectories.setFrom(classFiles)
     sourceDirectories.setFrom(files(coverageSourceDirs))
     executionData.setFrom(
-        arrayOf(
-            layout.buildDirectory.file("jacoco/testDebugUnitTest.exec"),
-            layout.buildDirectory.file("outputs/code_coverage/connected/coverage.ec"),
-        ),
+        fileTree(layout.buildDirectory) {
+            include("jacoco/testDebugUnitTest.exec")
+            include("outputs/code_coverage/**/*.ec")
+        }
     )
 
     reports {

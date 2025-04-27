@@ -36,6 +36,7 @@ turbine = "1.2.0"
 coroutines-test = "1.10.2"
 uiTestAndroid = "1.8.0"
 uiTestJunit4Android = "1.8.0"
+androidx-test-runner = "1.5.0"
 
 [libraries]
 # Kotlin
@@ -56,6 +57,7 @@ turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine
 assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertk" }
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "compose-multiplatform" }
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
 
 # Koin
 koin-bom = {group = "io.insert-koin", name = "koin-bom", version.ref = "koin"}
