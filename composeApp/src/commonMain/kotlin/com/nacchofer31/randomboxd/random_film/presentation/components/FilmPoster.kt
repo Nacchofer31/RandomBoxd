@@ -24,6 +24,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
@@ -62,7 +63,8 @@ fun FilmPoster(
                     modifier =
                         Modifier
                             .fillMaxSize()
-                            .clickable { onClick() },
+                            .clickable { onClick() }
+                            .testTag("test-film-poster"),
                     contentAlignment = Alignment.Center,
                 ) {
                 }

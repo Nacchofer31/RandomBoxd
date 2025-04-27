@@ -158,7 +158,10 @@ spotless {
     }
 }
 
-val fileFilter = listOf<String>()
+val fileFilter = listOf<String>(
+    "com/nacchofer31/randomboxd/app/**",
+    "randomboxd/composeapp/generated/resources/**",
+)
 
 tasks.register("jacocoTestReport", JacocoReport::class) {
     dependsOn(tasks.withType(Test::class), "connectedDebugAndroidTest")
@@ -223,10 +226,10 @@ tasks.register("jacocoTestCoverageVerification", JacocoCoverageVerification::cla
     classDirectories.setFrom(classFiles)
     sourceDirectories.setFrom(files(coverageSourceDirs))
     executionData.setFrom(
-        files(
-            layout.buildDirectory.file("jacoco/testDebugUnitTest.exec"),
-            layout.buildDirectory.file("outputs/code_coverage/connected/coverage.ec"),
-        ),
+        fileTree(layout.buildDirectory) {
+            include("jacoco/testDebugUnitTest.exec")
+            include("outputs/code_coverage/**/*.ec")
+        }
     )
 
     violationRules {

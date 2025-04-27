@@ -8,7 +8,10 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.nacchofer31.randomboxd.random_film.domain.model.Film
+import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreen
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreenRoot
+import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -60,5 +63,24 @@ class RandomFilmScreenTest {
         composeTestRule.onNodeWithTag("test-random-film-user-name-text-field").performTextInput("user")
         composeTestRule.onNodeWithTag("test-random-film-user-name-text-field-clear-button").assertIsDisplayed()
         composeTestRule.onNodeWithTag("test-random-film-user-name-text-field-clear-button").performClick()
+    }
+
+    @Test
+    fun film_poster_should_be_displayed_and_enabled_on_result_film_not_null() {
+        composeTestRule.setContent {
+            RandomFilmScreen(
+                state = RandomFilmState(
+                    resultFilm = Film(
+                        slug = "test-slug",
+                        name = "test-name",
+                        releaseYear = 2000,
+                        imageUrl = "test-image-url"
+                    )
+                )
+            ) { }
+        }
+
+        composeTestRule.onNodeWithTag("test-film-display").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("test-film-display").performClick()
     }
 }
