@@ -76,6 +76,11 @@ kotlin {
             implementation(libs.jetbrains.compose.navigation)
 
             implementation(libs.kotlinx.serialization.json)
+
+            // ksoup
+            implementation(libs.ksoup)
+            implementation(libs.ksoupKotlinx)
+            implementation(libs.ksoupNetwork)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -158,10 +163,11 @@ spotless {
     }
 }
 
-val fileFilter = listOf<String>(
-    "com/nacchofer31/randomboxd/app/**",
-    "randomboxd/composeapp/generated/resources/**",
-)
+val fileFilter =
+    listOf<String>(
+        "com/nacchofer31/randomboxd/app/**",
+        "randomboxd/composeapp/generated/resources/**",
+    )
 
 tasks.register("jacocoTestReport", JacocoReport::class) {
     dependsOn(tasks.withType(Test::class), "connectedDebugAndroidTest")
@@ -191,7 +197,7 @@ tasks.register("jacocoTestReport", JacocoReport::class) {
         fileTree(layout.buildDirectory) {
             include("jacoco/testDebugUnitTest.exec")
             include("outputs/code_coverage/**/*.ec")
-        }
+        },
     )
 
     reports {
@@ -229,7 +235,7 @@ tasks.register("jacocoTestCoverageVerification", JacocoCoverageVerification::cla
         fileTree(layout.buildDirectory) {
             include("jacoco/testDebugUnitTest.exec")
             include("outputs/code_coverage/**/*.ec")
-        }
+        },
     )
 
     violationRules {

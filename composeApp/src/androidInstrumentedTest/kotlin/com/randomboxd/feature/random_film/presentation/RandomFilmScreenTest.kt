@@ -69,14 +69,16 @@ class RandomFilmScreenTest {
     fun film_poster_should_be_displayed_and_enabled_on_result_film_not_null() {
         composeTestRule.setContent {
             RandomFilmScreen(
-                state = RandomFilmState(
-                    resultFilm = Film(
-                        slug = "test-slug",
-                        name = "test-name",
-                        releaseYear = 2000,
-                        imageUrl = "test-image-url"
-                    )
-                )
+                state =
+                    RandomFilmState(
+                        resultFilm =
+                            Film(
+                                slug = "test-slug",
+                                name = "test-name",
+                                releaseYear = 2000,
+                                imageUrl = "test-image-url",
+                            ),
+                    ),
             ) { }
         }
 
