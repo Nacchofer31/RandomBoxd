@@ -7,6 +7,7 @@ import com.nacchofer31.randomboxd.random_film.data.repository_impl.RandomFilmRep
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
+import com.nacchofer31.randomboxd.utils.dispatchers.TestDispatchers
 import com.nacchofer31.randomboxd.utils.http.HttpResponseData
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
@@ -14,7 +15,6 @@ import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headers
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -28,6 +28,7 @@ class RandomFilmViewModelTest {
     private lateinit var repository: RandomFilmRepository
     private lateinit var httpClient: HttpClient
     private lateinit var mockEngine: HttpClientEngine
+    private lateinit var testDispatchers: TestDispatchers
 
     private var defaultResponseData =
         HttpResponseData(
@@ -37,6 +38,7 @@ class RandomFilmViewModelTest {
 
     @BeforeTest
     fun setUp() {
+        testDispatchers = TestDispatchers()
         mockEngine =
             MockEngine.create {
                 addHandler { request ->
@@ -64,12 +66,12 @@ class RandomFilmViewModelTest {
                 engine = mockEngine,
             )
         repository = RandomFilmRepositoryImpl(httpClient)
-        viewModel = RandomFilmViewModel(repository)
+        viewModel = RandomFilmViewModel(repository,testDispatchers)
     }
 
     @Test
     fun `given successful response when submit button clicked then update state with film`() =
-        runBlocking {
+        runTest(testDispatchers.testDispatcher) {
             viewModel.state.test {
                 val expectedFilm =
                     FilmDto(
@@ -90,6 +92,8 @@ class RandomFilmViewModelTest {
 
                 awaitItem()
 
+                testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
                 assertSame(true, awaitItem().isLoading)
 
                 val state = awaitItem()
@@ -102,7 +106,7 @@ class RandomFilmViewModelTest {
 
     @Test
     fun `given error response when submit button clicked then update state with null film`() =
-        runTest {
+        runTest(testDispatchers.testDispatcher) {
             viewModel.state.test {
                 defaultResponseData =
                     HttpResponseData(
@@ -118,13 +122,15 @@ class RandomFilmViewModelTest {
 
                 val state = awaitItem()
                 assertSame(false, state.isLoading)
+
+                testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
                 assertNull(state.resultFilm)
             }
         }
 
     @Test
     fun `when clear button clicked then resultFilm is null`() =
-        runTest {
+        runTest(testDispatchers.testDispatcher) {
             viewModel.state.test {
                 defaultResponseData =
                     HttpResponseData(
@@ -138,9 +144,15 @@ class RandomFilmViewModelTest {
 
                 awaitItem()
 
-                awaitItem()
+                testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
 
                 awaitItem()
+
+                testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+                awaitItem()
+
+                testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
 
                 viewModel.onAction(RandomFilmAction.OnClearButtonClick)
                 assertNull(awaitItem().resultFilm)
@@ -149,7 +161,7 @@ class RandomFilmViewModelTest {
 
     @Test
     fun `when onFilmClicked success`() =
-        runTest {
+        runTest(testDispatchers.testDispatcher) {
             viewModel.state.test {
                 defaultResponseData =
                     HttpResponseData(
@@ -161,11 +173,23 @@ class RandomFilmViewModelTest {
 
                 viewModel.onAction(RandomFilmAction.OnSubmitButtonClick)
 
-                awaitItem()
+                val idleState = awaitItem()
+                assertSame(false, idleState.isLoading)
 
-                awaitItem()
+                testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
 
-                assertNotNull(awaitItem().resultFilm)
+                val loadingState = awaitItem()
+                assertSame(true, loadingState.isLoading)
+
+                testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+                val successState = awaitItem()
+
+                assertNotNull(successState.resultFilm)
+
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick)
+
+                assertNotNull(successState.resultFilm)
             }
         }
 }
