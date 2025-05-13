@@ -5,10 +5,12 @@ import com.nacchofer31.randomboxd.core.data.RandomBoxdHttpClientFactory
 import com.nacchofer31.randomboxd.random_film.data.dto.FilmDto
 import com.nacchofer31.randomboxd.random_film.data.repository_impl.RandomFilmRepositoryImpl
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
+import com.nacchofer31.randomboxd.random_film.domain.repository.UserNameRepository
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
 import com.nacchofer31.randomboxd.utils.dispatchers.TestDispatchers
 import com.nacchofer31.randomboxd.utils.http.HttpResponseData
+import dev.mokkery.mock
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.mock.MockEngine
@@ -29,6 +31,7 @@ class RandomFilmViewModelTest {
     private lateinit var httpClient: HttpClient
     private lateinit var mockEngine: HttpClientEngine
     private lateinit var testDispatchers: TestDispatchers
+    val userNameRepository = mock<UserNameRepository> {}
 
     private var defaultResponseData =
         HttpResponseData(
@@ -62,7 +65,7 @@ class RandomFilmViewModelTest {
             }
         httpClient = RandomBoxdHttpClientFactory.create(engine = mockEngine)
         repository = RandomFilmRepositoryImpl(httpClient)
-        viewModel = RandomFilmViewModel(repository, testDispatchers)
+        viewModel = RandomFilmViewModel(repository, userNameRepository, testDispatchers)
     }
 
     @Test

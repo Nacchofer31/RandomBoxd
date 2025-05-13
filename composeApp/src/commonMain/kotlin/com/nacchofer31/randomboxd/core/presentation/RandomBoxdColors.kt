@@ -10,4 +10,6 @@ object RandomBoxdColors {
     val OrangeAccent = Color(0xfff27405)
     val BlueAccent = Color(0xff40bcf4)
     val White = Color.White
+    val Black = Color.Black
+    val Transparent = Color.Transparent
 }
