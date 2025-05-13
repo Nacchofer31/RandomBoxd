@@ -4,7 +4,6 @@ import app.cash.turbine.test
 import com.nacchofer31.randomboxd.core.data.RandomBoxdHttpClientFactory
 import com.nacchofer31.randomboxd.random_film.data.dto.FilmDto
 import com.nacchofer31.randomboxd.random_film.data.repository_impl.RandomFilmRepositoryImpl
-import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
@@ -85,7 +84,9 @@ class RandomFilmViewModelTest {
                         statusCode = HttpStatusCode.OK,
                     )
 
-                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick("user"))
+                viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
+
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick)
 
                 awaitItem()
 
@@ -111,7 +112,9 @@ class RandomFilmViewModelTest {
 
                 setUp()
 
-                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick("user"))
+                viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
+
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick)
 
                 val state = awaitItem()
                 assertSame(false, state.isLoading)
@@ -129,7 +132,9 @@ class RandomFilmViewModelTest {
                         statusCode = HttpStatusCode.OK,
                     )
 
-                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick("user"))
+                viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
+
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick)
 
                 awaitItem()
 
@@ -152,22 +157,14 @@ class RandomFilmViewModelTest {
                         statusCode = HttpStatusCode.OK,
                     )
 
-                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick("user"))
+                viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
+
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick)
 
                 awaitItem()
 
                 awaitItem()
 
-                viewModel.onAction(
-                    RandomFilmAction.OnFilmClicked(
-                        Film(
-                            slug = "test-slug",
-                            name = "test-film_name",
-                            releaseYear = 2000,
-                            imageUrl = "test-image_url",
-                        ),
-                    ),
-                )
                 assertNotNull(awaitItem().resultFilm)
             }
         }
