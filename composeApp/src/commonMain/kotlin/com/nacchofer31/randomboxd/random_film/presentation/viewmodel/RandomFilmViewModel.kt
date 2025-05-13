@@ -2,10 +2,9 @@ package com.nacchofer31.randomboxd.random_film.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nacchofer31.randomboxd.core.domain.DispatcherProvider
 import com.nacchofer31.randomboxd.core.domain.ResultData
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +22,7 @@ import kotlinx.coroutines.flow.update
 @Suppress("OPT_IN_USAGE")
 class RandomFilmViewModel(
     private val repository: RandomFilmRepository,
+    private val dispatchers: DispatcherProvider,
 ) : ViewModel() {
     private val actions = MutableSharedFlow<RandomFilmAction>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
@@ -44,7 +44,7 @@ class RandomFilmViewModel(
                     emit(result)
                 }.onStart {
                     internalState.update { it.copy(isLoading = true) }
-                }.flowOn(Dispatchers.IO)
+                }.flowOn(dispatchers.io)
             }.onEach { result ->
                 internalState.update { current ->
                     when (result) {
