@@ -11,12 +11,13 @@ RandomBoxd is a **Kotlin Multiplatform** project designed to fetch a random movi
 - 🎲 Fetch a random movie from a Letterboxd user's **watchlist** or **custom lists**.
 - 📱 Supports **Android** and **iOS** platforms.
 - 🔗 Seamless deep linking with the **Letterboxd** app.
-- 🔍 Intuitive user search functionality.
+- 🔍 Intuitive user search functionality. 
+- 🏷️ Stores and displays previously entered UserNames locally via **Room**, shown as tappable tags for quick reuse or deletion.
 
 ## 🏗️ Project Architecture
 This project follows the **Clean Architecture** principles to ensure a scalable and maintainable codebase.
 
-### 🏛️ KMM Structure
+### 🏛️ KMP Structure
 - **`/composeApp`** is for code that will be shared across your **Compose Multiplatform** applications.
   - `commonMain` contains code common for all targets.
   - Other folders include platform-specific code (e.g., `iosMain` for iOS-specific code like **CoreCrypto** integration).
@@ -26,12 +27,13 @@ This project follows the **Clean Architecture** principles to ensure a scalable 
   - This is also where you can add **SwiftUI** code if needed.
 
 ## 🔧 Tech Stack
-- **Kotlin Multiplatform Mobile (KMM)** - Shared logic for Android and iOS.
+- **Kotlin Multiplatform Mobile (KMP)** - Shared logic for Android and iOS.
 - **Jetpack Compose** - UI for Android.
 - **Ktor** - Network requests.
 - **Coroutines & Flow** - Asynchronous programming.
 - **Koin** - Dependency Injection.
 - **Coil** - Image loading.
+- **Room** - Database.
 - **Navigation Compose** - Jetpack Compose navigation.
 - **Kotlinx Serialization** - JSON serialization.
 - **Spotless** - Code formatting.
@@ -70,12 +72,16 @@ RandomBoxd's **codebase** is **tested** with:
 </p>
 
 ### 🔍 Search user lists & Deeplinking
+
 <p align="center">
   <img src="screenshots/search-user-list-1.png" width="200" />
   <img src="screenshots/search-user-list-2.png" width="200" />
 </p>
 
-
+### ✍️ See Previous UserName Prompts
+<p align="center">
+  <img src="screenshots/user-name-list.png" width="200" />
+</p>
 
 ## 🚀 Getting Started
 1. Clone the repository:
@@ -83,7 +89,7 @@ RandomBoxd's **codebase** is **tested** with:
    git clone https://github.com/Nacchofer31/RandomBoxd.git
    ```
 
-2. Open the project in **Android Studio (latest version with [KMM Plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform))**.
+2. Open the project in **Android Studio (latest version with [KMP Plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform))**.
 3. Run on an **Android Emulator** or an **iOS Simulator**.
    <img src="screenshots/run-config.png" width="400" />
 4. Run spotless commmands:

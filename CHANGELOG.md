@@ -10,3 +10,7 @@
 
 ## 1.1.0
 - Implemented default dispatchers on `viewmodels`
+
+## 1.2.0
+- Added `Room` service and `UserNameDao` for database operations.
+- Implemented previous `username` tags feature
