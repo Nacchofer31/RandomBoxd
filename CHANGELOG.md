@@ -7,3 +7,6 @@
 
 ## 1.0.1
 - Refactored username handled in state implementation
+
+## 1.1.0
+- Implemented default dispatchers on `viewmodels`
