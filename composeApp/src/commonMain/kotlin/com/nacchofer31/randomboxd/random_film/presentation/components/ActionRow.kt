@@ -43,7 +43,7 @@ internal fun ActionRow(
     Button(
         onClick = {
             focusManager.clearFocus()
-            onAction(RandomFilmAction.OnSubmitButtonClick(userName))
+            onAction(RandomFilmAction.OnSubmitButtonClick)
         },
         enabled = userName.trim().isNotEmpty() && !isLoading,
         colors =
