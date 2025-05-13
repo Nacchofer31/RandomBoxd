@@ -12,9 +12,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -56,7 +53,6 @@ fun RandomFilmScreen(
     state: RandomFilmState,
     onAction: (RandomFilmAction) -> Unit,
 ) {
-    var userName by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
 
     Scaffold(
@@ -84,7 +80,7 @@ fun RandomFilmScreen(
                     FilmDisplay(it, onAction)
                 } ?: LoadingOrPrompt(state)
 
-                ActionRow(userName, state.isLoading, focusManager, onAction) { userName = it }
+                ActionRow(state.userName, state.isLoading, focusManager, onAction) { onAction(RandomFilmAction.OnUserNameChanged(it)) }
             }
         },
     )

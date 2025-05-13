@@ -26,27 +26,27 @@ class RandomFilmViewModel(
 ) : ViewModel() {
     private val actions = MutableSharedFlow<RandomFilmAction>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
-    private val _state = MutableStateFlow(RandomFilmState())
+    private val internalState = MutableStateFlow(RandomFilmState())
     internal val state =
-        _state
+        internalState
             .stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(5000L),
-                _state.value,
+                internalState.value,
             )
 
     init {
         actions
             .filterIsInstance<RandomFilmAction.OnSubmitButtonClick>()
-            .flatMapLatest { action ->
+            .flatMapLatest {
                 flow {
-                    val result = repository.getRandomMovie(action.userName)
+                    val result = repository.getRandomMovie(internalState.value.userName)
                     emit(result)
                 }.onStart {
-                    _state.update { it.copy(isLoading = true) }
+                    internalState.update { it.copy(isLoading = true) }
                 }.flowOn(Dispatchers.IO)
             }.onEach { result ->
-                _state.update { current ->
+                internalState.update { current ->
                     when (result) {
                         is ResultData.Success ->
                             current.copy(
@@ -67,13 +67,18 @@ class RandomFilmViewModel(
         when (action) {
             is RandomFilmAction.OnSubmitButtonClick -> actions.tryEmit(action)
             is RandomFilmAction.OnClearButtonClick -> clearSelectedFilm()
+            is RandomFilmAction.OnUserNameChanged -> updateUserNameValue(action.username)
             else -> Unit
         }
     }
 
-    private fun clearSelectedFilm() {
-        _state.update {
+    private fun updateUserNameValue(newValue: String) =
+        internalState.update {
+            it.copy(userName = newValue)
+        }
+
+    private fun clearSelectedFilm() =
+        internalState.update {
             it.copy(resultFilm = null)
         }
-    }
 }
