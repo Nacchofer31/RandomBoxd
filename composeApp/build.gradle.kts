@@ -10,7 +10,7 @@ plugins {
     alias(libs.plugins.spotless)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
-    alias(libs.plugins.mokkery)
+    alias(libs.plugins.mockmp)
     jacoco
 }
 
@@ -148,6 +148,12 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
+    }
+}
+
+mockmp {
+    onTest {
+        withHelper(junit4)
     }
 }
 

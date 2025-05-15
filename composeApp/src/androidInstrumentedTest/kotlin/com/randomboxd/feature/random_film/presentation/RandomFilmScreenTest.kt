@@ -9,9 +9,11 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
+import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreen
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreenRoot
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmState
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -68,7 +70,9 @@ class RandomFilmScreenTest {
     @Test
     fun film_poster_should_be_displayed_and_enabled_on_result_film_not_null() {
         composeTestRule.setContent {
+            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
             RandomFilmScreen(
+                userNameList = mutableUserNamesFlow,
                 state =
                     RandomFilmState(
                         resultFilm =
