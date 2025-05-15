@@ -33,21 +33,21 @@ class RandomFilmViewModel(
 
     private val internalState = MutableStateFlow(RandomFilmState())
 
-    val userNameList: StateFlow<List<UserName>> =
+    internal val state: StateFlow<RandomFilmState> =
+        internalState
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000L),
+                internalState.value,
+            )
+
+    internal val userNameList: StateFlow<List<UserName>> =
         userNameRepository
             .getAllUserNames()
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = emptyList(),
-            )
-
-    internal val state =
-        internalState
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(5000L),
-                internalState.value,
             )
 
     init {
@@ -61,7 +61,7 @@ class RandomFilmViewModel(
                     emit(result)
                 }.onStart {
                     internalState.update { it.copy(isLoading = true) }
-                }.flowOn(dispatchers.io)
+                }.flowOn(dispatchers.main)
             }.onEach { result ->
                 internalState.update { current ->
                     when (result) {

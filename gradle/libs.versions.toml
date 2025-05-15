@@ -44,7 +44,7 @@ coroutines-test = "1.10.2"
 uiTestAndroid = "1.8.0"
 uiTestJunit4Android = "1.8.0"
 androidx-test-runner = "1.5.0"
-mokkery = "2.4.0"
+mockmp = "2.0.2"
 
 [libraries]
 # Kotlin
@@ -115,7 +115,7 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room"}
-mokkery = { id = "dev.mokkery", version.ref = "mokkery"}
+mockmp = { id = "org.kodein.mock.mockmp", version.ref = "mockmp"}
 
 [bundles]
 ktor = [
