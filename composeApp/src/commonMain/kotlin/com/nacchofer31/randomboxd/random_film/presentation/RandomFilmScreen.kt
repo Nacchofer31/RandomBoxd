@@ -19,14 +19,18 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
+import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.presentation.components.ActionRow
 import com.nacchofer31.randomboxd.random_film.presentation.components.FilmDisplay
 import com.nacchofer31.randomboxd.random_film.presentation.components.LoadingOrPrompt
+import com.nacchofer31.randomboxd.random_film.presentation.components.UserNameList
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmState
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
+import kotlinx.coroutines.flow.StateFlow
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -38,6 +42,7 @@ fun RandomFilmScreenRoot(
 
     RandomFilmScreen(
         state = state,
+        userNameList = viewModel.userNameList,
         onAction = { action ->
             when (action) {
                 is RandomFilmAction.OnFilmClicked -> onFilmClicked(action.film)
@@ -51,6 +56,7 @@ fun RandomFilmScreenRoot(
 @Composable
 fun RandomFilmScreen(
     state: RandomFilmState,
+    userNameList: StateFlow<List<UserName>>,
     onAction: (RandomFilmAction) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
@@ -81,6 +87,7 @@ fun RandomFilmScreen(
                 } ?: LoadingOrPrompt(state)
 
                 ActionRow(state.userName, state.isLoading, focusManager, onAction) { onAction(RandomFilmAction.OnUserNameChanged(it)) }
+                UserNameList(userNameList = userNameList, onAction = onAction)
             }
         },
     )

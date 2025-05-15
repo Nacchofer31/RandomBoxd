@@ -5,6 +5,7 @@ import com.nacchofer31.randomboxd.core.data.RandomBoxdHttpClientFactory
 import com.nacchofer31.randomboxd.random_film.data.dto.FilmDto
 import com.nacchofer31.randomboxd.random_film.data.repository_impl.RandomFilmRepositoryImpl
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
+import com.nacchofer31.randomboxd.random_film.domain.repository.UserNameRepository
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
 import com.nacchofer31.randomboxd.utils.dispatchers.TestDispatchers
@@ -15,7 +16,11 @@ import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headers
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
+import org.kodein.mock.Mock
+import org.kodein.mock.generated.mock
+import org.kodein.mock.tests.TestsWithMocks
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -23,18 +28,36 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertSame
 
-class RandomFilmViewModelTest {
+class RandomFilmViewModelTest : TestsWithMocks() {
     private lateinit var viewModel: RandomFilmViewModel
     private lateinit var repository: RandomFilmRepository
     private lateinit var httpClient: HttpClient
     private lateinit var mockEngine: HttpClientEngine
     private lateinit var testDispatchers: TestDispatchers
 
+    @Mock lateinit var userNameRepository: UserNameRepository
+
     private var defaultResponseData =
         HttpResponseData(
             content = """{"slug":"test-slug","image_url":"test-image_url","release_year":"2000","film_name":"test-film_name","film_length":""}""",
             statusCode = HttpStatusCode.OK,
         )
+
+    override fun setUpMocks() {
+        userNameRepository = mocker.mock<UserNameRepository>()
+        mocker.every {
+            userNameRepository.getAllUserNames()
+        } returns
+            flow {
+                emit(emptyList())
+            }
+    }
+
+    private suspend fun setUpAllMocks() {
+        mocker.everySuspending {
+            userNameRepository.addUserName(isAny<String>())
+        } returns Unit
+    }
 
     @BeforeTest
     fun setUp() {
@@ -62,12 +85,17 @@ class RandomFilmViewModelTest {
             }
         httpClient = RandomBoxdHttpClientFactory.create(engine = mockEngine)
         repository = RandomFilmRepositoryImpl(httpClient)
-        viewModel = RandomFilmViewModel(repository, testDispatchers)
+        viewModel = RandomFilmViewModel(repository, userNameRepository, testDispatchers)
     }
 
     @Test
     fun `given successful response when submit button clicked then update state with film`() =
         runTest(testDispatchers.testDispatcher) {
+            setUpAllMocks()
+            mocker.everySuspending {
+                userNameRepository.addUserName(isAny<String>())
+            } returns Unit
+
             setUpWithResponse(defaultResponseData)
             val expectedFilm =
                 FilmDto(
@@ -96,6 +124,7 @@ class RandomFilmViewModelTest {
     @Test
     fun `given error response when submit button clicked then update state with null film`() =
         runTest(testDispatchers.testDispatcher) {
+            setUpAllMocks()
             setUpWithResponse(
                 HttpResponseData(
                     content = """{}""",
@@ -121,6 +150,7 @@ class RandomFilmViewModelTest {
     @Test
     fun `when clear button clicked then resultFilm is null`() =
         runTest(testDispatchers.testDispatcher) {
+            setUpAllMocks()
             setUpWithResponse(defaultResponseData)
             viewModel.state.test {
                 viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
@@ -140,6 +170,7 @@ class RandomFilmViewModelTest {
     @Test
     fun `when onFilmClicked success`() =
         runTest(testDispatchers.testDispatcher) {
+            setUpAllMocks()
             setUpWithResponse(defaultResponseData)
             viewModel.state.test {
                 viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))

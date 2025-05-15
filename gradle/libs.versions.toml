@@ -5,8 +5,8 @@ android-minSdk = "24"
 android-targetSdk = "35"
 androidx-activityCompose = "1.10.1"
 androidx-lifecycle = "2.8.4"
-compose-multiplatform = "1.7.0"
-kotlin = "2.0.21"
+compose-multiplatform = "1.8.0"
+kotlin = "2.1.20"
 core-splashscreen = "1.0.1"
 
 # Koin
@@ -30,6 +30,10 @@ jacoco = "0.8.12"
 # jsoup
 ksoup = "0.2.3"
 
+# room
+room = "2.7.1"
+ksp = "2.1.20-2.0.1"
+sqlite = "2.5.1"
 
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -37,9 +41,10 @@ espressoCore = "3.6.1"
 assertk = "0.28.1"
 turbine = "1.2.0"
 coroutines-test = "1.10.2"
-uiTestAndroid = "1.8.1"
-uiTestJunit4Android = "1.8.1"
+uiTestAndroid = "1.8.0"
+uiTestJunit4Android = "1.8.0"
 androidx-test-runner = "1.5.0"
+mockmp = "2.0.2"
 
 [libraries]
 # Kotlin
@@ -94,6 +99,12 @@ ksoup = { module = "com.fleeksoft.ksoup:ksoup", version.ref = "ksoup" }
 ksoupKotlinx = { group = "com.fleeksoft.ksoup", name = "ksoup-kotlinx", version.ref = "ksoup" }
 ksoupNetwork = { group = "com.fleeksoft.ksoup", name = "ksoup-network", version.ref = "ksoup" }
 
+# Room
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-runtime-android = { module = "androidx.room:room-runtime-android", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
@@ -102,6 +113,9 @@ composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "k
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "room"}
+mockmp = { id = "org.kodein.mock.mockmp", version.ref = "mockmp"}
 
 [bundles]
 ktor = [
