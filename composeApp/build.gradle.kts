@@ -8,6 +8,9 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.spotless)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
+    alias(libs.plugins.mockmp)
     jacoco
 }
 
@@ -19,7 +22,7 @@ kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 
@@ -48,6 +51,9 @@ kotlin {
 
             // ktor
             implementation(libs.ktor.client.okhttp)
+
+            // room
+            implementation(libs.room.runtime.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -81,6 +87,10 @@ kotlin {
             implementation(libs.ksoup)
             implementation(libs.ksoupKotlinx)
             implementation(libs.ksoupNetwork)
+
+            // room
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -136,16 +146,28 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 
+mockmp {
+    onTest {
+        withHelper(junit4)
+    }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
 dependencies {
+    implementation(libs.room.runtime.android)
     debugImplementation(libs.androidx.ui.test.junit4.android)
     debugImplementation(libs.androidx.ui.test.android)
     debugImplementation(compose.uiTooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    ksp(libs.room.compiler)
 }
 
 spotless {

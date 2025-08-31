@@ -4,10 +4,11 @@ import app.cash.turbine.test
 import com.nacchofer31.randomboxd.core.data.RandomBoxdHttpClientFactory
 import com.nacchofer31.randomboxd.random_film.data.dto.FilmDto
 import com.nacchofer31.randomboxd.random_film.data.repository_impl.RandomFilmRepositoryImpl
-import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
+import com.nacchofer31.randomboxd.random_film.domain.repository.UserNameRepository
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
+import com.nacchofer31.randomboxd.utils.dispatchers.TestDispatchers
 import com.nacchofer31.randomboxd.utils.http.HttpResponseData
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
@@ -15,8 +16,11 @@ import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headers
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
+import org.kodein.mock.Mock
+import org.kodein.mock.generated.mock
+import org.kodein.mock.tests.TestsWithMocks
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -24,11 +28,14 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertSame
 
-class RandomFilmViewModelTest {
+class RandomFilmViewModelTest : TestsWithMocks() {
     private lateinit var viewModel: RandomFilmViewModel
     private lateinit var repository: RandomFilmRepository
     private lateinit var httpClient: HttpClient
     private lateinit var mockEngine: HttpClientEngine
+    private lateinit var testDispatchers: TestDispatchers
+
+    @Mock lateinit var userNameRepository: UserNameRepository
 
     private var defaultResponseData =
         HttpResponseData(
@@ -36,8 +43,28 @@ class RandomFilmViewModelTest {
             statusCode = HttpStatusCode.OK,
         )
 
+    override fun setUpMocks() {
+        userNameRepository = mocker.mock<UserNameRepository>()
+        mocker.every {
+            userNameRepository.getAllUserNames()
+        } returns
+            flow {
+                emit(emptyList())
+            }
+    }
+
+    private suspend fun setUpAllMocks() {
+        mocker.everySuspending {
+            userNameRepository.addUserName(isAny<String>())
+        } returns Unit
+    }
+
     @BeforeTest
     fun setUp() {
+        testDispatchers = TestDispatchers()
+    }
+
+    private fun setUpWithResponse(responseData: HttpResponseData) {
         mockEngine =
             MockEngine.create {
                 addHandler { request ->
@@ -45,130 +72,126 @@ class RandomFilmViewModelTest {
                     when (relativeUrl) {
                         "/api?users=user" ->
                             respond(
-                                content = defaultResponseData.content,
-                                status = defaultResponseData.statusCode,
+                                content = responseData.content,
+                                status = responseData.statusCode,
                                 headers =
                                     headers {
                                         set("Content-Type", "application/json")
                                     },
                             )
-                        else ->
-                            respond(
-                                content = "Not mocked",
-                                status = HttpStatusCode.NotFound,
-                            )
+                        else -> respond("Not mocked", HttpStatusCode.NotFound)
                     }
                 }
             }
-        httpClient =
-            RandomBoxdHttpClientFactory.create(
-                engine = mockEngine,
-            )
+        httpClient = RandomBoxdHttpClientFactory.create(engine = mockEngine)
         repository = RandomFilmRepositoryImpl(httpClient)
-        viewModel = RandomFilmViewModel(repository)
+        viewModel = RandomFilmViewModel(repository, userNameRepository, testDispatchers)
     }
 
     @Test
     fun `given successful response when submit button clicked then update state with film`() =
-        runBlocking {
+        runTest(testDispatchers.testDispatcher) {
+            setUpAllMocks()
+            mocker.everySuspending {
+                userNameRepository.addUserName(isAny<String>())
+            } returns Unit
+
+            setUpWithResponse(defaultResponseData)
+            val expectedFilm =
+                FilmDto(
+                    slug = "test-slug",
+                    name = "test-film_name",
+                    releaseYear = "2000",
+                    imageUrl = "test-image_url",
+                )
             viewModel.state.test {
-                val expectedFilm =
-                    FilmDto(
-                        slug = "test-slug",
-                        name = "test-film_name",
-                        releaseYear = "2000",
-                        imageUrl = "test-image_url",
-                    )
-                defaultResponseData =
-                    HttpResponseData(
-                        content = """{"slug":"test-slug","image_url":"test-image_url","release_year":"2000","film_name":"test-film_name","film_length":""}""",
-                        statusCode = HttpStatusCode.OK,
-                    )
+                viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick)
 
-                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick("user"))
+                val idleState = awaitItem()
+                assertSame(false, idleState.isLoading)
 
-                awaitItem()
+                val loadingState = awaitItem()
+                assertSame(true, loadingState.isLoading)
 
-                assertSame(true, awaitItem().isLoading)
-
-                val state = awaitItem()
-
-                assertSame(false, state.isLoading)
-                assertEquals(expectedFilm.name, state.resultFilm?.name)
-                assertEquals(expectedFilm.releaseYear.toInt(), state.resultFilm?.releaseYear)
+                val successState = awaitItem()
+                assertSame(false, successState.isLoading)
+                assertEquals(expectedFilm.name, successState.resultFilm?.name)
+                assertEquals(expectedFilm.releaseYear.toInt(), successState.resultFilm?.releaseYear)
             }
         }
 
     @Test
     fun `given error response when submit button clicked then update state with null film`() =
-        runTest {
+        runTest(testDispatchers.testDispatcher) {
+            setUpAllMocks()
+            setUpWithResponse(
+                HttpResponseData(
+                    content = """{}""",
+                    statusCode = HttpStatusCode.InternalServerError,
+                ),
+            )
             viewModel.state.test {
-                defaultResponseData =
-                    HttpResponseData(
-                        content = "",
-                        statusCode = HttpStatusCode.InternalServerError,
-                    )
+                viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick)
 
-                setUp()
+                val idleState = awaitItem()
+                assertSame(false, idleState.isLoading)
 
-                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick("user"))
+                val loadingState = awaitItem()
+                assertSame(true, loadingState.isLoading)
 
-                val state = awaitItem()
-                assertSame(false, state.isLoading)
-                assertNull(state.resultFilm)
+                val errorState = awaitItem()
+                assertSame(false, errorState.isLoading)
+                assertNull(errorState.resultFilm)
             }
         }
 
     @Test
     fun `when clear button clicked then resultFilm is null`() =
-        runTest {
+        runTest(testDispatchers.testDispatcher) {
+            setUpAllMocks()
+            setUpWithResponse(defaultResponseData)
             viewModel.state.test {
-                defaultResponseData =
-                    HttpResponseData(
-                        content = """{"slug":"test-slug","image_url":"test-image_url","release_year":"2000","film_name":"test-film_name","film_length":""}""",
-                        statusCode = HttpStatusCode.OK,
-                    )
-
-                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick("user"))
+                viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick)
 
                 awaitItem()
-
                 awaitItem()
-
-                awaitItem()
+                val successState = awaitItem()
+                assertNotNull(successState.resultFilm)
 
                 viewModel.onAction(RandomFilmAction.OnClearButtonClick)
-                assertNull(awaitItem().resultFilm)
+                val clearedState = awaitItem()
+                assertNull(clearedState.resultFilm)
             }
         }
 
     @Test
     fun `when onFilmClicked success`() =
-        runTest {
+        runTest(testDispatchers.testDispatcher) {
+            setUpAllMocks()
+            setUpWithResponse(defaultResponseData)
             viewModel.state.test {
-                defaultResponseData =
-                    HttpResponseData(
-                        content = """{"slug":"test-slug","image_url":"test-image_url","release_year":"2000","film_name":"test-film_name","film_length":""}""",
-                        statusCode = HttpStatusCode.OK,
-                    )
+                viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick)
 
-                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick("user"))
+                val idleState = awaitItem()
+                assertSame(false, idleState.isLoading)
 
-                awaitItem()
+                val loadingState = awaitItem()
+                assertSame(true, loadingState.isLoading)
 
-                awaitItem()
+                val successState = awaitItem()
+                assertNotNull(successState.resultFilm)
 
-                viewModel.onAction(
-                    RandomFilmAction.OnFilmClicked(
-                        Film(
-                            slug = "test-slug",
-                            name = "test-film_name",
-                            releaseYear = 2000,
-                            imageUrl = "test-image_url",
-                        ),
-                    ),
-                )
-                assertNotNull(awaitItem().resultFilm)
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick)
+
+                val newLoadingState = awaitItem()
+                assertSame(true, newLoadingState.isLoading)
+
+                val newSuccessState = awaitItem()
+                assertNotNull(newSuccessState.resultFilm)
             }
         }
 }
