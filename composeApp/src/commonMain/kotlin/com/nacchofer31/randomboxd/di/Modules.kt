@@ -3,7 +3,7 @@ package com.nacchofer31.randomboxd.di
 import com.nacchofer31.randomboxd.core.data.DefaultDispatchers
 import com.nacchofer31.randomboxd.core.data.RandomBoxdHttpClientFactory
 import com.nacchofer31.randomboxd.core.domain.DispatcherProvider
-import com.nacchofer31.randomboxd.random_film.data.repository_impl.RandomFilmRepositoryImpl
+import com.nacchofer31.randomboxd.random_film.data.repository_impl.RandomFilmScrappingRepository
 import com.nacchofer31.randomboxd.random_film.data.repository_impl.UserNameRepositoryImpl
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.UserNameRepository
@@ -19,7 +19,7 @@ expect val platformModule: Module
 val sharedModule =
     module {
         single { RandomBoxdHttpClientFactory.create(get()) }
-        singleOf(::RandomFilmRepositoryImpl).bind<RandomFilmRepository>()
+        singleOf(::RandomFilmScrappingRepository).bind<RandomFilmRepository>()
         singleOf(::DefaultDispatchers).bind<DispatcherProvider>()
         singleOf(::UserNameRepositoryImpl).bind<UserNameRepository>()
         viewModelOf(::RandomFilmViewModel)
