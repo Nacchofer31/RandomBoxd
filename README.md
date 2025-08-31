@@ -34,6 +34,7 @@ This project follows the **Clean Architecture** principles to ensure a scalable 
 - **Koin** - Dependency Injection.
 - **Coil** - Image loading.
 - **Room** - Database.
+- **Ksoup** - HTML parsing.
 - **Navigation Compose** - Jetpack Compose navigation.
 - **Kotlinx Serialization** - JSON serialization.
 - **Spotless** - Code formatting.

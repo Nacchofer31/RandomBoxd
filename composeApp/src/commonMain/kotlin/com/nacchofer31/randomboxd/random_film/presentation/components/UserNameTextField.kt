@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 import org.jetbrains.compose.resources.stringResource
@@ -41,7 +42,13 @@ fun UserNameTextField(
         value = value,
         onValueChange = onChange,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        placeholder = { Text(hint) },
+        placeholder = {
+            Text(
+                hint,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        },
         shape = RoundedCornerShape(topStart = 10.dp, bottomStart = 10.dp),
         singleLine = true,
         colors =
@@ -55,15 +62,21 @@ fun UserNameTextField(
                     ),
             ),
         modifier = modifier,
-        trailingIcon = {
+        trailingIcon =
             if (value.trim().isNotEmpty()) {
-                IconButton(onClick = onRemoveButtonClick, modifier = Modifier.testTag("test-random-film-user-name-text-field-clear-button")) {
-                    Icon(
-                        imageVector = Icons.Outlined.Close,
-                        contentDescription = null,
-                    )
+                {
+                    IconButton(
+                        onClick = onRemoveButtonClick,
+                        modifier = Modifier.testTag("test-random-film-user-name-text-field-clear-button"),
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Close,
+                            contentDescription = null,
+                        )
+                    }
                 }
-            }
-        },
+            } else {
+                null
+            },
     )
 }
