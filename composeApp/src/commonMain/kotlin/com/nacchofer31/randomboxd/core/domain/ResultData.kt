@@ -20,7 +20,10 @@ fun <T, E : Error> ResultData<T, E>.asEmptyDataResult(): EmptyResult<E> = map { 
 
 inline fun <T, E : Error> ResultData<T, E>.onSuccess(action: (T) -> Unit): ResultData<T, E> =
     when (this) {
-        is ResultData.Error -> this
+        is ResultData.Error -> {
+            this
+        }
+
         is ResultData.Success -> {
             action(data)
             this
@@ -33,7 +36,10 @@ inline fun <T, E : Error> ResultData<T, E>.onError(action: (E) -> Unit): ResultD
             action(error)
             this
         }
-        is ResultData.Success -> this
+
+        is ResultData.Success -> {
+            this
+        }
     }
 
 typealias EmptyResult<E> = ResultData<Unit, E>

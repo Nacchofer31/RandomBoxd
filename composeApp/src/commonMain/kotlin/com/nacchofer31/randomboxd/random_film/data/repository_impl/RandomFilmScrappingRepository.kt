@@ -24,7 +24,7 @@ class RandomFilmScrappingRepository(
     ): ResultData<Film, DataError.Remote> =
         withContext(Dispatchers.IO) {
             try {
-                val baseUrl = "https://letterboxd.com/${userName.trim()}/watchlist"
+                val baseUrl = "https://letterboxd.com/$userName/watchlist"
                 val totalPages = getTotalPages(baseUrl)
 
                 val allFilms = mutableListOf<Film>()
@@ -111,6 +111,5 @@ class RandomFilmScrappingRepository(
             1
         }
 
-    private suspend fun getWebPage(url: String): String =
-        httpClient.get(url).bodyAsText()
+    private suspend fun getWebPage(url: String): String = httpClient.get(url).bodyAsText()
 }

@@ -55,7 +55,7 @@ class RandomFilmViewModel(
             .filterIsInstance<RandomFilmAction.OnSubmitButtonClick>()
             .flatMapLatest {
                 flow {
-                    val userName = internalState.value.userName
+                    val userName = internalState.value.userName.trim()
                     userNameRepository.addUserName(userName)
                     val result = repository.getRandomMovie(userName)
                     emit(result)
@@ -65,16 +65,19 @@ class RandomFilmViewModel(
             }.onEach { result ->
                 internalState.update { current ->
                     when (result) {
-                        is ResultData.Success ->
+                        is ResultData.Success -> {
                             current.copy(
                                 isLoading = false,
                                 resultFilm = result.data,
                             )
-                        is ResultData.Error ->
+                        }
+
+                        is ResultData.Error -> {
                             current.copy(
                                 isLoading = false,
                                 resultFilm = null,
                             )
+                        }
                     }
                 }
             }.launchIn(viewModelScope)

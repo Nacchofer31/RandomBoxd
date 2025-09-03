@@ -58,7 +58,7 @@ fun FilmPoster(
         targetState = imageLoadResult,
     ) { result ->
         when (result) {
-            null ->
+            null -> {
                 Box(
                     modifier =
                         Modifier
@@ -68,6 +68,7 @@ fun FilmPoster(
                     contentAlignment = Alignment.Center,
                 ) {
                 }
+            }
 
             else -> {
                 Image(

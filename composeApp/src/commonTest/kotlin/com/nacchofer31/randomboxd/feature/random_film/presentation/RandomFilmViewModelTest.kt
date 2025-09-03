@@ -70,7 +70,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
                 addHandler { request ->
                     val relativeUrl = request.url.encodedPathAndQuery
                     when (relativeUrl) {
-                        "/api?users=user" ->
+                        "/api?users=user" -> {
                             respond(
                                 content = responseData.content,
                                 status = responseData.statusCode,
@@ -79,7 +79,11 @@ class RandomFilmViewModelTest : TestsWithMocks() {
                                         set("Content-Type", "application/json")
                                     },
                             )
-                        else -> respond("Not mocked", HttpStatusCode.NotFound)
+                        }
+
+                        else -> {
+                            respond("Not mocked", HttpStatusCode.NotFound)
+                        }
                     }
                 }
             }

@@ -8,8 +8,7 @@ import kotlinx.coroutines.flow.Flow
 class UserNameRepositoryImpl(
     private val usernameDatabase: UsernameDatabase,
 ) : UserNameRepository {
-    override fun getAllUserNames(): Flow<List<UserName>> =
-        usernameDatabase.userNameDao().getAllUsernames()
+    override fun getAllUserNames(): Flow<List<UserName>> = usernameDatabase.userNameDao().getAllUsernames()
 
     override suspend fun deleteUserName(userName: UserName) = usernameDatabase.userNameDao().deleteUserName(userName)
 
