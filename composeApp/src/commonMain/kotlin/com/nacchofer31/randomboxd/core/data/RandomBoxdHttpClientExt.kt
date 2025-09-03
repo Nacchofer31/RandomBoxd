@@ -35,8 +35,20 @@ suspend inline fun <reified T> responseToResult(response: HttpResponse): ResultD
                 ResultData.Error(DataError.Remote.SERIALIZATION)
             }
         }
-        408 -> ResultData.Error(DataError.Remote.REQUEST_TIMEOUT)
-        429 -> ResultData.Error(DataError.Remote.TOO_MANY_REQUESTS)
-        in 500..599 -> ResultData.Error(DataError.Remote.SERVER)
-        else -> ResultData.Error(DataError.Remote.UNKNOWN)
+
+        408 -> {
+            ResultData.Error(DataError.Remote.REQUEST_TIMEOUT)
+        }
+
+        429 -> {
+            ResultData.Error(DataError.Remote.TOO_MANY_REQUESTS)
+        }
+
+        in 500..599 -> {
+            ResultData.Error(DataError.Remote.SERVER)
+        }
+
+        else -> {
+            ResultData.Error(DataError.Remote.UNKNOWN)
+        }
     }
