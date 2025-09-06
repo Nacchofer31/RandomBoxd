@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">RandomBoxd</string>
     <string name="enter_your_user_name">Introduce tu nombre de usuario</string>
-    <string name="enter_description">Por favor, introduce un nombre de usuario válido de LetterBoxd para obtener una película aleatoria de su lista de seguimiento. Alternativamente, puedes ingresar listas públicas en el formato "nombre-de-usuario/titulo-de-la-lista".</string>
-    <string name="submit">Enviar</string>
+    <string name="enter_description">Por favor, introduce un nombre de usuario válido de LetterBoxd para obtener una película aleatoria de su lista de seguimiento.</string>
+    <string name="submit">Buscar</string>
+    <string name="add">Añadir</string>
     <string name="release_year_label">Año de lanzamiento:</string>
+    <string name="intersection_label">Intersección</string>
+    <string name="union_label">Unión</string>"
 </resources>

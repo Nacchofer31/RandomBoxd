@@ -6,6 +6,7 @@ import com.nacchofer31.randomboxd.core.domain.ResultData
 import com.nacchofer31.randomboxd.random_film.data.dto.FilmDto
 import com.nacchofer31.randomboxd.random_film.data.mapper.toFilm
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
+import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
@@ -31,5 +32,12 @@ class RandomFilmRepositoryImpl(
         } catch (e: Exception) {
             return ResultData.Error(DataError.Remote.SERIALIZATION)
         }
+    }
+
+    override suspend fun getRandomMoviesFromSearchList(
+        searchList: Set<String>,
+        filmSearchMode: FilmSearchMode,
+    ): ResultData<Film, DataError.Remote> {
+        TODO("Not yet implemented")
     }
 }

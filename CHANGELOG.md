@@ -17,3 +17,6 @@
 
 ## 0.4.0
 - Added `RandomFilmScrappingRepository` for scrapping random user's watchlist.
+
+## 0.5.0
+- Added `union` and `intersection` search implementation.
