@@ -2,6 +2,7 @@ package com.nacchofer31.randomboxd.random_film.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,14 +25,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
+import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import kotlinx.coroutines.flow.Flow
 
 @Composable
-fun UserNameList(
+fun UserNameTagListView(
     userNameList: Flow<List<UserName>>,
+    userNameSearchList: Set<String>,
     onAction: (RandomFilmAction) -> Unit,
+    fimSearchMode: FilmSearchMode,
 ) {
     val userNames by userNameList.collectAsState(initial = emptyList())
 
@@ -41,8 +45,11 @@ fun UserNameList(
                 .fillMaxWidth(),
         contentPadding = PaddingValues(vertical = 8.dp),
     ) {
-        items(userNames) { userName ->
-            UserNameTag(userName, onAction)
+        val sortedUserNames = userNames.filter { it.username in userNameSearchList }.reversed() + userNames.filter { it.username !in userNameSearchList }.reversed()
+
+        items(sortedUserNames) { userName ->
+            val isIncludedInSearchList = userNameSearchList.contains(userName.username)
+            UserNameTag(userName, isIncludedInSearchList, onAction, fimSearchMode)
         }
     }
 }
@@ -50,17 +57,28 @@ fun UserNameList(
 @Composable
 fun UserNameTag(
     userName: UserName,
+    isIncludedInSearchList: Boolean,
     onAction: (RandomFilmAction) -> Unit,
+    fimSearchMode: FilmSearchMode,
 ) {
     Row(
         modifier =
             Modifier
                 .padding(horizontal = 4.dp, vertical = 2.dp)
-                .background(RandomBoxdColors.Black, shape = RoundedCornerShape(16.dp))
-                .padding(horizontal = 12.dp, vertical = 6.dp)
-                .clickable {
-                    onAction(RandomFilmAction.OnUserNameChanged(userName.username))
-                },
+                .background(
+                    if (!isIncludedInSearchList) {
+                        RandomBoxdColors.Black
+                    } else if (fimSearchMode == FilmSearchMode.INTERSECTION) {
+                        RandomBoxdColors.GreenAccent
+                    } else {
+                        RandomBoxdColors.OrangeAccent
+                    },
+                    shape = RoundedCornerShape(16.dp),
+                ).padding(horizontal = 12.dp, vertical = 6.dp)
+                .combinedClickable(
+                    onClick = { onAction(RandomFilmAction.OnUserNameChanged(userName.username)) },
+                    onLongClick = { onAction(RandomFilmAction.OnAddOrRemoveUserNameSearchList(userName.username)) },
+                ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
