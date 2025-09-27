@@ -15,7 +15,6 @@ import com.nacchofer31.randomboxd.core.presentation.RandomBoxdTypography
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreenRoot
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.compose.KoinContext
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -26,23 +25,21 @@ internal fun RandomBoxdApp() {
     ) {
         val navController = rememberNavController()
         val localUriHandler = LocalUriHandler.current
-        KoinContext {
-            NavHost(
-                navController = navController,
-                startDestination = RandomBoxdRoute.Home,
+        NavHost(
+            navController = navController,
+            startDestination = RandomBoxdRoute.Home,
+        ) {
+            navigation<RandomBoxdRoute.Home>(
+                startDestination = RandomBoxdRoute.RandomFilm,
             ) {
-                navigation<RandomBoxdRoute.Home>(
-                    startDestination = RandomBoxdRoute.RandomFilm,
-                ) {
-                    composable<RandomBoxdRoute.RandomFilm> {
-                        val viewModel = koinViewModel<RandomFilmViewModel>()
-                        RandomFilmScreenRoot(
-                            viewModel = viewModel,
-                            onFilmClicked = { film ->
-                                localUriHandler.openUri(film.slug)
-                            },
-                        )
-                    }
+                composable<RandomBoxdRoute.RandomFilm> {
+                    val viewModel = koinViewModel<RandomFilmViewModel>()
+                    RandomFilmScreenRoot(
+                        viewModel = viewModel,
+                        onFilmClicked = { film ->
+                            localUriHandler.openUri(film.slug)
+                        },
+                    )
                 }
             }
         }
