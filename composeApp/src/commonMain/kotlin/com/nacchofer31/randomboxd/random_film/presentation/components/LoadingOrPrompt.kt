@@ -10,7 +10,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
-import com.nacchofer31.randomboxd.core.presentation.components.loading.RandomBoxdLoadingView
+import com.nacchofer31.randomboxd.core.presentation.components.loading.RandomBoxdLoadingDiceView
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmState
 import org.jetbrains.compose.resources.stringResource
 import randomboxd.composeapp.generated.resources.Res
@@ -19,7 +19,7 @@ import randomboxd.composeapp.generated.resources.enter_description
 @Composable
 internal fun LoadingOrPrompt(state: RandomFilmState) {
     if (state.isLoading) {
-        return RandomBoxdLoadingView(
+        return RandomBoxdLoadingDiceView(
             modifier = Modifier.padding(vertical = 30.dp).testTag("test-loading-indicator"),
         )
     }

@@ -5,6 +5,6 @@ import kotlin.test.Test
 class DummyTest {
     @Test
     fun dummy() {
-        // No hace nada
+        // Dummy code
     }
 }
