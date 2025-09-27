@@ -20,3 +20,6 @@
 
 ## 0.5.0
 - Added `union` and `intersection` search implementation.
+
+## 0.6.0
+- Improved and refactored `RandomBoxdLoadingDiceView` animation.

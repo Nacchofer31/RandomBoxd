@@ -5,7 +5,14 @@
   <img src="screenshots/randomboxd-logo.png" width="200" />
 </p>
 
-RandomBoxd is a **Kotlin Multiplatform** project designed to fetch a random movie from a Letterboxd user's **watchlists** or **custom lists**. This app is built for **Android** and **iOS** devices. 📱🎬
+<p align="center">
+  <img src="https://img.shields.io/badge/Compose-Multiplatform-4285F4?logo=jetpackcompose&logoColor=white" />
+  <img src="https://img.shields.io/badge/Platform-Android%20%7C%20iOS-blue?logo=apple&logoColor=white" />
+  <img src="https://img.shields.io/badge/License-MIT-green?logo=open-source-initiative&logoColor=white" />
+  <img src="https://img.shields.io/badge/Test%20Coverage-JaCoCo-orange?logo=codecov&logoColor=white" />
+</p>
+
+RandomBoxd is a **Compose Multiplatform** project designed to fetch a random movie from a Letterboxd user's **watchlists** or **custom lists**. This app is built for **Android** and **iOS** devices. 📱🎬
 
 ## ✨ Features
 - 🎲 Fetch a random movie from a Letterboxd user's **watchlist** or **custom lists**.
@@ -13,11 +20,18 @@ RandomBoxd is a **Kotlin Multiplatform** project designed to fetch a random movi
 - 🔗 Seamless deep linking with the **Letterboxd** app.
 - 🔍 Intuitive user search functionality. 
 - 🏷️ Stores and displays previously entered UserNames locally via **Room**, shown as tappable tags for quick reuse or deletion.
+- ∩∪ **Intersection & Union** → Combine multiple users' watchlists and pick a random movie either from their **shared movies** (Intersection) or from the **merged pool** (Union).
+
+## 🧙‍♂️ Watch the Magic
+
+<p align="center">
+  <img src="screenshots/randomboxd-demo.gif" width="250" />
+</p>
 
 ## 🏗️ Project Architecture
 This project follows the **Clean Architecture** principles to ensure a scalable and maintainable codebase.
 
-### 🏛️ KMP Structure
+## 🏛️ KMP Structure
 - **`/composeApp`** is for code that will be shared across your **Compose Multiplatform** applications.
   - `commonMain` contains code common for all targets.
   - Other folders include platform-specific code (e.g., `iosMain` for iOS-specific code like **CoreCrypto** integration).
@@ -27,7 +41,7 @@ This project follows the **Clean Architecture** principles to ensure a scalable 
   - This is also where you can add **SwiftUI** code if needed.
 
 ## 🔧 Tech Stack
-- **Kotlin Multiplatform Mobile (KMP)** - Shared logic for Android and iOS.
+- **Compose Multiplatform (CMP)** - Shared logic for Android and iOS with Compose.
 - **Jetpack Compose** - UI for Android.
 - **Ktor** - Network requests.
 - **Coroutines & Flow** - Asynchronous programming.
@@ -72,14 +86,26 @@ RandomBoxd's **codebase** is **tested** with:
   <img src="screenshots/ios-randomboxd-2.png" width="200" />
 </p>
 
-### 🔍 Search user lists & Deeplinking
+## 🔍 Search user lists & Deeplinking
 
 <p align="center">
   <img src="screenshots/search-user-list-1.png" width="200" />
   <img src="screenshots/search-user-list-2.png" width="200" />
 </p>
 
-### ✍️ See Previous UserName Prompts
+## 🔗 Intersection & Union of Users' Watchlists
+RandomBoxd allows you to combine multiple users' **watchlists** by holding the `Submit` button or selecting multiple user tags.  
+From there, a single random movie is chosen based on two available modes:
+
+- **∩ Intersection** → Selects only movies that are present in **every selected user's watchlist**.  
+- **∪ Union** → Combines all movies from the selected users' watchlists and randomly picks one from the full collection.  
+
+<p align="center">
+  <img src="screenshots/intersection-users.png" width="200" />
+  <img src="screenshots/union-users.png" width="200" />
+</p>
+
+## ✍️ See Previous UserName Prompts
 <p align="center">
   <img src="screenshots/user-name-list.png" width="200" />
 </p>
@@ -90,7 +116,7 @@ RandomBoxd's **codebase** is **tested** with:
    git clone https://github.com/Nacchofer31/RandomBoxd.git
    ```
 
-2. Open the project in **Android Studio (latest version with [KMP Plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform))**.
+2. Open the project in **Android Studio (latest version with [CMP Plugin](https://www.jetbrains.com/compose-multiplatform/))**.
 3. Run on an **Android Emulator** or an **iOS Simulator**.
    <img src="screenshots/run-config.png" width="400" />
 4. Run spotless commmands:
