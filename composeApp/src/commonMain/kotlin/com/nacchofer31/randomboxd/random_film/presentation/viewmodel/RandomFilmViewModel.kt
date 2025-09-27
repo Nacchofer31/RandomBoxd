@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nacchofer31.randomboxd.core.domain.DispatcherProvider
 import com.nacchofer31.randomboxd.core.domain.ResultData
+import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.UserNameRepository
@@ -55,9 +56,21 @@ class RandomFilmViewModel(
             .filterIsInstance<RandomFilmAction.OnSubmitButtonClick>()
             .flatMapLatest {
                 flow {
-                    val userName = internalState.value.userName.trim()
-                    userNameRepository.addUserName(userName)
-                    val result = repository.getRandomMovie(userName)
+                    val result =
+                        when {
+                            !it.singleSearch -> {
+                                repository.getRandomMoviesFromSearchList(
+                                    internalState.value.userNameSearchList,
+                                    internalState.value.filmSearchMode,
+                                )
+                            }
+
+                            else -> {
+                                val userName = internalState.value.userName.trim()
+                                userNameRepository.addUserName(userName)
+                                repository.getRandomMovie(userName)
+                            }
+                        }
                     emit(result)
                 }.onStart {
                     internalState.update { it.copy(isLoading = true) }
@@ -85,11 +98,42 @@ class RandomFilmViewModel(
 
     fun onAction(action: RandomFilmAction) {
         when (action) {
-            is RandomFilmAction.OnSubmitButtonClick -> actions.tryEmit(action)
-            is RandomFilmAction.OnClearButtonClick -> clearSelectedFilm()
-            is RandomFilmAction.OnUserNameChanged -> updateUserNameValue(action.username)
-            is RandomFilmAction.OnRemoveUserName -> viewModelScope.launch { userNameRepository.deleteUserName(action.userName) }
-            else -> Unit
+            is RandomFilmAction.OnSubmitButtonClick -> {
+                actions.tryEmit(action)
+            }
+
+            is RandomFilmAction.OnClearButtonClick -> {
+                clearSelectedFilm()
+            }
+
+            is RandomFilmAction.OnUserNameChanged -> {
+                updateUserNameValue(action.username)
+            }
+
+            is RandomFilmAction.OnRemoveUserName -> {
+                viewModelScope.launch {
+                    if (internalState.value.userNameSearchList.contains(action.userName.username)) {
+                        addOrRemoveUserNameToList(action.userName.username)
+                    }
+                    userNameRepository.deleteUserName(action.userName)
+                }
+            }
+
+            is RandomFilmAction.OnUserNameAdded -> {
+                viewModelScope.launch { userNameRepository.addUserName(action.username) }
+            }
+
+            is RandomFilmAction.OnAddOrRemoveUserNameSearchList -> {
+                addOrRemoveUserNameToList(action.userName)
+            }
+
+            is RandomFilmAction.OnFilmSearchModeToggle -> {
+                onFilmSearchModeToggle()
+            }
+
+            else -> {
+                Unit
+            }
         }
     }
 
@@ -101,5 +145,19 @@ class RandomFilmViewModel(
     private fun clearSelectedFilm() =
         internalState.update {
             it.copy(resultFilm = null)
+        }
+
+    private fun onFilmSearchModeToggle() =
+        internalState.update {
+            it.copy(filmSearchMode = if (it.filmSearchMode == FilmSearchMode.INTERSECTION) FilmSearchMode.UNION else FilmSearchMode.INTERSECTION)
+        }
+
+    private fun addOrRemoveUserNameToList(userName: String) =
+        internalState.update { current ->
+            if (current.userNameSearchList.contains(userName)) {
+                current.copy(userNameSearchList = current.userNameSearchList - userName, userName = "")
+            } else {
+                current.copy(userNameSearchList = current.userNameSearchList + userName, userName = "")
+            }
         }
 }

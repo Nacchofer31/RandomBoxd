@@ -29,7 +29,7 @@ fun UserNameTextField(
     value: String,
     onChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    hint: String = stringResource(Res.string.enter_your_user_name),
+    hint: String?,
     onRemoveButtonClick: () -> Unit,
 ) = CompositionLocalProvider(
     LocalTextSelectionColors provides
@@ -44,7 +44,7 @@ fun UserNameTextField(
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         placeholder = {
             Text(
-                hint,
+                hint ?: stringResource(Res.string.enter_your_user_name),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )

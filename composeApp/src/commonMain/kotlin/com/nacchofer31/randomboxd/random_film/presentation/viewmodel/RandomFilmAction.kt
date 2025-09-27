@@ -12,11 +12,23 @@ sealed interface RandomFilmAction {
         val username: String,
     ) : RandomFilmAction
 
+    data class OnUserNameAdded(
+        val username: String,
+    ) : RandomFilmAction
+
+    data class OnAddOrRemoveUserNameSearchList(
+        val userName: String,
+    ) : RandomFilmAction
+
     data class OnRemoveUserName(
         val userName: UserName,
     ) : RandomFilmAction
 
-    data object OnSubmitButtonClick : RandomFilmAction
+    data class OnSubmitButtonClick(
+        val singleSearch: Boolean = true,
+    ) : RandomFilmAction
 
     data object OnClearButtonClick : RandomFilmAction
+
+    data object OnFilmSearchModeToggle : RandomFilmAction
 }

@@ -19,14 +19,14 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.presentation.components.ActionRow
 import com.nacchofer31.randomboxd.random_film.presentation.components.FilmDisplay
 import com.nacchofer31.randomboxd.random_film.presentation.components.LoadingOrPrompt
-import com.nacchofer31.randomboxd.random_film.presentation.components.UserNameList
+import com.nacchofer31.randomboxd.random_film.presentation.components.UnionIntersectionSwitch
+import com.nacchofer31.randomboxd.random_film.presentation.components.UserNameTagListView
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmState
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
@@ -86,8 +86,16 @@ fun RandomFilmScreen(
                     FilmDisplay(it, onAction)
                 } ?: LoadingOrPrompt(state)
 
-                ActionRow(state.userName, state.isLoading, focusManager, onAction) { onAction(RandomFilmAction.OnUserNameChanged(it)) }
-                UserNameList(userNameList = userNameList, onAction = onAction)
+                ActionRow(state.userName, state.userNameSearchList, state.isLoading, focusManager, onAction) { onAction(RandomFilmAction.OnUserNameChanged(it)) }
+                UserNameTagListView(userNameList = userNameList, userNameSearchList = state.userNameSearchList, fimSearchMode = state.filmSearchMode, onAction = onAction)
+                if (state.userNameSearchList.isNotEmpty()) {
+                    UnionIntersectionSwitch(
+                        searchMode = state.filmSearchMode,
+                        onModeChange = {
+                            onAction(RandomFilmAction.OnFilmSearchModeToggle)
+                        },
+                    )
+                }
             }
         },
     )
