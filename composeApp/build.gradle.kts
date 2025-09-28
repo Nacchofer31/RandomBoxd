@@ -59,6 +59,7 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
@@ -126,8 +127,8 @@ android {
 
     defaultConfig {
         applicationId = "com.nacchofer31.randomboxd"
-        versionName = "0.6.0"
-        versionCode = 6
+        versionName = "0.7.0"
+        versionCode = 7
         minSdk =
             libs.versions.android.minSdk
                 .get()

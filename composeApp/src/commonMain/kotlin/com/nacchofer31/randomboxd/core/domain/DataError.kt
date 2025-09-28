@@ -8,6 +8,7 @@ sealed interface DataError : Error {
         SERVER,
         SERIALIZATION,
         UNKNOWN,
+        NO_RESULTS,
     }
 
     enum class Local : DataError {

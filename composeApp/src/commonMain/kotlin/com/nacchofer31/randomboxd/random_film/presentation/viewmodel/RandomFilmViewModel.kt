@@ -47,7 +47,7 @@ class RandomFilmViewModel(
             .getAllUserNames()
             .stateIn(
                 scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000),
+                started = SharingStarted.WhileSubscribed(5000L),
                 initialValue = emptyList(),
             )
 
@@ -73,7 +73,7 @@ class RandomFilmViewModel(
                         }
                     emit(result)
                 }.onStart {
-                    internalState.update { it.copy(isLoading = true) }
+                    internalState.update { it.copy(isLoading = true, resultError = null) }
                 }.flowOn(dispatchers.main)
             }.onEach { result ->
                 internalState.update { current ->
@@ -82,6 +82,7 @@ class RandomFilmViewModel(
                             current.copy(
                                 isLoading = false,
                                 resultFilm = result.data,
+                                resultError = null,
                             )
                         }
 
@@ -89,6 +90,7 @@ class RandomFilmViewModel(
                             current.copy(
                                 isLoading = false,
                                 resultFilm = null,
+                                resultError = result.error,
                             )
                         }
                     }
@@ -120,11 +122,11 @@ class RandomFilmViewModel(
             }
 
             is RandomFilmAction.OnUserNameAdded -> {
-                viewModelScope.launch { userNameRepository.addUserName(action.username) }
+                viewModelScope.launch { userNameRepository.addUserName(action.username.trim()) }
             }
 
             is RandomFilmAction.OnAddOrRemoveUserNameSearchList -> {
-                addOrRemoveUserNameToList(action.userName)
+                addOrRemoveUserNameToList(action.userName.trim())
             }
 
             is RandomFilmAction.OnFilmSearchModeToggle -> {
@@ -139,25 +141,25 @@ class RandomFilmViewModel(
 
     private fun updateUserNameValue(newValue: String) =
         internalState.update {
-            it.copy(userName = newValue)
+            it.copy(userName = newValue, resultError = null)
         }
 
     private fun clearSelectedFilm() =
         internalState.update {
-            it.copy(resultFilm = null)
+            it.copy(resultError = null)
         }
 
     private fun onFilmSearchModeToggle() =
         internalState.update {
-            it.copy(filmSearchMode = if (it.filmSearchMode == FilmSearchMode.INTERSECTION) FilmSearchMode.UNION else FilmSearchMode.INTERSECTION)
+            it.copy(filmSearchMode = if (it.filmSearchMode == FilmSearchMode.INTERSECTION) FilmSearchMode.UNION else FilmSearchMode.INTERSECTION, resultError = null)
         }
 
     private fun addOrRemoveUserNameToList(userName: String) =
         internalState.update { current ->
             if (current.userNameSearchList.contains(userName)) {
-                current.copy(userNameSearchList = current.userNameSearchList - userName, userName = "")
+                current.copy(userNameSearchList = current.userNameSearchList - userName, userName = "", resultError = null)
             } else {
-                current.copy(userNameSearchList = current.userNameSearchList + userName, userName = "")
+                current.copy(userNameSearchList = current.userNameSearchList + userName, userName = "", resultError = null)
             }
         }
 }
