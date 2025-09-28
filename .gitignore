@@ -71,3 +71,6 @@ freeline_project_description.json
 
 # Kotlin
 .kotlin
+
+# History
+.history

@@ -7,4 +7,10 @@
     <string name="release_year_label">Año de lanzamiento:</string>
     <string name="intersection_label">Intersección</string>
     <string name="union_label">Unión</string>"
+    <string name="error_connection_title">Conexión perdida</string>
+    <string name="error_connection_subtitle">Error de conexión detectado. Por favor, comprueba que tu conexión internet funcione y vuelve a intentarlo.</string>
+    <string name="error_generic_title">¡Algo salió mal!</string>
+    <string name="error_generic_subtitle">Se ha intentado obtener una película aleatoria, pero no ha sido posible. Por favor, inténtalo de nuevo.</string>
+    <string name="no_results_title">No se encontraron resultados</string>
+    <string name="no_results_subtitle">No se encontró una película que coincida con la búsqueda. Por favor, inténtalo de nuevo con otra.</string>
 </resources>
