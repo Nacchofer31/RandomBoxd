@@ -23,3 +23,7 @@
 
 ## 0.6.0
 - Improved and refactored `RandomBoxdLoadingDiceView` animation.
+
+## 0.7.0
+- Added implementation of handling different response errors and `FilmErrorView` view.
+
