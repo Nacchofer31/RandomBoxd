@@ -1,10 +1,17 @@
 <resources>
     <string name="app_name">RandomBoxd</string>
     <string name="enter_your_user_name">Introduce tu nombre de usuario</string>
-    <string name="enter_description">Por favor, introduce un nombre de usuario válido de LetterBoxd para obtener una película aleatoria de su lista de seguimiento.</string>
+    <string name="enter_description">
+- Introduce un nombre de usuario de Letterboxd para obtener una película aleatoria.
+- Toca las etiquetas guardadas para reutilizarlas.
+- Mantén pulsado una etiqueta, el botón Enviar o usuarios activos para gestionar búsquedas grupales.
+- Selecciona varios usuarios y alterna entre:
+∩ Intersección — películas compartidas
+∪ Unión — todas las películas combinadas
+    </string>
     <string name="submit">Buscar</string>
     <string name="add">Añadir</string>
-    <string name="release_year_label">Año de lanzamiento:</string>
+    <string name="release_year_label">Año de estreno:</string>
     <string name="intersection_label">Intersección</string>
     <string name="union_label">Unión</string>"
     <string name="error_connection_title">Conexión perdida</string>

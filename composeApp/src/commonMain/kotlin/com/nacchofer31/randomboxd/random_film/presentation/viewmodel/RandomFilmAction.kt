@@ -31,4 +31,6 @@ sealed interface RandomFilmAction {
     data object OnClearButtonClick : RandomFilmAction
 
     data object OnFilmSearchModeToggle : RandomFilmAction
+
+    data object OnInfoButtonClick : RandomFilmAction
 }
