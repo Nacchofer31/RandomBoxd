@@ -108,6 +108,10 @@ class RandomFilmViewModel(
                 clearSelectedFilm()
             }
 
+            is RandomFilmAction.OnInfoButtonClick -> {
+                resetValues()
+            }
+
             is RandomFilmAction.OnUserNameChanged -> {
                 updateUserNameValue(action.username)
             }
@@ -147,6 +151,11 @@ class RandomFilmViewModel(
     private fun clearSelectedFilm() =
         internalState.update {
             it.copy(resultError = null)
+        }
+
+    private fun resetValues() =
+        internalState.update {
+            it.copy(resultError = null, resultFilm = null)
         }
 
     private fun onFilmSearchModeToggle() =

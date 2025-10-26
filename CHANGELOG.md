@@ -29,3 +29,6 @@
 
 ## 0.8.0
 - Added iOS config, icons and Launch screen.
+
+## 0.9.0
+- Added app localizations

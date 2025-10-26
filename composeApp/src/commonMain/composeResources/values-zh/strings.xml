@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">随机电影盒</string>
+    <string name="enter_your_user_name">请输入您的用户名</string>
+    <string name="enter_description">
+- 输入一个 Letterboxd 用户名以获取随机电影。
+- 点击已保存的标签以重复使用。
+- 长按标签、提交按钮或活跃用户以管理群组搜索。
+- 选择多个用户并切换：
+∩ 交集 — 共同的电影
+∪ 并集 — 所有合并的电影
+    </string>
+    <string name="submit">提交</string>
+    <string name="add">添加</string>
+    <string name="release_year_label">上映年份：</string>
+    <string name="intersection_label">交集</string>
+    <string name="union_label">并集</string>
+    <string name="error_connection_title">连接丢失</string>
+    <string name="error_connection_subtitle">检测到连接错误。请检查您的网络连接并稍后重试。</string>
+    <string name="error_generic_title">出现错误！</string>
+    <string name="error_generic_subtitle">尝试获取随机电影失败，请重试。</string>
+    <string name="error_no_results_title">未找到结果</string>
+    <string name="error_no_results_subtitle">没有符合搜索条件的电影。请尝试其他搜索。</string>
+</resources>

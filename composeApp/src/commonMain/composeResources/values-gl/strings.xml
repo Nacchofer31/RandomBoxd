@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">RandomBoxd</string>
+    <string name="enter_your_user_name">Introduce o teu nome de usuario</string>
+    <string name="enter_description">
+- Introduce un nome de usuario de Letterboxd para obter un filme aleatorio.
+- Toca as etiquetas gardadas para reutilizalas.
+- Mantén premido unha etiqueta, o botón Enviar ou os usuarios activos para xestionar buscas en grupo.
+- Selecciona varios usuarios e cambia entre:
+∩ Intersección — filmes compartidos
+∪ Unión — todos os filmes combinados
+    </string>
+    <string name="submit">Enviar</string>
+    <string name="add">Engadir</string>
+    <string name="release_year_label">Ano de estrea:</string>
+    <string name="intersection_label">Intersección</string>
+    <string name="union_label">Unión</string>
+    <string name="error_connection_title">Conexión perdida</string>
+    <string name="error_connection_subtitle">Detectouse un erro de conexión. Comproba a túa conexión a internet e téntao de novo máis tarde.</string>
+    <string name="error_generic_title">Algo saíu mal!</string>
+    <string name="error_generic_subtitle">Tentouse obter un filme aleatorio, pero non foi posible. Téntao de novo.</string>
+    <string name="error_no_results_title">Non se atoparon resultados</string>
+    <string name="error_no_results_subtitle">Ningún filme coincide coa busca. Proba con outro.</string>
+</resources>
