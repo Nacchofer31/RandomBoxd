@@ -127,7 +127,7 @@ android {
 
     defaultConfig {
         applicationId = "com.nacchofer31.randomboxd"
-        versionName = "0.7.0"
+        versionName = "0.8.0"
         versionCode = 7
         minSdk =
             libs.versions.android.minSdk
@@ -180,6 +180,10 @@ dependencies {
     debugImplementation(compose.uiTooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     ksp(libs.room.compiler)
+    add("kspAndroid", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
+    add("kspIosX64", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
 }
 
 spotless {

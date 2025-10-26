@@ -6,15 +6,11 @@ import com.nacchofer31.randomboxd.app.RandomBoxdApp
 import com.nacchofer31.randomboxd.database.getUserNameDatabase
 import com.nacchofer31.randomboxd.di.initKoin
 
-fun mainViewController() =
+fun MainViewController() =
     ComposeUIViewController(
         configure = {
             initKoin()
         },
     ) {
-        val dao =
-            remember {
-                getUserNameDatabase().userNameDao()
-            }
-        RandomBoxdApp(dao)
+        RandomBoxdApp()
     }
