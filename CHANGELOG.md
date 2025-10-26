@@ -27,3 +27,5 @@
 ## 0.7.0
 - Added implementation of handling different response errors and `FilmErrorView` view.
 
+## 0.8.0
+- Added iOS config, icons and Launch screen.
