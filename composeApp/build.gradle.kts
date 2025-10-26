@@ -180,6 +180,10 @@ dependencies {
     debugImplementation(compose.uiTooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     ksp(libs.room.compiler)
+    add("kspAndroid", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
+    add("kspIosX64", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
 }
 
 spotless {
