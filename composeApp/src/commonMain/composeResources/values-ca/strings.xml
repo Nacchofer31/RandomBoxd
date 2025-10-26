@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">RandomBoxd</string>
+    <string name="enter_your_user_name">Introdueix el teu nom d'usuari</string>
+    <string name="enter_description">
+- Introdueix un nom d'usuari de Letterboxd per obtenir una pel·lícula aleatòria.
+- Toca les etiquetes desades per reutilitzar-les.
+- Mantén premuda una etiqueta, el botó Envia o els usuaris actius per gestionar cerques en grup.
+- Selecciona diversos usuaris i alterna entre:
+∩ Intersecció — pel·lícules compartides
+∪ Unió — totes les pel·lícules combinades
+    </string>
+    <string name="submit">Envia</string>
+    <string name="add">Afegeix</string>
+    <string name="release_year_label">Any d'estrena:</string>
+    <string name="intersection_label">Intersecció</string>
+    <string name="union_label">Unió</string>
+    <string name="error_connection_title">Connexió perduda</string>
+    <string name="error_connection_subtitle">S'ha detectat un error de connexió. Comprova la teva connexió a internet i intenta-ho de nou més tard.</string>
+    <string name="error_generic_title">S'ha produït un error!</string>
+    <string name="error_generic_subtitle">S'ha intentat obtenir una pel·lícula aleatòria, però no ha estat possible. Torna-ho a provar.</string>
+    <string name="error_no_results_title">No s'han trobat resultats</string>
+    <string name="error_no_results_subtitle">No hi ha cap pel·lícula que coincideixi amb la cerca. Prova amb una altra.</string>
+</resources>

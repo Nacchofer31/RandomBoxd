@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">RandomBoxd</string>
+    <string name="enter_your_user_name">Gib deinen Benutzernamen ein</string>
+    <string name="enter_description">
+- Gib einen Letterboxd-Benutzernamen ein, um einen zufälligen Film zu erhalten.
+- Tippe auf gespeicherte Tags, um sie wiederzuverwenden.
+- Halte Tags, die Senden-Schaltfläche oder aktive Benutzer gedrückt, um Gruppensuchen zu verwalten.
+- Wähle mehrere Benutzer aus und wechsle zwischen:
+∩ Schnittmenge — gemeinsame Filme
+∪ Vereinigung — alle kombinierten Filme
+    </string>
+    <string name="submit">Senden</string>
+    <string name="add">Hinzufügen</string>
+    <string name="release_year_label">Erscheinungsjahr:</string>
+    <string name="intersection_label">Schnittmenge</string>
+    <string name="union_label">Vereinigung</string>
+    <string name="error_connection_title">Verbindung verloren</string>
+    <string name="error_connection_subtitle">Verbindungsfehler erkannt. Bitte überprüfe deine Internetverbindung und versuche es später erneut.</string>
+    <string name="error_generic_title">Etwas ist schiefgelaufen!</string>
+    <string name="error_generic_subtitle">Es wurde versucht, einen zufälligen Film abzurufen, aber das war nicht möglich. Bitte versuche es erneut.</string>
+    <string name="error_no_results_title">Keine Ergebnisse gefunden</string>
+    <string name="error_no_results_subtitle">Kein Film entspricht der Suche. Bitte versuche es erneut.</string>
+</resources>
