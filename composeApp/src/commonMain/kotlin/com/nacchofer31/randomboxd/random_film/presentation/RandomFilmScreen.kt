@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.automirrored.outlined.LiveHelp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -87,7 +87,7 @@ fun RandomFilmScreen(
                         },
                     ) {
                         Icon(
-                            imageVector = Icons.Outlined.Info,
+                            imageVector = Icons.AutoMirrored.Outlined.LiveHelp,
                             contentDescription = "Info",
                             tint = RandomBoxdColors.White,
                             modifier = Modifier.size(24.dp),

@@ -110,7 +110,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
                 )
             viewModel.state.test {
                 viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
-                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick)
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick())
 
                 val idleState = awaitItem()
                 assertSame(false, idleState.isLoading)
@@ -137,7 +137,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
             )
             viewModel.state.test {
                 viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
-                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick)
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick())
 
                 val idleState = awaitItem()
                 assertSame(false, idleState.isLoading)
@@ -158,7 +158,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
             setUpWithResponse(defaultResponseData)
             viewModel.state.test {
                 viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
-                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick)
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick())
 
                 awaitItem()
                 awaitItem()
@@ -178,7 +178,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
             setUpWithResponse(defaultResponseData)
             viewModel.state.test {
                 viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
-                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick)
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick())
 
                 val idleState = awaitItem()
                 assertSame(false, idleState.isLoading)
@@ -189,7 +189,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
                 val successState = awaitItem()
                 assertNotNull(successState.resultFilm)
 
-                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick)
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick())
 
                 val newLoadingState = awaitItem()
                 assertSame(true, newLoadingState.isLoading)
