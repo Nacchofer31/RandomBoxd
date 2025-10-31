@@ -35,3 +35,7 @@
 
 ## 0.9.1
 - Set `resultFilm` to null when user clicks on `submit` button.
+
+## 1.0.0
+- First version of the application.
+- Added `v.1.0.0` tag.

@@ -127,8 +127,8 @@ android {
 
     defaultConfig {
         applicationId = "com.nacchofer31.randomboxd"
-        versionName = "0.9.1"
-        versionCode = 9
+        versionName = "1.0.0"
+        versionCode = 10
         minSdk =
             libs.versions.android.minSdk
                 .get()
@@ -137,8 +137,6 @@ android {
             libs.versions.android.targetSdk
                 .get()
                 .toInt()
-        versionCode = 1
-        versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
