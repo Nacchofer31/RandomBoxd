@@ -31,4 +31,7 @@
 - Added iOS config, icons and Launch screen.
 
 ## 0.9.0
-- Added app localizations
+- Added app localizations.
+
+## 0.9.1
+- Set `resultFilm` to null when user clicks on `submit` button.

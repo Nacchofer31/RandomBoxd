@@ -73,7 +73,9 @@ class RandomFilmViewModel(
                         }
                     emit(result)
                 }.onStart {
-                    internalState.update { it.copy(isLoading = true, resultError = null) }
+                    internalState.update { state ->
+                        state.copy(isLoading = true, resultError = null, resultFilm = null)
+                    }
                 }.flowOn(dispatchers.main)
             }.onEach { result ->
                 internalState.update { current ->
