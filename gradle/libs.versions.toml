@@ -17,7 +17,7 @@ navigationCompose = "2.9.0"
 kotlinSerialization = "1.9.0"
 
 # Ktor
-ktor = "3.2.3"
+ktor = "3.3.3"
 
 # Coil
 coil3 = "3.3.0"
