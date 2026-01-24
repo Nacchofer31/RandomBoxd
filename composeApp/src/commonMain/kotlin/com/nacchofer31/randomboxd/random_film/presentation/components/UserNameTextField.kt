@@ -1,5 +1,6 @@
 package com.nacchofer31.randomboxd.random_film.presentation.components
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
@@ -8,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -46,6 +48,7 @@ fun UserNameTextField(
             Text(
                 hint ?: stringResource(Res.string.enter_your_user_name),
                 maxLines = 1,
+                color = RandomBoxdColors.BackgroundLightColor,
                 overflow = TextOverflow.Ellipsis,
             )
         },
@@ -55,6 +58,10 @@ fun UserNameTextField(
             TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
+                unfocusedContainerColor = RandomBoxdColors.TextFieldBackgroundColor,
+                focusedContainerColor = RandomBoxdColors.TextFieldBackgroundColor,
+                unfocusedTextColor = RandomBoxdColors.White,
+                focusedTextColor = RandomBoxdColors.White,
                 selectionColors =
                     TextSelectionColors(
                         handleColor = RandomBoxdColors.OrangeAccent,
@@ -67,11 +74,20 @@ fun UserNameTextField(
                 {
                     IconButton(
                         onClick = onRemoveButtonClick,
-                        modifier = Modifier.testTag("test-random-film-user-name-text-field-clear-button"),
+                        colors =
+                            IconButtonDefaults.iconButtonColors(
+                                containerColor = RandomBoxdColors.BackgroundColor,
+                            ),
+                        modifier =
+                            Modifier
+                                .testTag("test-random-film-user-name-text-field-clear-button")
+                                .size(20.dp),
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Close,
+                            modifier = Modifier.size(14.dp),
                             contentDescription = null,
+                            tint = RandomBoxdColors.BackgroundLightColor,
                         )
                     }
                 }

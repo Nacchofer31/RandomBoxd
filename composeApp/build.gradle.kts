@@ -40,7 +40,7 @@ kotlin {
     sourceSets {
 
         androidMain.dependencies {
-            implementation(compose.preview)
+            implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.0")
             implementation(libs.androidx.activity.compose)
 
             // splash
@@ -56,13 +56,13 @@ kotlin {
             implementation(libs.room.runtime.android)
         }
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.materialIconsExtended)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+            implementation("org.jetbrains.compose.runtime:runtime:1.10.0")
+            implementation("org.jetbrains.compose.foundation:foundation:1.10.0")
+            implementation("org.jetbrains.compose.material3:material3:1.9.0")
+            implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
+            implementation("org.jetbrains.compose.ui:ui:1.10.0")
+            implementation("org.jetbrains.compose.components:components-resources:1.10.0")
+            implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.0")
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(kotlin("reflect"))
@@ -97,13 +97,12 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
         commonTest.dependencies {
+            implementation("org.jetbrains.compose.ui:ui-test:1.10.0")
             implementation(libs.junit)
             implementation(libs.androidx.junit)
             implementation(libs.androidx.ui.test.junit4)
             implementation(libs.androidx.espresso.core)
             implementation(libs.kotlin.test)
-            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-            implementation(compose.uiTest)
             implementation(libs.ktor.client.mock)
             implementation(libs.assertk)
             implementation(libs.turbine)
@@ -175,9 +174,8 @@ dependencies {
     implementation(libs.room.runtime.android)
     debugImplementation(libs.androidx.ui.test.junit4.android)
     debugImplementation(libs.androidx.ui.test.android)
-    debugImplementation(compose.uiTooling)
+    debugImplementation("org.jetbrains.compose.ui:ui-tooling:1.10.0")
     debugImplementation(libs.androidx.ui.test.manifest)
-    ksp(libs.room.compiler)
     add("kspAndroid", libs.room.compiler)
     add("kspIosSimulatorArm64", libs.room.compiler)
     add("kspIosX64", libs.room.compiler)

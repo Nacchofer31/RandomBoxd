@@ -83,7 +83,7 @@ fun RandomBoxdLoadingViewDice(
     Canvas(
         modifier =
             Modifier
-                .size(32.dp)
+                .size(56.dp)
                 .offset(y = offset.dp),
     ) {
         rotate(rotation) {

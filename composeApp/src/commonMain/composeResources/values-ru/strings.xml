@@ -1,14 +1,7 @@
 <resources>
     <string name="app_name">RandomBoxd</string>
     <string name="enter_your_user_name">Введите имя пользователя</string>
-    <string name="enter_description">
-- Введите имя пользователя Letterboxd, чтобы получить случайный фильм.
-- Нажмите на сохранённые теги, чтобы использовать их снова.
-- Долгое нажатие на теги, кнопку «Отправить» или активных пользователей позволяет управлять групповыми поисками.
-- Выберите нескольких пользователей и переключайтесь между:
-∩ Пересечение — общие фильмы
-∪ Объединение — все объединённые фильмы
-    </string>
+    <string name="enter_description">Введите имя пользователя Letterboxd, чтобы получить случайный фильм из его списка просмотра или любого пользовательского списка.</string>
     <string name="submit">Отправить</string>
     <string name="add">Добавить</string>
     <string name="release_year_label">Год выпуска:</string>
@@ -20,4 +13,7 @@
     <string name="error_generic_subtitle">Не удалось получить случайный фильм. Повторите попытку.</string>
     <string name="error_no_results_title">Результаты не найдены</string>
     <string name="error_no_results_subtitle">Фильмы, соответствующие запросу, не найдены. Попробуйте другой.</string>
+    <string name="ready_to_spin">Готовы крутить?</string>
+    <string name="tip_username_format">Попробуйте: имя_пользователя или имя_пользователя/название_списка</string>
+    <string name="tip_hold_submit">Введите имя пользователя Letterboxd, чтобы получить случайный фильм из его списка просмотра или любого пользовательского списка.</string>
 </resources>

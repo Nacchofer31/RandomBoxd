@@ -1,14 +1,7 @@
 <resources>
     <string name="app_name">RandomBoxd</string>
     <string name="enter_your_user_name">Enter your username</string>
-    <string name="enter_description">
-- Enter a Letterboxd username to get a random movie.
-- Tap saved tags to reuse them.
-- Long-press tags, the Submit button, or active users to manage group searches.
-- Select multiple users and switch between:
-∩ Intersection — shared movies
-∪ Union — all combined movies
-</string>
+    <string name="enter_description">Enter a Letterboxd username to get a random movie from their watchlist or any custom list.</string>
     <string name="submit">Submit</string>
     <string name="add">Add</string>
     <string name="release_year_label">Release year:</string>
@@ -20,4 +13,7 @@
     <string name="error_generic_subtitle">An attempt was made to fetch a random movie, but it was not possible. Please try again.</string>
     <string name="error_no_results_title">No results found</string>
     <string name="error_no_results_subtitle">No movie matches the search. Please try again with another one.</string>
+    <string name="ready_to_spin">Ready to spin?</string>
+    <string name="tip_username_format">Try: username or username/list-name</string>
+    <string name="tip_hold_submit">Long-press Submit or tags for multi-user mode</string>
 </resources>

@@ -1,14 +1,7 @@
 <resources>
     <string name="app_name">RandomBoxd</string>
     <string name="enter_your_user_name">Entrez votre nom d’utilisateur</string>
-    <string name="enter_description">
-- Entrez un nom d’utilisateur Letterboxd pour obtenir un film aléatoire.
-- Touchez les étiquettes enregistrées pour les réutiliser.
-- Appuyez longuement sur les étiquettes, le bouton Envoyer ou les utilisateurs actifs pour gérer les recherches de groupe.
-- Sélectionnez plusieurs utilisateurs et passez entre :
-∩ Intersection — films partagés
-∪ Union — tous les films combinés
-    </string>
+    <string name="enter_description">Entrez un nom d’utilisateur Letterboxd pour obtenir un film aléatoire depuis sa liste de suivi ou n’importe quelle liste personnalisée.</string>
     <string name="submit">Envoyer</string>
     <string name="add">Ajouter</string>
     <string name="release_year_label">Année de sortie :</string>
@@ -20,4 +13,7 @@
     <string name="error_generic_subtitle">Impossible d’obtenir un film aléatoire. Veuillez réessayer.</string>
     <string name="error_no_results_title">Aucun résultat trouvé</string>
     <string name="error_no_results_subtitle">Aucun film ne correspond à la recherche. Essayez avec un autre.</string>
+    <string name="ready_to_spin">Prêt à tourner ?</string>
+    <string name="tip_username_format">Essayez : utilisateur ou utilisateur/nom-liste</string>
+    <string name="tip_hold_submit">Appuyez longuement sur Envoyer ou sur les tags pour le mode multi-utilisateur</string>
 </resources>

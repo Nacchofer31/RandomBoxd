@@ -16,8 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
+import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import org.jetbrains.compose.resources.stringResource
 import randomboxd.composeapp.generated.resources.Res
@@ -30,6 +33,7 @@ internal fun ActionRow(
     isLoading: Boolean,
     focusManager: FocusManager,
     onAction: (RandomFilmAction) -> Unit,
+    filmSearchMode: FilmSearchMode?,
     onUserNameChange: (String) -> Unit,
 ) = Row(
     horizontalArrangement = Arrangement.Center,
@@ -37,7 +41,16 @@ internal fun ActionRow(
 ) {
     UserNameTextField(
         value = userName,
-        hint = if (userNameSearchList.isNotEmpty()) userNameSearchList.joinToString(", ") else null,
+        hint =
+            if (userNameSearchList.isNotEmpty()) {
+                if (userNameSearchList.size > 1) {
+                    userNameSearchList.joinToString(if (filmSearchMode == FilmSearchMode.INTERSECTION) " ∩ " else " ∪ ")
+                } else {
+                    userNameSearchList.first()
+                }
+            } else {
+                null
+            },
         onChange = onUserNameChange,
         onRemoveButtonClick = {
             onUserNameChange("")
@@ -73,14 +86,25 @@ internal fun ActionRow(
                         }
                     },
                 ),
-        color = if (enabled) RandomBoxdColors.BackgroundLightColor else Color.Gray,
+        color =
+            if (enabled) {
+                if (userNameSearchList.isNotEmpty() && filmSearchMode == FilmSearchMode.UNION) {
+                    RandomBoxdColors.OrangeAccent
+                } else {
+                    RandomBoxdColors.GreenAccent
+                }
+            } else {
+                Color(0xff2a3a40)
+            },
         shape = RoundedCornerShape(topEnd = 10.dp, bottomEnd = 10.dp),
     ) {
         Box(contentAlignment = Alignment.Center) {
             Text(
                 stringResource(Res.string.submit).uppercase(),
-                color = Color.White,
+                color = if (enabled) RandomBoxdColors.BackgroundColor else Color(0xff556677),
                 maxLines = 1,
+                fontWeight = FontWeight.Bold,
+                fontSize = 15.sp,
                 modifier = Modifier.padding(horizontal = 15.dp),
             )
         }
