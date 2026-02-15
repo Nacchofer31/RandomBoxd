@@ -1,14 +1,7 @@
 <resources>
     <string name="app_name">RandomBoxd</string>
     <string name="enter_your_user_name">Gib deinen Benutzernamen ein</string>
-    <string name="enter_description">
-- Gib einen Letterboxd-Benutzernamen ein, um einen zufälligen Film zu erhalten.
-- Tippe auf gespeicherte Tags, um sie wiederzuverwenden.
-- Halte Tags, die Senden-Schaltfläche oder aktive Benutzer gedrückt, um Gruppensuchen zu verwalten.
-- Wähle mehrere Benutzer aus und wechsle zwischen:
-∩ Schnittmenge — gemeinsame Filme
-∪ Vereinigung — alle kombinierten Filme
-    </string>
+    <string name="enter_description">Gib einen Letterboxd-Benutzernamen ein, um einen zufälligen Film aus der Watchlist oder einer</string>
     <string name="submit">Senden</string>
     <string name="add">Hinzufügen</string>
     <string name="release_year_label">Erscheinungsjahr:</string>
@@ -20,4 +13,7 @@
     <string name="error_generic_subtitle">Es wurde versucht, einen zufälligen Film abzurufen, aber das war nicht möglich. Bitte versuche es erneut.</string>
     <string name="error_no_results_title">Keine Ergebnisse gefunden</string>
     <string name="error_no_results_subtitle">Kein Film entspricht der Suche. Bitte versuche es erneut.</string>
+    <string name="ready_to_spin">Bereit zum Drehen?</string>
+    <string name="tip_username_format">Versuche: Benutzername oder Benutzername/Listenname</string>
+    <string name="tip_hold_submit">Gedrückt halten auf „Senden“ oder Tags für den Mehrbenutzermodus</string>
 </resources>

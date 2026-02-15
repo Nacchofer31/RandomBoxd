@@ -5,6 +5,11 @@ object RandomBoxdEndpoints {
 
     fun getUserNameWatchlist(userName: String): String = "https://letterboxd.com/$userName/watchlist"
 
+    fun getUserNameFromList(
+        userName: String,
+        listName: String,
+    ): String = "https://letterboxd.com/$userName/list/$listName"
+
     fun filmSlugUrl(slug: String): String = "https://letterboxd.com/film/$slug/"
 
     fun filmPosterUrl(

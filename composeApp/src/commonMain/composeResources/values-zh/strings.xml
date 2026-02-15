@@ -1,14 +1,7 @@
 <resources>
     <string name="app_name">随机电影盒</string>
     <string name="enter_your_user_name">请输入您的用户名</string>
-    <string name="enter_description">
-- 输入一个 Letterboxd 用户名以获取随机电影。
-- 点击已保存的标签以重复使用。
-- 长按标签、提交按钮或活跃用户以管理群组搜索。
-- 选择多个用户并切换：
-∩ 交集 — 共同的电影
-∪ 并集 — 所有合并的电影
-    </string>
+    <string name="enter_description">输入一个 Letterboxd 用户名，即可从其想看列表或任意自定义列表中随机获取一部电影。</string>
     <string name="submit">提交</string>
     <string name="add">添加</string>
     <string name="release_year_label">上映年份：</string>
@@ -20,4 +13,7 @@
     <string name="error_generic_subtitle">尝试获取随机电影失败，请重试。</string>
     <string name="error_no_results_title">未找到结果</string>
     <string name="error_no_results_subtitle">没有符合搜索条件的电影。请尝试其他搜索。</string>
+    <string name="ready_to_spin">准备好转动了吗？</string>
+    <string name="tip_username_format">尝试：用户名 或 用户名/列表名</string>
+    <string name="tip_hold_submit">长按“提交”或标签以启用多用户模式</string>
 </resources>

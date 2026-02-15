@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,14 +45,17 @@ internal fun FilmErrorView(
         stringResource(error.title()).uppercase(),
         color = RandomBoxdColors.White,
         textAlign = TextAlign.Center,
-        fontSize = 20.sp,
+        fontSize = 26.sp,
+        fontWeight = FontWeight.Bold,
         modifier = Modifier.fillMaxWidth(),
     )
+    Spacer(modifier = Modifier.height(5.dp))
     Text(
         stringResource(error.subtitle()),
         color = RandomBoxdColors.BackgroundLightColor,
         textAlign = TextAlign.Center,
         fontSize = 18.sp,
+        fontWeight = FontWeight.SemiBold,
         modifier = Modifier.fillMaxWidth(),
     )
 }

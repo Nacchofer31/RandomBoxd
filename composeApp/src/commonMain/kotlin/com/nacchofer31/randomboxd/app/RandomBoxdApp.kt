@@ -14,11 +14,9 @@ import androidx.navigation.compose.rememberNavController
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdTypography
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreenRoot
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-@Preview
 internal fun RandomBoxdApp() {
     MaterialTheme(
         typography = RandomBoxdTypography(),

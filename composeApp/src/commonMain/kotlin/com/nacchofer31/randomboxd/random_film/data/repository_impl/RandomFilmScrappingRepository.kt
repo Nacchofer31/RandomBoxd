@@ -30,6 +30,7 @@ class RandomFilmScrappingRepository(
         const val FILM_YEAR_REGEX = "\\((\\d{4})\\)"
         const val FILM_NAME_REGEX = "\\s*\\(\\d{4}\\)"
         const val FILM_POSTER_QUERY = "li.griditem > div.react-component[data-film-id]"
+        const val FILM_POSTER_LIST_QUERY = "li.posteritem > div.react-component[data-film-id]"
         const val FILM_SCRIPT_QUERY = """script[type="application/ld+json"]"""
     }
 
@@ -89,7 +90,22 @@ class RandomFilmScrappingRepository(
         }
 
     private suspend fun getFilmsFromUserWatchlist(userName: String): ResultData<List<Film>, DataError.Remote> {
-        val baseUrl = RandomBoxdEndpoints.getUserNameWatchlist(userName)
+        var baseUrl = ""
+        var isWatchList = true
+        if (userName.contains("/")) {
+            isWatchList = false
+            val textParts = userName.split("/")
+
+            if (textParts.size == 2 && textParts[0].isNotBlank() && textParts[1].isNotBlank()) {
+                val userName = textParts[0]
+                val listName = textParts[1]
+
+                baseUrl = RandomBoxdEndpoints.getUserNameFromList(userName, listName)
+            }
+        } else {
+            baseUrl = RandomBoxdEndpoints.getUserNameWatchlist(userName)
+        }
+
         val totalPages = getTotalPages(baseUrl)
 
         val films = mutableListOf<Film>()
@@ -103,7 +119,7 @@ class RandomFilmScrappingRepository(
                 }
 
             val doc = Ksoup.parse(html)
-            val posters = doc.select(FILM_POSTER_QUERY)
+            val posters = doc.select(if (isWatchList) FILM_POSTER_QUERY else FILM_POSTER_LIST_QUERY)
 
             posters.forEach { poster ->
                 val slug = poster.attr(DATA_ITEM_SLUG)

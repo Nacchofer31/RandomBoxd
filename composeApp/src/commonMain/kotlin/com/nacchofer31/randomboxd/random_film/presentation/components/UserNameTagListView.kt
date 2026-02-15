@@ -23,6 +23,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
@@ -73,7 +74,7 @@ fun UserNameTag(
                     } else {
                         RandomBoxdColors.OrangeAccent
                     },
-                    shape = RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(18.dp),
                 ).padding(horizontal = 12.dp, vertical = 6.dp)
                 .combinedClickable(
                     onClick = { onAction(RandomFilmAction.OnUserNameChanged(userName.username)) },
@@ -83,8 +84,14 @@ fun UserNameTag(
     ) {
         Text(
             text = userName.username,
-            color = RandomBoxdColors.White,
+            color =
+                if (!isIncludedInSearchList) {
+                    RandomBoxdColors.White
+                } else {
+                    RandomBoxdColors.Black
+                },
             style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.SemiBold,
         )
 
         Spacer(modifier = Modifier.width(8.dp))
@@ -92,7 +99,12 @@ fun UserNameTag(
         Icon(
             imageVector = Icons.Outlined.Close,
             contentDescription = "Remove",
-            tint = RandomBoxdColors.White,
+            tint =
+                if (!isIncludedInSearchList) {
+                    RandomBoxdColors.White
+                } else {
+                    RandomBoxdColors.Black
+                },
             modifier =
                 Modifier
                     .size(18.dp)

@@ -1,14 +1,7 @@
 <resources>
     <string name="app_name">ランダムボックスド</string>
     <string name="enter_your_user_name">ユーザー名を入力してください</string>
-    <string name="enter_description">
-- Letterboxdのユーザー名を入力してランダムな映画を取得します。
-- 保存されたタグをタップして再利用します。
-- タグ、送信ボタン、またはアクティブなユーザーを長押ししてグループ検索を管理します。
-- 複数のユーザーを選択して次を切り替えます：
-∩ 共通 — 共有されている映画
-∪ 結合 — すべての映画を結合
-    </string>
+    <string name="enter_description">Letterboxdのユーザー名を入力すると、ウォッチリストまたはカスタムリストからランダムな映画を取得できます。</string>
     <string name="submit">送信</string>
     <string name="add">追加</string>
     <string name="release_year_label">公開年：</string>
@@ -20,4 +13,7 @@
     <string name="error_generic_subtitle">ランダム映画を取得できませんでした。再度お試しください。</string>
     <string name="error_no_results_title">結果が見つかりません</string>
     <string name="error_no_results_subtitle">検索に一致する映画はありません。別の検索をお試しください。</string>
+    <string name="ready_to_spin">回す準備はいい？</string>
+    <string name="tip_username_format">試す：ユーザー名 または ユーザー名/リスト名</string>
+    <string name="tip_hold_submit">マルチユーザーモードにするには、送信またはタグを長押ししてください</string>
 </resources>

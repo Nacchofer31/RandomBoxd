@@ -1,14 +1,7 @@
 <resources>
     <string name="app_name">RandomBoxd</string>
     <string name="enter_your_user_name">Inserisci il tuo nome utente</string>
-    <string name="enter_description">
-- Inserisci un nome utente di Letterboxd per ottenere un film casuale.
-- Tocca i tag salvati per riutilizzarli.
-- Premi a lungo sui tag, sul pulsante Invia o sugli utenti attivi per gestire le ricerche di gruppo.
-- Seleziona più utenti e passa tra:
-∩ Intersezione — film condivisi
-∪ Unione — tutti i film combinati
-    </string>
+    <string name="enter_description">Inserisci un nome utente di Letterboxd per ottenere un film casuale dalla sua watchlist o da qualsiasi lista personalizzata.</string>
     <string name="submit">Invia</string>
     <string name="add">Aggiungi</string>
     <string name="release_year_label">Anno di uscita:</string>
@@ -20,4 +13,7 @@
     <string name="error_generic_subtitle">È stato tentato di ottenere un film casuale, ma non è stato possibile. Riprova.</string>
     <string name="error_no_results_title">Nessun risultato trovato</string>
     <string name="error_no_results_subtitle">Nessun film corrisponde alla ricerca. Prova con un altro.</string>
+    <string name="ready_to_spin">Pronto a girare?</string>
+    <string name="tip_username_format">Prova: utente o utente/nome-lista</string>
+    <string name="tip_hold_submit">Tieni premuto Invia o i tag per la modalità multiutente</string>
 </resources>

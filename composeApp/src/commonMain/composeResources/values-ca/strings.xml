@@ -1,14 +1,7 @@
 <resources>
     <string name="app_name">RandomBoxd</string>
     <string name="enter_your_user_name">Introdueix el teu nom d'usuari</string>
-    <string name="enter_description">
-- Introdueix un nom d'usuari de Letterboxd per obtenir una pel·lícula aleatòria.
-- Toca les etiquetes desades per reutilitzar-les.
-- Mantén premuda una etiqueta, el botó Envia o els usuaris actius per gestionar cerques en grup.
-- Selecciona diversos usuaris i alterna entre:
-∩ Intersecció — pel·lícules compartides
-∪ Unió — totes les pel·lícules combinades
-    </string>
+    <string name="enter_description">Introdueix un nom d’usuari de Letterboxd per obtenir una pel·lícula aleatòria de la seva llista de seguiment o de qualsevol llista personalitzada.</string>
     <string name="submit">Envia</string>
     <string name="add">Afegeix</string>
     <string name="release_year_label">Any d'estrena:</string>
@@ -20,4 +13,7 @@
     <string name="error_generic_subtitle">S'ha intentat obtenir una pel·lícula aleatòria, però no ha estat possible. Torna-ho a provar.</string>
     <string name="error_no_results_title">No s'han trobat resultats</string>
     <string name="error_no_results_subtitle">No hi ha cap pel·lícula que coincideixi amb la cerca. Prova amb una altra.</string>
+    <string name="ready_to_spin">Preparat per girar?</string>
+    <string name="tip_username_format">Prova: usuari o usuari/nom-llista</string>
+    <string name="tip_hold_submit">Mantén premut Envia o les etiquetes per al mode multiusuari</string>
 </resources>
