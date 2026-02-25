@@ -15,5 +15,25 @@
     <string name="error_no_results_subtitle">没有符合搜索条件的电影。请尝试其他搜索。</string>
     <string name="ready_to_spin">准备好转动了吗？</string>
     <string name="tip_username_format">尝试：用户名 或 用户名/列表名</string>
-    <string name="tip_hold_submit">长按“提交”或标签以启用多用户模式</string>
+    <string name="tip_hold_submit">长按"提交"或标签以启用多用户模式</string>
+    <string name="onboarding_welcome_title">RandomBoxd</string>
+    <string name="onboarding_welcome_subtitle">再也不用为选电影而烦恼</string>
+    <string name="onboarding_welcome_description">从您的 Letterboxd 想看列表和自定义列表中获取随机电影建议。非常适合电影之夜！</string>
+    <string name="onboarding_feature_random">随机电影选择</string>
+    <string name="onboarding_feature_multi_user">合并多个用户</string>
+    <string name="onboarding_feature_deeplink">直接链接到 Letterboxd</string>
+    <string name="onboarding_random_title">随机选择</string>
+    <string name="onboarding_random_subtitle">输入您的 Letterboxd 用户名，即可从想看列表或任何自定义列表中即时获取随机电影。</string>
+    <string name="onboarding_search_title">搜索和标签</string>
+    <string name="onboarding_search_subtitle">搜索任何用户的列表或自定义列表。您之前的搜索将保存为快速访问标签。</string>
+    <string name="onboarding_search_feature1">保存用户名以便快速重复使用</string>
+    <string name="onboarding_search_feature2">访问任何 Letterboxd 自定义列表</string>
+    <string name="onboarding_multiuser_title">多用户模式</string>
+    <string name="onboarding_multiuser_subtitle">合并多个用户的想看列表。查找共同电影（交集）或从所有合并列表中选择（并集）。</string>
+    <string name="onboarding_multiuser_feature1">仅共同电影</string>
+    <string name="onboarding_multiuser_feature2">所有电影合并</string>
+    <string name="onboarding_multiuser_feature3">长按提交或选择标签</string>
+    <string name="onboarding_get_started">开始使用</string>
+    <string name="onboarding_next">下一步</string>
+    <string name="onboarding_start_exploring">开始探索</string>
 </resources>

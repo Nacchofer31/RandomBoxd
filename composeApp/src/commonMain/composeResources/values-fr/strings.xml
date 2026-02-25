@@ -16,4 +16,24 @@
     <string name="ready_to_spin">Prêt à tourner ?</string>
     <string name="tip_username_format">Essayez : utilisateur ou utilisateur/nom-liste</string>
     <string name="tip_hold_submit">Appuyez longuement sur Envoyer ou sur les tags pour le mode multi-utilisateur</string>
+    <string name="onboarding_welcome_title">RandomBoxd</string>
+    <string name="onboarding_welcome_subtitle">Ne galérez plus jamais pour choisir un film</string>
+    <string name="onboarding_welcome_description">Obtenez des suggestions de films aléatoires depuis vos listes de suivi et listes personnalisées Letterboxd. Parfait pour les soirées cinéma !</string>
+    <string name="onboarding_feature_random">Sélection aléatoire de films</string>
+    <string name="onboarding_feature_multi_user">Combiner plusieurs utilisateurs</string>
+    <string name="onboarding_feature_deeplink">Lien direct vers Letterboxd</string>
+    <string name="onboarding_random_title">Sélection aléatoire</string>
+    <string name="onboarding_random_subtitle">Entrez votre nom d\'utilisateur Letterboxd et obtenez un film aléatoire de votre liste de suivi ou de n\'importe quelle liste personnalisée instantanément.</string>
+    <string name="onboarding_search_title">Recherche &amp; Tags</string>
+    <string name="onboarding_search_subtitle">Recherchez la liste de n\'importe quel utilisateur ou liste personnalisée. Vos recherches précédentes sont sauvegardées comme tags d\'accès rapide.</string>
+    <string name="onboarding_search_feature1">Sauvegarder les noms d\'utilisateur pour réutilisation</string>
+    <string name="onboarding_search_feature2">Accéder à toute liste personnalisée Letterboxd</string>
+    <string name="onboarding_multiuser_title">Mode multi-utilisateur</string>
+    <string name="onboarding_multiuser_subtitle">Combinez les listes de suivi de plusieurs utilisateurs. Trouvez les films communs (Intersection) ou choisissez parmi toutes les listes combinées (Union).</string>
+    <string name="onboarding_multiuser_feature1">Films partagés uniquement</string>
+    <string name="onboarding_multiuser_feature2">Tous les films combinés</string>
+    <string name="onboarding_multiuser_feature3">Maintenez Envoyer ou sélectionnez des tags</string>
+    <string name="onboarding_get_started">Commencer</string>
+    <string name="onboarding_next">Suivant</string>
+    <string name="onboarding_start_exploring">Commencer à explorer</string>
 </resources>

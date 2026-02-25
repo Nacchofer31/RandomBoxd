@@ -16,4 +16,24 @@
     <string name="ready_to_spin">Pronto para girar?</string>
     <string name="tip_username_format">Tente: usuário ou usuário/nome-lista</string>
     <string name="tip_hold_submit">Pressione e segure Enviar ou as tags para o modo multiusuário</string>
+    <string name="onboarding_welcome_title">RandomBoxd</string>
+    <string name="onboarding_welcome_subtitle">Nunca mais tenha dificuldade em escolher um filme</string>
+    <string name="onboarding_welcome_description">Receba sugestões aleatórias de filmes das suas listas de observação e listas personalizadas do Letterboxd. Perfeito para noites de cinema!</string>
+    <string name="onboarding_feature_random">Seleção aleatória de filmes</string>
+    <string name="onboarding_feature_multi_user">Combinar vários usuários</string>
+    <string name="onboarding_feature_deeplink">Link direto para o Letterboxd</string>
+    <string name="onboarding_random_title">Seleção aleatória</string>
+    <string name="onboarding_random_subtitle">Insira seu nome de usuário do Letterboxd e obtenha um filme aleatório da sua lista de observação ou de qualquer lista personalizada instantaneamente.</string>
+    <string name="onboarding_search_title">Pesquisa &amp; Tags</string>
+    <string name="onboarding_search_subtitle">Pesquise a lista de qualquer usuário ou lista personalizada. Suas pesquisas anteriores são salvas como tags de acesso rápido.</string>
+    <string name="onboarding_search_feature1">Salvar nomes de usuário para reutilização rápida</string>
+    <string name="onboarding_search_feature2">Acessar qualquer lista personalizada do Letterboxd</string>
+    <string name="onboarding_multiuser_title">Modo multiusuário</string>
+    <string name="onboarding_multiuser_subtitle">Combine listas de observação de vários usuários. Encontre filmes compartilhados (Interseção) ou escolha de todas as listas combinadas (União).</string>
+    <string name="onboarding_multiuser_feature1">Apenas filmes compartilhados</string>
+    <string name="onboarding_multiuser_feature2">Todos os filmes combinados</string>
+    <string name="onboarding_multiuser_feature3">Segure Enviar ou selecione tags</string>
+    <string name="onboarding_get_started">Começar</string>
+    <string name="onboarding_next">Próximo</string>
+    <string name="onboarding_start_exploring">Começar a explorar</string>
 </resources>

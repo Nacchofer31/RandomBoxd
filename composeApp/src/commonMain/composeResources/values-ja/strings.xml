@@ -16,4 +16,24 @@
     <string name="ready_to_spin">回す準備はいい？</string>
     <string name="tip_username_format">試す：ユーザー名 または ユーザー名/リスト名</string>
     <string name="tip_hold_submit">マルチユーザーモードにするには、送信またはタグを長押ししてください</string>
+    <string name="onboarding_welcome_title">RandomBoxd</string>
+    <string name="onboarding_welcome_subtitle">もう映画選びに迷わない</string>
+    <string name="onboarding_welcome_description">Letterboxdのウォッチリストやカスタムリストからランダムな映画を提案します。映画の夜にぴったり！</string>
+    <string name="onboarding_feature_random">ランダム映画選択</string>
+    <string name="onboarding_feature_multi_user">複数ユーザーの結合</string>
+    <string name="onboarding_feature_deeplink">Letterboxdへのディープリンク</string>
+    <string name="onboarding_random_title">ランダム選択</string>
+    <string name="onboarding_random_subtitle">Letterboxdのユーザー名を入力すると、ウォッチリストやカスタムリストからランダムな映画を即座に取得できます。</string>
+    <string name="onboarding_search_title">検索とタグ</string>
+    <string name="onboarding_search_subtitle">任意のユーザーのリストやカスタムリストを検索。以前の検索はクイックアクセスタグとして保存されます。</string>
+    <string name="onboarding_search_feature1">ユーザー名を保存して素早く再利用</string>
+    <string name="onboarding_search_feature2">Letterboxdのカスタムリストにアクセス</string>
+    <string name="onboarding_multiuser_title">マルチユーザーモード</string>
+    <string name="onboarding_multiuser_subtitle">複数ユーザーのウォッチリストを結合。共通の映画を見つける（共通）か、すべての結合リストから選ぶ（結合）。</string>
+    <string name="onboarding_multiuser_feature1">共通の映画のみ</string>
+    <string name="onboarding_multiuser_feature2">すべての映画を結合</string>
+    <string name="onboarding_multiuser_feature3">送信を長押しまたはタグを選択</string>
+    <string name="onboarding_get_started">始めましょう</string>
+    <string name="onboarding_next">次へ</string>
+    <string name="onboarding_start_exploring">探索を始める</string>
 </resources>

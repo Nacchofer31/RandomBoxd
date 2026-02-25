@@ -16,4 +16,24 @@
     <string name="ready_to_spin">Ready to spin?</string>
     <string name="tip_username_format">Try: username or username/list-name</string>
     <string name="tip_hold_submit">Long-press Submit or tags for multi-user mode</string>
+    <string name="onboarding_welcome_title">RandomBoxd</string>
+    <string name="onboarding_welcome_subtitle">Never struggle to pick a movie again</string>
+    <string name="onboarding_welcome_description">Get random movie suggestions from your Letterboxd watchlists and custom lists. Perfect for movie nights!</string>
+    <string name="onboarding_feature_random">Random movie selection</string>
+    <string name="onboarding_feature_multi_user">Combine multiple users</string>
+    <string name="onboarding_feature_deeplink">Deep link to Letterboxd</string>
+    <string name="onboarding_random_title">Random Selection</string>
+    <string name="onboarding_random_subtitle">Enter your Letterboxd username and get a random movie from your watchlist or any custom list instantly.</string>
+    <string name="onboarding_search_title">Search &amp; Tags</string>
+    <string name="onboarding_search_subtitle">Search for any user\'s list or custom list. Your previous searches are saved as quick-access tags.</string>
+    <string name="onboarding_search_feature1">Save usernames for quick reuse</string>
+    <string name="onboarding_search_feature2">Access any custom Letterboxd list</string>
+    <string name="onboarding_multiuser_title">Multi-User Mode</string>
+    <string name="onboarding_multiuser_subtitle">Combine watchlists from multiple users. Find shared movies (Intersection) or pick from all combined lists (Union).</string>
+    <string name="onboarding_multiuser_feature1">Shared movies only</string>
+    <string name="onboarding_multiuser_feature2">All movies combined</string>
+    <string name="onboarding_multiuser_feature3">Hold Submit or select tags</string>
+    <string name="onboarding_get_started">Get Started</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_start_exploring">Start Exploring</string>
 </resources>
