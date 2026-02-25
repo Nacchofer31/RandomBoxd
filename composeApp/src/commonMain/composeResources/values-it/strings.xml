@@ -16,4 +16,24 @@
     <string name="ready_to_spin">Pronto a girare?</string>
     <string name="tip_username_format">Prova: utente o utente/nome-lista</string>
     <string name="tip_hold_submit">Tieni premuto Invia o i tag per la modalità multiutente</string>
+    <string name="onboarding_welcome_title">RandomBoxd</string>
+    <string name="onboarding_welcome_subtitle">Non avrai più difficoltà a scegliere un film</string>
+    <string name="onboarding_welcome_description">Ottieni suggerimenti casuali di film dalle tue liste di visione e liste personalizzate di Letterboxd. Perfetto per le serate cinema!</string>
+    <string name="onboarding_feature_random">Selezione casuale di film</string>
+    <string name="onboarding_feature_multi_user">Combina più utenti</string>
+    <string name="onboarding_feature_deeplink">Link diretto a Letterboxd</string>
+    <string name="onboarding_random_title">Selezione casuale</string>
+    <string name="onboarding_random_subtitle">Inserisci il tuo nome utente Letterboxd e ottieni un film casuale dalla tua lista di visione o da qualsiasi lista personalizzata istantaneamente.</string>
+    <string name="onboarding_search_title">Ricerca &amp; Tag</string>
+    <string name="onboarding_search_subtitle">Cerca la lista di qualsiasi utente o lista personalizzata. Le tue ricerche precedenti vengono salvate come tag di accesso rapido.</string>
+    <string name="onboarding_search_feature1">Salva i nomi utente per un riutilizzo rapido</string>
+    <string name="onboarding_search_feature2">Accedi a qualsiasi lista personalizzata di Letterboxd</string>
+    <string name="onboarding_multiuser_title">Modalità multiutente</string>
+    <string name="onboarding_multiuser_subtitle">Combina le liste di visione di più utenti. Trova film condivisi (Intersezione) o scegli da tutte le liste combinate (Unione).</string>
+    <string name="onboarding_multiuser_feature1">Solo film condivisi</string>
+    <string name="onboarding_multiuser_feature2">Tutti i film combinati</string>
+    <string name="onboarding_multiuser_feature3">Tieni premuto Invia o seleziona i tag</string>
+    <string name="onboarding_get_started">Iniziamo</string>
+    <string name="onboarding_next">Avanti</string>
+    <string name="onboarding_start_exploring">Inizia a esplorare</string>
 </resources>

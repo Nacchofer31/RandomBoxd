@@ -15,5 +15,25 @@
     <string name="error_no_results_subtitle">Фильмы, соответствующие запросу, не найдены. Попробуйте другой.</string>
     <string name="ready_to_spin">Готовы крутить?</string>
     <string name="tip_username_format">Попробуйте: имя_пользователя или имя_пользователя/название_списка</string>
-    <string name="tip_hold_submit">Введите имя пользователя Letterboxd, чтобы получить случайный фильм из его списка просмотра или любого пользовательского списка.</string>
+    <string name="tip_hold_submit">Удерживайте «Отправить» или теги для многопользовательского режима</string>
+    <string name="onboarding_welcome_title">RandomBoxd</string>
+    <string name="onboarding_welcome_subtitle">Больше никаких проблем с выбором фильма</string>
+    <string name="onboarding_welcome_description">Получайте случайные предложения фильмов из ваших списков просмотра и пользовательских списков Letterboxd. Идеально для киновечеров!</string>
+    <string name="onboarding_feature_random">Случайный выбор фильма</string>
+    <string name="onboarding_feature_multi_user">Объединение нескольких пользователей</string>
+    <string name="onboarding_feature_deeplink">Прямая ссылка на Letterboxd</string>
+    <string name="onboarding_random_title">Случайный выбор</string>
+    <string name="onboarding_random_subtitle">Введите имя пользователя Letterboxd и мгновенно получите случайный фильм из списка просмотра или любого пользовательского списка.</string>
+    <string name="onboarding_search_title">Поиск и теги</string>
+    <string name="onboarding_search_subtitle">Ищите список любого пользователя или пользовательский список. Предыдущие поиски сохраняются как теги быстрого доступа.</string>
+    <string name="onboarding_search_feature1">Сохранение имён пользователей для быстрого повторного использования</string>
+    <string name="onboarding_search_feature2">Доступ к любому пользовательскому списку Letterboxd</string>
+    <string name="onboarding_multiuser_title">Многопользовательский режим</string>
+    <string name="onboarding_multiuser_subtitle">Объединяйте списки просмотра нескольких пользователей. Находите общие фильмы (Пересечение) или выбирайте из всех объединённых списков (Объединение).</string>
+    <string name="onboarding_multiuser_feature1">Только общие фильмы</string>
+    <string name="onboarding_multiuser_feature2">Все фильмы объединены</string>
+    <string name="onboarding_multiuser_feature3">Удерживайте «Отправить» или выберите теги</string>
+    <string name="onboarding_get_started">Начать</string>
+    <string name="onboarding_next">Далее</string>
+    <string name="onboarding_start_exploring">Начать исследование</string>
 </resources>

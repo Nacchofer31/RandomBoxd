@@ -16,4 +16,24 @@
     <string name="ready_to_spin">Preparat per girar?</string>
     <string name="tip_username_format">Prova: usuari o usuari/nom-llista</string>
     <string name="tip_hold_submit">Mantén premut Envia o les etiquetes per al mode multiusuari</string>
+    <string name="onboarding_welcome_title">RandomBoxd</string>
+    <string name="onboarding_welcome_subtitle">No tornis a tenir problemes per triar pel·lícula</string>
+    <string name="onboarding_welcome_description">Obtén suggeriments de pel·lícules aleatòries de les teves llistes de seguiment i llistes personalitzades de Letterboxd. Perfecte per a nits de cinema!</string>
+    <string name="onboarding_feature_random">Selecció aleatòria de pel·lícules</string>
+    <string name="onboarding_feature_multi_user">Combina múltiples usuaris</string>
+    <string name="onboarding_feature_deeplink">Enllaç directe a Letterboxd</string>
+    <string name="onboarding_random_title">Selecció aleatòria</string>
+    <string name="onboarding_random_subtitle">Introdueix el teu nom d\'usuari de Letterboxd i obtén una pel·lícula aleatòria de la teva llista de seguiment o qualsevol llista personalitzada al moment.</string>
+    <string name="onboarding_search_title">Cerca i etiquetes</string>
+    <string name="onboarding_search_subtitle">Cerca la llista de qualsevol usuari o llista personalitzada. Les teves cerques anteriors es guarden com a etiquetes d\'accés ràpid.</string>
+    <string name="onboarding_search_feature1">Guarda noms d\'usuari per reutilitzar-los</string>
+    <string name="onboarding_search_feature2">Accedeix a qualsevol llista personalitzada de Letterboxd</string>
+    <string name="onboarding_multiuser_title">Mode multiusuari</string>
+    <string name="onboarding_multiuser_subtitle">Combina llistes de seguiment de múltiples usuaris. Troba pel·lícules compartides (Intersecció) o tria de totes les llistes combinades (Unió).</string>
+    <string name="onboarding_multiuser_feature1">Només pel·lícules compartides</string>
+    <string name="onboarding_multiuser_feature2">Totes les pel·lícules combinades</string>
+    <string name="onboarding_multiuser_feature3">Mantén premut Envia o selecciona etiquetes</string>
+    <string name="onboarding_get_started">Comença</string>
+    <string name="onboarding_next">Següent</string>
+    <string name="onboarding_start_exploring">Comença a explorar</string>
 </resources>

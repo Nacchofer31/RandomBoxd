@@ -15,5 +15,25 @@
     <string name="error_no_results_subtitle">Kein Film entspricht der Suche. Bitte versuche es erneut.</string>
     <string name="ready_to_spin">Bereit zum Drehen?</string>
     <string name="tip_username_format">Versuche: Benutzername oder Benutzername/Listenname</string>
-    <string name="tip_hold_submit">Gedrückt halten auf „Senden“ oder Tags für den Mehrbenutzermodus</string>
+    <string name="tip_hold_submit">Gedrückt halten auf „Senden" oder Tags für den Mehrbenutzermodus</string>
+    <string name="onboarding_welcome_title">RandomBoxd</string>
+    <string name="onboarding_welcome_subtitle">Nie wieder Schwierigkeiten bei der Filmauswahl</string>
+    <string name="onboarding_welcome_description">Erhalte zufällige Filmvorschläge aus deinen Letterboxd-Watchlists und benutzerdefinierten Listen. Perfekt für Filmabende!</string>
+    <string name="onboarding_feature_random">Zufällige Filmauswahl</string>
+    <string name="onboarding_feature_multi_user">Mehrere Benutzer kombinieren</string>
+    <string name="onboarding_feature_deeplink">Direktlink zu Letterboxd</string>
+    <string name="onboarding_random_title">Zufällige Auswahl</string>
+    <string name="onboarding_random_subtitle">Gib deinen Letterboxd-Benutzernamen ein und erhalte sofort einen zufälligen Film aus deiner Watchlist oder einer benutzerdefinierten Liste.</string>
+    <string name="onboarding_search_title">Suche &amp; Tags</string>
+    <string name="onboarding_search_subtitle">Suche nach der Liste eines beliebigen Benutzers oder einer benutzerdefinierten Liste. Deine vorherigen Suchen werden als Schnellzugriff-Tags gespeichert.</string>
+    <string name="onboarding_search_feature1">Benutzernamen für schnelle Wiederverwendung speichern</string>
+    <string name="onboarding_search_feature2">Auf jede benutzerdefinierte Letterboxd-Liste zugreifen</string>
+    <string name="onboarding_multiuser_title">Mehrbenutzermodus</string>
+    <string name="onboarding_multiuser_subtitle">Kombiniere Watchlists mehrerer Benutzer. Finde gemeinsame Filme (Schnittmenge) oder wähle aus allen kombinierten Listen (Vereinigung).</string>
+    <string name="onboarding_multiuser_feature1">Nur gemeinsame Filme</string>
+    <string name="onboarding_multiuser_feature2">Alle Filme kombiniert</string>
+    <string name="onboarding_multiuser_feature3">Senden gedrückt halten oder Tags auswählen</string>
+    <string name="onboarding_get_started">Los geht\'s</string>
+    <string name="onboarding_next">Weiter</string>
+    <string name="onboarding_start_exploring">Entdecken starten</string>
 </resources>

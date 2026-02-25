@@ -39,3 +39,7 @@
 ## 1.0.0
 - First version of the application.
 - Added `v.1.0.0` tag.
+
+## 1.1.0
+- Added Onboarding flow.
+- Added `RandomBoxd` new-modern redesign.
