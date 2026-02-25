@@ -126,8 +126,8 @@ android {
 
     defaultConfig {
         applicationId = "com.nacchofer31.randomboxd"
-        versionName = "1.0.0"
-        versionCode = 10
+        versionName = "1.1.0"
+        versionCode = 11
         minSdk =
             libs.versions.android.minSdk
                 .get()
@@ -168,6 +168,18 @@ mockmp {
 
 room {
     schemaDirectory("$projectDir/schemas")
+}
+
+ksp {
+    arg("room.generateKotlin", "true")
+}
+
+val sqliteTmpDir = layout.buildDirectory.dir("tmp/sqlite")
+tasks.withType<com.google.devtools.ksp.gradle.KspAATask>().configureEach {
+    doFirst {
+        sqliteTmpDir.get().asFile.mkdirs()
+        System.setProperty("org.sqlite.tmpdir", sqliteTmpDir.get().asFile.absolutePath)
+    }
 }
 
 dependencies {
