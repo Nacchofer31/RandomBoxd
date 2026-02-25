@@ -39,6 +39,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun RandomFilmScreenRoot(
     viewModel: RandomFilmViewModel = koinViewModel(),
     onFilmClicked: (Film) -> Unit,
+    onInfoClick: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -48,6 +49,7 @@ fun RandomFilmScreenRoot(
         onAction = { action ->
             when (action) {
                 is RandomFilmAction.OnFilmClicked -> onFilmClicked(action.film)
+                is RandomFilmAction.OnInfoButtonClick -> onInfoClick()
                 else -> Unit
             }
             viewModel.onAction(action)

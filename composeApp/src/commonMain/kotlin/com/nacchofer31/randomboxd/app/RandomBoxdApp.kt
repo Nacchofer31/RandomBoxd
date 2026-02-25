@@ -11,10 +11,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.nacchofer31.randomboxd.core.data.OnboardingPreferences
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdTypography
+import com.nacchofer31.randomboxd.onboarding.presentation.OnboardingScreen
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreenRoot
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
 internal fun RandomBoxdApp() {
@@ -23,10 +26,30 @@ internal fun RandomBoxdApp() {
     ) {
         val navController = rememberNavController()
         val localUriHandler = LocalUriHandler.current
+        val onboardingPreferences = remember { getKoin().get<OnboardingPreferences>() }
+        val startDestination: RandomBoxdRoute =
+            remember {
+                if (onboardingPreferences.isFirstRun()) {
+                    RandomBoxdRoute.Onboarding
+                } else {
+                    RandomBoxdRoute.Home
+                }
+            }
+
         NavHost(
             navController = navController,
-            startDestination = RandomBoxdRoute.Home,
+            startDestination = startDestination,
         ) {
+            composable<RandomBoxdRoute.Onboarding> {
+                OnboardingScreen(
+                    onFinish = {
+                        onboardingPreferences.setOnboardingCompleted()
+                        navController.navigate(RandomBoxdRoute.Home) {
+                            popUpTo(RandomBoxdRoute.Onboarding) { inclusive = true }
+                        }
+                    },
+                )
+            }
             navigation<RandomBoxdRoute.Home>(
                 startDestination = RandomBoxdRoute.RandomFilm,
             ) {
@@ -36,6 +59,9 @@ internal fun RandomBoxdApp() {
                         viewModel = viewModel,
                         onFilmClicked = { film ->
                             localUriHandler.openUri(film.slug)
+                        },
+                        onInfoClick = {
+                            navController.navigate(RandomBoxdRoute.Onboarding)
                         },
                     )
                 }
