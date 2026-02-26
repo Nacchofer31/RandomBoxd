@@ -14,6 +14,11 @@
 
 RandomBoxd is a **Compose Multiplatform** project designed to fetch a random movie from a Letterboxd user's **watchlists** or **custom lists**. This app is built for **Android** and **iOS** devices. 📱🎬
 
+## 📲 Download
+
+- **Android** (phones & tablets): Available now on [Google Play](https://play.google.com/store/apps/details?id=com.nacchofer31.randomboxd).
+- **iOS** (iPhone & iPad): Coming soon to the App Store.
+
 ## ✨ Features
 - 🎲 Fetch a random movie from a Letterboxd user's **watchlist** or **custom lists**.
 - 📱 Supports **Android** and **iOS** platforms.
