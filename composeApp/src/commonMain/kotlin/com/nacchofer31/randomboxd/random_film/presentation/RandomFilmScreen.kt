@@ -68,6 +68,7 @@ fun RandomFilmScreen(
     Scaffold(
         topBar = {
             FilmHeader(
+                showInfoButton = !state.isLoading,
                 onInfoClick = {
                     onAction(RandomFilmAction.OnInfoButtonClick)
                 },

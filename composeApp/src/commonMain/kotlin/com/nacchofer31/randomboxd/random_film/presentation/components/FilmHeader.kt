@@ -26,6 +26,7 @@ import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 @Composable
 fun FilmHeader(
     onInfoClick: () -> Unit,
+    showInfoButton: Boolean? = true,
 ) {
     Row(
         modifier =
@@ -67,25 +68,27 @@ fun FilmHeader(
             )
         }
         // Help button
-        Box(
-            modifier =
-                Modifier
-                    .size(40.dp)
-                    .background(
-                        color = RandomBoxdColors.BackgroundColor,
-                        shape = RoundedCornerShape(18.dp),
-                    ),
-            contentAlignment = Alignment.Center,
-        ) {
-            IconButton(
-                onClick = onInfoClick,
+        if (showInfoButton == true) {
+            Box(
+                modifier =
+                    Modifier
+                        .size(40.dp)
+                        .background(
+                            color = RandomBoxdColors.BackgroundColor,
+                            shape = RoundedCornerShape(18.dp),
+                        ),
+                contentAlignment = Alignment.Center,
             ) {
-                Icon(
-                    imageVector = Icons.Outlined.Info,
-                    contentDescription = "Info",
-                    tint = RandomBoxdColors.BackgroundLightColor,
-                    modifier = Modifier.size(24.dp),
-                )
+                IconButton(
+                    onClick = onInfoClick,
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Info,
+                        contentDescription = "Info",
+                        tint = RandomBoxdColors.BackgroundLightColor,
+                        modifier = Modifier.size(24.dp),
+                    )
+                }
             }
         }
     }
