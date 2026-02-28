@@ -35,5 +35,6 @@
     <string name="onboarding_multiuser_feature3">Mantén premido Enviar ou selecciona etiquetas</string>
     <string name="onboarding_get_started">Comezar</string>
     <string name="onboarding_next">Seguinte</string>
+    <string name="onboarding_skip">Omitir</string>
     <string name="onboarding_start_exploring">Comezar a explorar</string>
 </resources>

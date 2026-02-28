@@ -35,5 +35,6 @@
     <string name="onboarding_multiuser_feature3">Hold Submit or select tags</string>
     <string name="onboarding_get_started">Get Started</string>
     <string name="onboarding_next">Next</string>
+    <string name="onboarding_skip">Skip</string>
     <string name="onboarding_start_exploring">Start Exploring</string>
 </resources>

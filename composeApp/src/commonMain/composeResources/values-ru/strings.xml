@@ -35,5 +35,6 @@
     <string name="onboarding_multiuser_feature3">Удерживайте «Отправить» или выберите теги</string>
     <string name="onboarding_get_started">Начать</string>
     <string name="onboarding_next">Далее</string>
+    <string name="onboarding_skip">Пропустить</string>
     <string name="onboarding_start_exploring">Начать исследование</string>
 </resources>

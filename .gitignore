@@ -74,3 +74,6 @@ freeline_project_description.json
 
 # History
 .history
+
+# Claude
+.claude/

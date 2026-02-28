@@ -121,6 +121,8 @@ internal fun OnboardingRandomSelectionPage() {
         }
     }
 
+    Spacer(Modifier.height(32.dp))
+
     // Input mockup section
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

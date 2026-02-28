@@ -180,6 +180,8 @@ internal fun OnboardingMultiUserPage() {
         }
     }
 
+    Spacer(Modifier.height(24.dp))
+
     // Feature rows
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp),

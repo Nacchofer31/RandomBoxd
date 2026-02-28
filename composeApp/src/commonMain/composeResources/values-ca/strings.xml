@@ -35,5 +35,6 @@
     <string name="onboarding_multiuser_feature3">Mantén premut Envia o selecciona etiquetes</string>
     <string name="onboarding_get_started">Comença</string>
     <string name="onboarding_next">Següent</string>
+    <string name="onboarding_skip">Omet</string>
     <string name="onboarding_start_exploring">Comença a explorar</string>
 </resources>
