@@ -21,7 +21,7 @@ internal fun FilmDisplay(
     FilmPoster(
         imageUrl = film.imageUrl,
         title = film.name,
-        releaseYear = if(film.releaseYear != null) film.releaseYear.toString() else "-",
+        releaseYear = if (film.releaseYear != null) film.releaseYear.toString() else "-",
         onClick = {
             onAction(RandomFilmAction.OnFilmClicked(film))
         },
