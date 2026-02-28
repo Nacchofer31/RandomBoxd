@@ -35,5 +35,6 @@
     <string name="onboarding_multiuser_feature3">送信を長押しまたはタグを選択</string>
     <string name="onboarding_get_started">始めましょう</string>
     <string name="onboarding_next">次へ</string>
+    <string name="onboarding_skip">スキップ</string>
     <string name="onboarding_start_exploring">探索を始める</string>
 </resources>

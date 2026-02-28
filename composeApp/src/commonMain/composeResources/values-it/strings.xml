@@ -35,5 +35,6 @@
     <string name="onboarding_multiuser_feature3">Tieni premuto Invia o seleziona i tag</string>
     <string name="onboarding_get_started">Iniziamo</string>
     <string name="onboarding_next">Avanti</string>
+    <string name="onboarding_skip">Salta</string>
     <string name="onboarding_start_exploring">Inizia a esplorare</string>
 </resources>

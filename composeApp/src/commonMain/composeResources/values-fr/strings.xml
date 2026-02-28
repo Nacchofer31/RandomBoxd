@@ -35,5 +35,6 @@
     <string name="onboarding_multiuser_feature3">Maintenez Envoyer ou sélectionnez des tags</string>
     <string name="onboarding_get_started">Commencer</string>
     <string name="onboarding_next">Suivant</string>
+    <string name="onboarding_skip">Passer</string>
     <string name="onboarding_start_exploring">Commencer à explorer</string>
 </resources>
