@@ -75,8 +75,8 @@ fun OnboardingScreen(onFinish: () -> Unit) {
                     Text(
                         text = stringResource(Res.string.onboarding_skip),
                         color = RandomBoxdColors.BackgroundLightColor,
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Medium,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
                     )
                 }
             }

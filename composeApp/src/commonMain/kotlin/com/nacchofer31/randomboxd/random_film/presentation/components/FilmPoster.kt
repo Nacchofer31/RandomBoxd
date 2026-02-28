@@ -7,12 +7,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
@@ -100,7 +101,8 @@ fun FilmPoster(
                             ).background(
                                 color = RandomBoxdColors.BackgroundColor,
                                 shape = RoundedCornerShape(16.dp),
-                            ).width(280.dp)
+                            ).fillMaxWidth(0.7f)
+                            .widthIn(max = 500.dp)
                             .testTag("test-film-poster"),
                 ) {
                     Column(
@@ -113,7 +115,7 @@ fun FilmPoster(
                             modifier =
                                 Modifier
                                     .fillMaxWidth()
-                                    .height(360.dp)
+                                    .aspectRatio(280f / 360f)
                                     .clip(RoundedCornerShape(12.dp))
                                     .clickable { onClick() },
                         ) {
