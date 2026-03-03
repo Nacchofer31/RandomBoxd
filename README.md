@@ -8,7 +8,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Compose-Multiplatform-4285F4?logo=jetpackcompose&logoColor=white" />
   <img src="https://img.shields.io/badge/Platform-Android%20%7C%20iOS-blue?logo=apple&logoColor=white" />
-  <img src="https://img.shields.io/badge/License-MIT-green?logo=open-source-initiative&logoColor=white" />
+  <img src="https://img.shields.io/badge/License-Apache%202.0-green?logo=open-source-initiative&logoColor=white" />
   <img src="https://img.shields.io/badge/Test%20Coverage-JaCoCo-orange?logo=codecov&logoColor=white" />
 </p>
 
@@ -35,6 +35,7 @@ RandomBoxd is a **Compose Multiplatform** project designed to fetch a random mov
 
 ## 🏗️ Project Architecture
 This project follows the **Clean Architecture** principles to ensure a scalable and maintainable codebase.
+For a detailed breakdown of layers, patterns, conventions, and technical decisions, see the [Architecture Document](ARCHITECTURE.md).
 
 ## 🏛️ KMP Structure
 - **`/composeApp`** is for code that will be shared across your **Compose Multiplatform** applications.
@@ -138,7 +139,7 @@ From there, a single random movie is chosen based on two available modes:
 Feel free to **open issues** or **submit pull requests** to improve the project. 🛠️
 
 ## 📜 License
-This project is licensed under the **MIT License**.
+This project is licensed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for details.
 
 ---
 Enjoy **RandomBoxd** and never struggle to pick a movie again! 🎬🍀
