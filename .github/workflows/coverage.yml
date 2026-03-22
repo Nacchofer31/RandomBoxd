@@ -33,7 +33,7 @@ jobs:
           path: composeApp/build/outputs/code_coverage/
 
       - name: Generate coverage report
-        run: ./gradlew composeApp:jacocoTestReport -x connectedDebugAndroidTest -x testDebugUnitTest
+        run: ./gradlew composeApp:testDebugUnitTest composeApp:jacocoTestReport -x connectedDebugAndroidTest
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
