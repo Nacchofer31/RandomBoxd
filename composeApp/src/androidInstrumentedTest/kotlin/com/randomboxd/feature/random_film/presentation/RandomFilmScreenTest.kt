@@ -88,4 +88,43 @@ class RandomFilmScreenTest {
         composeTestRule.onNodeWithTag("test-film-display").assertExists()
         composeTestRule.onNodeWithTag("test-film-display").performClick()
     }
+
+    @Test
+    fun error_view_should_be_displayed_when_state_has_error() {
+        composeTestRule.setContent {
+            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
+            RandomFilmScreen(
+                userNameList = mutableUserNamesFlow,
+                state = RandomFilmState(resultError = com.nacchofer31.randomboxd.core.domain.DataError.Remote.NO_RESULTS),
+            ) { }
+        }
+
+        composeTestRule.onNodeWithTag("test-film-error").assertIsDisplayed()
+    }
+
+    @Test
+    fun error_view_should_be_displayed_for_no_internet_error() {
+        composeTestRule.setContent {
+            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
+            RandomFilmScreen(
+                userNameList = mutableUserNamesFlow,
+                state = RandomFilmState(resultError = com.nacchofer31.randomboxd.core.domain.DataError.Remote.NO_INTERNET),
+            ) { }
+        }
+
+        composeTestRule.onNodeWithTag("test-film-error").assertIsDisplayed()
+    }
+
+    @Test
+    fun union_intersection_switch_visible_when_user_search_list_not_empty() {
+        composeTestRule.setContent {
+            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
+            RandomFilmScreen(
+                userNameList = mutableUserNamesFlow,
+                state = RandomFilmState(userNameSearchList = setOf("user1", "user2")),
+            ) { }
+        }
+
+        composeTestRule.onNodeWithTag("test-random-film-submit-button").assertIsDisplayed()
+    }
 }

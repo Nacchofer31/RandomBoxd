@@ -211,8 +211,31 @@ spotless {
 
 val fileFilter =
     listOf<String>(
+        // App navigation/entry (excluded by default)
         "com/nacchofer31/randomboxd/app/**",
+        // Compose resources (generated)
         "randomboxd/composeapp/generated/resources/**",
+        // Android platform-specific (require device context)
+        "com/nacchofer31/randomboxd/AndroidPlatform*",
+        "com/nacchofer31/randomboxd/MainActivity*",
+        "com/nacchofer31/randomboxd/MainActivityKt*",
+        "com/nacchofer31/randomboxd/Platform*",
+        "com/nacchofer31/randomboxd/ComposableSingletons${'$'}MainActivityKt*",
+        "com/nacchofer31/randomboxd/core/data/OnboardingPreferences*",
+        "com/nacchofer31/randomboxd/core/data/RandomBoxdHttpClientExtKt*",
+        "com/nacchofer31/randomboxd/core/presentation/RandomBoxdTheme*",
+        // Room generated code
+        "com/nacchofer31/randomboxd/core/data/UsernameDatabase_Impl*",
+        "com/nacchofer31/randomboxd/core/data/UserNameDatabaseConstructor*",
+        "com/nacchofer31/randomboxd/random_film/domain/model/UserNameDao_Impl*",
+        // Inline functions — JaCoCo cannot track coverage of Kotlin inline function bodies
+        "com/nacchofer31/randomboxd/core/domain/ResultData*",
+        "com/nacchofer31/randomboxd/core/domain/ResultDataKt*",
+        // Pure interfaces (no executable code)
+        "com/nacchofer31/randomboxd/random_film/domain/repository/RandomFilmRepository*",
+        // kotlinx.coroutines inlined lambda classes (phantom source entries)
+        "com/nacchofer31/randomboxd/random_film/presentation/components/**\$\$inlined*",
+        "com/nacchofer31/randomboxd/random_film/presentation/viewmodel/**\$special\$\$inlined*",
     )
 
 tasks.register("jacocoTestReport", JacocoReport::class) {
