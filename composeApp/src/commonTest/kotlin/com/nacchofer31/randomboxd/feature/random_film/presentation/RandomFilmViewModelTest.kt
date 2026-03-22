@@ -9,11 +9,16 @@ import com.nacchofer31.randomboxd.random_film.domain.repository.UserNameReposito
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
 import com.nacchofer31.randomboxd.utils.dispatchers.TestDispatchers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.kodein.mock.Mock
 import org.kodein.mock.generated.mock
 import org.kodein.mock.tests.TestsWithMocks
+import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -44,9 +49,17 @@ class RandomFilmViewModelTest : TestsWithMocks() {
         } returns flow { emit(emptyList()) }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @BeforeTest
     fun setUp() {
         testDispatchers = TestDispatchers()
+        Dispatchers.setMain(testDispatchers.testDispatcher)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @AfterTest
+    fun tearDown() {
+        Dispatchers.resetMain()
     }
 
     private fun createViewModel() {
