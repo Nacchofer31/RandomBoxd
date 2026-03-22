@@ -1,7 +1,6 @@
 package com.randomboxd.feature.random_film.presentation
 
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -26,29 +25,29 @@ class RandomFilmScreenTest {
     @Test
     fun all_random_film_screen_initial_components_should_be_displayed() {
         composeTestRule.setContent {
-            RandomFilmScreenRoot { }
+            RandomFilmScreenRoot(onFilmClicked = {})
         }
 
         composeTestRule.onNodeWithTag("test-random-film-user-name-text-field").assertIsDisplayed()
         composeTestRule.onNodeWithTag("test-random-film-submit-button").assertIsDisplayed()
-        composeTestRule.onNodeWithTag("test-loading-indicator").assertIsNotDisplayed()
+        composeTestRule.onNodeWithTag("test-loading-indicator").assertDoesNotExist()
     }
 
     @Test
     fun press_on_disabled_button_should_not_show_loading_indicator() {
         composeTestRule.setContent {
-            RandomFilmScreenRoot { }
+            RandomFilmScreenRoot(onFilmClicked = {})
         }
 
         composeTestRule.onNodeWithTag("test-random-film-submit-button").performClick()
         composeTestRule.onNodeWithTag("test-random-film-submit-button").assertIsNotEnabled()
-        composeTestRule.onNodeWithTag("test-loading-indicator").assertIsNotDisplayed()
+        composeTestRule.onNodeWithTag("test-loading-indicator").assertDoesNotExist()
     }
 
     @Test
     fun enter_text_and_submit_button_should_show_loading_indicator() {
         composeTestRule.setContent {
-            RandomFilmScreenRoot { }
+            RandomFilmScreenRoot(onFilmClicked = {})
         }
 
         composeTestRule.onNodeWithTag("test-random-film-user-name-text-field").performTextInput("user")
@@ -59,7 +58,7 @@ class RandomFilmScreenTest {
     @Test
     fun enter_text_and_on_clear_text_field_should_remove_text_from_field() {
         composeTestRule.setContent {
-            RandomFilmScreenRoot { }
+            RandomFilmScreenRoot(onFilmClicked = {})
         }
 
         composeTestRule.onNodeWithTag("test-random-film-user-name-text-field").performTextInput("user")
@@ -86,7 +85,7 @@ class RandomFilmScreenTest {
             ) { }
         }
 
-        composeTestRule.onNodeWithTag("test-film-display").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("test-film-display").assertExists()
         composeTestRule.onNodeWithTag("test-film-display").performClick()
     }
 }

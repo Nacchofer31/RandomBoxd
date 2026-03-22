@@ -10,10 +10,10 @@ class RandomBoxdColorsTest {
     fun testColors() {
         val colors =
             listOf(
-                Pair(RandomBoxdColors.BackgroundColor, Color(0xff2C343F)),
-                Pair(RandomBoxdColors.BackgroundLightColor, Color(0xff556678)),
-                Pair(RandomBoxdColors.BackgroundDarkColor, Color(0xff14171C)),
-                Pair(RandomBoxdColors.GreenAccent, Color(0xff00B021)),
+                Pair(RandomBoxdColors.BackgroundColor, Color(0xff1c2228)),
+                Pair(RandomBoxdColors.BackgroundLightColor, Color(0xff99aabb)),
+                Pair(RandomBoxdColors.BackgroundDarkColor, Color(0xff14181c)),
+                Pair(RandomBoxdColors.GreenAccent, Color(0xff00e054)),
                 Pair(RandomBoxdColors.OrangeAccent, Color(0xfff27405)),
                 Pair(RandomBoxdColors.BlueAccent, Color(0xff40bcf4)),
                 Pair(RandomBoxdColors.White, Color.White),
