@@ -2,3 +2,18 @@ coverage:
   precision: 2
   round: down
   range: "70...100"
+
+ignore:
+  # Android platform-specific (require device context)
+  - "composeApp/src/androidMain/kotlin/com/nacchofer31/randomboxd/MainActivity.kt"
+  - "composeApp/src/androidMain/kotlin/com/nacchofer31/randomboxd/Platform.android.kt"
+  - "composeApp/src/androidMain/kotlin/com/nacchofer31/randomboxd/core/data/OnboardingPreferences.android.kt"
+  # Compose UI theme (no logic)
+  - "composeApp/src/commonMain/kotlin/com/nacchofer31/randomboxd/core/presentation/RandomBoxdTheme.kt"
+  # Inline functions — JaCoCo cannot track coverage at declaration site
+  - "composeApp/src/commonMain/kotlin/com/nacchofer31/randomboxd/core/domain/ResultData.kt"
+  - "composeApp/src/commonMain/kotlin/com/nacchofer31/randomboxd/core/data/RandomBoxdHttpClientExt.kt"
+  # Pure interfaces (no executable code)
+  - "composeApp/src/commonMain/kotlin/com/nacchofer31/randomboxd/random_film/domain/repository/RandomFilmRepository.kt"
+  # Room generated code
+  - "composeApp/src/commonMain/kotlin/com/nacchofer31/randomboxd/core/data/UsernameDatabase.kt"
