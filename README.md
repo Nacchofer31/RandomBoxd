@@ -9,7 +9,12 @@
   <img src="https://img.shields.io/badge/Compose-Multiplatform-4285F4?logo=jetpackcompose&logoColor=white" />
   <img src="https://img.shields.io/badge/Platform-Android%20%7C%20iOS-blue?logo=apple&logoColor=white" />
   <img src="https://img.shields.io/badge/License-Apache%202.0-green?logo=open-source-initiative&logoColor=white" />
-  <img src="https://img.shields.io/badge/Test%20Coverage-JaCoCo-orange?logo=codecov&logoColor=white" />
+  <a href="https://github.com/Nacchofer31/RandomBoxd/actions/workflows/pr-checks.yml">
+    <img src="https://github.com/Nacchofer31/RandomBoxd/actions/workflows/pr-checks.yml/badge.svg?branch=master" alt="PR Checks" />
+  </a>
+  <a href="https://codecov.io/gh/Nacchofer31/RandomBoxd">
+    <img src="https://codecov.io/gh/Nacchofer31/RandomBoxd/branch/master/graph/badge.svg" alt="Coverage" />
+  </a>
 </p>
 
 RandomBoxd is a **Compose Multiplatform** project designed to fetch a random movie from a Letterboxd user's **watchlists** or **custom lists**. This app is built for **Android** and **iOS** devices. 📱🎬
