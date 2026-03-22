@@ -113,6 +113,7 @@ kotlin {
             implementation(libs.assertk)
             implementation(kotlin("test"))
             implementation(libs.androidx.test.runner)
+            implementation("io.coil-kt.coil3:coil-test:3.3.0")
         }
     }
 }
