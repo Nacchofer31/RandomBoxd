@@ -45,8 +45,7 @@ class RandomFilmScrappingRepositoryTest {
 
     private val emptyFilmListHtml = "<ul></ul>"
 
-    private fun createRepository(mockEngine: MockEngine) =
-        RandomFilmScrappingRepository(HttpClient(mockEngine))
+    private fun createRepository(mockEngine: MockEngine) = RandomFilmScrappingRepository(HttpClient(mockEngine))
 
     @Test
     fun `getRandomMovie returns film on successful watchlist scraping`() =
