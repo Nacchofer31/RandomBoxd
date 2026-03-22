@@ -35,8 +35,15 @@ jobs:
       - name: Generate coverage report
         run: ./gradlew composeApp:testDebugUnitTest composeApp:jacocoTestReport -x connectedDebugAndroidTest
 
+      - name: Verify coverage report
+        run: |
+          echo "=== Report size ==="
+          wc -l composeApp/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
+          echo "=== First 30 lines ==="
+          head -30 composeApp/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
+
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: composeApp/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
