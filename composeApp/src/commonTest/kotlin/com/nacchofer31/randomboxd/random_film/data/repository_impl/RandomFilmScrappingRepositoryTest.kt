@@ -230,4 +230,84 @@ class RandomFilmScrappingRepositoryTest {
             assertIs<ResultData.Error<*>>(result)
             assertEquals(DataError.Remote.SERIALIZATION, (result as ResultData.Error).error)
         }
+
+    @Test
+    fun `getRandomMovie returns error when HTTP request fails`() =
+        runTest {
+            val mockEngine = MockEngine { _ -> respond("", HttpStatusCode.InternalServerError) }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getRandomMovie("user")
+
+            assertIs<ResultData.Error<*>>(result)
+            assertEquals(DataError.Remote.SERVER, (result as ResultData.Error).error)
+        }
+
+    @Test
+    fun `getRandomMoviesFromSearchList returns error when HTTP request fails`() =
+        runTest {
+            val mockEngine = MockEngine { _ -> respond("", HttpStatusCode.InternalServerError) }
+            val repository = createRepository(mockEngine)
+
+            val result =
+                repository.getRandomMoviesFromSearchList(
+                    searchList = setOf("user1"),
+                    filmSearchMode = FilmSearchMode.UNION,
+                )
+
+            assertIs<ResultData.Error<*>>(result)
+            assertEquals(DataError.Remote.SERVER, (result as ResultData.Error).error)
+        }
+
+    @Test
+    fun `getRandomMovie uses film imageUrl when poster page request fails`() =
+        runTest {
+            val mockEngine =
+                MockEngine { request ->
+                    val path = request.url.encodedPath
+                    if (path.startsWith("/film/")) {
+                        respond("", HttpStatusCode.InternalServerError, headersOf("Content-Type", "text/html"))
+                    } else {
+                        respond(
+                            content = if (path.contains("/page/")) filmListHtml else paginationHtml,
+                            status = HttpStatusCode.OK,
+                            headers = headersOf("Content-Type", "text/html"),
+                        )
+                    }
+                }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getRandomMovie("user")
+
+            // Even when poster fails, should succeed using the fallback imageUrl
+            assertIs<ResultData.Success<*>>(result)
+        }
+
+    @Test
+    fun `getRandomMovie uses film imageUrl when poster page has no script tag`() =
+        runTest {
+            val filmDetailNoScriptHtml = "<html><head><title>Film</title></head><body></body></html>"
+            val mockEngine =
+                MockEngine { request ->
+                    val path = request.url.encodedPath
+                    respond(
+                        content =
+                            when {
+                                path.contains("/page/") -> filmListHtml
+                                path.startsWith("/film/") -> filmDetailNoScriptHtml
+                                else -> paginationHtml
+                            },
+                        status = HttpStatusCode.OK,
+                        headers = headersOf("Content-Type", "text/html"),
+                    )
+                }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getRandomMovie("user")
+
+            assertIs<ResultData.Success<*>>(result)
+            // imageUrl should fall back to the one built from filmId
+            val film = (result as ResultData.Success).data
+            assertNotNull(film.imageUrl)
+        }
 }
