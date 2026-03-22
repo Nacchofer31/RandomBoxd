@@ -1,0 +1,34 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+
+  spotless:
+    uses: ./.github/workflows/spotless.yml
+    permissions:
+      contents: write
+
+  unit-tests:
+    needs: build
+    uses: ./.github/workflows/unit-tests.yml
+
+  instrumented-tests:
+    needs: build
+    uses: ./.github/workflows/instrumented-tests.yml
+
+  coverage:
+    needs: [ unit-tests, instrumented-tests ]
+    uses: ./.github/workflows/coverage.yml
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
