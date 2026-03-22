@@ -281,7 +281,9 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     @Test
     fun `when remove username action then user is removed from search list and deleteUserName is called`() =
         runTest(testDispatchers.testDispatcher) {
-            val userName = com.nacchofer31.randomboxd.random_film.domain.model.UserName(id = 1, username = "user1")
+            val userName =
+                com.nacchofer31.randomboxd.random_film.domain.model
+                    .UserName(id = 1, username = "user1")
             mocker.everySuspending { userNameRepository.deleteUserName(isAny()) } returns Unit
             createViewModel()
 
