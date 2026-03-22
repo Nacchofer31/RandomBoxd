@@ -31,6 +31,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     private lateinit var testDispatchers: TestDispatchers
 
     @Mock lateinit var repository: RandomFilmRepository
+
     @Mock lateinit var userNameRepository: UserNameRepository
 
     private val testFilm =
