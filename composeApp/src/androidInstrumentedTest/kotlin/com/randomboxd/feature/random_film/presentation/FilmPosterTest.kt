@@ -43,7 +43,8 @@ class FilmPosterTest {
     fun film_poster_shows_image_with_valid_dimensions() {
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
         setImageLoader(
-            FakeImageLoaderEngine.Builder()
+            FakeImageLoaderEngine
+                .Builder()
                 .default(bitmap.asImage())
                 .build(),
         )
@@ -67,7 +68,8 @@ class FilmPosterTest {
     fun film_poster_shows_image_with_invalid_dimensions_fallback() {
         val bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
         setImageLoader(
-            FakeImageLoaderEngine.Builder()
+            FakeImageLoaderEngine
+                .Builder()
                 .default(bitmap.asImage())
                 .build(),
         )
@@ -90,7 +92,8 @@ class FilmPosterTest {
     fun film_poster_click_triggers_callback_on_loaded_image() {
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
         setImageLoader(
-            FakeImageLoaderEngine.Builder()
+            FakeImageLoaderEngine
+                .Builder()
                 .default(bitmap.asImage())
                 .build(),
         )
