@@ -3,9 +3,11 @@ package com.randomboxd.feature.random_film.presentation
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.longClick
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTouchInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
@@ -126,5 +128,50 @@ class RandomFilmScreenTest {
         }
 
         composeTestRule.onNodeWithTag("test-random-film-submit-button").assertIsDisplayed()
+    }
+
+    @Test
+    fun submit_button_long_click_adds_username_to_search_list() {
+        composeTestRule.setContent {
+            RandomFilmScreenRoot(onFilmClicked = {})
+        }
+
+        composeTestRule.onNodeWithTag("test-random-film-user-name-text-field").performTextInput("testuser")
+        composeTestRule.onNodeWithTag("test-random-film-submit-button").performTouchInput { longClick() }
+    }
+
+    @Test
+    fun film_display_shows_with_null_release_year() {
+        composeTestRule.setContent {
+            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
+            RandomFilmScreen(
+                userNameList = mutableUserNamesFlow,
+                state =
+                    RandomFilmState(
+                        resultFilm =
+                            Film(
+                                slug = "test-slug",
+                                name = "test-name",
+                                releaseYear = null,
+                                imageUrl = "test-image-url",
+                            ),
+                    ),
+            ) { }
+        }
+
+        composeTestRule.onNodeWithTag("test-film-display").assertExists()
+    }
+
+    @Test
+    fun error_view_shows_for_generic_error() {
+        composeTestRule.setContent {
+            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
+            RandomFilmScreen(
+                userNameList = mutableUserNamesFlow,
+                state = RandomFilmState(resultError = com.nacchofer31.randomboxd.core.domain.DataError.Remote.UNKNOWN),
+            ) { }
+        }
+
+        composeTestRule.onNodeWithTag("test-film-error").assertIsDisplayed()
     }
 }

@@ -310,4 +310,39 @@ class RandomFilmScrappingRepositoryTest {
             val film = (result as ResultData.Success).data
             assertNotNull(film.imageUrl)
         }
+
+    @Test
+    fun `getRandomMovie handles total pages request failure`() =
+        runTest {
+            val mockEngine =
+                MockEngine { request ->
+                    val path = request.url.encodedPath
+                    if (path.contains("/watchlist") && !path.contains("/page/")) {
+                        // Initial request for pagination fails - fallback to 1 page
+                        respond("", HttpStatusCode.InternalServerError)
+                    } else if (path.contains("/page/")) {
+                        // Page request succeeds
+                        respond(
+                            content = filmListHtml,
+                            status = HttpStatusCode.OK,
+                            headers = headersOf("Content-Type", "text/html"),
+                        )
+                    } else if (path.startsWith("/film/")) {
+                        respond(
+                            content = filmDetailHtml,
+                            status = HttpStatusCode.OK,
+                            headers = headersOf("Content-Type", "text/html"),
+                        )
+                    } else {
+                        respond("", HttpStatusCode.InternalServerError)
+                    }
+                }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getRandomMovie("user")
+
+            // Should fallback to 1 page and continue processing successfully
+            assertIs<ResultData.Success<*>>(result)
+            assertNotNull((result as ResultData.Success).data)
+        }
 }

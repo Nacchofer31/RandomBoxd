@@ -1,6 +1,7 @@
 package com.nacchofer31.randomboxd.random_film.data.mapper
 
 import com.nacchofer31.randomboxd.random_film.data.dto.FilmDto
+import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -53,5 +54,19 @@ class RandomFilmMappersTest {
 
         assertEquals("my-special-film-2024", film.slug)
         assertEquals(1994, film.releaseYear)
+    }
+
+    @Test
+    fun `Film uses default null for releaseYear`() {
+        val film =
+            Film(
+                slug = "test-film",
+                imageUrl = "https://example.com/poster.jpg",
+                name = "Test Film",
+            )
+
+        assertNull(film.releaseYear)
+        assertEquals("test-film", film.slug)
+        assertEquals("Test Film", film.name)
     }
 }
