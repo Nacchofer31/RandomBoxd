@@ -86,11 +86,12 @@ class FilmSearchModeSwitchTest {
             UnionIntersectionSwitch(
                 searchMode = mode,
                 onModeChange = {
-                    mode = if (mode == FilmSearchMode.INTERSECTION) {
-                        FilmSearchMode.UNION
-                    } else {
-                        FilmSearchMode.INTERSECTION
-                    }
+                    mode =
+                        if (mode == FilmSearchMode.INTERSECTION) {
+                            FilmSearchMode.UNION
+                        } else {
+                            FilmSearchMode.INTERSECTION
+                        }
                 },
             )
         }
