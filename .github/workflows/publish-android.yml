@@ -1,0 +1,53 @@
+name: Publish Android Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+  workflow_dispatch:
+
+jobs:
+  publish_android_release:
+    name: Generate Android Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Android keystore
+        id: android_keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: upload-keystore.jks
+          encodedString: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+
+      - name: Create key.properties file
+        run: |
+          echo "storeFile=${{ steps.android_keystore.outputs.filePath }}" > key.properties
+          echo "storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}" >> key.properties
+          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> key.properties
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> key.properties
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Start Android Release Build
+        run: ./gradlew composeApp:bundleRelease
+
+      - name: Upload Release Build to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-release-artifacts
+          path: composeApp/build/outputs/bundle/release/composeApp-release.aab
+
+      - name: Release Build to production track
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.ANDROID_PLAYSTORE_ACCOUNT_KEY }}
+          packageName: com.nacchofer31.randomboxd
+          releaseFiles: composeApp/build/outputs/bundle/release/composeApp-release.aab
+          track: production
+          status: completed
