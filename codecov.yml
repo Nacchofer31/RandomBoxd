@@ -3,6 +3,11 @@ coverage:
   round: down
   range: "70...100"
 
+comment:
+  layout: "reach,diff,flags,tree"
+  behavior: default
+  require_changes: false
+
 ignore:
   # Android platform-specific (require device context)
   - "composeApp/src/androidMain/kotlin/com/nacchofer31/randomboxd/MainActivity.kt"

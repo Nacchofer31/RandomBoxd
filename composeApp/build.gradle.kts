@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -146,12 +147,25 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            val props = Properties()
+            val keyPropsFile = rootProject.file("key.properties")
+            if (keyPropsFile.exists()) props.load(keyPropsFile.inputStream())
+            storeFile = props["storeFile"]?.let { file(it) }
+            storePassword = props["storePassword"] as String?
+            keyPassword = props["keyPassword"] as String?
+            keyAlias = props["keyAlias"] as String?
+        }
+    }
+
     buildTypes {
         debug {
             enableAndroidTestCoverage = true
         }
         getByName("release") {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 
