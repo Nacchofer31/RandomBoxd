@@ -22,7 +22,7 @@ class RandomFilmScrappingRepositoryTest {
         """
         <ul>
             <li class="griditem">
-                <div class="react-component" data-film-id="12345" data-item-slug="test-film" data-item-name="Test Film (2020)"></div>
+                <div class="react-component" data-postered-identifier='{"lid":"2Ya4","uid":"film:12345","type":"film","typeName":"film"}' data-item-slug="test-film" data-item-name="Test Film (2020)"></div>
             </li>
         </ul>
         """.trimIndent()
@@ -31,7 +31,7 @@ class RandomFilmScrappingRepositoryTest {
         """
         <ul>
             <li class="griditem">
-                <div class="react-component" data-film-id="99999" data-item-slug="other-film" data-item-name="Other Film (2021)"></div>
+                <div class="react-component" data-postered-identifier='{"lid":"3Zb5","uid":"film:99999","type":"film","typeName":"film"}' data-item-slug="other-film" data-item-name="Other Film (2021)"></div>
             </li>
         </ul>
         """.trimIndent()
@@ -102,7 +102,7 @@ class RandomFilmScrappingRepositoryTest {
                 """
                 <ul>
                     <li class="posteritem">
-                        <div class="react-component" data-film-id="12345" data-item-slug="test-film" data-item-name="Test Film (2020)"></div>
+                        <div class="react-component" data-postered-identifier='{"lid":"2Ya4","uid":"film:12345","type":"film","typeName":"film"}' data-item-slug="test-film" data-item-name="Test Film (2020)"></div>
                     </li>
                 </ul>
                 """.trimIndent()
