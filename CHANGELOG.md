@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 1.1.2
+- Fixed scrapping repo params.
+
 ## 1.1.1
 - Added Onboarding ui fixes.
 - Added `Skip` button on Onboarding flow.
