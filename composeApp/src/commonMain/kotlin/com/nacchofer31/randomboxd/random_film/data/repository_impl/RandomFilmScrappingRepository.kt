@@ -25,12 +25,12 @@ class RandomFilmScrappingRepository(
     companion object {
         const val DATA_ITEM_SLUG = "data-item-slug"
         const val DATA_ITEM_NAME = "data-item-name"
-        const val DATA_FILM_ID = "data-film-id"
+        const val DATA_POSTERED_IDENTIFIER = "data-postered-identifier"
         const val DATA_FILM_PAGE = "li.paginate-page"
         const val FILM_YEAR_REGEX = "\\((\\d{4})\\)"
         const val FILM_NAME_REGEX = "\\s*\\(\\d{4}\\)"
-        const val FILM_POSTER_QUERY = "li.griditem > div.react-component[data-film-id]"
-        const val FILM_POSTER_LIST_QUERY = "li.posteritem > div.react-component[data-film-id]"
+        const val FILM_POSTER_QUERY = "li.griditem > div.react-component[data-item-slug]"
+        const val FILM_POSTER_LIST_QUERY = "li.posteritem > div.react-component[data-item-slug]"
         const val FILM_SCRIPT_QUERY = """script[type="application/ld+json"]"""
     }
 
@@ -131,7 +131,12 @@ class RandomFilmScrappingRepository(
                         ?.get(1)
                         ?.toIntOrNull()
                 val name = rawName.replace(Regex(FILM_NAME_REGEX), "").trim()
-                val filmId = poster.attr(DATA_FILM_ID)
+                val filmId = try {
+                    val identifierJson = Json.parseToJsonElement(poster.attr(DATA_POSTERED_IDENTIFIER))
+                    identifierJson.jsonObject["uid"]?.jsonPrimitive?.content?.removePrefix("film:") ?: ""
+                } catch (_: Exception) {
+                    ""
+                }
                 val imageUrl = buildPosterUrl(filmId, slug)
 
                 films.add(Film(slug, imageUrl, year, name))
