@@ -131,12 +131,16 @@ class RandomFilmScrappingRepository(
                         ?.get(1)
                         ?.toIntOrNull()
                 val name = rawName.replace(Regex(FILM_NAME_REGEX), "").trim()
-                val filmId = try {
-                    val identifierJson = Json.parseToJsonElement(poster.attr(DATA_POSTERED_IDENTIFIER))
-                    identifierJson.jsonObject["uid"]?.jsonPrimitive?.content?.removePrefix("film:") ?: ""
-                } catch (_: Exception) {
-                    ""
-                }
+                val filmId =
+                    try {
+                        val identifierJson = Json.parseToJsonElement(poster.attr(DATA_POSTERED_IDENTIFIER))
+                        identifierJson.jsonObject["uid"]
+                            ?.jsonPrimitive
+                            ?.content
+                            ?.removePrefix("film:") ?: ""
+                    } catch (_: Exception) {
+                        ""
+                    }
                 val imageUrl = buildPosterUrl(filmId, slug)
 
                 films.add(Film(slug, imageUrl, year, name))
