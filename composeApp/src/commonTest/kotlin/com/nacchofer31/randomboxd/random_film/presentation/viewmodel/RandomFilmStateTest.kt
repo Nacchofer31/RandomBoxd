@@ -2,6 +2,7 @@ package com.nacchofer31.randomboxd.random_film.presentation.viewmodel
 
 import com.nacchofer31.randomboxd.core.domain.DataError
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
+import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -84,5 +85,34 @@ class RandomFilmStateTest {
         val state = RandomFilmState().copy(filmSearchMode = FilmSearchMode.UNION)
 
         assertEquals(FilmSearchMode.UNION, state.filmSearchMode)
+    }
+
+    @Test
+    fun `default state has empty selectedGenres`() {
+        val state = RandomFilmState()
+
+        assertEquals(emptySet<FilmGenre>(), state.selectedGenres)
+    }
+
+    @Test
+    fun `default state showGenreBottomSheet is false`() {
+        val state = RandomFilmState()
+
+        assertEquals(false, state.showGenreBottomSheet)
+    }
+
+    @Test
+    fun `copy with selectedGenres updates genres`() {
+        val genres = setOf(FilmGenre.ACTION, FilmGenre.COMEDY)
+        val state = RandomFilmState().copy(selectedGenres = genres)
+
+        assertEquals(genres, state.selectedGenres)
+    }
+
+    @Test
+    fun `copy with showGenreBottomSheet true updates flag`() {
+        val state = RandomFilmState().copy(showGenreBottomSheet = true)
+
+        assertEquals(true, state.showGenreBottomSheet)
     }
 }
