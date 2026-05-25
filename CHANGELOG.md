@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 1.2.0
+- Added genre filter feature.
+
 ## 1.1.2
 - Fixed scrapping repo params.
 

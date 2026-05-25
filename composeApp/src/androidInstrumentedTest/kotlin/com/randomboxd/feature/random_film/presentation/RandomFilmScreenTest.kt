@@ -5,11 +5,13 @@ import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.longClick
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTouchInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
+import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreen
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreenRoot
@@ -173,5 +175,57 @@ class RandomFilmScreenTest {
         }
 
         composeTestRule.onNodeWithTag("test-film-error").assertIsDisplayed()
+    }
+
+    @Test
+    fun genre_bottom_sheet_is_visible_when_showGenreBottomSheet_is_true() {
+        composeTestRule.setContent {
+            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
+            RandomFilmScreen(
+                userNameList = mutableUserNamesFlow,
+                state = RandomFilmState(showGenreBottomSheet = true),
+            ) { }
+        }
+
+        composeTestRule.onNodeWithText("Filter by Genre").assertIsDisplayed()
+    }
+
+    @Test
+    fun genre_bottom_sheet_is_not_visible_when_showGenreBottomSheet_is_false() {
+        composeTestRule.setContent {
+            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
+            RandomFilmScreen(
+                userNameList = mutableUserNamesFlow,
+                state = RandomFilmState(showGenreBottomSheet = false),
+            ) { }
+        }
+
+        composeTestRule.onNodeWithText("Filter by Genre").assertDoesNotExist()
+    }
+
+    @Test
+    fun genre_badge_is_visible_when_genres_are_selected() {
+        composeTestRule.setContent {
+            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
+            RandomFilmScreen(
+                userNameList = mutableUserNamesFlow,
+                state = RandomFilmState(selectedGenres = setOf(FilmGenre.ACTION, FilmGenre.COMEDY)),
+            ) { }
+        }
+
+        composeTestRule.onNodeWithTag("test-random-film-genre-badge").assertIsDisplayed()
+    }
+
+    @Test
+    fun genre_badge_is_not_shown_when_no_genres_selected() {
+        composeTestRule.setContent {
+            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
+            RandomFilmScreen(
+                userNameList = mutableUserNamesFlow,
+                state = RandomFilmState(selectedGenres = emptySet()),
+            ) { }
+        }
+
+        composeTestRule.onNodeWithTag("test-random-film-genre-badge").assertDoesNotExist()
     }
 }

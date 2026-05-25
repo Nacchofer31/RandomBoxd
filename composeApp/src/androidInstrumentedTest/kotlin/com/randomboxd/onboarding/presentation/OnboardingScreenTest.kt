@@ -67,7 +67,10 @@ class OnboardingScreenTest {
         // Page 3 → 4
         composeTestRule.onNodeWithText("Next").performClick()
         composeTestRule.waitForIdle()
-        // Page 4 — last page, skip button should NOT be visible
+        // Page 4 → 5
+        composeTestRule.onNodeWithText("Next").performClick()
+        composeTestRule.waitForIdle()
+        // Page 5 — last page, skip button should NOT be visible
         composeTestRule.onNodeWithText("Start Exploring").assertIsDisplayed()
         composeTestRule.onNodeWithText("Start Exploring").performClick()
 

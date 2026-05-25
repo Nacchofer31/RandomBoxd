@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import com.nacchofer31.randomboxd.core.domain.DataError
 import com.nacchofer31.randomboxd.core.domain.ResultData
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
+import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.UserNameRepository
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
@@ -71,7 +72,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     fun `given successful response when submit button clicked then update state with film`() =
         runTest(testDispatchers.testDispatcher) {
             mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending { repository.getRandomMovie(isAny()) } returns ResultData.Success(testFilm)
+            mocker.everySuspending { repository.getRandomMovie(isAny(), isAny()) } returns ResultData.Success(testFilm)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
@@ -96,7 +97,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
         runTest(testDispatchers.testDispatcher) {
             mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
             mocker.everySuspending {
-                repository.getRandomMovie(isAny())
+                repository.getRandomMovie(isAny(), isAny())
             } returns ResultData.Error(DataError.Remote.SERIALIZATION)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
@@ -122,7 +123,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
         runTest(testDispatchers.testDispatcher) {
             mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
             mocker.everySuspending {
-                repository.getRandomMovie(isAny())
+                repository.getRandomMovie(isAny(), isAny())
             } returns ResultData.Error(DataError.Remote.SERIALIZATION)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
@@ -147,7 +148,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     fun `when submit button clicked twice then state has film both times`() =
         runTest(testDispatchers.testDispatcher) {
             mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending { repository.getRandomMovie(isAny()) } returns ResultData.Success(testFilm)
+            mocker.everySuspending { repository.getRandomMovie(isAny(), isAny()) } returns ResultData.Success(testFilm)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
@@ -184,7 +185,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     fun `when info button clicked then resultFilm and resultError are cleared`() =
         runTest(testDispatchers.testDispatcher) {
             mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending { repository.getRandomMovie(isAny()) } returns ResultData.Success(testFilm)
+            mocker.everySuspending { repository.getRandomMovie(isAny(), isAny()) } returns ResultData.Success(testFilm)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
@@ -244,7 +245,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     fun `when multi-user submit clicked then getRandomMoviesFromSearchList is called`() =
         runTest(testDispatchers.testDispatcher) {
             mocker.everySuspending {
-                repository.getRandomMoviesFromSearchList(isAny(), isAny())
+                repository.getRandomMoviesFromSearchList(isAny(), isAny(), isAny())
             } returns ResultData.Success(testFilm)
             createViewModel()
 
@@ -312,6 +313,160 @@ class RandomFilmViewModelTest : TestsWithMocks() {
                 // No new state items expected since OnFilmClicked falls to else branch
                 expectNoEvents()
                 assertEquals(initialState.userName, "")
+            }
+        }
+
+    @Test
+    fun `when genre bottom sheet open action then showGenreBottomSheet is true`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+
+            viewModel.state.test {
+                awaitItem() // initial
+
+                viewModel.onAction(RandomFilmAction.OnGenreBottomSheetOpen)
+                val state = awaitItem()
+                assertEquals(true, state.showGenreBottomSheet)
+            }
+        }
+
+    @Test
+    fun `when genre bottom sheet dismiss action then showGenreBottomSheet is false`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+
+            viewModel.state.test {
+                awaitItem() // initial
+
+                viewModel.onAction(RandomFilmAction.OnGenreBottomSheetOpen)
+                awaitItem() // showGenreBottomSheet = true
+
+                viewModel.onAction(RandomFilmAction.OnGenreBottomSheetDismiss)
+                val state = awaitItem()
+                assertEquals(false, state.showGenreBottomSheet)
+            }
+        }
+
+    @Test
+    fun `when genre selection applied then selectedGenres updated and bottom sheet closed`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+            val genres = setOf(FilmGenre.ACTION, FilmGenre.COMEDY)
+
+            viewModel.state.test {
+                awaitItem() // initial
+
+                viewModel.onAction(RandomFilmAction.OnGenreSelectionApplied(genres))
+                val state = awaitItem()
+                assertEquals(genres, state.selectedGenres)
+                assertEquals(false, state.showGenreBottomSheet)
+            }
+        }
+
+    @Test
+    fun `when genre toggled then genre is added to selectedGenres`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+
+            viewModel.state.test {
+                awaitItem() // initial
+
+                viewModel.onAction(RandomFilmAction.OnGenreToggled(FilmGenre.ACTION))
+                val state = awaitItem()
+                assertEquals(setOf(FilmGenre.ACTION), state.selectedGenres)
+            }
+        }
+
+    @Test
+    fun `when already selected genre toggled then genre is removed from selectedGenres`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+
+            viewModel.state.test {
+                awaitItem() // initial
+
+                viewModel.onAction(RandomFilmAction.OnGenreToggled(FilmGenre.ACTION))
+                awaitItem() // ACTION added
+
+                viewModel.onAction(RandomFilmAction.OnGenreToggled(FilmGenre.ACTION))
+                val state = awaitItem()
+                assertEquals(emptySet<FilmGenre>(), state.selectedGenres)
+            }
+        }
+
+    @Test
+    fun `when genre any selected action then selectedGenres is cleared`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+
+            viewModel.state.test {
+                awaitItem() // initial
+
+                viewModel.onAction(RandomFilmAction.OnGenreSelectionApplied(setOf(FilmGenre.ACTION, FilmGenre.DRAMA)))
+                awaitItem() // genres set
+
+                viewModel.onAction(RandomFilmAction.OnGenreAnySelected)
+                val state = awaitItem()
+                assertEquals(emptySet<FilmGenre>(), state.selectedGenres)
+            }
+        }
+
+    @Test
+    fun `when all genres toggled then selectedGenres resets to empty`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+
+            viewModel.state.test {
+                awaitItem() // initial
+
+                // Set all genres except the last one
+                val allButLast = FilmGenre.entries.dropLast(1).toSet()
+                viewModel.onAction(RandomFilmAction.OnGenreSelectionApplied(allButLast))
+                awaitItem()
+
+                // Toggling the last genre should auto-reset since all would be selected
+                viewModel.onAction(RandomFilmAction.OnGenreToggled(FilmGenre.entries.last()))
+                val state = awaitItem()
+                assertEquals(emptySet<FilmGenre>(), state.selectedGenres)
+            }
+        }
+
+    @Test
+    fun `when submit clicked with genres then selectedGenres passed to repository`() =
+        runTest(testDispatchers.testDispatcher) {
+            mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
+            mocker.everySuspending { repository.getRandomMovie(isAny(), isAny()) } returns ResultData.Success(testFilm)
+            createViewModel()
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
+            viewModel.onAction(RandomFilmAction.OnGenreSelectionApplied(setOf(FilmGenre.HORROR)))
+
+            viewModel.state.test {
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick())
+
+                awaitItem() // idle with genres set
+                var state = awaitItem()
+                if (state.isLoading) state = awaitItem()
+                assertNotNull(state.resultFilm)
+            }
+        }
+
+    @Test
+    fun `when multi-user submit clicked with genres then genres passed to getRandomMoviesFromSearchList`() =
+        runTest(testDispatchers.testDispatcher) {
+            mocker.everySuspending {
+                repository.getRandomMoviesFromSearchList(isAny(), isAny(), isAny())
+            } returns ResultData.Success(testFilm)
+            createViewModel()
+            viewModel.onAction(RandomFilmAction.OnAddOrRemoveUserNameSearchList("user1"))
+            viewModel.onAction(RandomFilmAction.OnGenreSelectionApplied(setOf(FilmGenre.COMEDY)))
+
+            viewModel.state.test {
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick(singleSearch = false))
+
+                awaitItem() // idle
+                var state = awaitItem()
+                if (state.isLoading) state = awaitItem()
+                assertNotNull(state.resultFilm)
             }
         }
 }

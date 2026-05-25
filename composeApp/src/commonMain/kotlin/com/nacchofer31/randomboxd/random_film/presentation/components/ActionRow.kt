@@ -3,11 +3,17 @@ package com.nacchofer31.randomboxd.random_film.presentation.components
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,10 +26,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
+import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import org.jetbrains.compose.resources.stringResource
 import randomboxd.composeapp.generated.resources.Res
+import randomboxd.composeapp.generated.resources.genre_button_label
 import randomboxd.composeapp.generated.resources.submit
 
 @Composable
@@ -34,11 +42,63 @@ internal fun ActionRow(
     focusManager: FocusManager,
     onAction: (RandomFilmAction) -> Unit,
     filmSearchMode: FilmSearchMode?,
+    selectedGenres: Set<FilmGenre>,
     onUserNameChange: (String) -> Unit,
 ) = Row(
     horizontalArrangement = Arrangement.Center,
     modifier = Modifier.height(56.dp),
 ) {
+    Box(
+        modifier = Modifier.fillMaxHeight().padding(end = 5.dp),
+        contentAlignment = Alignment.TopEnd,
+    ) {
+        Surface(
+            modifier = Modifier.fillMaxHeight(),
+            onClick = { onAction(RandomFilmAction.OnGenreBottomSheetOpen) },
+            color = RandomBoxdColors.CardBackground,
+            shape = RoundedCornerShape(topStart = 10.dp, bottomStart = 10.dp, bottomEnd = 10.dp, topEnd = 10.dp),
+        ) {
+            Column(
+                modifier = Modifier.padding(horizontal = 14.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Icon(
+                    imageVector = Icons.Default.FilterList,
+                    contentDescription = null,
+                    tint = RandomBoxdColors.BackgroundLightColor,
+                    modifier = Modifier.size(18.dp),
+                )
+                Text(
+                    text = stringResource(Res.string.genre_button_label),
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = RandomBoxdColors.BackgroundLightColor,
+                )
+            }
+        }
+        if (selectedGenres.isNotEmpty()) {
+            Surface(
+                modifier = Modifier.size(20.dp).testTag("test-random-film-genre-badge"),
+                shape = RoundedCornerShape(50),
+                color = RandomBoxdColors.GreenAccent,
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = selectedGenres.size.toString(),
+                        fontSize = 10.sp,
+                        lineHeight = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = RandomBoxdColors.BackgroundDarkColor,
+                    )
+                }
+            }
+        }
+    }
+
     UserNameTextField(
         value = userName,
         hint =

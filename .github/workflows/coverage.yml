@@ -35,12 +35,8 @@ jobs:
       - name: Generate coverage report
         run: ./gradlew composeApp:testDebugUnitTest composeApp:jacocoTestReport -x connectedDebugAndroidTest
 
-      - name: Verify coverage report
-        run: |
-          echo "=== Report size ==="
-          wc -l composeApp/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
-          echo "=== First 30 lines ==="
-          head -30 composeApp/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
+      - name: Check minimum coverage threshold (70% lines at project level)
+        run: ./gradlew composeApp:jacocoTestCoverageVerification -x testDebugUnitTest -x connectedDebugAndroidTest
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nacchofer31.randomboxd.core.domain.DispatcherProvider
 import com.nacchofer31.randomboxd.core.domain.ResultData
+import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
@@ -62,13 +63,14 @@ class RandomFilmViewModel(
                                 repository.getRandomMoviesFromSearchList(
                                     internalState.value.userNameSearchList,
                                     internalState.value.filmSearchMode,
+                                    internalState.value.selectedGenres,
                                 )
                             }
 
                             else -> {
                                 val userName = internalState.value.userName.trim()
                                 userNameRepository.addUserName(userName)
-                                repository.getRandomMovie(userName)
+                                repository.getRandomMovie(userName, internalState.value.selectedGenres)
                             }
                         }
                     emit(result)
@@ -139,6 +141,26 @@ class RandomFilmViewModel(
                 onFilmSearchModeToggle()
             }
 
+            is RandomFilmAction.OnGenreToggled -> {
+                toggleGenre(action.genre)
+            }
+
+            is RandomFilmAction.OnGenreAnySelected -> {
+                internalState.update { it.copy(selectedGenres = emptySet()) }
+            }
+
+            is RandomFilmAction.OnGenreBottomSheetOpen -> {
+                internalState.update { it.copy(showGenreBottomSheet = true) }
+            }
+
+            is RandomFilmAction.OnGenreBottomSheetDismiss -> {
+                internalState.update { it.copy(showGenreBottomSheet = false) }
+            }
+
+            is RandomFilmAction.OnGenreSelectionApplied -> {
+                internalState.update { it.copy(selectedGenres = action.genres, showGenreBottomSheet = false) }
+            }
+
             else -> {
                 Unit
             }
@@ -163,6 +185,21 @@ class RandomFilmViewModel(
     private fun onFilmSearchModeToggle() =
         internalState.update {
             it.copy(filmSearchMode = if (it.filmSearchMode == FilmSearchMode.INTERSECTION) FilmSearchMode.UNION else FilmSearchMode.INTERSECTION, resultError = null)
+        }
+
+    private fun toggleGenre(genre: FilmGenre) =
+        internalState.update { current ->
+            val updated =
+                if (current.selectedGenres.contains(genre)) {
+                    current.selectedGenres - genre
+                } else {
+                    current.selectedGenres + genre
+                }
+            if (updated.size == FilmGenre.entries.size) {
+                current.copy(selectedGenres = emptySet())
+            } else {
+                current.copy(selectedGenres = updated)
+            }
         }
 
     private fun addOrRemoveUserNameToList(userName: String) =

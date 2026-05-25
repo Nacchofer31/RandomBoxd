@@ -31,6 +31,7 @@ RandomBoxd is a **Compose Multiplatform** project designed to fetch a random mov
 - 🔍 Intuitive user search functionality. 
 - 🏷️ Stores and displays previously entered UserNames locally via **Room**, shown as tappable tags for quick reuse or deletion.
 - ∩∪ **Intersection & Union** → Combine multiple users' watchlists and pick a random movie either from their **shared movies** (Intersection) or from the **merged pool** (Union).
+- 🎭 **Genre Filters** → Narrow results to one or more genres at once. Works in both single-user and multi-user modes.
 
 ## 🧙‍♂️ Watch the Magic
 
@@ -120,6 +121,16 @@ From there, a single random movie is chosen based on two available modes:
 <p align="center">
   <img src="screenshots/user-name-list.png" width="200" />
 </p>
+
+## 🎭 Genre Filters
+RandomBoxd lets you narrow your random pick to specific genres using the **Genre** button next to the search bar.  
+Select one or more genres and the app will only consider movies that match your selection:
+
+- **Single genre** → e.g. only Horror movies from your watchlist.
+- **Multiple genres** → combines genres so any matching movie can be picked.
+- **Reset anytime** → clear the filter with one tap to go back to the full list.
+
+Works seamlessly with both **single-user** and **multi-user** (Intersection & Union) modes.
 
 ## 🚀 Getting Started
 1. Clone the repository:

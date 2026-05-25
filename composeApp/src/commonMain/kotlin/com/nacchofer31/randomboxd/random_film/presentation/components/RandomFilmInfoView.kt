@@ -32,8 +32,10 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import randomboxd.composeapp.generated.resources.Res
 import randomboxd.composeapp.generated.resources.enter_description
+import randomboxd.composeapp.generated.resources.onboarding_genre_new_badge
 import randomboxd.composeapp.generated.resources.ready_to_spin
 import randomboxd.composeapp.generated.resources.roulette_icon
+import randomboxd.composeapp.generated.resources.tip_genre_filter
 import randomboxd.composeapp.generated.resources.tip_hold_submit
 import randomboxd.composeapp.generated.resources.tip_username_format
 
@@ -120,6 +122,11 @@ fun RandomFilmInfoView() {
                 text = stringResource(Res.string.tip_hold_submit),
                 accentColor = RandomBoxdColors.OrangeAccent,
             )
+            NewFeatureTipCard(
+                icon = "🎭",
+                newBadge = stringResource(Res.string.onboarding_genre_new_badge),
+                text = stringResource(Res.string.tip_genre_filter),
+            )
         }
     }
 }
@@ -159,5 +166,63 @@ private fun TipCard(
             fontWeight = FontWeight.Medium,
             color = RandomBoxdColors.BackgroundLightColor,
         )
+    }
+}
+
+@Composable
+private fun NewFeatureTipCard(
+    icon: String,
+    newBadge: String,
+    text: String,
+) {
+    Row(
+        modifier =
+            Modifier
+                .clip(RoundedCornerShape(12.dp))
+                .background(RandomBoxdColors.GreenAccent.copy(alpha = 0.08f))
+                .border(
+                    width = 1.dp,
+                    color = RandomBoxdColors.GreenAccent.copy(alpha = 0.4f),
+                    shape = RoundedCornerShape(12.dp),
+                ).fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        Box(
+            modifier =
+                Modifier
+                    .height(32.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(RandomBoxdColors.GreenAccent.copy(alpha = 0.12f)),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = icon,
+                fontSize = 16.sp,
+            )
+        }
+        Text(
+            text = text,
+            fontSize = 13.sp,
+            fontWeight = FontWeight.Medium,
+            color = RandomBoxdColors.BackgroundLightColor,
+            modifier = Modifier.weight(1f),
+        )
+        Box(
+            modifier =
+                Modifier
+                    .clip(RoundedCornerShape(6.dp))
+                    .background(RandomBoxdColors.GreenAccent)
+                    .padding(horizontal = 7.dp, vertical = 3.dp),
+        ) {
+            Text(
+                text = newBadge,
+                color = RandomBoxdColors.BackgroundDarkColor,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.ExtraBold,
+                letterSpacing = 0.5.sp,
+            )
+        }
     }
 }

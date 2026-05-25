@@ -2,6 +2,7 @@ package com.nacchofer31.randomboxd.random_film.data.repository_impl
 
 import com.nacchofer31.randomboxd.core.domain.DataError
 import com.nacchofer31.randomboxd.core.domain.ResultData
+import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
@@ -13,6 +14,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class RandomFilmScrappingRepositoryTest {
     private val paginationHtml =
@@ -309,6 +311,148 @@ class RandomFilmScrappingRepositoryTest {
             // imageUrl should fall back to the one built from filmId
             val film = (result as ResultData.Success).data
             assertNotNull(film.imageUrl)
+        }
+
+    @Test
+    fun `getRandomMovie with genre filter appends genre slug to watchlist url`() =
+        runTest {
+            val requestedPaths = mutableListOf<String>()
+            val mockEngine =
+                MockEngine { request ->
+                    val path = request.url.encodedPath
+                    requestedPaths.add(path)
+                    respond(
+                        content =
+                            when {
+                                path.contains("/page/") -> filmListHtml
+                                path.startsWith("/film/") -> filmDetailHtml
+                                else -> paginationHtml
+                            },
+                        status = HttpStatusCode.OK,
+                        headers = headersOf("Content-Type", "text/html"),
+                    )
+                }
+            val repository = createRepository(mockEngine)
+
+            repository.getRandomMovie("user", setOf(FilmGenre.ACTION))
+
+            assertTrue(requestedPaths.any { it.contains("/genre/action") })
+        }
+
+    @Test
+    fun `getRandomMovie with multiple genres appends plus-separated slugs to watchlist url`() =
+        runTest {
+            val requestedPaths = mutableListOf<String>()
+            val mockEngine =
+                MockEngine { request ->
+                    val path = request.url.encodedPath
+                    requestedPaths.add(path)
+                    respond(
+                        content =
+                            when {
+                                path.contains("/page/") -> filmListHtml
+                                path.startsWith("/film/") -> filmDetailHtml
+                                else -> paginationHtml
+                            },
+                        status = HttpStatusCode.OK,
+                        headers = headersOf("Content-Type", "text/html"),
+                    )
+                }
+            val repository = createRepository(mockEngine)
+
+            repository.getRandomMovie("user", setOf(FilmGenre.ACTION, FilmGenre.HORROR))
+
+            assertTrue(requestedPaths.any { path -> path.contains("/genre/") && path.contains("action") && path.contains("horror") })
+        }
+
+    @Test
+    fun `getRandomMovie with no genres uses base watchlist url without genre segment`() =
+        runTest {
+            val requestedPaths = mutableListOf<String>()
+            val mockEngine =
+                MockEngine { request ->
+                    val path = request.url.encodedPath
+                    requestedPaths.add(path)
+                    respond(
+                        content =
+                            when {
+                                path.contains("/page/") -> filmListHtml
+                                path.startsWith("/film/") -> filmDetailHtml
+                                else -> paginationHtml
+                            },
+                        status = HttpStatusCode.OK,
+                        headers = headersOf("Content-Type", "text/html"),
+                    )
+                }
+            val repository = createRepository(mockEngine)
+
+            repository.getRandomMovie("user", emptySet())
+
+            assertTrue(requestedPaths.none { it.contains("/genre/") })
+        }
+
+    @Test
+    fun `getRandomMoviesFromSearchList with genre filter appends genre slug to urls`() =
+        runTest {
+            val requestedPaths = mutableListOf<String>()
+            val mockEngine =
+                MockEngine { request ->
+                    val path = request.url.encodedPath
+                    requestedPaths.add(path)
+                    respond(
+                        content =
+                            when {
+                                path.contains("/page/") -> filmListHtml
+                                path.startsWith("/film/") -> filmDetailHtml
+                                else -> paginationHtml
+                            },
+                        status = HttpStatusCode.OK,
+                        headers = headersOf("Content-Type", "text/html"),
+                    )
+                }
+            val repository = createRepository(mockEngine)
+
+            repository.getRandomMoviesFromSearchList(
+                searchList = setOf("user1"),
+                filmSearchMode = FilmSearchMode.UNION,
+                selectedGenres = setOf(FilmGenre.DRAMA),
+            )
+
+            assertTrue(requestedPaths.any { it.contains("/genre/drama") })
+        }
+
+    @Test
+    fun `getRandomMovie with list notation and genre filter appends genre to list url`() =
+        runTest {
+            val listFilmHtml =
+                """
+                <ul>
+                    <li class="posteritem">
+                        <div class="react-component" data-postered-identifier='{"lid":"2Ya4","uid":"film:12345","type":"film","typeName":"film"}' data-item-slug="test-film" data-item-name="Test Film (2020)"></div>
+                    </li>
+                </ul>
+                """.trimIndent()
+            val requestedPaths = mutableListOf<String>()
+            val mockEngine =
+                MockEngine { request ->
+                    val path = request.url.encodedPath
+                    requestedPaths.add(path)
+                    respond(
+                        content =
+                            when {
+                                path.contains("/page/") -> listFilmHtml
+                                path.startsWith("/film/") -> filmDetailHtml
+                                else -> paginationHtml
+                            },
+                        status = HttpStatusCode.OK,
+                        headers = headersOf("Content-Type", "text/html"),
+                    )
+                }
+            val repository = createRepository(mockEngine)
+
+            repository.getRandomMovie("user/my-list", setOf(FilmGenre.COMEDY))
+
+            assertTrue(requestedPaths.any { it.contains("/genre/comedy") })
         }
 
     @Test
