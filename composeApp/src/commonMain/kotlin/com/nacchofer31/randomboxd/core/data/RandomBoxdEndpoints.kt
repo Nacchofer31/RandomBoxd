@@ -3,12 +3,22 @@ package com.nacchofer31.randomboxd.core.data
 object RandomBoxdEndpoints {
     fun getUserRandomFilm(userName: String): String = "/api?users=$userName"
 
-    fun getUserNameWatchlist(userName: String): String = "https://letterboxd.com/$userName/watchlist"
+    fun getUserNameWatchlist(
+        userName: String,
+        genreSlugs: String = "",
+    ): String {
+        val base = "https://letterboxd.com/$userName/watchlist"
+        return if (genreSlugs.isNotEmpty()) "$base/genre/$genreSlugs" else base
+    }
 
     fun getUserNameFromList(
         userName: String,
         listName: String,
-    ): String = "https://letterboxd.com/$userName/list/$listName"
+        genreSlugs: String = "",
+    ): String {
+        val base = "https://letterboxd.com/$userName/list/$listName"
+        return if (genreSlugs.isNotEmpty()) "$base/genre/$genreSlugs" else base
+    }
 
     fun filmSlugUrl(slug: String): String = "https://letterboxd.com/film/$slug/"
 

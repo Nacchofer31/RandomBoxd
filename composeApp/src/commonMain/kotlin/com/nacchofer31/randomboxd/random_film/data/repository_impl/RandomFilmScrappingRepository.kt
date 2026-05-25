@@ -6,6 +6,7 @@ import com.nacchofer31.randomboxd.core.data.safeCall
 import com.nacchofer31.randomboxd.core.domain.DataError
 import com.nacchofer31.randomboxd.core.domain.ResultData
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
+import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
 import io.ktor.client.HttpClient
@@ -36,9 +37,10 @@ class RandomFilmScrappingRepository(
 
     override suspend fun getRandomMovie(
         userName: String,
+        selectedGenres: Set<FilmGenre>,
     ): ResultData<Film, DataError.Remote> =
         withContext(Dispatchers.IO) {
-            val filmsResult = getFilmsFromUserWatchlist(userName)
+            val filmsResult = getFilmsFromUserWatchlist(userName, selectedGenres)
             val films =
                 when (filmsResult) {
                     is ResultData.Success -> filmsResult.data
@@ -54,11 +56,12 @@ class RandomFilmScrappingRepository(
     override suspend fun getRandomMoviesFromSearchList(
         searchList: Set<String>,
         filmSearchMode: FilmSearchMode,
+        selectedGenres: Set<FilmGenre>,
     ): ResultData<Film, DataError.Remote> =
         withContext(Dispatchers.IO) {
             if (searchList.isEmpty()) return@withContext ResultData.Error(DataError.Remote.SERIALIZATION)
 
-            val userFilmsResults = searchList.map { userName -> getFilmsFromUserWatchlist(userName) }
+            val userFilmsResults = searchList.map { userName -> getFilmsFromUserWatchlist(userName, selectedGenres) }
             val userFilms: List<List<Film>> = mutableListOf()
 
             for (result in userFilmsResults) {
@@ -89,7 +92,11 @@ class RandomFilmScrappingRepository(
             extractFilm(chosenFilm)
         }
 
-    private suspend fun getFilmsFromUserWatchlist(userName: String): ResultData<List<Film>, DataError.Remote> {
+    private suspend fun getFilmsFromUserWatchlist(
+        userName: String,
+        selectedGenres: Set<FilmGenre> = emptySet(),
+    ): ResultData<List<Film>, DataError.Remote> {
+        val genreSlugs = selectedGenres.joinToString("+") { it.slug }
         var baseUrl = ""
         var isWatchList = true
         if (userName.contains("/")) {
@@ -100,10 +107,10 @@ class RandomFilmScrappingRepository(
                 val userName = textParts[0]
                 val listName = textParts[1]
 
-                baseUrl = RandomBoxdEndpoints.getUserNameFromList(userName, listName)
+                baseUrl = RandomBoxdEndpoints.getUserNameFromList(userName, listName, genreSlugs)
             }
         } else {
-            baseUrl = RandomBoxdEndpoints.getUserNameWatchlist(userName)
+            baseUrl = RandomBoxdEndpoints.getUserNameWatchlist(userName, genreSlugs)
         }
 
         val totalPages = getTotalPages(baseUrl)
