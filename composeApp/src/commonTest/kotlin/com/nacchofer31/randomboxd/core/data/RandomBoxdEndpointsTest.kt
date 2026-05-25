@@ -36,4 +36,40 @@ class RandomBoxdEndpointsTest {
         assertTrue(result.contains("12345"))
         assertTrue(result.contains("test-film"))
     }
+
+    @Test
+    fun `getUserNameWatchlist with genre slug returns genre url`() {
+        val result = RandomBoxdEndpoints.getUserNameWatchlist("testuser", "action")
+        assertEquals("https://letterboxd.com/testuser/watchlist/genre/action", result)
+    }
+
+    @Test
+    fun `getUserNameWatchlist with multiple genre slugs returns plus-separated url`() {
+        val result = RandomBoxdEndpoints.getUserNameWatchlist("testuser", "action+horror")
+        assertEquals("https://letterboxd.com/testuser/watchlist/genre/action+horror", result)
+    }
+
+    @Test
+    fun `getUserNameWatchlist with empty genre slug returns base watchlist url`() {
+        val result = RandomBoxdEndpoints.getUserNameWatchlist("testuser", "")
+        assertEquals("https://letterboxd.com/testuser/watchlist", result)
+    }
+
+    @Test
+    fun `getUserNameFromList with genre slug returns genre url`() {
+        val result = RandomBoxdEndpoints.getUserNameFromList("testuser", "my-list", "comedy")
+        assertEquals("https://letterboxd.com/testuser/list/my-list/genre/comedy", result)
+    }
+
+    @Test
+    fun `getUserNameFromList with multiple genre slugs returns plus-separated url`() {
+        val result = RandomBoxdEndpoints.getUserNameFromList("testuser", "my-list", "comedy+drama")
+        assertEquals("https://letterboxd.com/testuser/list/my-list/genre/comedy+drama", result)
+    }
+
+    @Test
+    fun `getUserNameFromList with empty genre slug returns base list url`() {
+        val result = RandomBoxdEndpoints.getUserNameFromList("testuser", "my-list", "")
+        assertEquals("https://letterboxd.com/testuser/list/my-list", result)
+    }
 }
