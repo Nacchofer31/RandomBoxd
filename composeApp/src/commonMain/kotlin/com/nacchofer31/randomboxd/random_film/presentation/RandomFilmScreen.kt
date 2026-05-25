@@ -25,6 +25,7 @@ import com.nacchofer31.randomboxd.random_film.presentation.components.ActionRow
 import com.nacchofer31.randomboxd.random_film.presentation.components.FilmDisplay
 import com.nacchofer31.randomboxd.random_film.presentation.components.FilmErrorView
 import com.nacchofer31.randomboxd.random_film.presentation.components.FilmHeader
+import com.nacchofer31.randomboxd.random_film.presentation.components.GenreFilterBottomSheet
 import com.nacchofer31.randomboxd.random_film.presentation.components.LoadingOrPrompt
 import com.nacchofer31.randomboxd.random_film.presentation.components.RandomFilmInfoView
 import com.nacchofer31.randomboxd.random_film.presentation.components.UnionIntersectionSwitch
@@ -64,6 +65,14 @@ fun RandomFilmScreen(
     onAction: (RandomFilmAction) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
+
+    if (state.showGenreBottomSheet) {
+        GenreFilterBottomSheet(
+            selectedGenres = state.selectedGenres,
+            onApply = { genres -> onAction(RandomFilmAction.OnGenreSelectionApplied(genres)) },
+            onDismiss = { onAction(RandomFilmAction.OnGenreBottomSheetDismiss) },
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -123,6 +132,7 @@ fun RandomFilmScreen(
                         focusManager,
                         onAction,
                         state.filmSearchMode,
+                        state.selectedGenres,
                     ) { onAction(RandomFilmAction.OnUserNameChanged(it)) }
                     if (state.userNameSearchList.isNotEmpty()) {
                         UnionIntersectionSwitch(

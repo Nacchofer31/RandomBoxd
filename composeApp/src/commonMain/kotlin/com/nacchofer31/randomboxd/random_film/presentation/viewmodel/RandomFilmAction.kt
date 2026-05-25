@@ -1,6 +1,7 @@
 package com.nacchofer31.randomboxd.random_film.presentation.viewmodel
 
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
+import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 
 sealed interface RandomFilmAction {
@@ -33,4 +34,18 @@ sealed interface RandomFilmAction {
     data object OnFilmSearchModeToggle : RandomFilmAction
 
     data object OnInfoButtonClick : RandomFilmAction
+
+    data class OnGenreToggled(
+        val genre: FilmGenre,
+    ) : RandomFilmAction
+
+    data object OnGenreAnySelected : RandomFilmAction
+
+    data object OnGenreBottomSheetOpen : RandomFilmAction
+
+    data object OnGenreBottomSheetDismiss : RandomFilmAction
+
+    data class OnGenreSelectionApplied(
+        val genres: Set<FilmGenre>,
+    ) : RandomFilmAction
 }
