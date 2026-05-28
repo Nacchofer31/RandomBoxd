@@ -49,5 +49,5 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.ANDROID_PLAYSTORE_ACCOUNT_KEY }}
           packageName: com.nacchofer31.randomboxd
           releaseFiles: composeApp/build/outputs/bundle/release/composeApp-release.aab
-          track: production
+          tracks: production
           status: completed
