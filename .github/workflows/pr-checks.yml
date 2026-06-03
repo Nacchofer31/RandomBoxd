@@ -11,6 +11,20 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      source: ${{ steps.filter.outputs.source }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            source:
+              - 'composeApp/src/**/*.kt'
+              - 'composeApp/src/**/*.java'
+
   build:
     uses: ./.github/workflows/build.yml
 
@@ -20,11 +34,13 @@ jobs:
       contents: write
 
   unit-tests:
-    needs: build
+    needs: [ detect-changes, build ]
+    if: needs.detect-changes.outputs.source == 'true'
     uses: ./.github/workflows/unit-tests.yml
 
   instrumented-tests:
-    needs: build
+    needs: [ detect-changes, build ]
+    if: needs.detect-changes.outputs.source == 'true'
     uses: ./.github/workflows/instrumented-tests.yml
 
   coverage:
