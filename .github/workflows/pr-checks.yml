@@ -29,8 +29,6 @@ jobs:
     uses: ./.github/workflows/build.yml
 
   spotless:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.source == 'true'
     uses: ./.github/workflows/spotless.yml
     permissions:
       contents: write
