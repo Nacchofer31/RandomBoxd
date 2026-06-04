@@ -55,6 +55,10 @@ kotlin {
 
             // room
             implementation(libs.room.runtime.android)
+
+            // appfunctions (Android 14+ only; gated with @RequiresApi(34))
+            implementation(libs.appfunctions)
+            implementation(libs.appfunctions.service)
         }
         commonMain.dependencies {
             implementation("org.jetbrains.compose.runtime:runtime:1.10.0")
@@ -187,6 +191,7 @@ room {
 
 ksp {
     arg("room.generateKotlin", "true")
+    arg("appfunctions:aggregateAppFunctions", "true")
 }
 
 val sqliteTmpDir = layout.buildDirectory.dir("tmp/sqlite")
@@ -207,6 +212,7 @@ dependencies {
     add("kspIosSimulatorArm64", libs.room.compiler)
     add("kspIosX64", libs.room.compiler)
     add("kspIosArm64", libs.room.compiler)
+    add("kspAndroid", libs.appfunctions.compiler)
 }
 
 spotless {
