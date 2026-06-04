@@ -21,5 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <property
+            android:name="android.app.appfunctions"
+            android:resource="@xml/app_functions" />
     </application>
 </manifest>
