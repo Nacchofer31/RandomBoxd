@@ -255,6 +255,9 @@ val fileFilter =
         // kotlinx.coroutines inlined lambda classes (phantom source entries)
         "com/nacchofer31/randomboxd/random_film/presentation/components/**\$\$inlined*",
         "com/nacchofer31/randomboxd/random_film/presentation/viewmodel/**\$special\$\$inlined*",
+        // Native platform implementations (require device context)
+        "com/nacchofer31/randomboxd/random_film/data/repository_impl/InAppReviewRepositoryImplAndroid*",
+        "com/nacchofer31/randomboxd/random_film/data/repository_impl/InAppReviewRepositoryImplIos*",
     )
 
 tasks.register("jacocoTestReport", JacocoReport::class) {
