@@ -2,8 +2,6 @@ name: Publish Android Release
 
 on:
   push:
-    branches:
-      - feat/in-app-review
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+*'
   workflow_dispatch:
@@ -51,5 +49,5 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.ANDROID_PLAYSTORE_ACCOUNT_KEY }}
           packageName: com.nacchofer31.randomboxd
           releaseFiles: composeApp/build/outputs/bundle/release/composeApp-release.aab
-          tracks: internal
+          tracks: production
           status: completed
