@@ -7,7 +7,6 @@ import com.nacchofer31.randomboxd.core.domain.ResultData
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
-import com.nacchofer31.randomboxd.random_film.domain.repository.InAppReviewRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.UserNameRepository
 import kotlinx.coroutines.channels.BufferOverflow
@@ -31,7 +30,6 @@ class RandomFilmViewModel(
     private val repository: RandomFilmRepository,
     private val userNameRepository: UserNameRepository,
     private val dispatchers: DispatcherProvider,
-    private val inAppReviewRepository: InAppReviewRepository,
 ) : ViewModel() {
     private val actions = MutableSharedFlow<RandomFilmAction>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
@@ -85,9 +83,6 @@ class RandomFilmViewModel(
                 internalState.update { current ->
                     when (result) {
                         is ResultData.Success -> {
-                            viewModelScope.launch {
-                                inAppReviewRepository.requestInAppReview()
-                            }
                             current.copy(
                                 isLoading = false,
                                 resultFilm = result.data,
