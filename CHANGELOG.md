@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.3.0
+- Added `InAppReview` feature.
+- Fixed not localized texts.
+- Added hindi and arabic localizations.
+
 ## 1.2.0
 - Added genre filter feature.
 
