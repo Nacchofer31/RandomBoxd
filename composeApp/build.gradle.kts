@@ -55,6 +55,10 @@ kotlin {
 
             // room
             implementation(libs.room.runtime.android)
+
+            // play-review
+            implementation(libs.play.review)
+            implementation(libs.play.review.ktx)
         }
         commonMain.dependencies {
             implementation("org.jetbrains.compose.runtime:runtime:1.10.0")
