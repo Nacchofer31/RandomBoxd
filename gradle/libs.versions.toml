@@ -9,6 +9,7 @@ compose = "1.10.0"
 compose-junit4 = "1.10.0"
 kotlin = "2.2.10"
 core-splashscreen = "1.0.1"
+play-review = "2.0.2"
 
 # Koin
 koin = "4.1.1"
@@ -106,6 +107,10 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-runtime-android = { module = "androidx.room:room-runtime-android", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+
+# Play Review
+play-review = { module = "com.google.android.play:review", version.ref = "play-review" }
+play-review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "play-review" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

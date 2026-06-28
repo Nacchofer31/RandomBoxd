@@ -55,6 +55,10 @@ kotlin {
 
             // room
             implementation(libs.room.runtime.android)
+
+            // play-review
+            implementation(libs.play.review)
+            implementation(libs.play.review.ktx)
         }
         commonMain.dependencies {
             implementation("org.jetbrains.compose.runtime:runtime:1.10.0")
@@ -128,8 +132,8 @@ android {
 
     defaultConfig {
         applicationId = "com.nacchofer31.randomboxd"
-        versionName = "1.2.0"
-        versionCode = 14
+        versionName = "1.3.0"
+        versionCode = 18
         minSdk =
             libs.versions.android.minSdk
                 .get()
@@ -251,6 +255,9 @@ val fileFilter =
         // kotlinx.coroutines inlined lambda classes (phantom source entries)
         "com/nacchofer31/randomboxd/random_film/presentation/components/**\$\$inlined*",
         "com/nacchofer31/randomboxd/random_film/presentation/viewmodel/**\$special\$\$inlined*",
+        // Native platform implementations (require device context)
+        "com/nacchofer31/randomboxd/random_film/data/repository_impl/InAppReviewRepositoryImplAndroid*",
+        "com/nacchofer31/randomboxd/random_film/data/repository_impl/InAppReviewRepositoryImplIos*",
     )
 
 tasks.register("jacocoTestReport", JacocoReport::class) {
