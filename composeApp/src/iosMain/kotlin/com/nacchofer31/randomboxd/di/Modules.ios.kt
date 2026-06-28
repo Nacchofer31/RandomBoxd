@@ -3,9 +3,12 @@ package com.nacchofer31.randomboxd.di
 import com.nacchofer31.randomboxd.core.data.OnboardingPreferences
 import com.nacchofer31.randomboxd.core.data.UsernameDatabase
 import com.nacchofer31.randomboxd.database.getUserNameDatabase
+import com.nacchofer31.randomboxd.random_film.data.repository_impl.InAppReviewRepositoryImplIos
+import com.nacchofer31.randomboxd.random_film.domain.repository.InAppReviewRepository
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.darwin.Darwin
 import org.koin.core.module.Module
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 actual val platformModule: Module
@@ -14,4 +17,5 @@ actual val platformModule: Module
             single<HttpClientEngine> { Darwin.create() }
             single<UsernameDatabase> { getUserNameDatabase() }
             single { OnboardingPreferences() }
+            single { InAppReviewRepositoryImplIos() } bind InAppReviewRepository::class
         }
