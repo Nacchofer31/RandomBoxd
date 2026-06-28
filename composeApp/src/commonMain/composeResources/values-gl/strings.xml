@@ -68,6 +68,4 @@
     <string name="onboarding_genre_feature1">Filtra por un ou máis xéneros á vez</string>
     <string name="onboarding_genre_feature2">Restablece os filtros en calquera momento cun toque</string>
     <string name="onboarding_genre_feature3">Funciona cos modos de usuario único e multiusuario</string>
-    <string name="rolling_the_dice">Lanzando os dados...</string>
-    <string name="finding_random_movie">Atopando o teu filme aleatorio</string>
 </resources>

@@ -68,6 +68,4 @@
     <string name="onboarding_genre_feature1">Filtrez par un ou plusieurs genres à la fois</string>
     <string name="onboarding_genre_feature2">Réinitialisez les filtres à tout moment en un seul geste</string>
     <string name="onboarding_genre_feature3">Fonctionne avec les modes utilisateur unique et multi-utilisateur</string>
-    <string name="rolling_the_dice">Lancement des dés...</string>
-    <string name="finding_random_movie">Trouver votre film aléatoire</string>
 </resources>

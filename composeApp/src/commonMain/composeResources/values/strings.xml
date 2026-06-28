@@ -68,6 +68,4 @@
     <string name="onboarding_genre_feature1">Filter by one or more genres at once</string>
     <string name="onboarding_genre_feature2">Reset filters anytime with one tap</string>
     <string name="onboarding_genre_feature3">Works with single user and multi-user modes</string>
-    <string name="rolling_the_dice">Rolling the dice...</string>
-    <string name="finding_random_movie">Finding your random movie</string>
 </resources>
