@@ -17,10 +17,6 @@ import androidx.compose.ui.unit.sp
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 import com.nacchofer31.randomboxd.core.presentation.components.loading.RandomBoxdLoadingDiceView
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmState
-import org.jetbrains.compose.resources.stringResource
-import randomboxd.composeapp.generated.resources.Res
-import randomboxd.composeapp.generated.resources.finding_random_movie
-import randomboxd.composeapp.generated.resources.rolling_the_dice
 
 @Composable
 internal fun LoadingOrPrompt(state: RandomFilmState) {
@@ -33,7 +29,7 @@ internal fun LoadingOrPrompt(state: RandomFilmState) {
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
-                stringResource(Res.string.rolling_the_dice),
+                "Rolling the dice...",
                 color = RandomBoxdColors.White,
                 textAlign = TextAlign.Center,
                 fontSize = 26.sp,
@@ -42,7 +38,7 @@ internal fun LoadingOrPrompt(state: RandomFilmState) {
             )
             Spacer(modifier = Modifier.height(5.dp))
             Text(
-                stringResource(Res.string.finding_random_movie),
+                "Finding your random movie",
                 color = RandomBoxdColors.BackgroundLightColor,
                 textAlign = TextAlign.Center,
                 fontSize = 18.sp,

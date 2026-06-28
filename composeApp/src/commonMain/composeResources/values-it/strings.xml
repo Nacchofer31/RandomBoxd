@@ -68,6 +68,4 @@
     <string name="onboarding_genre_feature1">Filtra per uno o più generi contemporaneamente</string>
     <string name="onboarding_genre_feature2">Reimposta i filtri in qualsiasi momento con un tocco</string>
     <string name="onboarding_genre_feature3">Funziona con le modalità utente singolo e multiutente</string>
-    <string name="rolling_the_dice">Lanciando i dadi...</string>
-    <string name="finding_random_movie">Trovare il tuo film casuale</string>
 </resources>
