@@ -16,15 +16,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 import com.nacchofer31.randomboxd.core.presentation.components.loading.RandomBoxdLoadingDiceView
-import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmState
 import org.jetbrains.compose.resources.stringResource
 import randomboxd.composeapp.generated.resources.Res
 import randomboxd.composeapp.generated.resources.finding_random_movie
 import randomboxd.composeapp.generated.resources.rolling_the_dice
 
 @Composable
-internal fun LoadingOrPrompt(state: RandomFilmState) {
-    if (state.isLoading) {
+internal fun LoadingOrPrompt(isLoading: Boolean) {
+    if (isLoading) {
         return Column(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {

@@ -12,14 +12,18 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.nacchofer31.randomboxd.core.domain.DataError
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
+import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
+import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.presentation.components.ActionRow
 import com.nacchofer31.randomboxd.random_film.presentation.components.FilmDisplay
@@ -31,9 +35,10 @@ import com.nacchofer31.randomboxd.random_film.presentation.components.RandomFilm
 import com.nacchofer31.randomboxd.random_film.presentation.components.UnionIntersectionSwitch
 import com.nacchofer31.randomboxd.random_film.presentation.components.UserNameTagListView
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
-import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmState
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -42,33 +47,59 @@ fun RandomFilmScreenRoot(
     onFilmClicked: (Film) -> Unit,
     onInfoClick: () -> Unit = {},
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val stateFlow = viewModel.state
+    val isLoading by stateFlow.map { it.isLoading }.collectAsStateWithLifecycle(initialValue = false)
+    val resultFilm by stateFlow.map { it.resultFilm }.collectAsStateWithLifecycle(initialValue = null)
+    val resultError by stateFlow.map { it.resultError }.collectAsStateWithLifecycle(initialValue = null)
+    val userName by stateFlow.map { it.userName }.collectAsStateWithLifecycle(initialValue = "")
+    val userNameSearchList by stateFlow.map { it.userNameSearchList }.collectAsStateWithLifecycle(initialValue = emptySet())
+    val filmSearchMode by stateFlow.map { it.filmSearchMode }.collectAsStateWithLifecycle(initialValue = FilmSearchMode.INTERSECTION)
+    val selectedGenres by stateFlow.map { it.selectedGenres }.collectAsStateWithLifecycle(initialValue = emptySet())
+    val showGenreBottomSheet by stateFlow.map { it.showGenreBottomSheet }.collectAsStateWithLifecycle(initialValue = false)
 
-    RandomFilmScreen(
-        state = state,
-        userNameList = viewModel.userNameList,
-        onAction = { action ->
+    val onAction = remember(viewModel, onFilmClicked, onInfoClick) {
+        { action: RandomFilmAction ->
             when (action) {
                 is RandomFilmAction.OnFilmClicked -> onFilmClicked(action.film)
                 is RandomFilmAction.OnInfoButtonClick -> onInfoClick()
                 else -> Unit
             }
             viewModel.onAction(action)
-        },
+        }
+    }
+
+    RandomFilmScreen(
+        isLoading = isLoading,
+        resultFilm = resultFilm,
+        resultError = resultError,
+        userName = userName,
+        userNameSearchList = userNameSearchList,
+        filmSearchMode = filmSearchMode,
+        selectedGenres = selectedGenres,
+        showGenreBottomSheet = showGenreBottomSheet,
+        userNameList = viewModel.userNameList,
+        onAction = onAction,
     )
 }
 
 @Composable
 fun RandomFilmScreen(
-    state: RandomFilmState,
-    userNameList: StateFlow<List<UserName>>,
-    onAction: (RandomFilmAction) -> Unit,
+    isLoading: Boolean = false,
+    resultFilm: Film? = null,
+    resultError: DataError.Remote? = null,
+    userName: String = "",
+    userNameSearchList: Set<String> = emptySet(),
+    filmSearchMode: FilmSearchMode = FilmSearchMode.INTERSECTION,
+    selectedGenres: Set<FilmGenre> = emptySet(),
+    showGenreBottomSheet: Boolean = false,
+    userNameList: StateFlow<List<UserName>> = MutableStateFlow(emptyList()),
+    onAction: (RandomFilmAction) -> Unit = {},
 ) {
     val focusManager = LocalFocusManager.current
 
-    if (state.showGenreBottomSheet) {
+    if (showGenreBottomSheet) {
         GenreFilterBottomSheet(
-            selectedGenres = state.selectedGenres,
+            selectedGenres = selectedGenres,
             onApply = { genres -> onAction(RandomFilmAction.OnGenreSelectionApplied(genres)) },
             onDismiss = { onAction(RandomFilmAction.OnGenreBottomSheetDismiss) },
         )
@@ -77,7 +108,7 @@ fun RandomFilmScreen(
     Scaffold(
         topBar = {
             FilmHeader(
-                showInfoButton = !state.isLoading,
+                showInfoButton = !isLoading,
                 onInfoClick = {
                     onAction(RandomFilmAction.OnInfoButtonClick)
                 },
@@ -104,14 +135,14 @@ fun RandomFilmScreen(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    state.resultError?.let {
+                    resultError?.let {
                         FilmErrorView(it)
                     }
-                    state.resultFilm?.takeIf { !state.isLoading }?.let {
+                    resultFilm?.takeIf { !isLoading }?.let {
                         FilmDisplay(it, onAction)
-                    } ?: LoadingOrPrompt(state)
+                    } ?: LoadingOrPrompt(isLoading)
 
-                    if (state.resultError == null && state.resultFilm == null && !state.isLoading) {
+                    if (resultError == null && resultFilm == null && !isLoading) {
                         RandomFilmInfoView()
                     }
                 }
@@ -121,23 +152,23 @@ fun RandomFilmScreen(
                 ) {
                     UserNameTagListView(
                         userNameList = userNameList,
-                        userNameSearchList = state.userNameSearchList,
-                        fimSearchMode = state.filmSearchMode,
+                        userNameSearchList = userNameSearchList,
+                        fimSearchMode = filmSearchMode,
                         onAction = onAction,
                     )
                     ActionRow(
-                        state.userName,
-                        state.userNameSearchList,
-                        state.isLoading,
+                        userName,
+                        userNameSearchList,
+                        isLoading,
                         focusManager,
                         onAction,
-                        state.filmSearchMode,
-                        state.selectedGenres,
+                        filmSearchMode,
+                        selectedGenres,
                     ) { onAction(RandomFilmAction.OnUserNameChanged(it)) }
-                    if (state.userNameSearchList.isNotEmpty()) {
+                    if (userNameSearchList.isNotEmpty()) {
                         UnionIntersectionSwitch(
                             modifier = Modifier.padding(top = 10.dp),
-                            searchMode = state.filmSearchMode,
+                            searchMode = filmSearchMode,
                             onModeChange = {
                                 onAction(RandomFilmAction.OnFilmSearchModeToggle)
                             },
