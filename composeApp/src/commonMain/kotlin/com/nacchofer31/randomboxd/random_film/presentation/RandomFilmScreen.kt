@@ -57,16 +57,17 @@ fun RandomFilmScreenRoot(
     val selectedGenres by stateFlow.map { it.selectedGenres }.collectAsStateWithLifecycle(initialValue = emptySet())
     val showGenreBottomSheet by stateFlow.map { it.showGenreBottomSheet }.collectAsStateWithLifecycle(initialValue = false)
 
-    val onAction = remember(viewModel, onFilmClicked, onInfoClick) {
-        { action: RandomFilmAction ->
-            when (action) {
-                is RandomFilmAction.OnFilmClicked -> onFilmClicked(action.film)
-                is RandomFilmAction.OnInfoButtonClick -> onInfoClick()
-                else -> Unit
+    val onAction =
+        remember(viewModel, onFilmClicked, onInfoClick) {
+            { action: RandomFilmAction ->
+                when (action) {
+                    is RandomFilmAction.OnFilmClicked -> onFilmClicked(action.film)
+                    is RandomFilmAction.OnInfoButtonClick -> onInfoClick()
+                    else -> Unit
+                }
+                viewModel.onAction(action)
             }
-            viewModel.onAction(action)
         }
-    }
 
     RandomFilmScreen(
         isLoading = isLoading,

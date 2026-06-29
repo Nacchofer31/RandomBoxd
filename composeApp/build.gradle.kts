@@ -368,16 +368,16 @@ tasks.register("fullCoverageReport") {
             val coverage = if (total > 0) (totalCovered.toDouble() / total * 100) else 0.0
 
             println("")
-            println("=" .repeat(50))
+            println("=".repeat(50))
             println("  CODE COVERAGE SUMMARY")
-            println("=" .repeat(50))
+            println("=".repeat(50))
             println("  Total Lines:     $total")
             println("  Covered Lines:   $totalCovered")
             println("  Missed Lines:    $totalMissed")
             println("  Coverage:        ${"%.1f".format(coverage)}%")
-            println("=" .repeat(50))
+            println("=".repeat(50))
             println("  HTML Report:     file://${layout.buildDirectory.get().asFile.absolutePath}/jacocoHtml/index.html")
-            println("=" .repeat(50))
+            println("=".repeat(50))
             println("")
         } else {
             println("Warning: JaCoCo XML report not found at ${reportFile.absolutePath}")
