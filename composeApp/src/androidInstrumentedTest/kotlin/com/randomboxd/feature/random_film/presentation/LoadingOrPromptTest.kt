@@ -6,7 +6,6 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.nacchofer31.randomboxd.random_film.presentation.components.LoadingOrPrompt
-import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmState
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,7 +18,7 @@ class LoadingOrPromptTest {
     @Test
     fun loading_indicator_is_displayed_when_isLoading_is_true() {
         composeTestRule.setContent {
-            LoadingOrPrompt(state = RandomFilmState(isLoading = true))
+            LoadingOrPrompt(isLoading = true)
         }
 
         composeTestRule.onNodeWithTag("test-loading-indicator").assertIsDisplayed()
@@ -28,7 +27,7 @@ class LoadingOrPromptTest {
     @Test
     fun loading_indicator_does_not_exist_when_isLoading_is_false() {
         composeTestRule.setContent {
-            LoadingOrPrompt(state = RandomFilmState(isLoading = false))
+            LoadingOrPrompt(isLoading = false)
         }
 
         composeTestRule.onNodeWithTag("test-loading-indicator").assertDoesNotExist()
@@ -37,7 +36,7 @@ class LoadingOrPromptTest {
     @Test
     fun rolling_dice_text_is_shown_when_loading() {
         composeTestRule.setContent {
-            LoadingOrPrompt(state = RandomFilmState(isLoading = true))
+            LoadingOrPrompt(isLoading = true)
         }
 
         composeTestRule.onNodeWithText("Rolling the dice...").assertIsDisplayed()
@@ -46,7 +45,7 @@ class LoadingOrPromptTest {
     @Test
     fun finding_random_movie_text_is_shown_when_loading() {
         composeTestRule.setContent {
-            LoadingOrPrompt(state = RandomFilmState(isLoading = true))
+            LoadingOrPrompt(isLoading = true)
         }
 
         composeTestRule.onNodeWithText("Finding your random movie").assertIsDisplayed()
