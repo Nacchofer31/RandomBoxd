@@ -10,12 +10,12 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTouchInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.nacchofer31.randomboxd.core.domain.DataError
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreen
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreenRoot
-import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmState
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Rule
 import org.junit.Test
@@ -76,15 +76,12 @@ class RandomFilmScreenTest {
             val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
             RandomFilmScreen(
                 userNameList = mutableUserNamesFlow,
-                state =
-                    RandomFilmState(
-                        resultFilm =
-                            Film(
-                                slug = "test-slug",
-                                name = "test-name",
-                                releaseYear = 2000,
-                                imageUrl = "test-image-url",
-                            ),
+                resultFilm =
+                    Film(
+                        slug = "test-slug",
+                        name = "test-name",
+                        releaseYear = 2000,
+                        imageUrl = "test-image-url",
                     ),
             ) { }
         }
@@ -99,7 +96,7 @@ class RandomFilmScreenTest {
             val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
             RandomFilmScreen(
                 userNameList = mutableUserNamesFlow,
-                state = RandomFilmState(resultError = com.nacchofer31.randomboxd.core.domain.DataError.Remote.NO_RESULTS),
+                resultError = DataError.Remote.NO_RESULTS,
             ) { }
         }
 
@@ -112,7 +109,7 @@ class RandomFilmScreenTest {
             val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
             RandomFilmScreen(
                 userNameList = mutableUserNamesFlow,
-                state = RandomFilmState(resultError = com.nacchofer31.randomboxd.core.domain.DataError.Remote.NO_INTERNET),
+                resultError = DataError.Remote.NO_INTERNET,
             ) { }
         }
 
@@ -125,7 +122,7 @@ class RandomFilmScreenTest {
             val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
             RandomFilmScreen(
                 userNameList = mutableUserNamesFlow,
-                state = RandomFilmState(userNameSearchList = setOf("user1", "user2")),
+                userNameSearchList = setOf("user1", "user2"),
             ) { }
         }
 
@@ -148,15 +145,12 @@ class RandomFilmScreenTest {
             val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
             RandomFilmScreen(
                 userNameList = mutableUserNamesFlow,
-                state =
-                    RandomFilmState(
-                        resultFilm =
-                            Film(
-                                slug = "test-slug",
-                                name = "test-name",
-                                releaseYear = null,
-                                imageUrl = "test-image-url",
-                            ),
+                resultFilm =
+                    Film(
+                        slug = "test-slug",
+                        name = "test-name",
+                        releaseYear = null,
+                        imageUrl = "test-image-url",
                     ),
             ) { }
         }
@@ -170,7 +164,7 @@ class RandomFilmScreenTest {
             val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
             RandomFilmScreen(
                 userNameList = mutableUserNamesFlow,
-                state = RandomFilmState(resultError = com.nacchofer31.randomboxd.core.domain.DataError.Remote.UNKNOWN),
+                resultError = DataError.Remote.UNKNOWN,
             ) { }
         }
 
@@ -183,7 +177,7 @@ class RandomFilmScreenTest {
             val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
             RandomFilmScreen(
                 userNameList = mutableUserNamesFlow,
-                state = RandomFilmState(showGenreBottomSheet = true),
+                showGenreBottomSheet = true,
             ) { }
         }
 
@@ -196,7 +190,7 @@ class RandomFilmScreenTest {
             val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
             RandomFilmScreen(
                 userNameList = mutableUserNamesFlow,
-                state = RandomFilmState(showGenreBottomSheet = false),
+                showGenreBottomSheet = false,
             ) { }
         }
 
@@ -209,7 +203,7 @@ class RandomFilmScreenTest {
             val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
             RandomFilmScreen(
                 userNameList = mutableUserNamesFlow,
-                state = RandomFilmState(selectedGenres = setOf(FilmGenre.ACTION, FilmGenre.COMEDY)),
+                selectedGenres = setOf(FilmGenre.ACTION, FilmGenre.COMEDY),
             ) { }
         }
 
@@ -222,7 +216,7 @@ class RandomFilmScreenTest {
             val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
             RandomFilmScreen(
                 userNameList = mutableUserNamesFlow,
-                state = RandomFilmState(selectedGenres = emptySet()),
+                selectedGenres = emptySet(),
             ) { }
         }
 
