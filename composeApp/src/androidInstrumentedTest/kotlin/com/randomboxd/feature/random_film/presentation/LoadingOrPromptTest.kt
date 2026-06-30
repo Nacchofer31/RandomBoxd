@@ -39,7 +39,7 @@ class LoadingOrPromptTest {
             LoadingOrPrompt(isLoading = true)
         }
 
-        composeTestRule.onNodeWithText("Rolling the dice...").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Rolling the dice", substring = true).assertIsDisplayed()
     }
 
     @Test

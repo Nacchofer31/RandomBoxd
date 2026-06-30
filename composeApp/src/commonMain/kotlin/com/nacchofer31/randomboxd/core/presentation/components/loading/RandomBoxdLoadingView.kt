@@ -1,6 +1,7 @@
 package com.nacchofer31.randomboxd.core.presentation.components.loading
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -16,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 import kotlinx.coroutines.delay
@@ -26,11 +28,13 @@ fun RandomBoxdLoadingDiceView(
     modifier: Modifier = Modifier,
 ) {
     val dice =
-        listOf(
-            DiceData(color = RandomBoxdColors.OrangeAccent),
-            DiceData(color = RandomBoxdColors.GreenAccent),
-            DiceData(color = RandomBoxdColors.BlueAccent),
-        )
+        remember {
+            listOf(
+                DiceData(color = RandomBoxdColors.OrangeAccent),
+                DiceData(color = RandomBoxdColors.GreenAccent),
+                DiceData(color = RandomBoxdColors.BlueAccent),
+            )
+        }
 
     val offsetAnim = remember { Animatable(0f) }
     val rotationAnim = remember { Animatable(0f) }
@@ -65,8 +69,8 @@ fun RandomBoxdLoadingDiceView(
         dice.forEachIndexed { index, die ->
             RandomBoxdLoadingViewDice(
                 die = die,
-                offset = offsetAnim.value,
-                rotation = rotationAnim.value,
+                offsetAnim = offsetAnim,
+                rotationAnim = rotationAnim,
                 face = currentFaces[index],
             )
         }
@@ -76,17 +80,17 @@ fun RandomBoxdLoadingDiceView(
 @Composable
 fun RandomBoxdLoadingViewDice(
     die: DiceData,
-    offset: Float,
-    rotation: Float,
+    offsetAnim: Animatable<Float, AnimationVector1D>,
+    rotationAnim: Animatable<Float, AnimationVector1D>,
     face: Int,
 ) {
     Canvas(
         modifier =
             Modifier
                 .size(56.dp)
-                .offset(y = offset.dp),
+                .offset { IntOffset(0, offsetAnim.value.toInt()) },
     ) {
-        rotate(rotation) {
+        rotate(rotationAnim.value) {
             drawRoundRect(
                 color = die.color,
                 size = size,
