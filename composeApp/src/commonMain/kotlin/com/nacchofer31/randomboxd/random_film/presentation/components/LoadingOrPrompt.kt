@@ -16,6 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
@@ -78,7 +80,23 @@ private fun AnimatedDotsText(
     }
 
     Text(
-        text = "$cleanText${".".repeat(dotCount)}",
+        text =
+            buildAnnotatedString {
+                append(cleanText)
+                append("...")
+                addStyle(
+                    style = SpanStyle(color = color.copy(alpha = 0f)),
+                    start = cleanText.length,
+                    end = cleanText.length + 3,
+                )
+                if (dotCount > 0) {
+                    addStyle(
+                        style = SpanStyle(color = color),
+                        start = cleanText.length,
+                        end = cleanText.length + dotCount,
+                    )
+                }
+            },
         color = color,
         textAlign = TextAlign.Center,
         fontSize = fontSize,

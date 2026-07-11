@@ -122,7 +122,6 @@ fun RandomFilmScreen(
                         .fillMaxSize()
                         .background(color = RandomBoxdColors.BackgroundDarkColor)
                         .padding(paddingValues)
-                        .padding(20.dp)
                         .pointerInput(Unit) { detectTapGestures { focusManager.clearFocus() } },
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween,
@@ -148,7 +147,10 @@ fun RandomFilmScreen(
                     }
                 }
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     UserNameTagListView(

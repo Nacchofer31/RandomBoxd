@@ -111,6 +111,7 @@ fun RandomFilmInfoView() {
         // Tips Section
         Column(
             verticalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = Modifier.padding(horizontal = 10.dp),
         ) {
             TipCard(
                 icon = "💡",
@@ -123,7 +124,6 @@ fun RandomFilmInfoView() {
                 accentColor = RandomBoxdColors.OrangeAccent,
             )
             NewFeatureTipCard(
-                icon = "🎭",
                 newBadge = stringResource(Res.string.onboarding_genre_new_badge),
                 text = stringResource(Res.string.tip_genre_filter),
             )
@@ -171,7 +171,7 @@ private fun TipCard(
 
 @Composable
 private fun NewFeatureTipCard(
-    icon: String,
+    icon: String = "🎭",
     newBadge: String,
     text: String,
 ) {
