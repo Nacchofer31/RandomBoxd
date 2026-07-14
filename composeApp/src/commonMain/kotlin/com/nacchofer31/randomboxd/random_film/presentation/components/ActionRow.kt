@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.Icon
@@ -36,14 +38,13 @@ import randomboxd.composeapp.generated.resources.submit
 
 @Composable
 internal fun ActionRow(
-    userName: String,
+    usernameState: TextFieldState,
     userNameSearchList: Set<String>,
     isLoading: Boolean,
     focusManager: FocusManager,
     onAction: (RandomFilmAction) -> Unit,
     filmSearchMode: FilmSearchMode?,
     selectedGenres: Set<FilmGenre>,
-    onUserNameChange: (String) -> Unit,
 ) = Row(
     horizontalArrangement = Arrangement.Center,
     modifier = Modifier.height(56.dp),
@@ -100,7 +101,7 @@ internal fun ActionRow(
     }
 
     UserNameTextField(
-        value = userName,
+        state = usernameState,
         hint =
             if (userNameSearchList.isNotEmpty()) {
                 if (userNameSearchList.size > 1) {
@@ -111,14 +112,14 @@ internal fun ActionRow(
             } else {
                 null
             },
-        onChange = onUserNameChange,
         onRemoveButtonClick = {
-            onUserNameChange("")
+            usernameState.setTextAndPlaceCursorAtEnd("")
             onAction(RandomFilmAction.OnClearButtonClick)
         },
         modifier = Modifier.weight(1f).testTag("test-random-film-user-name-text-field"),
     )
 
+    val userName = usernameState.text.toString()
     val enabled = (userName.trim().isNotEmpty() || userNameSearchList.isNotEmpty()) && !isLoading
 
     Surface(
@@ -139,7 +140,7 @@ internal fun ActionRow(
                     onLongClick = {
                         if (userName.trim().isNotEmpty()) {
                             focusManager.clearFocus()
-                            onUserNameChange("")
+                            usernameState.setTextAndPlaceCursorAtEnd("")
                             onAction(RandomFilmAction.OnClearButtonClick)
                             onAction(RandomFilmAction.OnUserNameAdded(userName))
                             onAction(RandomFilmAction.OnAddOrRemoveUserNameSearchList(userName))

@@ -3,6 +3,8 @@ package com.nacchofer31.randomboxd.random_film.presentation.components
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.icons.Icons
@@ -28,8 +30,7 @@ import randomboxd.composeapp.generated.resources.enter_your_user_name
 
 @Composable
 fun UserNameTextField(
-    value: String,
-    onChange: (String) -> Unit,
+    state: TextFieldState,
     modifier: Modifier = Modifier,
     hint: String?,
     onRemoveButtonClick: () -> Unit,
@@ -41,8 +42,8 @@ fun UserNameTextField(
         ),
 ) {
     TextField(
-        value = value,
-        onValueChange = onChange,
+        state = state,
+        lineLimits = TextFieldLineLimits.SingleLine,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         placeholder = {
             Text(
@@ -53,7 +54,6 @@ fun UserNameTextField(
             )
         },
         shape = RoundedCornerShape(topStart = 10.dp, bottomStart = 10.dp),
-        singleLine = true,
         colors =
             TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
@@ -70,7 +70,11 @@ fun UserNameTextField(
             ),
         modifier = modifier,
         trailingIcon =
-            if (value.trim().isNotEmpty()) {
+            if (state.text
+                    .toString()
+                    .trim()
+                    .isNotEmpty()
+            ) {
                 {
                     IconButton(
                         onClick = onRemoveButtonClick,
