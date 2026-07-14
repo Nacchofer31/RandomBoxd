@@ -8,11 +8,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -38,6 +42,7 @@ import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmA
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -57,6 +62,13 @@ fun RandomFilmScreenRoot(
     val selectedGenres by stateFlow.map { it.selectedGenres }.collectAsStateWithLifecycle(initialValue = emptySet())
     val showGenreBottomSheet by stateFlow.map { it.showGenreBottomSheet }.collectAsStateWithLifecycle(initialValue = false)
 
+    val usernameState = rememberTextFieldState(userName)
+    LaunchedEffect(usernameState) {
+        snapshotFlow { usernameState.text.toString() }.collectLatest {
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged(it))
+        }
+    }
+
     val onAction =
         remember(viewModel, onFilmClicked, onInfoClick) {
             { action: RandomFilmAction ->
@@ -73,7 +85,7 @@ fun RandomFilmScreenRoot(
         isLoading = isLoading,
         resultFilm = resultFilm,
         resultError = resultError,
-        userName = userName,
+        usernameState = usernameState,
         userNameSearchList = userNameSearchList,
         filmSearchMode = filmSearchMode,
         selectedGenres = selectedGenres,
@@ -88,7 +100,7 @@ fun RandomFilmScreen(
     isLoading: Boolean = false,
     resultFilm: Film? = null,
     resultError: DataError.Remote? = null,
-    userName: String = "",
+    usernameState: TextFieldState = TextFieldState(""),
     userNameSearchList: Set<String> = emptySet(),
     filmSearchMode: FilmSearchMode = FilmSearchMode.INTERSECTION,
     selectedGenres: Set<FilmGenre> = emptySet(),
@@ -160,14 +172,14 @@ fun RandomFilmScreen(
                         onAction = onAction,
                     )
                     ActionRow(
-                        userName,
+                        usernameState,
                         userNameSearchList,
                         isLoading,
                         focusManager,
                         onAction,
                         filmSearchMode,
                         selectedGenres,
-                    ) { onAction(RandomFilmAction.OnUserNameChanged(it)) }
+                    )
                     if (userNameSearchList.isNotEmpty()) {
                         UnionIntersectionSwitch(
                             modifier = Modifier.padding(top = 10.dp),
