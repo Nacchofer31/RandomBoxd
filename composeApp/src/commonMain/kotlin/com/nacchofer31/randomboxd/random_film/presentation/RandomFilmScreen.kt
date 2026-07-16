@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -62,7 +62,16 @@ fun RandomFilmScreenRoot(
     val selectedGenres by stateFlow.map { it.selectedGenres }.collectAsStateWithLifecycle(initialValue = emptySet())
     val showGenreBottomSheet by stateFlow.map { it.showGenreBottomSheet }.collectAsStateWithLifecycle(initialValue = false)
 
-    val usernameState = rememberTextFieldState(userName)
+    val usernameState = remember { TextFieldState(userName) }
+
+    // Sync ViewModel → TextFieldState: chip clicks, clear, external changes
+    LaunchedEffect(userName) {
+        if (usernameState.text.toString() != userName) {
+            usernameState.setTextAndPlaceCursorAtEnd(userName)
+        }
+    }
+
+    // Sync TextFieldState → ViewModel: keyboard input
     LaunchedEffect(usernameState) {
         snapshotFlow { usernameState.text.toString() }.collectLatest {
             viewModel.onAction(RandomFilmAction.OnUserNameChanged(it))
