@@ -77,3 +77,6 @@ freeline_project_description.json
 
 # Claude
 .claude/
+
+# ATL (AI tooling local config)
+.atl/
