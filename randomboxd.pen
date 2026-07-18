@@ -1,5 +1,5 @@
 {
-  "version": "2.11",
+  "version": "2.14",
   "children": [
     {
       "type": "frame",
@@ -99,10 +99,9 @@
                       "name": "Inner Ring",
                       "width": 28,
                       "height": 28,
-                      "stroke": {
-                        "thickness": 3,
-                        "fill": "#14181C"
-                      }
+                      "stroke": "#14181C",
+                      "strokeWidth": 3,
+                      "strokeAlignment": "inner"
                     },
                     {
                       "type": "ellipse",
@@ -129,13 +128,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "SF6Y4",
                           "name": "arrowUp",
                           "width": 28,
                           "height": 28,
-                          "iconFontName": "arrow-up-left",
-                          "iconFontFamily": "lucide",
+                          "icon": "arrow-up-left",
+                          "library": "lucide",
                           "fill": "#14181C"
                         }
                       ]
@@ -241,13 +240,13 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "Y9Nzc",
                               "name": "feature1IconInner",
                               "width": 20,
                               "height": 20,
-                              "iconFontName": "shuffle",
-                              "iconFontFamily": "lucide",
+                              "icon": "shuffle",
+                              "library": "lucide",
                               "fill": "$accent-green"
                             }
                           ]
@@ -291,13 +290,13 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "IvNfX",
                               "name": "feature2IconInner",
                               "width": 20,
                               "height": 20,
-                              "iconFontName": "users",
-                              "iconFontFamily": "lucide",
+                              "icon": "users",
+                              "library": "lucide",
                               "fill": "$accent-orange"
                             }
                           ]
@@ -341,13 +340,13 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "YkTJt",
                               "name": "feature3IconInner",
                               "width": 20,
                               "height": 20,
-                              "iconFontName": "link",
-                              "iconFontFamily": "lucide",
+                              "icon": "link",
+                              "library": "lucide",
                               "fill": "$accent-green"
                             }
                           ]
@@ -441,13 +440,13 @@
                       "fontWeight": "700"
                     },
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "CBMUb",
                       "name": "getStartedIcon",
                       "width": 20,
                       "height": 20,
-                      "iconFontName": "arrow-right",
-                      "iconFontFamily": "lucide",
+                      "icon": "arrow-right",
+                      "library": "lucide",
                       "fill": "#14181C"
                     }
                   ]
@@ -545,13 +544,13 @@
                       "cornerRadius": 12,
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "Z5fKm",
                           "name": "posterIcon",
                           "width": 60,
                           "height": 60,
-                          "iconFontName": "film",
-                          "iconFontFamily": "lucide",
+                          "icon": "film",
+                          "library": "lucide",
                           "fill": "#FFFFFF40"
                         }
                       ]
@@ -663,13 +662,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "Udojs",
                           "name": "inputClearIcon",
                           "width": 16,
                           "height": 16,
-                          "iconFontName": "x",
-                          "iconFontFamily": "lucide",
+                          "icon": "x",
+                          "library": "lucide",
                           "fill": "$text-muted"
                         }
                       ]
@@ -774,13 +773,13 @@
                       "fontWeight": "700"
                     },
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "ArvMD",
                       "name": "nextBtnIcon2",
                       "width": 20,
                       "height": 20,
-                      "iconFontName": "arrow-right",
-                      "iconFontFamily": "lucide",
+                      "icon": "arrow-right",
+                      "library": "lucide",
                       "fill": "#14181C"
                     }
                   ]
@@ -855,13 +854,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "o5Hds",
                           "name": "searchIcon",
                           "width": 18,
                           "height": 18,
-                          "iconFontName": "search",
-                          "iconFontFamily": "lucide",
+                          "icon": "search",
+                          "library": "lucide",
                           "fill": "$text-muted"
                         },
                         {
@@ -908,13 +907,13 @@
                               "fontWeight": "500"
                             },
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "06xIG",
                               "name": "tag1Close",
                               "width": 14,
                               "height": 14,
-                              "iconFontName": "x",
-                              "iconFontFamily": "lucide",
+                              "icon": "x",
+                              "library": "lucide",
                               "fill": "#14181C"
                             }
                           ]
@@ -944,13 +943,13 @@
                               "fontWeight": "500"
                             },
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "A9qts",
                               "name": "tag2Close",
                               "width": 14,
                               "height": 14,
-                              "iconFontName": "x",
-                              "iconFontFamily": "lucide",
+                              "icon": "x",
+                              "library": "lucide",
                               "fill": "#ffffffff"
                             }
                           ]
@@ -1033,13 +1032,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "lESnM",
                           "name": "featureIconInner1",
                           "width": 18,
                           "height": 18,
-                          "iconFontName": "bookmark",
-                          "iconFontFamily": "lucide",
+                          "icon": "bookmark",
+                          "library": "lucide",
                           "fill": "$accent-green"
                         }
                       ]
@@ -1083,13 +1082,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "uWaWg",
                           "name": "featureIconInner2",
                           "width": 18,
                           "height": 18,
-                          "iconFontName": "list",
-                          "iconFontFamily": "lucide",
+                          "icon": "list",
+                          "library": "lucide",
                           "fill": "$accent-orange"
                         }
                       ]
@@ -1181,13 +1180,13 @@
                       "fontWeight": "700"
                     },
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "CKTvc",
                       "name": "nextBtnIcon3",
                       "width": 20,
                       "height": 20,
-                      "iconFontName": "arrow-right",
-                      "iconFontFamily": "lucide",
+                      "icon": "arrow-right",
+                      "library": "lucide",
                       "fill": "#14181C"
                     }
                   ]
@@ -1261,10 +1260,9 @@
                           "fill": "#00E05440",
                           "width": 100,
                           "height": 100,
-                          "stroke": {
-                            "thickness": 2,
-                            "fill": "$accent-green"
-                          }
+                          "stroke": "$accent-green",
+                          "strokeWidth": 2,
+                          "strokeAlignment": "inner"
                         },
                         {
                           "type": "ellipse",
@@ -1275,10 +1273,9 @@
                           "fill": "#FF800040",
                           "width": 100,
                           "height": 100,
-                          "stroke": {
-                            "thickness": 2,
-                            "fill": "$accent-orange"
-                          }
+                          "stroke": "$accent-orange",
+                          "strokeWidth": 2,
+                          "strokeAlignment": "inner"
                         },
                         {
                           "type": "frame",
@@ -1566,13 +1563,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "OrqmA",
                           "name": "featureIconInner4c",
                           "width": 18,
                           "height": 18,
-                          "iconFontName": "hand",
-                          "iconFontFamily": "lucide",
+                          "icon": "hand",
+                          "library": "lucide",
                           "fill": "$accent-green"
                         }
                       ]
@@ -1664,13 +1661,13 @@
                       "fontWeight": "700"
                     },
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "qKgOK",
                       "name": "finishBtnIcon",
                       "width": 20,
                       "height": 20,
-                      "iconFontName": "sparkles",
-                      "iconFontFamily": "lucide",
+                      "icon": "sparkles",
+                      "library": "lucide",
                       "fill": "#14181C"
                     }
                   ]
@@ -1732,33 +1729,33 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "g1HT7",
                       "name": "signalIcon",
                       "width": 16,
                       "height": 16,
-                      "iconFontName": "signal",
-                      "iconFontFamily": "lucide",
+                      "icon": "signal",
+                      "library": "lucide",
                       "fill": "$text-primary"
                     },
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "hqVNy",
                       "name": "wifiIcon",
                       "width": 16,
                       "height": 16,
-                      "iconFontName": "wifi",
-                      "iconFontFamily": "lucide",
+                      "icon": "wifi",
+                      "library": "lucide",
                       "fill": "$text-primary"
                     },
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "qZRQi",
                       "name": "batteryIcon",
                       "width": 20,
                       "height": 16,
-                      "iconFontName": "battery-full",
-                      "iconFontFamily": "lucide",
+                      "icon": "battery-full",
+                      "library": "lucide",
                       "fill": "$text-primary"
                     }
                   ]
@@ -1798,13 +1795,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "eFlvt",
                           "name": "logoMiniIcon",
                           "width": 18,
                           "height": 18,
-                          "iconFontName": "clapperboard",
-                          "iconFontFamily": "lucide",
+                          "icon": "clapperboard",
+                          "library": "lucide",
                           "fill": "#14181C"
                         }
                       ]
@@ -1841,13 +1838,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "saxOf",
                           "name": "helpIcon",
                           "width": 18,
                           "height": 18,
-                          "iconFontName": "info",
-                          "iconFontFamily": "lucide",
+                          "icon": "info",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         }
                       ]
@@ -1945,13 +1942,13 @@
                               "alignItems": "center",
                               "children": [
                                 {
-                                  "type": "icon_font",
+                                  "type": "icon",
                                   "id": "0blsq",
                                   "name": "infoIcon",
                                   "width": 16,
                                   "height": 16,
-                                  "iconFontName": "info",
-                                  "iconFontFamily": "lucide",
+                                  "icon": "info",
+                                  "library": "lucide",
                                   "fill": "$text-primary"
                                 }
                               ]
@@ -1990,6 +1987,52 @@
                               "fontWeight": "normal"
                             }
                           ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "sZ2BH",
+                      "name": "rerollButton",
+                      "fill": "$accent-green",
+                      "cornerRadius": 100,
+                      "effect": {
+                        "type": "shadow",
+                        "shadowType": "outer",
+                        "color": "#00E05440",
+                        "offset": {
+                          "x": 0,
+                          "y": 4
+                        },
+                        "blur": 20
+                      },
+                      "gap": 10,
+                      "padding": [
+                        12,
+                        20
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "LoJRn",
+                          "name": "shuffleIcon",
+                          "width": 20,
+                          "height": 20,
+                          "icon": "shuffle",
+                          "library": "lucide",
+                          "fill": "#14181C"
+                        },
+                        {
+                          "type": "text",
+                          "id": "XwlNm",
+                          "name": "rerollText",
+                          "fill": "#14181C",
+                          "content": "Reroll",
+                          "fontFamily": "Plus Jakarta Sans",
+                          "fontSize": 16,
+                          "fontWeight": "700"
                         }
                       ]
                     }
@@ -2036,13 +2079,13 @@
                               "fontWeight": "500"
                             },
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "eLVfE",
                               "name": "userTag1Close",
                               "width": 14,
                               "height": 14,
-                              "iconFontName": "x",
-                              "iconFontFamily": "lucide",
+                              "icon": "x",
+                              "library": "lucide",
                               "fill": "#14181C"
                             }
                           ]
@@ -2072,13 +2115,13 @@
                               "fontWeight": "500"
                             },
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "pmIXA",
                               "name": "userTag2Close",
                               "width": 14,
                               "height": 14,
-                              "iconFontName": "x",
-                              "iconFontFamily": "lucide",
+                              "icon": "x",
+                              "library": "lucide",
                               "fill": "#14181C"
                             }
                           ]
@@ -2132,13 +2175,13 @@
                               "alignItems": "center",
                               "children": [
                                 {
-                                  "type": "icon_font",
+                                  "type": "icon",
                                   "id": "83xGh",
                                   "name": "clearIcon",
                                   "width": 14,
                                   "height": 14,
-                                  "iconFontName": "x",
-                                  "iconFontFamily": "lucide",
+                                  "icon": "x",
+                                  "library": "lucide",
                                   "fill": "$text-secondary"
                                 }
                               ]
@@ -2199,13 +2242,13 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "4VM73",
                               "name": "filterIcon",
                               "width": 18,
                               "height": 18,
-                              "iconFontName": "list-filter",
-                              "iconFontFamily": "lucide",
+                              "icon": "list-filter",
+                              "library": "lucide",
                               "fill": "$text-secondary"
                             },
                             {
@@ -2361,33 +2404,33 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "PeXFV",
                       "name": "signalEmpty",
                       "width": 16,
                       "height": 16,
-                      "iconFontName": "signal",
-                      "iconFontFamily": "lucide",
+                      "icon": "signal",
+                      "library": "lucide",
                       "fill": "$text-primary"
                     },
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "ZA936",
                       "name": "wifiEmpty",
                       "width": 16,
                       "height": 16,
-                      "iconFontName": "wifi",
-                      "iconFontFamily": "lucide",
+                      "icon": "wifi",
+                      "library": "lucide",
                       "fill": "$text-primary"
                     },
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "bQE22",
                       "name": "batteryEmpty",
                       "width": 20,
                       "height": 16,
-                      "iconFontName": "battery-full",
-                      "iconFontFamily": "lucide",
+                      "icon": "battery-full",
+                      "library": "lucide",
                       "fill": "$text-primary"
                     }
                   ]
@@ -2427,13 +2470,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "FDMFD",
                           "name": "logoIconEmpty",
                           "width": 18,
                           "height": 18,
-                          "iconFontName": "clapperboard",
-                          "iconFontFamily": "lucide",
+                          "icon": "clapperboard",
+                          "library": "lucide",
                           "fill": "#14181C"
                         }
                       ]
@@ -2463,13 +2506,13 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "qqkpd",
                       "name": "helpIconEmpty",
                       "width": 18,
                       "height": 18,
-                      "iconFontName": "info",
-                      "iconFontFamily": "lucide",
+                      "icon": "info",
+                      "library": "lucide",
                       "fill": "$text-secondary"
                     }
                   ]
@@ -2526,22 +2569,21 @@
                           "width": 160,
                           "height": 160,
                           "cornerRadius": 80,
-                          "stroke": {
-                            "thickness": 2,
-                            "fill": "$accent-green"
-                          },
+                          "stroke": "$accent-green",
+                          "strokeWidth": 2,
+                          "strokeAlignment": "inner",
                           "layout": "vertical",
                           "justifyContent": "center",
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "OlgRJ",
                               "name": "wheelIcon",
                               "width": 80,
                               "height": 80,
-                              "iconFontName": "disc-3",
-                              "iconFontFamily": "lucide",
+                              "icon": "disc-3",
+                              "library": "lucide",
                               "fill": "$accent-green"
                             }
                           ]
@@ -2625,13 +2667,13 @@
                               "alignItems": "center",
                               "children": [
                                 {
-                                  "type": "icon_font",
+                                  "type": "icon",
                                   "id": "ChCh1",
                                   "name": "tip1IconInner",
                                   "width": 16,
                                   "height": 16,
-                                  "iconFontName": "lightbulb",
-                                  "iconFontFamily": "lucide",
+                                  "icon": "lightbulb",
+                                  "library": "lucide",
                                   "fill": "$accent-green"
                                 }
                               ]
@@ -2675,13 +2717,13 @@
                               "alignItems": "center",
                               "children": [
                                 {
-                                  "type": "icon_font",
+                                  "type": "icon",
                                   "id": "VDKf3",
                                   "name": "tip2IconInner",
                                   "width": 16,
                                   "height": 16,
-                                  "iconFontName": "hand",
-                                  "iconFontFamily": "lucide",
+                                  "icon": "hand",
+                                  "library": "lucide",
                                   "fill": "$accent-orange"
                                 }
                               ]
@@ -3027,13 +3069,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "CHb8D",
                           "name": "g1Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "sparkles",
-                          "iconFontFamily": "lucide",
+                          "icon": "sparkles",
+                          "library": "lucide",
                           "fill": "#14181C"
                         },
                         {
@@ -3047,13 +3089,13 @@
                           "fontWeight": "600"
                         },
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "M6VSE",
                           "name": "g1Check",
                           "width": 18,
                           "height": 18,
-                          "iconFontName": "check",
-                          "iconFontFamily": "lucide",
+                          "icon": "check",
+                          "library": "lucide",
                           "fill": "#14181C"
                         }
                       ]
@@ -3074,13 +3116,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "zwDuq",
                           "name": "g2Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "compass",
-                          "iconFontFamily": "lucide",
+                          "icon": "compass",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3111,13 +3153,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "FPAhh",
                           "name": "g3Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "laugh",
-                          "iconFontFamily": "lucide",
+                          "icon": "laugh",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3148,13 +3190,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "0pbaA",
                           "name": "g4Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "video",
-                          "iconFontFamily": "lucide",
+                          "icon": "video",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3185,13 +3227,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "qGnUR",
                           "name": "g5Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "users",
-                          "iconFontFamily": "lucide",
+                          "icon": "users",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3222,13 +3264,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "JiYY4",
                           "name": "g6Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "landmark",
-                          "iconFontFamily": "lucide",
+                          "icon": "landmark",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3259,13 +3301,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "nFP3w",
                           "name": "g7Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "music",
-                          "iconFontFamily": "lucide",
+                          "icon": "music",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3296,13 +3338,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "Av99M",
                           "name": "g8Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "heart",
-                          "iconFontFamily": "lucide",
+                          "icon": "heart",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3333,13 +3375,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "ZeI09",
                           "name": "g9Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "skull",
-                          "iconFontFamily": "lucide",
+                          "icon": "skull",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3370,13 +3412,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "R9Nz0",
                           "name": "g10Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "swords",
-                          "iconFontFamily": "lucide",
+                          "icon": "swords",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3417,13 +3459,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "1QVo8",
                           "name": "h1Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "flame",
-                          "iconFontFamily": "lucide",
+                          "icon": "flame",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3454,13 +3496,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "54W0q",
                           "name": "h2Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "baby",
-                          "iconFontFamily": "lucide",
+                          "icon": "baby",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3491,13 +3533,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "gaVa3",
                           "name": "h3Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "shield-alert",
-                          "iconFontFamily": "lucide",
+                          "icon": "shield-alert",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3528,13 +3570,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "PLPZJ",
                           "name": "h4Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "drama",
-                          "iconFontFamily": "lucide",
+                          "icon": "drama",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3565,13 +3607,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "5V9Em",
                           "name": "h5Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "wand-sparkles",
-                          "iconFontFamily": "lucide",
+                          "icon": "wand-sparkles",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3602,13 +3644,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "9PwPI",
                           "name": "h6Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "ghost",
-                          "iconFontFamily": "lucide",
+                          "icon": "ghost",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3639,13 +3681,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "vTts7",
                           "name": "h7Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "search",
-                          "iconFontFamily": "lucide",
+                          "icon": "search",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3676,13 +3718,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "RwgZI",
                           "name": "h8Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "rocket",
-                          "iconFontFamily": "lucide",
+                          "icon": "rocket",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3713,13 +3755,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "6UoLt",
                           "name": "h9Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "tv",
-                          "iconFontFamily": "lucide",
+                          "icon": "tv",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3750,13 +3792,13 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "CL09g",
                           "name": "h10Icon",
                           "width": 20,
                           "height": 20,
-                          "iconFontName": "sun",
-                          "iconFontFamily": "lucide",
+                          "icon": "sun",
+                          "library": "lucide",
                           "fill": "$text-secondary"
                         },
                         {
@@ -3811,13 +3853,13 @@
                       "fontWeight": "700"
                     },
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "xjMZy",
                       "name": "applyIcon",
                       "width": 20,
                       "height": 20,
-                      "iconFontName": "check",
-                      "iconFontFamily": "lucide",
+                      "icon": "check",
+                      "library": "lucide",
                       "fill": "#14181C"
                     }
                   ]
@@ -3879,33 +3921,33 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "9llAF",
                       "name": "cellIcon",
                       "width": 16,
                       "height": 16,
-                      "iconFontName": "signal",
-                      "iconFontFamily": "lucide",
+                      "icon": "signal",
+                      "library": "lucide",
                       "fill": "$text-primary"
                     },
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "ecKoX",
                       "name": "wifiIcon",
                       "width": 16,
                       "height": 16,
-                      "iconFontName": "wifi",
-                      "iconFontFamily": "lucide",
+                      "icon": "wifi",
+                      "library": "lucide",
                       "fill": "$text-primary"
                     },
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "llUzA",
                       "name": "batteryIcon",
                       "width": 22,
                       "height": 16,
-                      "iconFontName": "battery-full",
-                      "iconFontFamily": "lucide",
+                      "icon": "battery-full",
+                      "library": "lucide",
                       "fill": "$text-primary"
                     }
                   ]
@@ -3933,13 +3975,13 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "g8ubx",
                       "name": "logoIcon",
                       "width": 24,
                       "height": 24,
-                      "iconFontName": "clapperboard",
-                      "iconFontFamily": "lucide",
+                      "icon": "clapperboard",
+                      "library": "lucide",
                       "fill": "$accent-green"
                     },
                     {
@@ -3967,13 +4009,13 @@
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "lhIqx",
                       "name": "helpIcon",
                       "width": 18,
                       "height": 18,
-                      "iconFontName": "info",
-                      "iconFontFamily": "lucide",
+                      "icon": "info",
+                      "library": "lucide",
                       "fill": "$text-secondary"
                     }
                   ]
@@ -4277,13 +4319,13 @@
                               "fontWeight": "500"
                             },
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "ciB4O",
                               "name": "userTag1Close",
                               "width": 14,
                               "height": 14,
-                              "iconFontName": "x",
-                              "iconFontFamily": "lucide",
+                              "icon": "x",
+                              "library": "lucide",
                               "fill": "#14181C"
                             }
                           ]
@@ -4313,13 +4355,13 @@
                               "fontWeight": "500"
                             },
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "aBsp3",
                               "name": "userTag2Close",
                               "width": 14,
                               "height": 14,
-                              "iconFontName": "x",
-                              "iconFontFamily": "lucide",
+                              "icon": "x",
+                              "library": "lucide",
                               "fill": "#14181C"
                             }
                           ]
@@ -4354,13 +4396,13 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "oIezi",
                               "name": "filterIcon",
                               "width": 18,
                               "height": 18,
-                              "iconFontName": "list-filter",
-                              "iconFontFamily": "lucide",
+                              "icon": "list-filter",
+                              "library": "lucide",
                               "fill": "$text-secondary"
                             },
                             {
@@ -4413,13 +4455,13 @@
                               "alignItems": "center",
                               "children": [
                                 {
-                                  "type": "icon_font",
+                                  "type": "icon",
                                   "id": "F3Boc",
                                   "name": "clearIcon",
                                   "width": 14,
                                   "height": 14,
-                                  "iconFontName": "x",
-                                  "iconFontFamily": "lucide",
+                                  "icon": "x",
+                                  "library": "lucide",
                                   "fill": "$text-secondary"
                                 }
                               ]
@@ -4557,13 +4599,13 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "30wV2",
                               "name": "androidIcon",
                               "width": 14,
                               "height": 14,
-                              "iconFontName": "smartphone",
-                              "iconFontFamily": "lucide",
+                              "icon": "smartphone",
+                              "library": "lucide",
                               "fill": "$accent-green"
                             },
                             {
@@ -4593,13 +4635,13 @@
                           "alignItems": "center",
                           "children": [
                             {
-                              "type": "icon_font",
+                              "type": "icon",
                               "id": "wzApy",
                               "name": "iosIcon",
                               "width": 14,
                               "height": 14,
-                              "iconFontName": "apple",
-                              "iconFontFamily": "lucide",
+                              "icon": "apple",
+                              "library": "lucide",
                               "fill": "$text-primary"
                             },
                             {
@@ -4884,12 +4926,12 @@
                           "fontWeight": "700"
                         },
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "JQVQ8",
                           "width": 14,
                           "height": 14,
-                          "iconFontName": "check",
-                          "iconFontFamily": "lucide",
+                          "icon": "check",
+                          "library": "lucide",
                           "fill": "#14181C"
                         }
                       ]
@@ -4969,12 +5011,12 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "BOGlt",
                           "width": 18,
                           "height": 18,
-                          "iconFontName": "sliders-horizontal",
-                          "iconFontFamily": "lucide",
+                          "icon": "sliders-horizontal",
+                          "library": "lucide",
                           "fill": "$accent-green"
                         }
                       ]
@@ -5016,12 +5058,12 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "J5T29",
                           "width": 18,
                           "height": 18,
-                          "iconFontName": "rotate-ccw",
-                          "iconFontFamily": "lucide",
+                          "icon": "rotate-ccw",
+                          "library": "lucide",
                           "fill": "$accent-orange"
                         }
                       ]
@@ -5063,12 +5105,12 @@
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon_font",
+                          "type": "icon",
                           "id": "C7ZTV",
                           "width": 18,
                           "height": 18,
-                          "iconFontName": "layers",
-                          "iconFontFamily": "lucide",
+                          "icon": "layers",
+                          "library": "lucide",
                           "fill": "$accent-green"
                         }
                       ]
@@ -5166,12 +5208,12 @@
                       "fontWeight": "700"
                     },
                     {
-                      "type": "icon_font",
+                      "type": "icon",
                       "id": "kqO5K",
                       "width": 20,
                       "height": 20,
-                      "iconFontName": "sparkles",
-                      "iconFontFamily": "lucide",
+                      "icon": "sparkles",
+                      "library": "lucide",
                       "fill": "#14181C"
                     }
                   ]
@@ -5264,5 +5306,6 @@
       "type": "color",
       "value": "#9AB"
     }
-  }
+  },
+  "fileToken": "836a2767-ee8f-4f3c-a13b-008fb6185083"
 }
