@@ -70,4 +70,5 @@
     <string name="onboarding_genre_feature3">Fonctionne avec les modes utilisateur unique et multi-utilisateur</string>
     <string name="rolling_the_dice">Lancement des dés...</string>
     <string name="finding_random_movie">Trouver votre film aléatoire</string>
+    <string name="reroll">Relancer</string>
 </resources>

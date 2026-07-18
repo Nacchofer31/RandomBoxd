@@ -70,4 +70,5 @@
     <string name="onboarding_genre_feature3">एकल उपयोगकर्ता और बहु-उपयोगकर्ता मोड दोनों के साथ काम करता है</string>
     <string name="rolling_the_dice">पासा फेंक रहे हैं...</string>
     <string name="finding_random_movie">आपकी यादृच्छिक फिल्म खोज रहे हैं</string>
+    <string name="reroll">फिर से फेंकें</string>
 </resources>

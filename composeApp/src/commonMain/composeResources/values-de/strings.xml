@@ -70,4 +70,5 @@
     <string name="onboarding_genre_feature3">Funktioniert im Einzel- und Mehrbenutzermodus</string>
     <string name="rolling_the_dice">Würfel rollen...</string>
     <string name="finding_random_movie">Finde deinen zufälligen Film</string>
+    <string name="reroll">Neu würfeln</string>
 </resources>

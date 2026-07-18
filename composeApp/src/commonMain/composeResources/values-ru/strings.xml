@@ -70,4 +70,5 @@
     <string name="onboarding_genre_feature3">Работает в режимах одного и нескольких пользователей</string>
     <string name="rolling_the_dice">Бросаем кубики...</string>
     <string name="finding_random_movie">Ищем ваш случайный фильм</string>
+    <string name="reroll">Перебросить</string>
 </resources>

@@ -48,4 +48,6 @@ sealed interface RandomFilmAction {
     data class OnGenreSelectionApplied(
         val genres: Set<FilmGenre>,
     ) : RandomFilmAction
+
+    data object OnRerollClicked : RandomFilmAction
 }

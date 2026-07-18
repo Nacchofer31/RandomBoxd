@@ -25,5 +25,8 @@ internal fun FilmDisplay(
         onClick = {
             onAction(RandomFilmAction.OnFilmClicked(film))
         },
+        onRerollClick = {
+            onAction(RandomFilmAction.OnRerollClicked)
+        },
     )
 }

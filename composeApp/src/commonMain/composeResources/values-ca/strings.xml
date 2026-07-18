@@ -70,4 +70,5 @@
     <string name="onboarding_genre_feature3">Funciona amb els modes d\'un sol usuari i multiusuari</string>
     <string name="rolling_the_dice">Llançant els daus...</string>
     <string name="finding_random_movie">Trobar la teva pel·lícula aleatòria</string>
+    <string name="reroll">Tornar a tirar</string>
 </resources>
