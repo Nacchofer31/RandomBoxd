@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nacchofer31.randomboxd.core.domain.DispatcherProvider
 import com.nacchofer31.randomboxd.core.domain.ResultData
+import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
@@ -54,6 +55,8 @@ class RandomFilmViewModel(
                 initialValue = emptyList(),
             )
 
+    internal var cachedResultFilms: Set<Film> = emptySet()
+
     init {
         actions
             .filterIsInstance<RandomFilmAction.OnSubmitButtonClick>()
@@ -72,7 +75,7 @@ class RandomFilmViewModel(
                             else -> {
                                 val userName = internalState.value.userName.trim()
                                 userNameRepository.addUserName(userName)
-                                repository.getRandomMovie(userName, internalState.value.selectedGenres)
+                                repository.getRandomMovies(userName, internalState.value.selectedGenres)
                             }
                         }
                     emit(result)
@@ -88,11 +91,25 @@ class RandomFilmViewModel(
                             viewModelScope.launch {
                                 inAppReviewRepository.requestInAppReview()
                             }
-                            current.copy(
-                                isLoading = false,
-                                resultFilm = result.data,
-                                resultError = null,
-                            )
+                            cachedResultFilms = result.data
+                            var filmResult = repository.extractResultMovie(result.data.random())
+                            return@update when (filmResult) {
+                                is ResultData.Success -> {
+                                    current.copy(
+                                        isLoading = false,
+                                        resultFilm = filmResult.data,
+                                        resultError = null,
+                                    )
+                                }
+
+                                is ResultData.Error -> {
+                                    current.copy(
+                                        isLoading = false,
+                                        resultFilm = null,
+                                        resultError = filmResult.error,
+                                    )
+                                }
+                            }
                         }
 
                         is ResultData.Error -> {
@@ -166,6 +183,10 @@ class RandomFilmViewModel(
                 internalState.update { it.copy(selectedGenres = action.genres, showGenreBottomSheet = false) }
             }
 
+            is RandomFilmAction.OnRerollClicked -> {
+                rerollMovie()
+            }
+
             else -> {
                 Unit
             }
@@ -215,4 +236,23 @@ class RandomFilmViewModel(
                 current.copy(userNameSearchList = current.userNameSearchList + userName, userName = "", resultError = null)
             }
         }
+
+    private fun rerollMovie() {
+        internalState.update {
+            it.copy(isLoading = true)
+        }
+
+        viewModelScope.launch {
+            val filmResult =
+                repository.extractResultMovie(
+                    cachedResultFilms.random(),
+                )
+            internalState.update {
+                when (filmResult) {
+                    is ResultData.Success -> it.copy(isLoading = false, resultFilm = filmResult.data, resultError = null)
+                    is ResultData.Error -> it.copy(isLoading = false, resultFilm = null, resultError = filmResult.error)
+                }
+            }
+        }
+    }
 }

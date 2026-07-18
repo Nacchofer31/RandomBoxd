@@ -35,29 +35,27 @@ class RandomFilmScrappingRepository(
         const val FILM_SCRIPT_QUERY = """script[type="application/ld+json"]"""
     }
 
-    override suspend fun getRandomMovie(
+    override suspend fun getRandomMovies(
         userName: String,
         selectedGenres: Set<FilmGenre>,
-    ): ResultData<Film, DataError.Remote> =
+    ): ResultData<Set<Film>, DataError.Remote> =
         withContext(Dispatchers.IO) {
-            val filmsResult = getFilmsFromUserWatchlist(userName, selectedGenres)
             val films =
-                when (filmsResult) {
+                when (val filmsResult = getFilmsFromUserWatchlist(userName, selectedGenres)) {
                     is ResultData.Success -> filmsResult.data
                     is ResultData.Error -> return@withContext ResultData.Error(filmsResult.error)
                 }
 
             if (films.isEmpty()) return@withContext ResultData.Error(DataError.Remote.NO_RESULTS)
 
-            val chosenFilm = films.random()
-            extractFilm(chosenFilm)
+            return@withContext ResultData.Success(films.toSet())
         }
 
     override suspend fun getRandomMoviesFromSearchList(
         searchList: Set<String>,
         filmSearchMode: FilmSearchMode,
         selectedGenres: Set<FilmGenre>,
-    ): ResultData<Film, DataError.Remote> =
+    ): ResultData<Set<Film>, DataError.Remote> =
         withContext(Dispatchers.IO) {
             if (searchList.isEmpty()) return@withContext ResultData.Error(DataError.Remote.SERIALIZATION)
 
@@ -88,9 +86,10 @@ class RandomFilmScrappingRepository(
 
             if (combinedFilms.isEmpty()) return@withContext ResultData.Error(DataError.Remote.NO_RESULTS)
 
-            val chosenFilm = combinedFilms.random()
-            extractFilm(chosenFilm)
+            return@withContext ResultData.Success(combinedFilms)
         }
+
+    override suspend fun extractResultMovie(film: Film): ResultData<Film, DataError.Remote> = extractFilm(film)
 
     private suspend fun getFilmsFromUserWatchlist(
         userName: String,
@@ -118,9 +117,8 @@ class RandomFilmScrappingRepository(
         val films = mutableListOf<Film>()
         for (page in 1..totalPages) {
             val pageUrl = "$baseUrl/page/$page/"
-            val htmlResult = getWebPage(pageUrl)
             val html =
-                when (htmlResult) {
+                when (val htmlResult = getWebPage(pageUrl)) {
                     is ResultData.Success -> htmlResult.data
                     is ResultData.Error -> return ResultData.Error(htmlResult.error)
                 }
@@ -157,9 +155,8 @@ class RandomFilmScrappingRepository(
     }
 
     private suspend fun extractFilm(film: Film): ResultData<Film, DataError.Remote> {
-        val posterResult = getPosterFromFilmPage(film.slug)
         val finalImageUrl =
-            when (posterResult) {
+            when (val posterResult = getPosterFromFilmPage(film.slug)) {
                 is ResultData.Success -> posterResult.data.ifEmpty { film.imageUrl }
                 is ResultData.Error -> film.imageUrl
             }
@@ -182,9 +179,8 @@ class RandomFilmScrappingRepository(
 
     private suspend fun getPosterFromFilmPage(slug: String): ResultData<String, DataError.Remote> {
         val url = RandomBoxdEndpoints.filmSlugUrl(slug)
-        val htmlResult = getWebPage(url)
         val html =
-            when (htmlResult) {
+            when (val htmlResult = getWebPage(url)) {
                 is ResultData.Success -> htmlResult.data
                 is ResultData.Error -> return ResultData.Error(htmlResult.error)
             }
@@ -207,9 +203,8 @@ class RandomFilmScrappingRepository(
     }
 
     private suspend fun getTotalPages(url: String): Int {
-        val htmlResult = getWebPage(url)
         val html =
-            when (htmlResult) {
+            when (val htmlResult = getWebPage(url)) {
                 is ResultData.Success -> htmlResult.data
                 is ResultData.Error -> return 1
             }
