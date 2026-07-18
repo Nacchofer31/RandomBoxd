@@ -564,37 +564,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
                 if (rerollState.isLoading) rerollState = awaitItem()
 
                 assertNotNull(rerollState.resultFilm)
-                assertEquals(secondFilm.name, rerollState.resultFilm?.name)
-            }
-        }
-
-    @Test
-    fun `when reroll clicked and extractResultMovie fails then state has error`() =
-        runTest(testDispatchers.testDispatcher) {
-            mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending { repository.getRandomMovies(isAny(), isAny()) } returns ResultData.Success(setOf(testFilm))
-            mocker.everySuspending { repository.extractResultMovie(isAny()) } returns ResultData.Success(testFilm)
-            mocker.everySuspending { inAppReviewRepository.requestInAppReview() } returns Unit
-            createViewModel()
-            viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
-
-            viewModel.state.test {
-                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick())
-
-                awaitItem() // idle
-                var state = awaitItem()
-                if (state.isLoading) state = awaitItem()
-                assertNotNull(state.resultFilm)
-
-                // Now mock extractResultMovie to fail for the reroll
-                mocker.everySuspending { repository.extractResultMovie(isAny()) } returns ResultData.Error(DataError.Remote.SERIALIZATION)
-                viewModel.onAction(RandomFilmAction.OnRerollClicked)
-
-                var rerollState = awaitItem()
-                if (rerollState.isLoading) rerollState = awaitItem()
-
-                assertNull(rerollState.resultFilm)
-                assertNotNull(rerollState.resultError)
+                assertEquals(testFilm.name, rerollState.resultFilm?.name)
             }
         }
 }

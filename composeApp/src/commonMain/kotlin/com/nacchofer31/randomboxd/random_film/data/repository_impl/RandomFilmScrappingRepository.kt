@@ -154,20 +154,23 @@ class RandomFilmScrappingRepository(
         return ResultData.Success(films)
     }
 
-    private suspend fun extractFilm(film: Film): ResultData<Film, DataError.Remote> {
-        val finalImageUrl =
-            when (val posterResult = getPosterFromFilmPage(film.slug)) {
-                is ResultData.Success -> posterResult.data.ifEmpty { film.imageUrl }
-                is ResultData.Error -> film.imageUrl
-            }
+    private suspend fun extractFilm(film: Film): ResultData<Film, DataError.Remote> =
+        try {
+            val finalImageUrl =
+                when (val posterResult = getPosterFromFilmPage(film.slug)) {
+                    is ResultData.Success -> posterResult.data.ifEmpty { film.imageUrl }
+                    is ResultData.Error -> film.imageUrl
+                }
 
-        return ResultData.Success(
-            film.copy(
-                imageUrl = finalImageUrl,
-                slug = RandomBoxdEndpoints.filmSlugUrl(film.slug),
-            ),
-        )
-    }
+            ResultData.Success(
+                film.copy(
+                    imageUrl = finalImageUrl,
+                    slug = RandomBoxdEndpoints.filmSlugUrl(film.slug),
+                ),
+            )
+        } catch (_: Exception) {
+            ResultData.Error(DataError.Remote.SERIALIZATION)
+        }
 
     private fun buildPosterUrl(
         filmId: String,
