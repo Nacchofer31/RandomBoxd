@@ -222,4 +222,54 @@ class RandomFilmScreenTest {
 
         composeTestRule.onNodeWithTag("test-random-film-genre-badge").assertDoesNotExist()
     }
+
+    @Test
+    fun reroll_button_click_triggers_reroll_action() {
+        var rerollClicked = false
+        composeTestRule.setContent {
+            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
+            RandomFilmScreen(
+                userNameList = mutableUserNamesFlow,
+                resultFilm =
+                    Film(
+                        slug = "test-slug",
+                        name = "test-name",
+                        releaseYear = 2000,
+                        imageUrl = "test-image-url",
+                    ),
+            ) { action ->
+                if (action is com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction.OnRerollClicked) {
+                    rerollClicked = true
+                }
+            }
+        }
+
+        composeTestRule.onNodeWithText("Reroll").performClick()
+        assert(rerollClicked)
+    }
+
+    @Test
+    fun film_poster_click_triggers_film_clicked_action() {
+        var filmClicked = false
+        composeTestRule.setContent {
+            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
+            RandomFilmScreen(
+                userNameList = mutableUserNamesFlow,
+                resultFilm =
+                    Film(
+                        slug = "test-slug",
+                        name = "test-name",
+                        releaseYear = 2000,
+                        imageUrl = "test-image-url",
+                    ),
+            ) { action ->
+                if (action is com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction.OnFilmClicked) {
+                    filmClicked = true
+                }
+            }
+        }
+
+        composeTestRule.onNodeWithTag("test-film-poster").performClick()
+        assert(filmClicked)
+    }
 }
