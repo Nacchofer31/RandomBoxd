@@ -272,7 +272,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
                 if (state.isLoading) state = awaitItem()
 
                 assertNotNull(state.resultFilm)
-                assertEquals(testFilm.name, state.resultFilm?.name)
+                assertEquals(testFilm.name, state.resultFilm.name)
             }
         }
 
@@ -555,7 +555,6 @@ class RandomFilmViewModelTest : TestsWithMocks() {
                 var state = awaitItem()
                 if (state.isLoading) state = awaitItem()
                 assertNotNull(state.resultFilm)
-                val initialFilmName = state.resultFilm?.name
 
                 // Trigger reroll - should call extractResultMovie again
                 viewModel.onAction(RandomFilmAction.OnRerollClicked)
@@ -570,7 +569,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
                 assertSame(false, rerollState.isLoading)
                 assertNotNull(rerollState.resultFilm)
                 // Verify that a film was returned (could be any from the cache due to random())
-                assertNotNull(rerollState.resultFilm?.name)
+                assertNotNull(rerollState.resultFilm.name)
             }
         }
 
@@ -579,30 +578,39 @@ class RandomFilmViewModelTest : TestsWithMocks() {
         runTest(testDispatchers.testDispatcher) {
             // Use a fake repository that can be controlled
             var shouldFailExtract = false
-            val fakeRepository = object : RandomFilmRepository {
-                override suspend fun getRandomMovies(userName: String, selectedGenres: Set<FilmGenre>): ResultData<Set<Film>, DataError.Remote> {
-                    return ResultData.Success(setOf(testFilm))
+            val fakeRepository =
+                object : RandomFilmRepository {
+                    override suspend fun getRandomMovies(
+                        userName: String,
+                        selectedGenres: Set<FilmGenre>,
+                    ): ResultData<Set<Film>, DataError.Remote> = ResultData.Success(setOf(testFilm))
+
+                    override suspend fun getRandomMoviesFromSearchList(
+                        searchList: Set<String>,
+                        filmSearchMode: com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode,
+                        selectedGenres: Set<FilmGenre>,
+                    ): ResultData<Set<Film>, DataError.Remote> = ResultData.Success(setOf(testFilm))
+
+                    override suspend fun extractResultMovie(film: Film): ResultData<Film, DataError.Remote> =
+                        if (shouldFailExtract) {
+                            ResultData.Error(DataError.Remote.SERIALIZATION)
+                        } else {
+                            ResultData.Success(testFilm)
+                        }
                 }
-                override suspend fun getRandomMoviesFromSearchList(searchList: Set<String>, filmSearchMode: com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode, selectedGenres: Set<FilmGenre>): ResultData<Set<Film>, DataError.Remote> {
-                    return ResultData.Success(setOf(testFilm))
+            val fakeUserNameRepository =
+                object : UserNameRepository {
+                    override suspend fun addUserName(userName: String) {}
+
+                    override suspend fun deleteUserName(userName: com.nacchofer31.randomboxd.random_film.domain.model.UserName) {}
+
+                    override fun getAllUserNames(): kotlinx.coroutines.flow.Flow<List<com.nacchofer31.randomboxd.random_film.domain.model.UserName>> = kotlinx.coroutines.flow.flowOf(emptyList())
                 }
-                override suspend fun extractResultMovie(film: Film): ResultData<Film, DataError.Remote> {
-                    return if (shouldFailExtract) {
-                        ResultData.Error(DataError.Remote.SERIALIZATION)
-                    } else {
-                        ResultData.Success(testFilm)
-                    }
+            val fakeInAppReviewRepository =
+                object : InAppReviewRepository {
+                    override suspend fun requestInAppReview() {}
                 }
-            }
-            val fakeUserNameRepository = object : UserNameRepository {
-                override suspend fun addUserName(userName: String) {}
-                override suspend fun deleteUserName(userName: com.nacchofer31.randomboxd.random_film.domain.model.UserName) {}
-                override fun getAllUserNames(): kotlinx.coroutines.flow.Flow<List<com.nacchofer31.randomboxd.random_film.domain.model.UserName>> = kotlinx.coroutines.flow.flowOf(emptyList())
-            }
-            val fakeInAppReviewRepository = object : InAppReviewRepository {
-                override suspend fun requestInAppReview() {}
-            }
-            
+
             viewModel = RandomFilmViewModel(fakeRepository, fakeUserNameRepository, testDispatchers, fakeInAppReviewRepository)
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
