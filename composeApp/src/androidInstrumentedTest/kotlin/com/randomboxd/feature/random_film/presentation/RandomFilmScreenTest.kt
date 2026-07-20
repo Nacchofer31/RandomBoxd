@@ -278,7 +278,7 @@ class RandomFilmScreenTest {
                 false
             }
         }
-        
+
         composeTestRule.onNodeWithTag("test-film-poster").performClick()
         assert(filmClicked)
     }

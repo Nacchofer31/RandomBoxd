@@ -39,8 +39,7 @@ internal fun RerollButton(onClick: () -> Unit) =
                             color = RandomBoxdColors.GreenAccent.copy(alpha = 0.25f),
                             spread = 4.dp,
                         ),
-                )
-                .testTag("test-reroll-button"),
+                ).testTag("test-reroll-button"),
         shape = RoundedCornerShape(100),
         color = RandomBoxdColors.GreenAccent,
     ) {
