@@ -55,6 +55,7 @@ class FilmPosterTest {
                 title = "Test Film",
                 releaseYear = "2020",
                 onClick = {},
+                onRerollClick = {},
             )
         }
 
@@ -80,6 +81,7 @@ class FilmPosterTest {
                 title = "Test Film",
                 releaseYear = "2020",
                 onClick = {},
+                onRerollClick = {},
             )
         }
 
@@ -105,6 +107,7 @@ class FilmPosterTest {
                 title = "Inception",
                 releaseYear = "2010",
                 onClick = { clicked = true },
+                onRerollClick = {},
             )
         }
 

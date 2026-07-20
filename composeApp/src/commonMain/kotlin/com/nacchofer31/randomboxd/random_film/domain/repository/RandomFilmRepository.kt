@@ -7,14 +7,18 @@ import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 
 interface RandomFilmRepository {
-    suspend fun getRandomMovie(
+    suspend fun getRandomMovies(
         userName: String,
         selectedGenres: Set<FilmGenre> = emptySet(),
-    ): ResultData<Film, DataError.Remote>
+    ): ResultData<Set<Film>, DataError.Remote>
 
     suspend fun getRandomMoviesFromSearchList(
         searchList: Set<String>,
         filmSearchMode: FilmSearchMode = FilmSearchMode.INTERSECTION,
         selectedGenres: Set<FilmGenre> = emptySet(),
+    ): ResultData<Set<Film>, DataError.Remote>
+
+    suspend fun extractResultMovie(
+        film: Film,
     ): ResultData<Film, DataError.Remote>
 }

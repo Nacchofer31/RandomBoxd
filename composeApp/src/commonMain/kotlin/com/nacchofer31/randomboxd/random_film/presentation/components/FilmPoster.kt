@@ -49,6 +49,7 @@ fun FilmPoster(
     title: String,
     releaseYear: String,
     onClick: () -> Unit,
+    onRerollClick: () -> Unit,
 ) {
     var imageLoadResult by remember {
         mutableStateOf<Result<Painter>?>(null)
@@ -167,6 +168,9 @@ fun FilmPoster(
                                 color = RandomBoxdColors.BackgroundLightColor,
                                 fontSize = 17.sp,
                                 textAlign = TextAlign.Center,
+                            )
+                            RerollButton(
+                                onClick = onRerollClick,
                             )
                         }
                     }

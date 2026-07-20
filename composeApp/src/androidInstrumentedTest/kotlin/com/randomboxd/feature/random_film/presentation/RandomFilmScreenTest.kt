@@ -1,5 +1,6 @@
 package com.randomboxd.feature.random_film.presentation
 
+import android.graphics.Bitmap
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -10,6 +11,12 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTouchInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import coil3.ImageLoader
+import coil3.SingletonImageLoader
+import coil3.annotation.DelicateCoilApi
+import coil3.asImage
+import coil3.test.FakeImageLoaderEngine
 import com.nacchofer31.randomboxd.core.domain.DataError
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
@@ -17,6 +24,7 @@ import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreen
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreenRoot
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,6 +33,20 @@ import org.junit.runner.RunWith
 class RandomFilmScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
+
+    private val context get() = InstrumentationRegistry.getInstrumentation().targetContext
+
+    @After
+    @OptIn(DelicateCoilApi::class)
+    fun resetImageLoader() {
+        SingletonImageLoader.reset()
+    }
+
+    private fun setImageLoader(engine: FakeImageLoaderEngine) {
+        SingletonImageLoader.setSafe {
+            ImageLoader.Builder(context).components { add(engine) }.build()
+        }
+    }
 
     @Test
     fun all_random_film_screen_initial_components_should_be_displayed() {
@@ -221,5 +243,73 @@ class RandomFilmScreenTest {
         }
 
         composeTestRule.onNodeWithTag("test-random-film-genre-badge").assertDoesNotExist()
+    }
+
+    @Test
+    fun reroll_button_click_triggers_reroll_action() {
+        val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
+        setImageLoader(
+            FakeImageLoaderEngine
+                .Builder()
+                .default(bitmap.asImage())
+                .build(),
+        )
+
+        var rerollClicked = false
+        composeTestRule.setContent {
+            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
+            RandomFilmScreen(
+                userNameList = mutableUserNamesFlow,
+                resultFilm =
+                    Film(
+                        slug = "test-slug",
+                        name = "test-name",
+                        releaseYear = 2000,
+                        imageUrl = "test-image-url",
+                    ),
+            ) { action ->
+                if (action is com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction.OnRerollClicked) {
+                    rerollClicked = true
+                }
+            }
+        }
+
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithTag("test-reroll-button").performClick()
+        assert(rerollClicked)
+    }
+
+    @Test
+    fun film_poster_click_triggers_film_clicked_action() {
+        val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
+        setImageLoader(
+            FakeImageLoaderEngine
+                .Builder()
+                .default(bitmap.asImage())
+                .build(),
+        )
+
+        var filmClicked = false
+        composeTestRule.setContent {
+            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
+            RandomFilmScreen(
+                userNameList = mutableUserNamesFlow,
+                resultFilm =
+                    Film(
+                        slug = "test-slug",
+                        name = "test-name",
+                        releaseYear = 2000,
+                        imageUrl = "test-image-url",
+                    ),
+            ) { action ->
+                if (action is com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction.OnFilmClicked) {
+                    filmClicked = true
+                }
+            }
+        }
+
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithTag("test-film-poster").performClick()
+        assert(filmClicked)
     }
 }

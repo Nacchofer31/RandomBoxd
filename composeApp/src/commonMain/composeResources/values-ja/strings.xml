@@ -70,4 +70,5 @@
     <string name="onboarding_genre_feature3">シングルユーザーとマルチユーザーモードの両方で動作</string>
     <string name="rolling_the_dice">サイコロを振っています...</string>
     <string name="finding_random_movie">ランダム映画を探しています</string>
+    <string name="reroll">もう一度振る</string>
 </resources>

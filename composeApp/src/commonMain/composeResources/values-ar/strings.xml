@@ -70,4 +70,5 @@
     <string name="onboarding_genre_feature3">يعمل مع وضع المستخدم الواحد ووضع متعدد المستخدمين</string>
     <string name="rolling_the_dice">جاري رمي النرد...</string>
     <string name="finding_random_movie">جاري البحث عن فيلمك العشوائي</string>
+    <string name="reroll">إعادة الرمي</string>
 </resources>

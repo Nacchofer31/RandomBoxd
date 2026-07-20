@@ -70,4 +70,5 @@
     <string name="onboarding_genre_feature3">Funciona con los modos de un solo usuario y multiusuario</string>
     <string name="rolling_the_dice">Lanzando los dados...</string>
     <string name="finding_random_movie">Encontrando tu película aleatoria</string>
+    <string name="reroll">Tirar de nuevo</string>
 </resources>

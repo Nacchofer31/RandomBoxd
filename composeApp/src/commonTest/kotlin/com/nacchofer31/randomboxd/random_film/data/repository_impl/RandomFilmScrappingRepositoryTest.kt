@@ -50,7 +50,7 @@ class RandomFilmScrappingRepositoryTest {
     private fun createRepository(mockEngine: MockEngine) = RandomFilmScrappingRepository(HttpClient(mockEngine))
 
     @Test
-    fun `getRandomMovie returns film on successful watchlist scraping`() =
+    fun `getRandomMovies returns film on successful watchlist scraping`() =
         runTest {
             val mockEngine =
                 MockEngine { request ->
@@ -68,17 +68,17 @@ class RandomFilmScrappingRepositoryTest {
                 }
             val repository = createRepository(mockEngine)
 
-            val result = repository.getRandomMovie("user")
+            val result = repository.getRandomMovies("user")
 
             assertIs<ResultData.Success<*>>(result)
-            val film = (result as ResultData.Success).data
+            val films = (result as ResultData.Success).data
+            val film = films.first()
             assertEquals("Test Film", film.name)
             assertEquals(2020, film.releaseYear)
-            assertEquals("https://example.com/poster.jpg", film.imageUrl)
         }
 
     @Test
-    fun `getRandomMovie returns NO_RESULTS error when watchlist is empty`() =
+    fun `getRandomMovies returns NO_RESULTS error when watchlist is empty`() =
         runTest {
             val mockEngine =
                 MockEngine { request ->
@@ -91,14 +91,14 @@ class RandomFilmScrappingRepositoryTest {
                 }
             val repository = createRepository(mockEngine)
 
-            val result = repository.getRandomMovie("user")
+            val result = repository.getRandomMovies("user")
 
             assertIs<ResultData.Error<*>>(result)
             assertEquals(DataError.Remote.NO_RESULTS, (result as ResultData.Error).error)
         }
 
     @Test
-    fun `getRandomMovie with list slash notation returns film`() =
+    fun `getRandomMovies with list slash notation returns film`() =
         runTest {
             val listFilmHtml =
                 """
@@ -124,7 +124,7 @@ class RandomFilmScrappingRepositoryTest {
                 }
             val repository = createRepository(mockEngine)
 
-            val result = repository.getRandomMovie("user/my-list")
+            val result = repository.getRandomMovies("user/my-list")
 
             assertIs<ResultData.Success<*>>(result)
             assertNotNull((result as ResultData.Success).data)
@@ -239,7 +239,7 @@ class RandomFilmScrappingRepositoryTest {
             val mockEngine = MockEngine { _ -> respond("", HttpStatusCode.InternalServerError) }
             val repository = createRepository(mockEngine)
 
-            val result = repository.getRandomMovie("user")
+            val result = repository.getRandomMovies("user")
 
             assertIs<ResultData.Error<*>>(result)
             assertEquals(DataError.Remote.SERVER, (result as ResultData.Error).error)
@@ -279,7 +279,7 @@ class RandomFilmScrappingRepositoryTest {
                 }
             val repository = createRepository(mockEngine)
 
-            val result = repository.getRandomMovie("user")
+            val result = repository.getRandomMovies("user")
 
             // Even when poster fails, should succeed using the fallback imageUrl
             assertIs<ResultData.Success<*>>(result)
@@ -305,12 +305,12 @@ class RandomFilmScrappingRepositoryTest {
                 }
             val repository = createRepository(mockEngine)
 
-            val result = repository.getRandomMovie("user")
+            val result = repository.getRandomMovies("user")
 
             assertIs<ResultData.Success<*>>(result)
             // imageUrl should fall back to the one built from filmId
-            val film = (result as ResultData.Success).data
-            assertNotNull(film.imageUrl)
+            val films = (result as ResultData.Success).data
+            assertNotNull(films.first().imageUrl)
         }
 
     @Test
@@ -334,7 +334,7 @@ class RandomFilmScrappingRepositoryTest {
                 }
             val repository = createRepository(mockEngine)
 
-            repository.getRandomMovie("user", setOf(FilmGenre.ACTION))
+            repository.getRandomMovies("user", setOf(FilmGenre.ACTION))
 
             assertTrue(requestedPaths.any { it.contains("/genre/action") })
         }
@@ -360,7 +360,7 @@ class RandomFilmScrappingRepositoryTest {
                 }
             val repository = createRepository(mockEngine)
 
-            repository.getRandomMovie("user", setOf(FilmGenre.ACTION, FilmGenre.HORROR))
+            repository.getRandomMovies("user", setOf(FilmGenre.ACTION, FilmGenre.HORROR))
 
             assertTrue(requestedPaths.any { path -> path.contains("/genre/") && path.contains("action") && path.contains("horror") })
         }
@@ -386,7 +386,7 @@ class RandomFilmScrappingRepositoryTest {
                 }
             val repository = createRepository(mockEngine)
 
-            repository.getRandomMovie("user", emptySet())
+            repository.getRandomMovies("user", emptySet())
 
             assertTrue(requestedPaths.none { it.contains("/genre/") })
         }
@@ -450,7 +450,7 @@ class RandomFilmScrappingRepositoryTest {
                 }
             val repository = createRepository(mockEngine)
 
-            repository.getRandomMovie("user/my-list", setOf(FilmGenre.COMEDY))
+            repository.getRandomMovies("user/my-list", setOf(FilmGenre.COMEDY))
 
             assertTrue(requestedPaths.any { it.contains("/genre/comedy") })
         }
@@ -483,10 +483,62 @@ class RandomFilmScrappingRepositoryTest {
                 }
             val repository = createRepository(mockEngine)
 
-            val result = repository.getRandomMovie("user")
+            val result = repository.getRandomMovies("user")
 
             // Should fallback to 1 page and continue processing successfully
             assertIs<ResultData.Success<*>>(result)
             assertNotNull((result as ResultData.Success).data)
+        }
+
+    @Test
+    fun `extractResultMovie returns film with updated imageUrl from poster page`() =
+        runTest {
+            val mockEngine =
+                MockEngine { request ->
+                    val path = request.url.encodedPath
+                    respond(
+                        content = if (path.startsWith("/film/")) filmDetailHtml else paginationHtml,
+                        status = HttpStatusCode.OK,
+                        headers = headersOf("Content-Type", "text/html"),
+                    )
+                }
+            val repository = createRepository(mockEngine)
+            val film =
+                com.nacchofer31.randomboxd.random_film.domain.model.Film(
+                    slug = "test-film",
+                    imageUrl = "https://fallback.com/poster.jpg",
+                    releaseYear = 2020,
+                    name = "Test Film",
+                )
+
+            val result = repository.extractResultMovie(film)
+
+            assertIs<ResultData.Success<*>>(result)
+            val resultFilm = (result as ResultData.Success).data
+            assertEquals("https://example.com/poster.jpg", resultFilm.imageUrl)
+            assertEquals("Test Film", resultFilm.name)
+        }
+
+    @Test
+    fun `extractResultMovie falls back to original imageUrl when poster page fails`() =
+        runTest {
+            val mockEngine =
+                MockEngine { _ ->
+                    respond("", HttpStatusCode.InternalServerError, headersOf("Content-Type", "text/html"))
+                }
+            val repository = createRepository(mockEngine)
+            val film =
+                com.nacchofer31.randomboxd.random_film.domain.model.Film(
+                    slug = "test-film",
+                    imageUrl = "https://fallback.com/poster.jpg",
+                    releaseYear = 2020,
+                    name = "Test Film",
+                )
+
+            val result = repository.extractResultMovie(film)
+
+            assertIs<ResultData.Success<*>>(result)
+            val resultFilm = (result as ResultData.Success).data
+            assertEquals("https://fallback.com/poster.jpg", resultFilm.imageUrl)
         }
 }

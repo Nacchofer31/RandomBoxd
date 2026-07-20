@@ -70,4 +70,5 @@
     <string name="onboarding_genre_feature3">Works with single user and multi-user modes</string>
     <string name="rolling_the_dice">Rolling the dice...</string>
     <string name="finding_random_movie">Finding your random movie</string>
+    <string name="reroll">Reroll</string>
 </resources>
