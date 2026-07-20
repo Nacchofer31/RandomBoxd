@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,7 +39,8 @@ internal fun RerollButton(onClick: () -> Unit) =
                             color = RandomBoxdColors.GreenAccent.copy(alpha = 0.25f),
                             spread = 4.dp,
                         ),
-                ),
+                )
+                .testTag("test-reroll-button"),
         shape = RoundedCornerShape(100),
         color = RandomBoxdColors.GreenAccent,
     ) {

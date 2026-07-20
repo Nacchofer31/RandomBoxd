@@ -244,7 +244,7 @@ class RandomFilmScreenTest {
             }
         }
 
-        composeTestRule.onNodeWithText("Reroll").performClick()
+        composeTestRule.onNodeWithTag("test-reroll-button").performClick()
         assert(rerollClicked)
     }
 
@@ -269,6 +269,16 @@ class RandomFilmScreenTest {
             }
         }
 
+        // Wait for the poster to be displayed and click it
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            try {
+                composeTestRule.onNodeWithTag("test-film-poster").assertExists()
+                true
+            } catch (e: AssertionError) {
+                false
+            }
+        }
+        
         composeTestRule.onNodeWithTag("test-film-poster").performClick()
         assert(filmClicked)
     }
