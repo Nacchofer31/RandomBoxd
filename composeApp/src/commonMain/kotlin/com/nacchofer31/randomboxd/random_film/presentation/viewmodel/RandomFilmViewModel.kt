@@ -81,7 +81,7 @@ class RandomFilmViewModel(
                     emit(result)
                 }.onStart {
                     internalState.update { state ->
-                        state.copy(isLoading = true, resultError = null, resultFilm = null)
+                        state.copy(isLoading = true, resultError = null, resultFilm = null, numberOfResults = 0)
                     }
                 }.flowOn(dispatchers.main)
             }.onEach { result ->
@@ -99,6 +99,7 @@ class RandomFilmViewModel(
                                         isLoading = false,
                                         resultFilm = filmResult.data,
                                         resultError = null,
+                                        numberOfResults = cachedResultFilms.size,
                                     )
                                 }
 
@@ -107,6 +108,7 @@ class RandomFilmViewModel(
                                         isLoading = false,
                                         resultFilm = null,
                                         resultError = filmResult.error,
+                                        numberOfResults = 0,
                                     )
                                 }
                             }
@@ -117,6 +119,7 @@ class RandomFilmViewModel(
                                 isLoading = false,
                                 resultFilm = null,
                                 resultError = result.error,
+                                numberOfResults = 0,
                             )
                         }
                     }
@@ -249,8 +252,8 @@ class RandomFilmViewModel(
                 )
             internalState.update {
                 when (filmResult) {
-                    is ResultData.Success -> it.copy(isLoading = false, resultFilm = filmResult.data, resultError = null)
-                    is ResultData.Error -> it.copy(isLoading = false, resultFilm = null, resultError = filmResult.error)
+                    is ResultData.Success -> it.copy(isLoading = false, resultFilm = filmResult.data, resultError = null, numberOfResults = cachedResultFilms.size)
+                    is ResultData.Error -> it.copy(isLoading = false, resultFilm = null, resultError = filmResult.error, numberOfResults = 0)
                 }
             }
         }

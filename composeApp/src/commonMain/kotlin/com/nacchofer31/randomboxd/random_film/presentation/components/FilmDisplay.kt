@@ -14,6 +14,7 @@ import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmA
 internal fun FilmDisplay(
     film: Film,
     onAction: (RandomFilmAction) -> Unit,
+    numberOfResults: Int = 0,
 ) = Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = Modifier.padding(vertical = 20.dp).testTag("test-film-display"),
@@ -28,5 +29,6 @@ internal fun FilmDisplay(
         onRerollClick = {
             onAction(RandomFilmAction.OnRerollClicked)
         },
+        numberOfResults = numberOfResults,
     )
 }

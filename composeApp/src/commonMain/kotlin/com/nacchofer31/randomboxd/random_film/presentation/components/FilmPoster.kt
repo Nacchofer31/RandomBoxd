@@ -4,8 +4,10 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Movie
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,6 +53,7 @@ fun FilmPoster(
     releaseYear: String,
     onClick: () -> Unit,
     onRerollClick: () -> Unit,
+    numberOfResults: Int = 0,
 ) {
     var imageLoadResult by remember {
         mutableStateOf<Result<Painter>?>(null)
@@ -149,6 +153,38 @@ fun FilmPoster(
                                     tint = RandomBoxdColors.White,
                                     modifier = Modifier.size(16.dp),
                                 )
+                            }
+                            if (numberOfResults > 0) {
+                                Box(
+                                    modifier =
+                                        Modifier
+                                            .padding(8.dp)
+                                            .height(28.dp)
+                                            .background(
+                                                color = RandomBoxdColors.GreenAccent,
+                                                shape = RoundedCornerShape(14.dp),
+                                            ).align(Alignment.TopEnd),
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    Row(
+                                        modifier = Modifier.padding(horizontal = 10.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Outlined.Movie,
+                                            contentDescription = "results_count_icon",
+                                            tint = RandomBoxdColors.BackgroundDarkColor,
+                                            modifier = Modifier.size(14.dp),
+                                        )
+                                        Text(
+                                            text = numberOfResults.toString(),
+                                            fontSize = 12.sp,
+                                            fontWeight = FontWeight.SemiBold,
+                                            color = RandomBoxdColors.BackgroundDarkColor,
+                                        )
+                                    }
+                                }
                             }
                         }
                         Spacer(modifier = Modifier.height(12.dp))

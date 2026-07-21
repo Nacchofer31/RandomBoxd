@@ -14,4 +14,5 @@ data class RandomFilmState(
     val filmSearchMode: FilmSearchMode = FilmSearchMode.INTERSECTION,
     val selectedGenres: Set<FilmGenre> = emptySet(),
     val showGenreBottomSheet: Boolean = false,
+    val numberOfResults: Int = 0,
 )
