@@ -116,4 +116,54 @@ class FilmPosterTest {
 
         assertTrue(clicked)
     }
+
+    @Test
+    fun film_poster_hides_results_chip_when_count_is_zero() {
+        val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
+        setImageLoader(
+            FakeImageLoaderEngine
+                .Builder()
+                .default(bitmap.asImage())
+                .build(),
+        )
+
+        composeTestRule.setContent {
+            FilmPoster(
+                imageUrl = "https://example.com/poster.jpg",
+                title = "Test Film",
+                releaseYear = "2020",
+                onClick = {},
+                onRerollClick = {},
+                numberOfResults = 0,
+            )
+        }
+
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithTag("results-count-chip").assertDoesNotExist()
+    }
+
+    @Test
+    fun film_poster_shows_results_chip_when_count_is_greater_than_zero() {
+        val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
+        setImageLoader(
+            FakeImageLoaderEngine
+                .Builder()
+                .default(bitmap.asImage())
+                .build(),
+        )
+
+        composeTestRule.setContent {
+            FilmPoster(
+                imageUrl = "https://example.com/poster.jpg",
+                title = "Test Film",
+                releaseYear = "2020",
+                onClick = {},
+                onRerollClick = {},
+                numberOfResults = 42,
+            )
+        }
+
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithTag("results-count-chip").assertIsDisplayed()
+    }
 }

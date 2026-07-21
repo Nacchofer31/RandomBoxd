@@ -4,10 +4,8 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +17,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.Movie
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -120,71 +117,54 @@ fun FilmPoster(
                             modifier =
                                 Modifier
                                     .fillMaxWidth()
-                                    .aspectRatio(280f / 360f)
-                                    .clip(RoundedCornerShape(12.dp))
-                                    .clickable { onClick() },
+                                    .aspectRatio(280f / 360f),
                         ) {
-                            Image(
-                                painter = painter,
-                                contentDescription = "film_image",
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale =
-                                    if (result.isSuccess) {
-                                        ContentScale.Crop
-                                    } else {
-                                        ContentScale.Fit
-                                    },
-                            )
                             Box(
                                 modifier =
                                     Modifier
-                                        .padding(8.dp)
-                                        .size(28.dp)
-                                        .background(
-                                            color = Color.Black.copy(alpha = 0.7f),
-                                            shape = RoundedCornerShape(14.dp),
-                                        ).align(Alignment.TopStart)
+                                        .fillMaxSize()
+                                        .clip(RoundedCornerShape(12.dp))
                                         .clickable { onClick() },
-                                contentAlignment = Alignment.Center,
                             ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Info,
-                                    contentDescription = "info_icon",
-                                    tint = RandomBoxdColors.White,
-                                    modifier = Modifier.size(16.dp),
+                                Image(
+                                    painter = painter,
+                                    contentDescription = "film_image",
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentScale =
+                                        if (result.isSuccess) {
+                                            ContentScale.Crop
+                                        } else {
+                                            ContentScale.Fit
+                                        },
                                 )
-                            }
-                            if (numberOfResults > 0) {
                                 Box(
                                     modifier =
                                         Modifier
                                             .padding(8.dp)
-                                            .height(28.dp)
+                                            .size(28.dp)
                                             .background(
-                                                color = RandomBoxdColors.GreenAccent,
+                                                color = Color.Black.copy(alpha = 0.7f),
                                                 shape = RoundedCornerShape(14.dp),
-                                            ).align(Alignment.TopEnd),
+                                            ).align(Alignment.TopStart)
+                                            .clickable { onClick() },
                                     contentAlignment = Alignment.Center,
                                 ) {
-                                    Row(
-                                        modifier = Modifier.padding(horizontal = 10.dp),
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Outlined.Movie,
-                                            contentDescription = "results_count_icon",
-                                            tint = RandomBoxdColors.BackgroundDarkColor,
-                                            modifier = Modifier.size(14.dp),
-                                        )
-                                        Text(
-                                            text = numberOfResults.toString(),
-                                            fontSize = 12.sp,
-                                            fontWeight = FontWeight.SemiBold,
-                                            color = RandomBoxdColors.BackgroundDarkColor,
-                                        )
-                                    }
+                                    Icon(
+                                        imageVector = Icons.Outlined.Info,
+                                        contentDescription = "info_icon",
+                                        tint = RandomBoxdColors.White,
+                                        modifier = Modifier.size(16.dp),
+                                    )
                                 }
+                            }
+                            if (numberOfResults > 0) {
+                                ResultsCountChip(
+                                    count = numberOfResults,
+                                    modifier =
+                                        Modifier
+                                            .padding(8.dp)
+                                            .align(Alignment.TopEnd),
+                                )
                             }
                         }
                         Spacer(modifier = Modifier.height(12.dp))
