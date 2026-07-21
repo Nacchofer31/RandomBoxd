@@ -1952,6 +1952,44 @@
                                   "fill": "$text-primary"
                                 }
                               ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "tUtrd",
+                              "x": 131,
+                              "y": 8,
+                              "name": "resultsChip",
+                              "height": 28,
+                              "fill": "$accent-green",
+                              "cornerRadius": 14,
+                              "gap": 4,
+                              "padding": [
+                                0,
+                                10
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "JScqq",
+                                  "name": "filmIcon",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "film",
+                                  "library": "lucide",
+                                  "fill": "#14181C"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "SBmEz",
+                                  "name": "resultsCount",
+                                  "fill": "#14181C",
+                                  "content": "247",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
                             }
                           ]
                         },
