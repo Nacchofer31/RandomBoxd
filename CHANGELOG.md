@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.4.0
+- Added `Reroll` feature.
+- Added `Number of results` feature.
+
 ## 1.3.0
 - Added `InAppReview` feature.
 - Fixed not localized texts.
