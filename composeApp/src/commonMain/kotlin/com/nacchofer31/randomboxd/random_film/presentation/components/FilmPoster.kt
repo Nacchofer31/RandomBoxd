@@ -50,6 +50,7 @@ fun FilmPoster(
     releaseYear: String,
     onClick: () -> Unit,
     onRerollClick: () -> Unit,
+    numberOfResults: Int = 0,
 ) {
     var imageLoadResult by remember {
         mutableStateOf<Result<Painter>?>(null)
@@ -116,38 +117,53 @@ fun FilmPoster(
                             modifier =
                                 Modifier
                                     .fillMaxWidth()
-                                    .aspectRatio(280f / 360f)
-                                    .clip(RoundedCornerShape(12.dp))
-                                    .clickable { onClick() },
+                                    .aspectRatio(280f / 360f),
                         ) {
-                            Image(
-                                painter = painter,
-                                contentDescription = "film_image",
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale =
-                                    if (result.isSuccess) {
-                                        ContentScale.Crop
-                                    } else {
-                                        ContentScale.Fit
-                                    },
-                            )
                             Box(
                                 modifier =
                                     Modifier
-                                        .padding(8.dp)
-                                        .size(28.dp)
-                                        .background(
-                                            color = Color.Black.copy(alpha = 0.7f),
-                                            shape = RoundedCornerShape(14.dp),
-                                        ).align(Alignment.TopStart)
+                                        .fillMaxSize()
+                                        .clip(RoundedCornerShape(12.dp))
                                         .clickable { onClick() },
-                                contentAlignment = Alignment.Center,
                             ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Info,
-                                    contentDescription = "info_icon",
-                                    tint = RandomBoxdColors.White,
-                                    modifier = Modifier.size(16.dp),
+                                Image(
+                                    painter = painter,
+                                    contentDescription = "film_image",
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentScale =
+                                        if (result.isSuccess) {
+                                            ContentScale.Crop
+                                        } else {
+                                            ContentScale.Fit
+                                        },
+                                )
+                                Box(
+                                    modifier =
+                                        Modifier
+                                            .padding(8.dp)
+                                            .size(28.dp)
+                                            .background(
+                                                color = Color.Black.copy(alpha = 0.7f),
+                                                shape = RoundedCornerShape(14.dp),
+                                            ).align(Alignment.TopStart)
+                                            .clickable { onClick() },
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Info,
+                                        contentDescription = "info_icon",
+                                        tint = RandomBoxdColors.White,
+                                        modifier = Modifier.size(16.dp),
+                                    )
+                                }
+                            }
+                            if (numberOfResults > 0) {
+                                ResultsCountChip(
+                                    count = numberOfResults,
+                                    modifier =
+                                        Modifier
+                                            .padding(8.dp)
+                                            .align(Alignment.TopEnd),
                                 )
                             }
                         }

@@ -61,6 +61,7 @@ fun RandomFilmScreenRoot(
     val filmSearchMode by stateFlow.map { it.filmSearchMode }.collectAsStateWithLifecycle(initialValue = FilmSearchMode.INTERSECTION)
     val selectedGenres by stateFlow.map { it.selectedGenres }.collectAsStateWithLifecycle(initialValue = emptySet())
     val showGenreBottomSheet by stateFlow.map { it.showGenreBottomSheet }.collectAsStateWithLifecycle(initialValue = false)
+    val numberOfResults by stateFlow.map { it.numberOfResults }.collectAsStateWithLifecycle(initialValue = 0)
 
     val usernameState = remember { TextFieldState(userName) }
 
@@ -99,6 +100,7 @@ fun RandomFilmScreenRoot(
         filmSearchMode = filmSearchMode,
         selectedGenres = selectedGenres,
         showGenreBottomSheet = showGenreBottomSheet,
+        numberOfResults = numberOfResults,
         userNameList = viewModel.userNameList,
         onAction = onAction,
     )
@@ -114,6 +116,7 @@ fun RandomFilmScreen(
     filmSearchMode: FilmSearchMode = FilmSearchMode.INTERSECTION,
     selectedGenres: Set<FilmGenre> = emptySet(),
     showGenreBottomSheet: Boolean = false,
+    numberOfResults: Int = 0,
     userNameList: StateFlow<List<UserName>> = MutableStateFlow(emptyList()),
     onAction: (RandomFilmAction) -> Unit = {},
 ) {
@@ -160,7 +163,7 @@ fun RandomFilmScreen(
                         FilmErrorView(it)
                     }
                     resultFilm?.takeIf { !isLoading }?.let {
-                        FilmDisplay(it, onAction)
+                        FilmDisplay(it, onAction, numberOfResults)
                     } ?: LoadingOrPrompt(isLoading)
 
                     if (resultError == null && resultFilm == null && !isLoading) {
