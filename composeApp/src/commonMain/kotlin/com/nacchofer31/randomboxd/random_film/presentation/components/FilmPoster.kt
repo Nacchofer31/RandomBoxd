@@ -185,9 +185,11 @@ fun FilmPoster(
                                 fontSize = 17.sp,
                                 textAlign = TextAlign.Center,
                             )
-                            RerollButton(
-                                onClick = onRerollClick,
-                            )
+                            if (numberOfResults > 1) {
+                                RerollButton(
+                                    onClick = onRerollClick,
+                                )
+                            }
                         }
                     }
                 }

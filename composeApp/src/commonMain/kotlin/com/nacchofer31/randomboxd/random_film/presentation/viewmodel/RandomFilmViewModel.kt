@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nacchofer31.randomboxd.core.domain.DispatcherProvider
 import com.nacchofer31.randomboxd.core.domain.ResultData
+import com.nacchofer31.randomboxd.core.domain.randomExcluding
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
@@ -26,6 +27,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Suppress("OPT_IN_USAGE")
 class RandomFilmViewModel(
@@ -74,7 +76,9 @@ class RandomFilmViewModel(
 
                             else -> {
                                 val userName = internalState.value.userName.trim()
-                                userNameRepository.addUserName(userName)
+                                withContext(dispatchers.io) {
+                                    userNameRepository.addUserName(userName)
+                                }
                                 repository.getRandomMovies(userName, internalState.value.selectedGenres)
                             }
                         }
@@ -92,7 +96,7 @@ class RandomFilmViewModel(
                                 inAppReviewRepository.requestInAppReview()
                             }
                             cachedResultFilms = result.data
-                            var filmResult = repository.extractResultMovie(result.data.random())
+                            var filmResult = repository.extractResultMovie(result.data.randomExcluding(null) { it.name })
                             return@update when (filmResult) {
                                 is ResultData.Success -> {
                                     current.copy(
@@ -150,12 +154,14 @@ class RandomFilmViewModel(
                     if (internalState.value.userNameSearchList.contains(action.userName.username)) {
                         addOrRemoveUserNameToList(action.userName.username)
                     }
-                    userNameRepository.deleteUserName(action.userName)
+                    withContext(dispatchers.io) {
+                        userNameRepository.deleteUserName(action.userName)
+                    }
                 }
             }
 
             is RandomFilmAction.OnUserNameAdded -> {
-                viewModelScope.launch { userNameRepository.addUserName(action.username.trim()) }
+                viewModelScope.launch(dispatchers.io) { userNameRepository.addUserName(action.username.trim()) }
             }
 
             is RandomFilmAction.OnAddOrRemoveUserNameSearchList -> {
@@ -183,7 +189,12 @@ class RandomFilmViewModel(
             }
 
             is RandomFilmAction.OnGenreSelectionApplied -> {
-                internalState.update { it.copy(selectedGenres = action.genres, showGenreBottomSheet = false) }
+                internalState.update {
+                    it.copy(
+                        selectedGenres = action.genres,
+                        showGenreBottomSheet = false,
+                    )
+                }
             }
 
             is RandomFilmAction.OnRerollClicked -> {
@@ -240,16 +251,16 @@ class RandomFilmViewModel(
             }
         }
 
-    private fun rerollMovie() {
-        internalState.update {
-            it.copy(isLoading = true)
-        }
-
+    private fun rerollMovie() =
         viewModelScope.launch {
+            internalState.update {
+                it.copy(isLoading = true)
+            }
+            val rerolledFilm = cachedResultFilms.randomExcluding(internalState.value.resultFilm) { it.name }
             val filmResult =
-                repository.extractResultMovie(
-                    cachedResultFilms.random(),
-                )
+                withContext(dispatchers.io) {
+                    repository.extractResultMovie(rerolledFilm)
+                }
             internalState.update {
                 when (filmResult) {
                     is ResultData.Success -> it.copy(isLoading = false, resultFilm = filmResult.data, resultError = null, numberOfResults = cachedResultFilms.size)
@@ -257,5 +268,4 @@ class RandomFilmViewModel(
                 }
             }
         }
-    }
 }
