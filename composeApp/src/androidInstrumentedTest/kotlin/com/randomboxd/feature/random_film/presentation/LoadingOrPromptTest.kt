@@ -50,4 +50,19 @@ class LoadingOrPromptTest {
 
         composeTestRule.onNodeWithText("Finding your random movie").assertIsDisplayed()
     }
+
+    @Test
+    fun animation_completes_full_cycle() {
+        composeTestRule.mainClock.autoAdvance = false
+        composeTestRule.setContent {
+            LoadingOrPrompt(isLoading = true)
+        }
+
+        composeTestRule.mainClock.advanceTimeBy(4000)
+
+        // Verify components are still displayed after animation
+        composeTestRule.onNodeWithTag("test-loading-indicator").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Rolling the dice", substring = true).assertIsDisplayed()
+        composeTestRule.onNodeWithText("Finding your random movie").assertIsDisplayed()
+    }
 }

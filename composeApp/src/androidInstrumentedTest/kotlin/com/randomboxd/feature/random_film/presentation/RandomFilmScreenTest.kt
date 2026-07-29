@@ -23,6 +23,7 @@ import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreen
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreenRoot
+import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.After
 import org.junit.Rule
@@ -267,8 +268,9 @@ class RandomFilmScreenTest {
                         releaseYear = 2000,
                         imageUrl = "test-image-url",
                     ),
+                numberOfResults = 2,
             ) { action ->
-                if (action is com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction.OnRerollClicked) {
+                if (action is RandomFilmAction.OnRerollClicked) {
                     rerollClicked = true
                 }
             }
@@ -302,7 +304,7 @@ class RandomFilmScreenTest {
                         imageUrl = "test-image-url",
                     ),
             ) { action ->
-                if (action is com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction.OnFilmClicked) {
+                if (action is RandomFilmAction.OnFilmClicked) {
                     filmClicked = true
                 }
             }
