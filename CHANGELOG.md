@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.4.1
+- Prevented film repetition on reroll.
+- Hide `Reroll button` for one results.
+
 ## 1.4.0
 - Added `Reroll` feature.
 - Added `Number of results` feature.
