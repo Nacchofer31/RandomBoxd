@@ -176,7 +176,7 @@ class HistoryScreenTest {
             onAction = { toggleAction = it is HistoryAction.ToggleFavoritesOnly },
         )
 
-        composeTestRule.onNodeWithText("Favorites").performClick()
+        composeTestRule.onNodeWithTag("test-history-favorites-chip").performClick()
 
         assertTrue(toggleAction)
     }
