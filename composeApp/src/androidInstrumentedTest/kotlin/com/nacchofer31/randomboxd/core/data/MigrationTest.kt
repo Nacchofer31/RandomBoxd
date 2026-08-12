@@ -3,10 +3,13 @@ package com.nacchofer31.randomboxd.core.data
 import androidx.room.Room
 import androidx.room.testing.MigrationTestHelper
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import kotlin.test.Test
-import kotlin.test.assertEquals
+import org.junit.Assert.assertEquals
+import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(AndroidJUnit4::class)
 class MigrationTest {
     private val testHelper =
         MigrationTestHelper(
@@ -19,7 +22,7 @@ class MigrationTest {
     private val testUserName = "testuser"
 
     @Test
-    fun `v1 to v2 preserves usernames and creates film_history_entry`() {
+    fun v1_to_v2_preserves_usernames_and_creates_film_history_entry() {
         // Create v1 database
         val v1Db = testHelper.createDatabase(DATABASE_NAME, 1)
         v1Db.execSQL("INSERT INTO UserName (username) VALUES ('$testUserName')")
