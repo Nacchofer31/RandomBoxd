@@ -103,6 +103,7 @@ class HistoryViewModelTest : TestsWithMocks() {
             createViewModel()
 
             viewModel.onAction(HistoryAction.ToggleFavorite(2))
+            testScheduler.advanceUntilIdle()
             viewModel.historyPicks.test {
                 val picks = awaitItem()
                 assertEquals(1, picks.size)
