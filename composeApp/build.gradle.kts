@@ -119,6 +119,7 @@ kotlin {
             implementation(kotlin("test"))
             implementation(libs.androidx.test.runner)
             implementation("io.coil-kt.coil3:coil-test:3.3.0")
+            implementation("androidx.room:room-testing:2.7.2")
         }
     }
 }
@@ -244,9 +245,10 @@ val fileFilter =
         "com/nacchofer31/randomboxd/core/data/RandomBoxdHttpClientExtKt*",
         "com/nacchofer31/randomboxd/core/presentation/RandomBoxdTheme*",
         // Room generated code
-        "com/nacchofer31/randomboxd/core/data/UsernameDatabase_Impl*",
-        "com/nacchofer31/randomboxd/core/data/UserNameDatabaseConstructor*",
+        "com/nacchofer31/randomboxd/core/data/RandomBoxdDatabase_Impl*",
+        "com/nacchofer31/randomboxd/core/data/RandomBoxdDatabaseConstructor*",
         "com/nacchofer31/randomboxd/random_film/domain/model/UserNameDao_Impl*",
+        "com/nacchofer31/randomboxd/history/domain/model/FilmHistoryDao_Impl*",
         // Inline functions — JaCoCo cannot track coverage of Kotlin inline function bodies
         "com/nacchofer31/randomboxd/core/domain/ResultData*",
         "com/nacchofer31/randomboxd/core/domain/ResultDataKt*",
