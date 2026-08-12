@@ -97,6 +97,9 @@ kotlin {
             // room
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
+
+            // kotlinx
+            implementation(libs.kotlinx.datetime)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)

@@ -47,6 +47,7 @@ uiTestAndroid = "1.9.0"
 uiTestJunit4Android = "1.9.0"
 androidx-test-runner = "1.5.0"
 mockmp = "2.0.2"
+kotlinx-datetime = "0.7.1"
 
 [libraries]
 # Kotlin
@@ -111,6 +112,9 @@ sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sql
 # Play Review
 play-review = { module = "com.google.android.play:review", version.ref = "play-review" }
 play-review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "play-review" }
+
+# KotlinX
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

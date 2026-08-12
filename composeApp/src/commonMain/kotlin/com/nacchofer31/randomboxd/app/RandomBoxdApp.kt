@@ -13,6 +13,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.nacchofer31.randomboxd.core.data.OnboardingPreferences
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdTypography
+import com.nacchofer31.randomboxd.history.presentation.HistoryScreenRoot
 import com.nacchofer31.randomboxd.onboarding.presentation.OnboardingScreen
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreenRoot
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
@@ -63,6 +64,15 @@ internal fun RandomBoxdApp() {
                         onInfoClick = {
                             navController.navigate(RandomBoxdRoute.Onboarding)
                         },
+                        onHistoryClick = {
+                            navController.navigate(RandomBoxdRoute.History)
+                        },
+                    )
+                }
+                composable<RandomBoxdRoute.History> {
+                    HistoryScreenRoot(
+                        onBackClick = { navController.popBackStack() },
+                        onPosterClick = { url -> localUriHandler.openUri(url) },
                     )
                 }
             }
