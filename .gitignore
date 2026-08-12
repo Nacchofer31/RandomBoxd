@@ -18,7 +18,6 @@ out/
 !.idea/codeInsightSettings.xml
 .gradle/
 build/
-schemas/
 
 # Local configuration file (sdk path, etc)
 local.properties
