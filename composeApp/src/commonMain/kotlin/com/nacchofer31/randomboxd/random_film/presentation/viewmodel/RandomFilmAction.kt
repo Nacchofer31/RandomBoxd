@@ -50,4 +50,6 @@ sealed interface RandomFilmAction {
     ) : RandomFilmAction
 
     data object OnRerollClicked : RandomFilmAction
+
+    data object OnHistoryButtonClick : RandomFilmAction
 }

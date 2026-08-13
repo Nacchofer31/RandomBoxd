@@ -11,4 +11,7 @@ sealed interface RandomBoxdRoute {
 
     @Serializable
     data object RandomFilm : RandomBoxdRoute
+
+    @Serializable
+    data object History : RandomBoxdRoute
 }

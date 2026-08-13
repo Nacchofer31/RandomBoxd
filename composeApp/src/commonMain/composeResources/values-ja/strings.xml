@@ -71,4 +71,19 @@
     <string name="rolling_the_dice">サイコロを振っています...</string>
     <string name="finding_random_movie">ランダム映画を探しています</string>
     <string name="reroll">もう一度振る</string>
+    <string name="history_title">履歴</string>
+    <string name="history_subtitle">あなたのランダム選択</string>
+    <string name="history_empty_state">まだ選択された映画はありません</string>
+    <string name="history_empty_hint">ランダム選択を送信して履歴を開始しましょう</string>
+    <string name="history_footer_count">合計%1$d本の映画を選択</string>
+    <string name="history_favorites_filter">お気に入り</string>
+    <string name="history_favorites_empty_state">まだお気に入りの映画はありません</string>
+    <string name="history_favorites_empty_hint">映画のハートをタップして保存</string>
+    <string name="history_clear_dialog_title">履歴をクリア</string>
+    <string name="history_clear_dialog_message">これにより、すべての選択履歴が完全に削除されます。この操作は取り消せません。</string>
+    <string name="history_clear_confirm">クリア</string>
+    <string name="history_clear_cancel">キャンセル</string>
+    <string name="history_today">今日</string>
+    <string name="history_yesterday">昨日</string>
+    <string name="history_days_ago">%1$d日前</string>
 </resources>

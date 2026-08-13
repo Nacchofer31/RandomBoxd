@@ -71,4 +71,19 @@
     <string name="rolling_the_dice">Lançando os dados...</string>
     <string name="finding_random_movie">Encontrando seu filme aleatório</string>
     <string name="reroll">Rolar novamente</string>
+    <string name="history_title">Histórico</string>
+    <string name="history_subtitle">Suas seleções aleatórias</string>
+    <string name="history_empty_state">Nenhum filme selecionado ainda</string>
+    <string name="history_empty_hint">Envie uma seleção aleatória para começar seu histórico</string>
+    <string name="history_footer_count">%1$d filmes selecionados no total</string>
+    <string name="history_favorites_filter">Favoritos</string>
+    <string name="history_favorites_empty_state">Nenhum filme favorito ainda</string>
+    <string name="history_favorites_empty_hint">Toque no coração de um filme para salvá-lo</string>
+    <string name="history_clear_dialog_title">Limpar histórico</string>
+    <string name="history_clear_dialog_message">Isso excluirá permanentemente todo o seu histórico de seleções. Esta ação não pode ser desfeita.</string>
+    <string name="history_clear_confirm">Limpar</string>
+    <string name="history_clear_cancel">Cancelar</string>
+    <string name="history_today">Hoje</string>
+    <string name="history_yesterday">Ontem</string>
+    <string name="history_days_ago">Há %1$d dias</string>
 </resources>

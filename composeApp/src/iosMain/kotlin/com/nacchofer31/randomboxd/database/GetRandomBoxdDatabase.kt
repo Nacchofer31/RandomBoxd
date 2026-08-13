@@ -2,8 +2,9 @@ package com.nacchofer31.randomboxd.database
 
 import androidx.room.Room
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import com.nacchofer31.randomboxd.core.data.USERNAME_DATABASE_NAME
-import com.nacchofer31.randomboxd.core.data.UsernameDatabase
+import com.nacchofer31.randomboxd.core.data.DATABASE_NAME
+import com.nacchofer31.randomboxd.core.data.MIGRATION_1_2
+import com.nacchofer31.randomboxd.core.data.RandomBoxdDatabase
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -11,12 +12,13 @@ import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
 
-fun getUserNameDatabase(): UsernameDatabase {
-    val dbFile = "${documentDirectory()}/$USERNAME_DATABASE_NAME"
+fun getRandomBoxdDatabase(): RandomBoxdDatabase {
+    val dbFile = "${documentDirectory()}/$DATABASE_NAME"
     return Room
-        .databaseBuilder<UsernameDatabase>(
+        .databaseBuilder<RandomBoxdDatabase>(
             name = dbFile,
         ).setDriver(BundledSQLiteDriver())
+        .addMigrations(MIGRATION_1_2)
         .setQueryCoroutineContext(Dispatchers.IO)
         .build()
 }

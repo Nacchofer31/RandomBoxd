@@ -3,7 +3,7 @@ package com.randomboxd.feature.random_film.data
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.nacchofer31.randomboxd.core.data.UsernameDatabase
+import com.nacchofer31.randomboxd.core.data.RandomBoxdDatabase
 import com.nacchofer31.randomboxd.random_film.data.repository_impl.UserNameRepositoryImpl
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import kotlinx.coroutines.flow.first
@@ -17,7 +17,7 @@ import kotlin.test.assertTrue
 
 @RunWith(AndroidJUnit4::class)
 class UserNameRepositoryImplTest {
-    private lateinit var database: UsernameDatabase
+    private lateinit var database: RandomBoxdDatabase
     private lateinit var repository: UserNameRepositoryImpl
 
     @Before
@@ -25,7 +25,7 @@ class UserNameRepositoryImplTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         database =
             Room
-                .inMemoryDatabaseBuilder(context, UsernameDatabase::class.java)
+                .inMemoryDatabaseBuilder(context, RandomBoxdDatabase::class.java)
                 .allowMainThreadQueries()
                 .build()
         repository = UserNameRepositoryImpl(database)

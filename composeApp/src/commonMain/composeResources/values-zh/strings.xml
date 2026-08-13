@@ -71,4 +71,19 @@
     <string name="rolling_the_dice">掷骰子中...</string>
     <string name="finding_random_movie">正在寻找您的随机电影</string>
     <string name="reroll">重新掷骰</string>
+    <string name="history_title">历史记录</string>
+    <string name="history_subtitle">你的随机选择</string>
+    <string name="history_empty_state">还没有选择的电影</string>
+    <string name="history_empty_hint">提交随机选择以开始你的历史记录</string>
+    <string name="history_footer_count">共选择%1$d部电影</string>
+    <string name="history_favorites_filter">收藏</string>
+    <string name="history_favorites_empty_state">还没有收藏的电影</string>
+    <string name="history_favorites_empty_hint">点按电影上的心形图标以保存</string>
+    <string name="history_clear_dialog_title">清除历史记录</string>
+    <string name="history_clear_dialog_message">这将永久删除你的所有选择历史记录。此操作无法撤销。</string>
+    <string name="history_clear_confirm">清除</string>
+    <string name="history_clear_cancel">取消</string>
+    <string name="history_today">今天</string>
+    <string name="history_yesterday">昨天</string>
+    <string name="history_days_ago">%1$d天前</string>
 </resources>

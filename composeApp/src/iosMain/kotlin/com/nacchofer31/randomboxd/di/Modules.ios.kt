@@ -1,8 +1,8 @@
 package com.nacchofer31.randomboxd.di
 
 import com.nacchofer31.randomboxd.core.data.OnboardingPreferences
-import com.nacchofer31.randomboxd.core.data.UsernameDatabase
-import com.nacchofer31.randomboxd.database.getUserNameDatabase
+import com.nacchofer31.randomboxd.core.data.RandomBoxdDatabase
+import com.nacchofer31.randomboxd.database.getRandomBoxdDatabase
 import com.nacchofer31.randomboxd.random_film.data.repository_impl.InAppReviewRepositoryImplIos
 import com.nacchofer31.randomboxd.random_film.domain.repository.InAppReviewRepository
 import io.ktor.client.engine.HttpClientEngine
@@ -15,7 +15,7 @@ actual val platformModule: Module
     get() =
         module {
             single<HttpClientEngine> { Darwin.create() }
-            single<UsernameDatabase> { getUserNameDatabase() }
+            single<RandomBoxdDatabase> { getRandomBoxdDatabase() }
             single { OnboardingPreferences() }
             single { InAppReviewRepositoryImplIos() } bind InAppReviewRepository::class
         }

@@ -51,6 +51,7 @@ fun RandomFilmScreenRoot(
     viewModel: RandomFilmViewModel = koinViewModel(),
     onFilmClicked: (Film) -> Unit,
     onInfoClick: () -> Unit = {},
+    onHistoryClick: () -> Unit = {},
 ) {
     val stateFlow = viewModel.state
     val isLoading by stateFlow.map { it.isLoading }.collectAsStateWithLifecycle(initialValue = false)
@@ -80,11 +81,12 @@ fun RandomFilmScreenRoot(
     }
 
     val onAction =
-        remember(viewModel, onFilmClicked, onInfoClick) {
+        remember(viewModel, onFilmClicked, onInfoClick, onHistoryClick) {
             { action: RandomFilmAction ->
                 when (action) {
                     is RandomFilmAction.OnFilmClicked -> onFilmClicked(action.film)
                     is RandomFilmAction.OnInfoButtonClick -> onInfoClick()
+                    is RandomFilmAction.OnHistoryButtonClick -> onHistoryClick()
                     else -> Unit
                 }
                 viewModel.onAction(action)
@@ -136,6 +138,9 @@ fun RandomFilmScreen(
                 showInfoButton = !isLoading,
                 onInfoClick = {
                     onAction(RandomFilmAction.OnInfoButtonClick)
+                },
+                onHistoryClick = {
+                    onAction(RandomFilmAction.OnHistoryButtonClick)
                 },
             )
         },

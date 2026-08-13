@@ -4,12 +4,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Movie
 import androidx.compose.material3.Icon
@@ -26,6 +29,7 @@ import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 @Composable
 fun FilmHeader(
     onInfoClick: () -> Unit,
+    onHistoryClick: (() -> Unit)? = null,
     showInfoButton: Boolean? = true,
 ) {
     Row(
@@ -67,27 +71,53 @@ fun FilmHeader(
                 modifier = Modifier.padding(top = 5.dp),
             )
         }
-        // Help button
-        if (showInfoButton == true) {
-            Box(
-                modifier =
-                    Modifier
-                        .size(40.dp)
-                        .background(
-                            color = RandomBoxdColors.BackgroundColor,
-                            shape = RoundedCornerShape(18.dp),
-                        ),
-                contentAlignment = Alignment.Center,
-            ) {
-                IconButton(
-                    onClick = onInfoClick,
+        Row {
+            // Help button
+            if (showInfoButton == true) {
+                Box(
+                    modifier =
+                        Modifier
+                            .size(40.dp)
+                            .background(
+                                color = RandomBoxdColors.BackgroundColor,
+                                shape = RoundedCornerShape(18.dp),
+                            ),
+                    contentAlignment = Alignment.Center,
                 ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Info,
-                        contentDescription = "Info",
-                        tint = RandomBoxdColors.BackgroundLightColor,
-                        modifier = Modifier.size(24.dp),
-                    )
+                    IconButton(
+                        onClick = onInfoClick,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Info,
+                            contentDescription = "Info",
+                            tint = RandomBoxdColors.BackgroundLightColor,
+                            modifier = Modifier.size(24.dp),
+                        )
+                    }
+                }
+                if (onHistoryClick != null) {
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Box(
+                        modifier =
+                            Modifier
+                                .size(40.dp)
+                                .background(
+                                    color = RandomBoxdColors.BackgroundColor,
+                                    shape = RoundedCornerShape(18.dp),
+                                ),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        IconButton(
+                            onClick = onHistoryClick,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.History,
+                                contentDescription = "History",
+                                tint = RandomBoxdColors.BackgroundLightColor,
+                                modifier = Modifier.size(24.dp),
+                            )
+                        }
+                    }
                 }
             }
         }

@@ -1,12 +1,12 @@
 package com.nacchofer31.randomboxd.random_film.data.repository_impl
 
-import com.nacchofer31.randomboxd.core.data.UsernameDatabase
+import com.nacchofer31.randomboxd.core.data.RandomBoxdDatabase
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.domain.repository.UserNameRepository
 import kotlinx.coroutines.flow.Flow
 
 class UserNameRepositoryImpl(
-    private val usernameDatabase: UsernameDatabase,
+    private val usernameDatabase: RandomBoxdDatabase,
 ) : UserNameRepository {
     override fun getAllUserNames(): Flow<List<UserName>> = usernameDatabase.userNameDao().getAllUsernames()
 

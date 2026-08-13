@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.nacchofer31.randomboxd.core.domain.DispatcherProvider
 import com.nacchofer31.randomboxd.core.domain.ResultData
 import com.nacchofer31.randomboxd.core.domain.randomExcluding
+import com.nacchofer31.randomboxd.history.domain.repository.FilmHistoryRepository
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
@@ -35,6 +36,7 @@ class RandomFilmViewModel(
     private val userNameRepository: UserNameRepository,
     private val dispatchers: DispatcherProvider,
     private val inAppReviewRepository: InAppReviewRepository,
+    private val historyRepository: FilmHistoryRepository,
 ) : ViewModel() {
     private val actions = MutableSharedFlow<RandomFilmAction>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
@@ -59,11 +61,24 @@ class RandomFilmViewModel(
 
     internal var cachedResultFilms: Set<Film> = emptySet()
 
+    // Snapshot search context captured at submit time for history save
+    private var savedSearchUserNames: Set<String> = emptySet()
+    private var savedSearchMode: FilmSearchMode = FilmSearchMode.INTERSECTION
+    private var savedSearchGenres: Set<FilmGenre> = emptySet()
+
     init {
         actions
             .filterIsInstance<RandomFilmAction.OnSubmitButtonClick>()
             .flatMapLatest {
                 flow {
+                    // Snapshot search context at submit time (before extraction)
+                    if (it.singleSearch) {
+                        savedSearchUserNames = setOf(internalState.value.userName.trim())
+                    } else {
+                        savedSearchUserNames = internalState.value.userNameSearchList
+                    }
+                    savedSearchMode = internalState.value.filmSearchMode
+                    savedSearchGenres = internalState.value.selectedGenres
                     val result =
                         when {
                             !it.singleSearch -> {
@@ -97,6 +112,20 @@ class RandomFilmViewModel(
                             }
                             cachedResultFilms = result.data
                             var filmResult = repository.extractResultMovie(result.data.randomExcluding(null) { it.name })
+                            val extractedFilm = if (filmResult is ResultData.Success) filmResult.data else null
+                            // Save history fire-and-forget — must never break pick UX
+                            if (extractedFilm != null) {
+                                viewModelScope.launch(dispatchers.io) {
+                                    runCatching {
+                                        historyRepository.save(
+                                            film = extractedFilm,
+                                            userNames = savedSearchUserNames,
+                                            searchMode = savedSearchMode,
+                                            selectedGenres = savedSearchGenres,
+                                        )
+                                    }
+                                }
+                            }
                             return@update when (filmResult) {
                                 is ResultData.Success -> {
                                     current.copy(
@@ -261,6 +290,19 @@ class RandomFilmViewModel(
                 withContext(dispatchers.io) {
                     repository.extractResultMovie(rerolledFilm)
                 }
+            // Save history fire-and-forget on reroll — same snapshot from submit
+            if (filmResult is ResultData.Success) {
+                viewModelScope.launch(dispatchers.io) {
+                    runCatching {
+                        historyRepository.save(
+                            film = filmResult.data,
+                            userNames = savedSearchUserNames,
+                            searchMode = savedSearchMode,
+                            selectedGenres = savedSearchGenres,
+                        )
+                    }
+                }
+            }
             internalState.update {
                 when (filmResult) {
                     is ResultData.Success -> it.copy(isLoading = false, resultFilm = filmResult.data, resultError = null, numberOfResults = cachedResultFilms.size)
