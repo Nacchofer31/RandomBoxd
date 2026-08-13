@@ -32,7 +32,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import randomboxd.composeapp.generated.resources.Res
 import randomboxd.composeapp.generated.resources.enter_description
-import randomboxd.composeapp.generated.resources.onboarding_genre_new_badge
+import randomboxd.composeapp.generated.resources.onboarding_new_badge
 import randomboxd.composeapp.generated.resources.ready_to_spin
 import randomboxd.composeapp.generated.resources.roulette_icon
 import randomboxd.composeapp.generated.resources.tip_genre_filter
@@ -124,7 +124,7 @@ fun RandomFilmInfoView() {
                 accentColor = RandomBoxdColors.OrangeAccent,
             )
             NewFeatureTipCard(
-                newBadge = stringResource(Res.string.onboarding_genre_new_badge),
+                newBadge = stringResource(Res.string.onboarding_new_badge),
                 text = stringResource(Res.string.tip_genre_filter),
             )
         }
