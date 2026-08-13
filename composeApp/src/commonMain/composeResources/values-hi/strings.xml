@@ -71,21 +71,19 @@
     <string name="rolling_the_dice">पासा फेंक रहे हैं...</string>
     <string name="finding_random_movie">आपकी यादृच्छिक फिल्म खोज रहे हैं</string>
     <string name="reroll">फिर से फेंकें</string>
-
-    <string name="history_title">History</string>
-    <string name="history_subtitle">Your random picks</string>
-    <string name="history_empty_state">No movies picked yet</string>
-    <string name="history_empty_hint">Submit a random pick to start your history</string>
-    <string name="history_footer_count">%1$d movies picked in total</string>
-    <string name="history_favorites_filter">Favorites</string>
-    <string name="history_favorites_empty_state">No favorite movies yet</string>
-    <string name="history_favorites_empty_hint">Tap the heart on a movie to save it</string>
-    <string name="history_clear_dialog_title">Clear History</string>
-    <string name="history_clear_dialog_message">This will permanently delete all your pick history. This action cannot be undone.</string>
-    <string name="history_clear_confirm">Clear</string>
-    <string name="history_clear_cancel">Cancel</string>
-    <string name="history_today">Today</string>
-    <string name="history_yesterday">Yesterday</string>
-    <string name="history_days_ago">%1$d days ago</string>
-
+    <string name="history_title">इतिहास</string>
+    <string name="history_subtitle">आपके रैंडम चयन</string>
+    <string name="history_empty_state">अभी तक कोई फ़िल्म चयनित नहीं</string>
+    <string name="history_empty_hint">अपना इतिहास शुरू करने के लिए रैंडम चयन सबमिट करें</string>
+    <string name="history_footer_count">कुल %1$d फ़िल्में चयनित</string>
+    <string name="history_favorites_filter">पसंदीदा</string>
+    <string name="history_favorites_empty_state">अभी तक कोई पसंदीदा फ़िल्म नहीं</string>
+    <string name="history_favorites_empty_hint">फ़िल्म सहेजने के लिए दिल के आइकन पर टैप करें</string>
+    <string name="history_clear_dialog_title">इतिहास साफ़ करें</string>
+    <string name="history_clear_dialog_message">यह आपके सभी चयन इतिहास को स्थायी रूप से हटा देगा। यह कार्रवाई पूर्ववत नहीं की जा सकती।</string>
+    <string name="history_clear_confirm">साफ़ करें</string>
+    <string name="history_clear_cancel">रद्द करें</string>
+    <string name="history_today">आज</string>
+    <string name="history_yesterday">कल</string>
+    <string name="history_days_ago">%1$d दिन पहले</string>
 </resources>

@@ -71,21 +71,19 @@
     <string name="rolling_the_dice">جاري رمي النرد...</string>
     <string name="finding_random_movie">جاري البحث عن فيلمك العشوائي</string>
     <string name="reroll">إعادة الرمي</string>
-
-    <string name="history_title">History</string>
-    <string name="history_subtitle">Your random picks</string>
-    <string name="history_empty_state">No movies picked yet</string>
-    <string name="history_empty_hint">Submit a random pick to start your history</string>
-    <string name="history_footer_count">%1$d movies picked in total</string>
-    <string name="history_favorites_filter">Favorites</string>
-    <string name="history_favorites_empty_state">No favorite movies yet</string>
-    <string name="history_favorites_empty_hint">Tap the heart on a movie to save it</string>
-    <string name="history_clear_dialog_title">Clear History</string>
-    <string name="history_clear_dialog_message">This will permanently delete all your pick history. This action cannot be undone.</string>
-    <string name="history_clear_confirm">Clear</string>
-    <string name="history_clear_cancel">Cancel</string>
-    <string name="history_today">Today</string>
-    <string name="history_yesterday">Yesterday</string>
-    <string name="history_days_ago">%1$d days ago</string>
-
+    <string name="history_title">السجل</string>
+    <string name="history_subtitle">اختياراتك العشوائية</string>
+    <string name="history_empty_state">لا توجد أفلام مختارة بعد</string>
+    <string name="history_empty_hint">أرسل اختياراً عشوائياً لبدء سجلك</string>
+    <string name="history_footer_count">%1$d أفلام مختارة إجمالاً</string>
+    <string name="history_favorites_filter">المفضلة</string>
+    <string name="history_favorites_empty_state">لا توجد أفلام مفضلة بعد</string>
+    <string name="history_favorites_empty_hint">انقر على القلب في الفيلم لحفظه</string>
+    <string name="history_clear_dialog_title">مسح السجل</string>
+    <string name="history_clear_dialog_message">سيؤدي هذا إلى حذف كل سجل اختياراتك نهائياً. لا يمكن التراجع عن هذا الإجراء.</string>
+    <string name="history_clear_confirm">مسح</string>
+    <string name="history_clear_cancel">إلغاء</string>
+    <string name="history_today">اليوم</string>
+    <string name="history_yesterday">أمس</string>
+    <string name="history_days_ago">منذ %1$d أيام</string>
 </resources>

@@ -71,21 +71,19 @@
     <string name="rolling_the_dice">Llançant els daus...</string>
     <string name="finding_random_movie">Trobar la teva pel·lícula aleatòria</string>
     <string name="reroll">Tornar a tirar</string>
-
-    <string name="history_title">History</string>
-    <string name="history_subtitle">Your random picks</string>
-    <string name="history_empty_state">No movies picked yet</string>
-    <string name="history_empty_hint">Submit a random pick to start your history</string>
-    <string name="history_footer_count">%1$d movies picked in total</string>
+    <string name="history_title">Historial</string>
+    <string name="history_subtitle">Les teves seleccions aleatòries</string>
+    <string name="history_empty_state">Encara no has seleccionat cap pel·lícula</string>
+    <string name="history_empty_hint">Envia una selecció aleatòria per començar el teu historial</string>
+    <string name="history_footer_count">%1$d pel·lícules seleccionades en total</string>
     <string name="history_favorites_filter">Favorites</string>
-    <string name="history_favorites_empty_state">No favorite movies yet</string>
-    <string name="history_favorites_empty_hint">Tap the heart on a movie to save it</string>
-    <string name="history_clear_dialog_title">Clear History</string>
-    <string name="history_clear_dialog_message">This will permanently delete all your pick history. This action cannot be undone.</string>
-    <string name="history_clear_confirm">Clear</string>
-    <string name="history_clear_cancel">Cancel</string>
-    <string name="history_today">Today</string>
-    <string name="history_yesterday">Yesterday</string>
-    <string name="history_days_ago">%1$d days ago</string>
-
+    <string name="history_favorites_empty_state">Encara no tens pel·lícules favorites</string>
+    <string name="history_favorites_empty_hint">Toca el cor d'una pel·lícula per guardar-la</string>
+    <string name="history_clear_dialog_title">Esborrar historial</string>
+    <string name="history_clear_dialog_message">Això eliminarà permanentment tot el teu historial de seleccions. Aquesta acció no es pot desfer.</string>
+    <string name="history_clear_confirm">Esborra</string>
+    <string name="history_clear_cancel">Cancel·la</string>
+    <string name="history_today">Avui</string>
+    <string name="history_yesterday">Ahir</string>
+    <string name="history_days_ago">Fa %1$d dies</string>
 </resources>

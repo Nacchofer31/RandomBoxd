@@ -71,21 +71,19 @@
     <string name="rolling_the_dice">Lançando os dados...</string>
     <string name="finding_random_movie">Encontrando seu filme aleatório</string>
     <string name="reroll">Rolar novamente</string>
-
-    <string name="history_title">History</string>
-    <string name="history_subtitle">Your random picks</string>
-    <string name="history_empty_state">No movies picked yet</string>
-    <string name="history_empty_hint">Submit a random pick to start your history</string>
-    <string name="history_footer_count">%1$d movies picked in total</string>
-    <string name="history_favorites_filter">Favorites</string>
-    <string name="history_favorites_empty_state">No favorite movies yet</string>
-    <string name="history_favorites_empty_hint">Tap the heart on a movie to save it</string>
-    <string name="history_clear_dialog_title">Clear History</string>
-    <string name="history_clear_dialog_message">This will permanently delete all your pick history. This action cannot be undone.</string>
-    <string name="history_clear_confirm">Clear</string>
-    <string name="history_clear_cancel">Cancel</string>
-    <string name="history_today">Today</string>
-    <string name="history_yesterday">Yesterday</string>
-    <string name="history_days_ago">%1$d days ago</string>
-
+    <string name="history_title">Histórico</string>
+    <string name="history_subtitle">Suas seleções aleatórias</string>
+    <string name="history_empty_state">Nenhum filme selecionado ainda</string>
+    <string name="history_empty_hint">Envie uma seleção aleatória para começar seu histórico</string>
+    <string name="history_footer_count">%1$d filmes selecionados no total</string>
+    <string name="history_favorites_filter">Favoritos</string>
+    <string name="history_favorites_empty_state">Nenhum filme favorito ainda</string>
+    <string name="history_favorites_empty_hint">Toque no coração de um filme para salvá-lo</string>
+    <string name="history_clear_dialog_title">Limpar histórico</string>
+    <string name="history_clear_dialog_message">Isso excluirá permanentemente todo o seu histórico de seleções. Esta ação não pode ser desfeita.</string>
+    <string name="history_clear_confirm">Limpar</string>
+    <string name="history_clear_cancel">Cancelar</string>
+    <string name="history_today">Hoje</string>
+    <string name="history_yesterday">Ontem</string>
+    <string name="history_days_ago">Há %1$d dias</string>
 </resources>
