@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 import com.nacchofer31.randomboxd.onboarding.presentation.components.OnboardingGenreFiltersPage
+import com.nacchofer31.randomboxd.onboarding.presentation.components.OnboardingHistoryPage
 import com.nacchofer31.randomboxd.onboarding.presentation.components.OnboardingMultiUserPage
 import com.nacchofer31.randomboxd.onboarding.presentation.components.OnboardingPageIndicator
 import com.nacchofer31.randomboxd.onboarding.presentation.components.OnboardingRandomSelectionPage
@@ -49,7 +50,7 @@ import randomboxd.composeapp.generated.resources.onboarding_next
 import randomboxd.composeapp.generated.resources.onboarding_skip
 import randomboxd.composeapp.generated.resources.onboarding_start_exploring
 
-private const val PAGE_COUNT = 5
+private const val PAGE_COUNT = 6
 
 @Composable
 fun OnboardingScreen(onFinish: () -> Unit) {
@@ -111,6 +112,7 @@ fun OnboardingScreen(onFinish: () -> Unit) {
                         2 -> OnboardingSearchTagsPage()
                         3 -> OnboardingMultiUserPage()
                         4 -> OnboardingGenreFiltersPage()
+                        5 -> OnboardingHistoryPage()
                     }
                 }
             }
