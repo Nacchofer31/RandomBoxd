@@ -36,6 +36,7 @@ import randomboxd.composeapp.generated.resources.onboarding_new_badge
 import randomboxd.composeapp.generated.resources.ready_to_spin
 import randomboxd.composeapp.generated.resources.roulette_icon
 import randomboxd.composeapp.generated.resources.tip_genre_filter
+import randomboxd.composeapp.generated.resources.tip_history
 import randomboxd.composeapp.generated.resources.tip_hold_submit
 import randomboxd.composeapp.generated.resources.tip_username_format
 
@@ -123,9 +124,15 @@ fun RandomFilmInfoView() {
                 text = stringResource(Res.string.tip_hold_submit),
                 accentColor = RandomBoxdColors.OrangeAccent,
             )
-            NewFeatureTipCard(
-                newBadge = stringResource(Res.string.onboarding_new_badge),
+            TipCard(
+                icon = "🎭",
                 text = stringResource(Res.string.tip_genre_filter),
+                accentColor = RandomBoxdColors.BlueAccent,
+            )
+            NewFeatureTipCard(
+                icon = "🕘",
+                newBadge = stringResource(Res.string.onboarding_new_badge),
+                text = stringResource(Res.string.tip_history),
             )
         }
     }

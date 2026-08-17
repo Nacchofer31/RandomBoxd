@@ -17,6 +17,7 @@
     <string name="tip_username_format">試す：ユーザー名 または ユーザー名/リスト名</string>
     <string name="tip_hold_submit">マルチユーザーモードにするには、送信またはタグを長押ししてください</string>
     <string name="tip_genre_filter">ジャンルボタンを使って結果をジャンルで絞り込めます</string>
+    <string name="tip_history">履歴ボタンを押すと、これまでの選択履歴を確認できます</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">もう映画選びに迷わない</string>
     <string name="onboarding_welcome_description">Letterboxdのウォッチリストやカスタムリストからランダムな映画を提案します。映画の夜にぴったり！</string>

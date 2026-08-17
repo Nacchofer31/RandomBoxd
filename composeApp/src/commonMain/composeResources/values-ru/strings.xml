@@ -17,6 +17,7 @@
     <string name="tip_username_format">Попробуйте: имя_пользователя или имя_пользователя/название_списка</string>
     <string name="tip_hold_submit">Удерживайте «Отправить» или теги для многопользовательского режима</string>
     <string name="tip_genre_filter">Используйте кнопку «Жанр» для фильтрации результатов по жанру</string>
+    <string name="tip_history">Теперь вы можете просмотреть историю своих выборов, нажав кнопку «История»</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">Больше никаких проблем с выбором фильма</string>
     <string name="onboarding_welcome_description">Получайте случайные предложения фильмов из ваших списков просмотра и пользовательских списков Letterboxd. Идеально для киновечеров!</string>

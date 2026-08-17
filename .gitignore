@@ -79,3 +79,6 @@ freeline_project_description.json
 
 # ATL (AI tooling local config)
 .atl/
+
+# CodeGraph index
+.codegraph/

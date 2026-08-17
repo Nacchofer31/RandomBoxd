@@ -17,6 +17,7 @@
     <string name="tip_username_format">Try: username or username/list-name</string>
     <string name="tip_hold_submit">Long-press Submit or tags for multi-user mode</string>
     <string name="tip_genre_filter">Use the Genre button to filter results by genre</string>
+    <string name="tip_history">Now you can view your pick history by pressing the History button</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">Never struggle to pick a movie again</string>
     <string name="onboarding_welcome_description">Get random movie suggestions from your Letterboxd watchlists and custom lists. Perfect for movie nights!</string>
