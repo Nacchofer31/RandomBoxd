@@ -17,6 +17,7 @@
     <string name="tip_username_format">Prova: usuari o usuari/nom-llista</string>
     <string name="tip_hold_submit">Mantén premut Envia o les etiquetes per al mode multiusuari</string>
     <string name="tip_genre_filter">Usa el botó Gènere per filtrar resultats per gènere</string>
+    <string name="tip_history">Ara pots veure el teu historial de seleccions prement el botó Historial</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">No tornis a tenir problemes per triar pel·lícula</string>
     <string name="onboarding_welcome_description">Obtén suggeriments de pel·lícules aleatòries de les teves llistes de seguiment i llistes personalitzades de Letterboxd. Perfecte per a nits de cinema!</string>

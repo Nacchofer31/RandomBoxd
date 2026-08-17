@@ -17,6 +17,7 @@
     <string name="tip_username_format">प्रयास करें: उपयोगकर्ता नाम या उपयोगकर्ता नाम/सूची-नाम</string>
     <string name="tip_hold_submit">बहु-उपयोगकर्ता मोड के लिए जमा करें या टैग को लंबे समय तक दबाएं</string>
     <string name="tip_genre_filter">शैली के आधार पर परिणामों को फ़िल्टर करने के लिए शैली बटन का उपयोग करें</string>
+    <string name="tip_history">अब आप इतिहास बटन दबाकर अपने चयनों का इतिहास देख सकते हैं</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">अब कभी भी फिल्म चुनने में संघर्ष न करें</string>
     <string name="onboarding_welcome_description">अपनी Letterboxd वॉचलिस्ट और कस्टम सूचियों से यादृच्छिक फिल्म सुझाव प्राप्त करें। फिल्म की रातों के लिए एकदम सही!</string>

@@ -17,6 +17,7 @@
     <string name="tip_username_format">جرب: اسم المستخدم أو اسم المستخدم/اسم القائمة</string>
     <string name="tip_hold_submit">اضغط مطولاً على إرسال أو الوسوم لوضع متعدد المستخدمين</string>
     <string name="tip_genre_filter">استخدم زر النوع لتصفية النتائج حسب النوع</string>
+    <string name="tip_history">يمكنك الآن مشاهدة سجل اختياراتك بالضغط على زر السجل</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">لا تواجه صعوبة في اختيار الفيلم مرة أخرى</string>
     <string name="onboarding_welcome_description">احصل على اقتراحات أفلام عشوائية من قوائم المراقبة والقوائم المخصصة على Letterboxd. مثالي لأمسيات الأفلام!</string>

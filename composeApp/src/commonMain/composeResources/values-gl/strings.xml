@@ -17,6 +17,7 @@
     <string name="tip_username_format">Proba: usuario ou usuario/nome-lista</string>
     <string name="tip_hold_submit">Mantén premido Enviar ou as etiquetas para o modo multiusuario</string>
     <string name="tip_genre_filter">Usa o botón Xénero para filtrar os resultados por xénero</string>
+    <string name="tip_history">Agora podes ver o teu historial de seleccións premendo no botón Historial</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">Non volvas ter problemas para escoller película</string>
     <string name="onboarding_welcome_description">Obtén suxestións de películas aleatorias das túas listas de seguimento e listas personalizadas de Letterboxd. Perfecto para noites de cine!</string>

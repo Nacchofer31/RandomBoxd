@@ -17,6 +17,7 @@
     <string name="tip_username_format">尝试：用户名 或 用户名/列表名</string>
     <string name="tip_hold_submit">长按"提交"或标签以启用多用户模式</string>
     <string name="tip_genre_filter">使用"类型"按钮按类型筛选结果</string>
+    <string name="tip_history">现在你可以点击历史记录按钮查看你的挑选记录</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">再也不用为选电影而烦恼</string>
     <string name="onboarding_welcome_description">从您的 Letterboxd 想看列表和自定义列表中获取随机电影建议。非常适合电影之夜！</string>
