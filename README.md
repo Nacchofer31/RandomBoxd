@@ -32,6 +32,7 @@ RandomBoxd is a **Compose Multiplatform** project designed to fetch a random mov
 - 🏷️ Stores and displays previously entered UserNames locally via **Room**, shown as tappable tags for quick reuse or deletion.
 - ∩∪ **Intersection & Union** → Combine multiple users' watchlists and pick a random movie either from their **shared movies** (Intersection) or from the **merged pool** (Union).
 - 🎭 **Genre Filters** → Narrow results to one or more genres at once. Works in both single-user and multi-user modes.
+- 🕘 **Pick History** → Every pick is saved locally, so you can review past rolls, filter by favorites, and clear the list anytime.
 
 ## 🧙‍♂️ Watch the Magic
 

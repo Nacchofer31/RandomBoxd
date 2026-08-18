@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.5.0
+- Added `Pick History` feature.
+- Added `Favorites filter` on history screen.
+- Added `Clear all` on history screen.
+
 ## 1.4.1
 - Prevented film repetition on reroll.
 - Hide `Reroll button` for one results.
