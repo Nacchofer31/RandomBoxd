@@ -136,8 +136,8 @@ android {
 
     defaultConfig {
         applicationId = "com.nacchofer31.randomboxd"
-        versionName = "1.4.1"
-        versionCode = 20
+        versionName = "1.5.0"
+        versionCode = 21
         minSdk =
             libs.versions.android.minSdk
                 .get()
