@@ -17,8 +17,12 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
@@ -32,7 +36,9 @@ import com.nacchofer31.randomboxd.history.presentation.components.TimestampDispl
 import com.nacchofer31.randomboxd.history.presentation.components.formatPickTimestamp
 import com.nacchofer31.randomboxd.history.presentation.viewmodel.HistoryAction
 import com.nacchofer31.randomboxd.history.presentation.viewmodel.HistoryViewModel
+import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.presentation.components.LoadingOrPrompt
+import com.nacchofer31.randomboxd.random_film.presentation.components.ShareFilmCardDialog
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -64,6 +70,7 @@ fun HistoryScreenRoot(
         onPosterClick = onPosterClick,
         onAction = viewModel::onAction,
         isLoading = state.isLoading,
+        onShareImage = viewModel::shareImage,
     )
 }
 
@@ -76,8 +83,10 @@ fun HistoryScreen(
     onPosterClick: (String) -> Unit,
     onAction: (HistoryAction) -> Unit,
     isLoading: Boolean,
+    onShareImage: (ImageBitmap, String) -> Unit = { _, _ -> },
 ) {
     val listState = rememberLazyListState()
+    var pickToShare by remember { mutableStateOf<FilmPick?>(null) }
     LaunchedEffect(isFavoritesOnly) {
         listState.scrollToItem(0)
     }
@@ -106,6 +115,20 @@ fun HistoryScreen(
                     )
                 }
             },
+        )
+    }
+
+    pickToShare?.let { pick ->
+        ShareFilmCardDialog(
+            film =
+                Film(
+                    slug = pick.filmSlug,
+                    imageUrl = pick.posterUrl,
+                    releaseYear = pick.releaseYear,
+                    name = pick.filmName,
+                ),
+            onShare = onShareImage,
+            onDismiss = { pickToShare = null },
         )
     }
 
@@ -154,6 +177,7 @@ fun HistoryScreen(
                                 metaText = metaText,
                                 onPosterClick = onPosterClick,
                                 onFavoriteToggle = { onAction(HistoryAction.ToggleFavorite(pick.id)) },
+                                onShareClick = { pickToShare = pick },
                                 modifier = Modifier.fillMaxWidth(),
                             )
                         }

@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -42,6 +44,7 @@ fun HistoryCard(
     metaText: String,
     onPosterClick: (String) -> Unit,
     onFavoriteToggle: () -> Unit,
+    onShareClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -141,32 +144,54 @@ fun HistoryCard(
                 }
             }
 
-            Box(
-                modifier =
-                    Modifier
-                        .size(36.dp)
-                        .background(
-                            color =
-                                if (pick.isFavorite) {
-                                    RandomBoxdColors.TagGreenColor
-                                } else {
-                                    RandomBoxdColors.ElevatedBackgroundColor
-                                },
-                            shape = RoundedCornerShape(18.dp),
-                        ).clickable(onClick = onFavoriteToggle),
-                contentAlignment = Alignment.Center,
+            Column(
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Icon(
-                    imageVector = Icons.Outlined.FavoriteBorder,
-                    contentDescription = if (pick.isFavorite) "Unfavorite" else "Favorite",
-                    tint =
-                        if (pick.isFavorite) {
-                            RandomBoxdColors.GreenAccent
-                        } else {
-                            RandomBoxdColors.TextMuted
-                        },
-                    modifier = Modifier.size(16.dp),
-                )
+                Box(
+                    modifier =
+                        Modifier
+                            .size(36.dp)
+                            .background(
+                                color =
+                                    if (pick.isFavorite) {
+                                        RandomBoxdColors.TagGreenColor
+                                    } else {
+                                        RandomBoxdColors.ElevatedBackgroundColor
+                                    },
+                                shape = RoundedCornerShape(18.dp),
+                            ).clickable(onClick = onFavoriteToggle),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.FavoriteBorder,
+                        contentDescription = if (pick.isFavorite) "Unfavorite" else "Favorite",
+                        tint =
+                            if (pick.isFavorite) {
+                                RandomBoxdColors.GreenAccent
+                            } else {
+                                RandomBoxdColors.TextMuted
+                            },
+                        modifier = Modifier.size(16.dp),
+                    )
+                }
+                Box(
+                    modifier =
+                        Modifier
+                            .size(36.dp)
+                            .background(
+                                color = RandomBoxdColors.ElevatedBackgroundColor,
+                                shape = RoundedCornerShape(18.dp),
+                            ).clickable(onClick = onShareClick),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Share,
+                        contentDescription = "Share",
+                        tint = RandomBoxdColors.BlueAccent,
+                        modifier = Modifier.size(16.dp),
+                    )
+                }
             }
         }
     }
