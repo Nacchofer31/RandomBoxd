@@ -17,11 +17,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
@@ -51,9 +53,17 @@ fun ShareFilmCardDialog(
     val graphicsLayer = rememberGraphicsLayer()
     val scope = rememberCoroutineScope()
     var sharing by remember { mutableStateOf(false) }
+    var capturedBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
     val dismissDialog = {
         sharing = false
         onDismiss()
+    }
+
+    LaunchedEffect(graphicsLayer) {
+        while (graphicsLayer.size.width <= 0 || graphicsLayer.size.height <= 0) {
+            withFrameNanos { }
+        }
+        capturedBitmap = graphicsLayer.toImageBitmap()
     }
 
     Dialog(onDismissRequest = dismissDialog) {
@@ -110,10 +120,10 @@ fun ShareFilmCardDialog(
                 }
                 Surface(
                     onClick = {
-                        if (!sharing) {
+                        val bitmap = capturedBitmap
+                        if (!sharing && bitmap != null) {
                             sharing = true
                             scope.launch {
-                                val bitmap = graphicsLayer.toImageBitmap()
                                 onShare(bitmap, film.slug)
                                 dismissDialog()
                             }
