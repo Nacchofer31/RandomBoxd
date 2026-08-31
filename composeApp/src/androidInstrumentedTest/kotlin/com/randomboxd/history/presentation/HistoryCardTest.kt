@@ -69,6 +69,7 @@ class HistoryCardTest {
         pick: FilmPick,
         onPosterClick: (String) -> Unit = {},
         onFavoriteToggle: () -> Unit = {},
+        onShareClick: () -> Unit = {},
     ) {
         composeTestRule.setContent {
             HistoryCard(
@@ -76,6 +77,7 @@ class HistoryCardTest {
                 metaText = "Today · 10:30",
                 onPosterClick = onPosterClick,
                 onFavoriteToggle = onFavoriteToggle,
+                onShareClick = onShareClick,
             )
         }
     }
@@ -185,5 +187,18 @@ class HistoryCardTest {
         composeTestRule.onNodeWithContentDescription("Inception").performClick()
 
         assertTrue(clickedSlug == "inception")
+    }
+
+    @Test
+    fun history_card_share_button_triggers_callback() {
+        var shared = false
+        setCardContent(
+            samplePick(),
+            onShareClick = { shared = true },
+        )
+
+        composeTestRule.onNodeWithContentDescription("Share").performClick()
+
+        assertTrue(shared)
     }
 }

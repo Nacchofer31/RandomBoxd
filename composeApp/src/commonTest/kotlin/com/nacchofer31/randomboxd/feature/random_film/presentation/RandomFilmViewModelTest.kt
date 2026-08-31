@@ -9,6 +9,7 @@ import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.domain.repository.InAppReviewRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
+import com.nacchofer31.randomboxd.random_film.domain.repository.ShareRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.UserNameRepository
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
@@ -42,6 +43,8 @@ class RandomFilmViewModelTest : TestsWithMocks() {
 
     @Mock lateinit var historyRepository: FilmHistoryRepository
 
+    @Mock lateinit var shareRepository: ShareRepository
+
     private val testFilm =
         Film(
             slug = "test-film",
@@ -55,6 +58,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
         userNameRepository = mocker.mock<UserNameRepository>()
         inAppReviewRepository = mocker.mock<InAppReviewRepository>()
         historyRepository = mocker.mock<FilmHistoryRepository>()
+        shareRepository = mocker.mock<ShareRepository>()
         mocker.every {
             userNameRepository.getAllUserNames()
         } returns flow { emit(emptyList()) }
@@ -74,7 +78,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     }
 
     private fun createViewModel() {
-        viewModel = RandomFilmViewModel(repository, userNameRepository, testDispatchers, inAppReviewRepository, historyRepository)
+        viewModel = RandomFilmViewModel(repository, userNameRepository, testDispatchers, inAppReviewRepository, historyRepository, shareRepository)
     }
 
     @Test
@@ -615,8 +619,15 @@ class RandomFilmViewModelTest : TestsWithMocks() {
                 object : InAppReviewRepository {
                     override suspend fun requestInAppReview() {}
                 }
+            val fakeShareRepository =
+                object : ShareRepository {
+                    override suspend fun shareImage(
+                        image: androidx.compose.ui.graphics.ImageBitmap,
+                        fileName: String,
+                    ) {}
+                }
 
-            viewModel = RandomFilmViewModel(fakeRepository, fakeUserNameRepository, testDispatchers, fakeInAppReviewRepository, historyRepository)
+            viewModel = RandomFilmViewModel(fakeRepository, fakeUserNameRepository, testDispatchers, fakeInAppReviewRepository, historyRepository, fakeShareRepository)
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
             viewModel.state.test {

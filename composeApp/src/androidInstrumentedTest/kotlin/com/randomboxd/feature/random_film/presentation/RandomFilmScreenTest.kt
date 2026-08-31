@@ -282,6 +282,68 @@ class RandomFilmScreenTest {
     }
 
     @Test
+    fun share_button_opens_share_card_dialog() {
+        val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
+        setImageLoader(
+            FakeImageLoaderEngine
+                .Builder()
+                .default(bitmap.asImage())
+                .build(),
+        )
+
+        composeTestRule.setContent {
+            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
+            RandomFilmScreen(
+                userNameList = mutableUserNamesFlow,
+                resultFilm =
+                    Film(
+                        slug = "test-slug",
+                        name = "test-name",
+                        releaseYear = 2000,
+                        imageUrl = "test-image-url",
+                    ),
+            ) { }
+        }
+
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithTag("test-share-button").performClick()
+        composeTestRule.onNodeWithText("The dice has spoken... Today's pick is...").assertIsDisplayed()
+    }
+
+    @Test
+    fun share_button_click_triggers_share_image_callback() {
+        val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
+        setImageLoader(
+            FakeImageLoaderEngine
+                .Builder()
+                .default(bitmap.asImage())
+                .build(),
+        )
+
+        var shared = false
+        composeTestRule.setContent {
+            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
+            RandomFilmScreen(
+                userNameList = mutableUserNamesFlow,
+                resultFilm =
+                    Film(
+                        slug = "test-slug",
+                        name = "test-name",
+                        releaseYear = 2000,
+                        imageUrl = "test-image-url",
+                    ),
+                onShareImage = { _, _ -> shared = true },
+            ) { }
+        }
+
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithTag("test-share-button").performClick()
+        composeTestRule.onNodeWithText("Share").performClick()
+        composeTestRule.waitForIdle()
+        assert(shared)
+    }
+
+    @Test
     fun film_poster_click_triggers_film_clicked_action() {
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
         setImageLoader(
