@@ -78,6 +78,8 @@
     <string name="rolling_the_dice">Llançant els daus...</string>
     <string name="finding_random_movie">Trobar la teva pel·lícula aleatòria</string>
     <string name="reroll">Tornar a tirar</string>
+    <string name="share">Compartir</string>
+    <string name="share_card_tagline">Els daus han parlat... L'elecció d'avui és...</string>
     <string name="history_title">Historial</string>
     <string name="history_subtitle">Les teves seleccions aleatòries</string>
     <string name="history_empty_state">Encara no has seleccionat cap pel·lícula</string>

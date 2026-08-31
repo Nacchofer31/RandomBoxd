@@ -78,6 +78,8 @@
     <string name="rolling_the_dice">Lanciando i dadi...</string>
     <string name="finding_random_movie">Trovare il tuo film casuale</string>
     <string name="reroll">Rilancia</string>
+    <string name="share">Condividi</string>
+    <string name="share_card_tagline">I dadi hanno parlato... La scelta di oggi è...</string>
     <string name="history_title">Cronologia</string>
     <string name="history_subtitle">Le tue selezioni casuali</string>
     <string name="history_empty_state">Nessun film selezionato finora</string>

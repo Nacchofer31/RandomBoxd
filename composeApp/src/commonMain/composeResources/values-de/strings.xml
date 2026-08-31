@@ -78,6 +78,8 @@
     <string name="rolling_the_dice">Würfel rollen...</string>
     <string name="finding_random_movie">Finde deinen zufälligen Film</string>
     <string name="reroll">Neu würfeln</string>
+    <string name="share">Teilen</string>
+    <string name="share_card_tagline">Die Würfel sind gefallen... Die heutige Auswahl ist...</string>
     <string name="history_title">Verlauf</string>
     <string name="history_subtitle">Deine Zufallsauswahlen</string>
     <string name="history_empty_state">Noch keine Filme ausgewählt</string>

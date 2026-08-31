@@ -78,6 +78,8 @@
     <string name="rolling_the_dice">جاري رمي النرد...</string>
     <string name="finding_random_movie">جاري البحث عن فيلمك العشوائي</string>
     <string name="reroll">إعادة الرمي</string>
+    <string name="share">مشاركة</string>
+    <string name="share_card_tagline">تحدثت النرد... اختيار اليوم هو...</string>
     <string name="history_title">السجل</string>
     <string name="history_subtitle">اختياراتك العشوائية</string>
     <string name="history_empty_state">لا توجد أفلام مختارة بعد</string>

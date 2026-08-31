@@ -78,6 +78,8 @@
     <string name="rolling_the_dice">Rolling the dice...</string>
     <string name="finding_random_movie">Finding your random movie</string>
     <string name="reroll">Reroll</string>
+    <string name="share">Share</string>
+    <string name="share_card_tagline">The dice has spoken... Today's pick is...</string>
     <string name="history_title">History</string>
     <string name="history_subtitle">Your random picks</string>
     <string name="history_empty_state">No movies picked yet</string>

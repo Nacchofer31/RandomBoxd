@@ -78,6 +78,8 @@
     <string name="rolling_the_dice">Бросаем кубики...</string>
     <string name="finding_random_movie">Ищем ваш случайный фильм</string>
     <string name="reroll">Перебросить</string>
+    <string name="share">Поделиться</string>
+    <string name="share_card_tagline">Кости брошены... Выбор дня —...</string>
     <string name="history_title">История</string>
     <string name="history_subtitle">Ваши случайные выборы</string>
     <string name="history_empty_state">Пока нет выбранных фильмов</string>

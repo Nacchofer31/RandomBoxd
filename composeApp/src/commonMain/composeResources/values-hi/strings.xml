@@ -78,6 +78,8 @@
     <string name="rolling_the_dice">पासा फेंक रहे हैं...</string>
     <string name="finding_random_movie">आपकी यादृच्छिक फिल्म खोज रहे हैं</string>
     <string name="reroll">फिर से फेंकें</string>
+    <string name="share">साझा करें</string>
+    <string name="share_card_tagline">पासे बोल चुके हैं... आज की पसंद है...</string>
     <string name="history_title">इतिहास</string>
     <string name="history_subtitle">आपके रैंडम चयन</string>
     <string name="history_empty_state">अभी तक कोई फ़िल्म चयनित नहीं</string>
