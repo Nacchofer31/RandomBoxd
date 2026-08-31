@@ -339,7 +339,7 @@ class RandomFilmScreenTest {
         composeTestRule.waitForIdle()
         composeTestRule.onNodeWithTag("test-share-button").performClick()
         composeTestRule.onNodeWithTag("test-share-dialog-button").performClick()
-        composeTestRule.waitForIdle()
+        composeTestRule.waitUntil(timeoutMillis = 5_000) { shared }
         assert(shared)
     }
 
