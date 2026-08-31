@@ -28,6 +28,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -120,7 +121,10 @@ fun ShareFilmCardDialog(
                     },
                     shape = RoundedCornerShape(100),
                     color = RandomBoxdColors.GreenAccent,
-                    modifier = Modifier.weight(1f),
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .testTag("test-share-dialog-button"),
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.Center,

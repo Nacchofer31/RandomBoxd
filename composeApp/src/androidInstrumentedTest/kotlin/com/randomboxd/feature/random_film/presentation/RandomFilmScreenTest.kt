@@ -338,7 +338,7 @@ class RandomFilmScreenTest {
 
         composeTestRule.waitForIdle()
         composeTestRule.onNodeWithTag("test-share-button").performClick()
-        composeTestRule.onNodeWithText("Share").performClick()
+        composeTestRule.onNodeWithTag("test-share-dialog-button").performClick()
         composeTestRule.waitForIdle()
         assert(shared)
     }
