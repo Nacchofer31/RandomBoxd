@@ -1,5 +1,6 @@
 package com.nacchofer31.randomboxd.random_film.presentation.viewmodel
 
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nacchofer31.randomboxd.core.domain.DispatcherProvider
@@ -12,6 +13,7 @@ import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.domain.repository.InAppReviewRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
+import com.nacchofer31.randomboxd.random_film.domain.repository.ShareRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.UserNameRepository
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -37,6 +39,7 @@ class RandomFilmViewModel(
     private val dispatchers: DispatcherProvider,
     private val inAppReviewRepository: InAppReviewRepository,
     private val historyRepository: FilmHistoryRepository,
+    private val shareRepository: ShareRepository,
 ) : ViewModel() {
     private val actions = MutableSharedFlow<RandomFilmAction>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
@@ -310,4 +313,13 @@ class RandomFilmViewModel(
                 }
             }
         }
+
+    fun shareImage(
+        image: ImageBitmap,
+        fileName: String,
+    ) {
+        viewModelScope.launch {
+            shareRepository.shareImage(image, fileName)
+        }
+    }
 }

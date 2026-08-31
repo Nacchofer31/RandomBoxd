@@ -4,8 +4,10 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -50,6 +52,7 @@ fun FilmPoster(
     releaseYear: String,
     onClick: () -> Unit,
     onRerollClick: () -> Unit,
+    onShareClick: () -> Unit,
     numberOfResults: Int = 0,
 ) {
     var imageLoadResult by remember {
@@ -117,7 +120,7 @@ fun FilmPoster(
                             modifier =
                                 Modifier
                                     .fillMaxWidth()
-                                    .aspectRatio(280f / 360f),
+                                    .aspectRatio(2f / 3f),
                         ) {
                             Box(
                                 modifier =
@@ -186,9 +189,17 @@ fun FilmPoster(
                                 textAlign = TextAlign.Center,
                             )
                             if (numberOfResults > 1) {
-                                RerollButton(
-                                    onClick = onRerollClick,
-                                )
+                                Row(
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    ShareButton(onClick = onShareClick)
+                                    RerollButton(
+                                        onClick = onRerollClick,
+                                    )
+                                }
+                            } else {
+                                ShareButton(onClick = onShareClick)
                             }
                         }
                     }
