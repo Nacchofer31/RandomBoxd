@@ -32,6 +32,7 @@ class HistoryViewModelTest : TestsWithMocks() {
 
     private lateinit var viewModel: HistoryViewModel
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @OptIn(ExperimentalCoroutinesApi::class)
