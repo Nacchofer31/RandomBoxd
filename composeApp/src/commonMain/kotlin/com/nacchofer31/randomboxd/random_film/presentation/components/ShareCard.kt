@@ -43,6 +43,7 @@ import randomboxd.composeapp.generated.resources.share_card_tagline
 fun ShareCard(
     film: Film,
     modifier: Modifier = Modifier,
+    onPosterLoaded: () -> Unit = {},
 ) {
     Box(
         modifier =
@@ -94,6 +95,7 @@ fun ShareCard(
                         contentDescription = film.name,
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop,
+                        onSuccess = { onPosterLoaded() },
                     )
                 }
                 Column(

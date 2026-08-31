@@ -53,17 +53,20 @@ fun ShareFilmCardDialog(
     val graphicsLayer = rememberGraphicsLayer()
     val scope = rememberCoroutineScope()
     var sharing by remember { mutableStateOf(false) }
+    var posterLoaded by remember { mutableStateOf(false) }
     var capturedBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
     val dismissDialog = {
         sharing = false
         onDismiss()
     }
 
-    LaunchedEffect(graphicsLayer) {
-        while (graphicsLayer.size.width <= 0 || graphicsLayer.size.height <= 0) {
-            withFrameNanos { }
+    LaunchedEffect(posterLoaded) {
+        if (posterLoaded) {
+            while (graphicsLayer.size.width <= 0 || graphicsLayer.size.height <= 0) {
+                withFrameNanos { }
+            }
+            capturedBitmap = graphicsLayer.toImageBitmap()
         }
-        capturedBitmap = graphicsLayer.toImageBitmap()
     }
 
     Dialog(onDismissRequest = dismissDialog) {
@@ -84,7 +87,10 @@ fun ShareFilmCardDialog(
                         },
                 contentAlignment = Alignment.Center,
             ) {
-                ShareCard(film = film)
+                ShareCard(
+                    film = film,
+                    onPosterLoaded = { posterLoaded = true },
+                )
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
