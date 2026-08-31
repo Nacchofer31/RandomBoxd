@@ -4,7 +4,9 @@ import com.nacchofer31.randomboxd.core.data.OnboardingPreferences
 import com.nacchofer31.randomboxd.core.data.RandomBoxdDatabase
 import com.nacchofer31.randomboxd.database.getRandomBoxdDatabase
 import com.nacchofer31.randomboxd.random_film.data.repository_impl.InAppReviewRepositoryImplIos
+import com.nacchofer31.randomboxd.random_film.data.repository_impl.ShareRepositoryImplIos
 import com.nacchofer31.randomboxd.random_film.domain.repository.InAppReviewRepository
+import com.nacchofer31.randomboxd.random_film.domain.repository.ShareRepository
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.darwin.Darwin
 import org.koin.core.module.Module
@@ -18,4 +20,5 @@ actual val platformModule: Module
             single<RandomBoxdDatabase> { getRandomBoxdDatabase() }
             single { OnboardingPreferences() }
             single { InAppReviewRepositoryImplIos() } bind InAppReviewRepository::class
+            single { ShareRepositoryImplIos() } bind ShareRepository::class
         }
