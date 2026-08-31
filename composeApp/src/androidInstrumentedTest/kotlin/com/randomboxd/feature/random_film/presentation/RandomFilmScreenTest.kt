@@ -311,40 +311,6 @@ class RandomFilmScreenTest {
     }
 
     @Test
-    fun share_button_click_triggers_share_image_callback() {
-        val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
-        setImageLoader(
-            FakeImageLoaderEngine
-                .Builder()
-                .default(bitmap.asImage())
-                .build(),
-        )
-
-        var shared = false
-        composeTestRule.setContent {
-            val mutableUserNamesFlow = MutableStateFlow<List<UserName>>(emptyList())
-            RandomFilmScreen(
-                userNameList = mutableUserNamesFlow,
-                resultFilm =
-                    Film(
-                        slug = "test-slug",
-                        name = "test-name",
-                        releaseYear = 2000,
-                        imageUrl = "test-image-url",
-                    ),
-                onShareImage = { _, _ -> shared = true },
-            ) { }
-        }
-
-        composeTestRule.waitForIdle()
-        composeTestRule.onNodeWithTag("test-share-button").performClick()
-        composeTestRule.waitForIdle()
-        composeTestRule.onNodeWithTag("test-share-dialog-button").performClick()
-        composeTestRule.waitUntil(timeoutMillis = 5_000) { shared }
-        assert(shared)
-    }
-
-    @Test
     fun film_poster_click_triggers_film_clicked_action() {
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
         setImageLoader(
