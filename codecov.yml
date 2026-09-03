@@ -22,3 +22,5 @@ ignore:
   - "composeApp/src/androidMain/kotlin/com/nacchofer31/randomboxd/Platform.android.kt"
   - "composeApp/src/androidMain/kotlin/com/nacchofer31/randomboxd/core/data/OnboardingPreferences.android.kt"
   - "composeApp/src/androidMain/kotlin/com/nacchofer31/randomboxd/AndroidPlatform.kt"
+  - "composeApp/src/androidMain/kotlin/com/nacchofer31/randomboxd/random_film/data/repository_impl/ShareRepositoryImplAndroid.kt"
+  - "composeApp/src/iosMain/kotlin/com/nacchofer31/randomboxd/random_film/data/repository_impl/ShareRepositoryImplIos.kt"

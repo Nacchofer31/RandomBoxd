@@ -268,6 +268,8 @@ val fileFilter =
         // Native platform implementations (require device context)
         "com/nacchofer31/randomboxd/random_film/data/repository_impl/InAppReviewRepositoryImplAndroid*",
         "com/nacchofer31/randomboxd/random_film/data/repository_impl/InAppReviewRepositoryImplIos*",
+        "com/nacchofer31/randomboxd/random_film/data/repository_impl/ShareRepositoryImplAndroid*",
+        "com/nacchofer31/randomboxd/random_film/data/repository_impl/ShareRepositoryImplIos*",
     )
 
 tasks.register("jacocoTestReport", JacocoReport::class) {

@@ -1,9 +1,11 @@
 package com.nacchofer31.randomboxd.history.presentation.viewmodel
 
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nacchofer31.randomboxd.history.domain.model.FilmPick
 import com.nacchofer31.randomboxd.history.domain.repository.FilmHistoryRepository
+import com.nacchofer31.randomboxd.random_film.domain.repository.ShareRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +22,7 @@ import kotlinx.coroutines.withContext
 
 class HistoryViewModel(
     private val repository: FilmHistoryRepository,
+    private val shareRepository: ShareRepository,
 ) : ViewModel() {
     private val _state = MutableStateFlow(HistoryState(isLoading = true))
     val state: StateFlow<HistoryState> = _state.asStateFlow()
@@ -37,6 +40,15 @@ class HistoryViewModel(
             is HistoryAction.ConfirmClearAll -> confirmClearAll()
             is HistoryAction.DismissClearDialog -> _state.update { it.copy(showClearConfirmDialog = false) }
             is HistoryAction.ToggleFavoritesOnly -> toggleFavoritesOnly()
+        }
+    }
+
+    fun shareImage(
+        image: ImageBitmap,
+        fileName: String,
+    ) {
+        viewModelScope.launch {
+            shareRepository.shareImage(image, fileName)
         }
     }
 

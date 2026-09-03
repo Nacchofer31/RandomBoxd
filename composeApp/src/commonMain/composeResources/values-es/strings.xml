@@ -78,6 +78,8 @@
     <string name="rolling_the_dice">Lanzando los dados...</string>
     <string name="finding_random_movie">Encontrando tu película aleatoria</string>
     <string name="reroll">Tirar de nuevo</string>
+    <string name="share">Compartir</string>
+    <string name="share_card_tagline">Los dados han hablado... La elección de hoy es...</string>
     <string name="history_title">Historial</string>
     <string name="history_subtitle">Tus selecciones aleatorias</string>
     <string name="history_empty_state">Aún no has seleccionado películas</string>

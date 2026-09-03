@@ -2030,47 +2030,104 @@
                     },
                     {
                       "type": "frame",
-                      "id": "sZ2BH",
-                      "name": "rerollButton",
-                      "fill": "$accent-green",
-                      "cornerRadius": 100,
-                      "effect": {
-                        "type": "shadow",
-                        "shadowType": "outer",
-                        "color": "#00E05440",
-                        "offset": {
-                          "x": 0,
-                          "y": 4
-                        },
-                        "blur": 20
-                      },
-                      "gap": 10,
-                      "padding": [
-                        12,
-                        20
-                      ],
+                      "id": "coH8m",
+                      "name": "actionRow",
+                      "width": "fill_container",
+                      "gap": 12,
                       "justifyContent": "center",
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "icon",
-                          "id": "LoJRn",
-                          "name": "shuffleIcon",
-                          "width": 20,
-                          "height": 20,
-                          "icon": "shuffle",
-                          "library": "lucide",
-                          "fill": "#14181C"
+                          "type": "frame",
+                          "id": "hx1MZ",
+                          "name": "shareButton",
+                          "fill": "$bg-card",
+                          "cornerRadius": 100,
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "color": "#00000040",
+                            "offset": {
+                              "x": 0,
+                              "y": 4
+                            },
+                            "blur": 16
+                          },
+                          "gap": 8,
+                          "padding": [
+                            12,
+                            18
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "lPTPx",
+                              "name": "shareIcon",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "share-2",
+                              "library": "lucide",
+                              "fill": "$accent-teal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "WmGPY",
+                              "name": "shareText",
+                              "fill": "$text-primary",
+                              "content": "Share",
+                              "fontFamily": "Plus Jakarta Sans",
+                              "fontSize": 16,
+                              "fontWeight": "600"
+                            }
+                          ]
                         },
                         {
-                          "type": "text",
-                          "id": "XwlNm",
-                          "name": "rerollText",
-                          "fill": "#14181C",
-                          "content": "Reroll",
-                          "fontFamily": "Plus Jakarta Sans",
-                          "fontSize": 16,
-                          "fontWeight": "700"
+                          "type": "frame",
+                          "id": "sZ2BH",
+                          "name": "rerollButton",
+                          "fill": "$accent-green",
+                          "cornerRadius": 100,
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "color": "#00E05440",
+                            "offset": {
+                              "x": 0,
+                              "y": 4
+                            },
+                            "blur": 20
+                          },
+                          "gap": 10,
+                          "padding": [
+                            12,
+                            20
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "LoJRn",
+                              "name": "shuffleIcon",
+                              "width": 20,
+                              "height": 20,
+                              "icon": "shuffle",
+                              "library": "lucide",
+                              "fill": "#14181C"
+                            },
+                            {
+                              "type": "text",
+                              "id": "XwlNm",
+                              "name": "rerollText",
+                              "fill": "#14181C",
+                              "content": "Reroll",
+                              "fontFamily": "Plus Jakarta Sans",
+                              "fontSize": 16,
+                              "fontWeight": "700"
+                            }
+                          ]
                         }
                       ]
                     }
@@ -7165,7 +7222,7 @@
     },
     {
       "type": "frame",
-      "id": "H4rRi",
+      "id": "vxa3k",
       "x": 3410,
       "y": 0,
       "name": "History - Film History",
@@ -7177,7 +7234,7 @@
       "children": [
         {
           "type": "frame",
-          "id": "GolTR",
+          "id": "ozHCa",
           "name": "statusBar",
           "width": "fill_container",
           "height": 44,
@@ -7190,7 +7247,7 @@
           "children": [
             {
               "type": "text",
-              "id": "r1pO6a",
+              "id": "DQsoO",
               "name": "statusTime",
               "fill": "$text-primary",
               "content": "9:41",
@@ -7200,14 +7257,14 @@
             },
             {
               "type": "frame",
-              "id": "UXo66",
+              "id": "W4GBXJ",
               "name": "statusIcons",
               "gap": 6,
               "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
-                  "id": "d1DmeM",
+                  "id": "rQxqf",
                   "name": "signalIcon",
                   "width": 16,
                   "height": 16,
@@ -7217,7 +7274,7 @@
                 },
                 {
                   "type": "icon",
-                  "id": "IMbsy",
+                  "id": "c3g5Df",
                   "name": "wifiIcon",
                   "width": 16,
                   "height": 16,
@@ -7227,7 +7284,7 @@
                 },
                 {
                   "type": "icon",
-                  "id": "E9raAZ",
+                  "id": "uQnE0",
                   "name": "batteryIcon",
                   "width": 20,
                   "height": 16,
@@ -7241,7 +7298,7 @@
         },
         {
           "type": "frame",
-          "id": "lbyqn",
+          "id": "G0Pfdl",
           "name": "historyHeader",
           "width": "fill_container",
           "height": 56,
@@ -7254,14 +7311,14 @@
           "children": [
             {
               "type": "frame",
-              "id": "L3UMyu",
+              "id": "uG4jU",
               "name": "headerLeft",
               "gap": 12,
               "alignItems": "center",
               "children": [
                 {
                   "type": "frame",
-                  "id": "ZLcH9",
+                  "id": "jsZi2",
                   "name": "backBtn",
                   "width": 36,
                   "height": 36,
@@ -7272,7 +7329,7 @@
                   "children": [
                     {
                       "type": "icon",
-                      "id": "XUrNf",
+                      "id": "uv9mB",
                       "name": "backIcon",
                       "width": 18,
                       "height": 18,
@@ -7284,14 +7341,14 @@
                 },
                 {
                   "type": "frame",
-                  "id": "b7fDGX",
+                  "id": "hQtx7",
                   "name": "titleGroup",
                   "layout": "vertical",
                   "gap": 1,
                   "children": [
                     {
                       "type": "text",
-                      "id": "Z2QjK",
+                      "id": "UtqMi",
                       "name": "historyTitle",
                       "fill": "$text-primary",
                       "content": "History",
@@ -7301,7 +7358,7 @@
                     },
                     {
                       "type": "text",
-                      "id": "h2u1F4",
+                      "id": "w43xuG",
                       "name": "historySubtitle",
                       "fill": "$text-muted",
                       "content": "Your random picks",
@@ -7315,7 +7372,7 @@
             },
             {
               "type": "frame",
-              "id": "N6aot",
+              "id": "rMRfQ",
               "name": "clearHistoryBtn",
               "width": 36,
               "height": 36,
@@ -7326,7 +7383,7 @@
               "children": [
                 {
                   "type": "icon",
-                  "id": "P6aapS",
+                  "id": "RR7u2",
                   "name": "clearIcon",
                   "width": 16,
                   "height": 16,
@@ -7340,7 +7397,7 @@
         },
         {
           "type": "frame",
-          "id": "uSOmz",
+          "id": "b3UONE",
           "name": "historyMain",
           "width": "fill_container",
           "height": "fill_container",
@@ -7355,7 +7412,7 @@
           "children": [
             {
               "type": "frame",
-              "id": "d2nlhC",
+              "id": "QKz1T",
               "name": "historyList",
               "width": "fill_container",
               "layout": "vertical",
@@ -7363,7 +7420,7 @@
               "children": [
                 {
                   "type": "frame",
-                  "id": "dgf4z",
+                  "id": "btdwd",
                   "name": "histCard1",
                   "width": "fill_container",
                   "fill": "$bg-card",
@@ -7374,7 +7431,7 @@
                   "children": [
                     {
                       "type": "frame",
-                      "id": "T432s",
+                      "id": "bcLm2",
                       "name": "histPoster1",
                       "width": 60,
                       "height": 84,
@@ -7403,7 +7460,7 @@
                       "children": [
                         {
                           "type": "icon",
-                          "id": "W7AOQn",
+                          "id": "t660g6",
                           "name": "histPosterIcon1",
                           "width": 22,
                           "height": 22,
@@ -7415,7 +7472,7 @@
                     },
                     {
                       "type": "frame",
-                      "id": "Gsi6b",
+                      "id": "xAWyd",
                       "name": "histInfo1",
                       "width": "fill_container",
                       "layout": "vertical",
@@ -7423,7 +7480,7 @@
                       "children": [
                         {
                           "type": "text",
-                          "id": "Z1fRo2",
+                          "id": "u0AMSK",
                           "name": "histTitle1",
                           "fill": "$text-primary",
                           "textGrowth": "fixed-width",
@@ -7435,7 +7492,7 @@
                         },
                         {
                           "type": "text",
-                          "id": "eTyd2",
+                          "id": "e4wJgR",
                           "name": "histMeta1",
                           "fill": "$text-muted",
                           "textGrowth": "fixed-width",
@@ -7447,14 +7504,14 @@
                         },
                         {
                           "type": "frame",
-                          "id": "m7LYz",
+                          "id": "gc5aI",
                           "name": "histUsers1",
                           "gap": 4,
                           "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
-                              "id": "gq5MC",
+                              "id": "xDdjd",
                               "name": "histUser1_1",
                               "height": 22,
                               "fill": "#000000",
@@ -7468,7 +7525,7 @@
                               "children": [
                                 {
                                   "type": "text",
-                                  "id": "oj83K",
+                                  "id": "EQeGI",
                                   "name": "histUserText1_1",
                                   "fill": "#FFFFFF",
                                   "content": "nacchofer31",
@@ -7482,14 +7539,14 @@
                         },
                         {
                           "type": "frame",
-                          "id": "E70aZ",
+                          "id": "wzqLS",
                           "name": "histGenres1",
                           "gap": 4,
                           "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
-                              "id": "QVB5k",
+                              "id": "ISDSs",
                               "name": "histGenre1_1",
                               "height": 22,
                               "fill": "$tag-green",
@@ -7502,7 +7559,7 @@
                               "children": [
                                 {
                                   "type": "text",
-                                  "id": "TmN0t",
+                                  "id": "B1Mgv",
                                   "name": "histGenreText1_1",
                                   "fill": "$accent-green",
                                   "content": "Horror",
@@ -7518,7 +7575,7 @@
                     },
                     {
                       "type": "frame",
-                      "id": "j84n0i",
+                      "id": "B2pWb",
                       "name": "histFav1",
                       "width": 36,
                       "height": 36,
@@ -7529,7 +7586,7 @@
                       "children": [
                         {
                           "type": "icon",
-                          "id": "lH1qH",
+                          "id": "QtmvJ",
                           "name": "histFavIcon1",
                           "width": 16,
                           "height": 16,
@@ -7543,7 +7600,7 @@
                 },
                 {
                   "type": "frame",
-                  "id": "kGlKb",
+                  "id": "RrBuq",
                   "name": "histCard2",
                   "width": "fill_container",
                   "fill": "$bg-card",
@@ -7554,7 +7611,7 @@
                   "children": [
                     {
                       "type": "frame",
-                      "id": "B1BqFF",
+                      "id": "RpuXx",
                       "name": "histPoster2",
                       "width": 60,
                       "height": 84,
@@ -7583,7 +7640,7 @@
                       "children": [
                         {
                           "type": "icon",
-                          "id": "f5uyRd",
+                          "id": "MRnHO",
                           "name": "histPosterIcon2",
                           "width": 22,
                           "height": 22,
@@ -7595,7 +7652,7 @@
                     },
                     {
                       "type": "frame",
-                      "id": "cashe",
+                      "id": "irpjG",
                       "name": "histInfo2",
                       "width": "fill_container",
                       "layout": "vertical",
@@ -7603,7 +7660,7 @@
                       "children": [
                         {
                           "type": "text",
-                          "id": "KmeXG",
+                          "id": "btGpn",
                           "name": "histTitle2",
                           "fill": "$text-primary",
                           "textGrowth": "fixed-width",
@@ -7615,7 +7672,7 @@
                         },
                         {
                           "type": "text",
-                          "id": "LSxOI",
+                          "id": "e9ibis",
                           "name": "histMeta2",
                           "fill": "$text-muted",
                           "textGrowth": "fixed-width",
@@ -7627,14 +7684,14 @@
                         },
                         {
                           "type": "frame",
-                          "id": "eN5T8",
+                          "id": "sQNC3",
                           "name": "histUsers2",
                           "gap": 4,
                           "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
-                              "id": "OeI5o",
+                              "id": "NaYWN",
                               "name": "histUser2_1",
                               "height": 22,
                               "fill": "$accent-green",
@@ -7648,7 +7705,7 @@
                               "children": [
                                 {
                                   "type": "text",
-                                  "id": "AVnIa",
+                                  "id": "YfynA",
                                   "name": "histUserText2_1",
                                   "fill": "#14181C",
                                   "content": "nacchofer31",
@@ -7660,7 +7717,7 @@
                             },
                             {
                               "type": "frame",
-                              "id": "uD9te",
+                              "id": "INiau",
                               "name": "histUser2_2",
                               "height": 22,
                               "fill": "$accent-green",
@@ -7674,7 +7731,7 @@
                               "children": [
                                 {
                                   "type": "text",
-                                  "id": "UZmac",
+                                  "id": "AFxv0",
                                   "name": "histUserText2_2",
                                   "fill": "#14181C",
                                   "content": "shoegazer94",
@@ -7688,14 +7745,14 @@
                         },
                         {
                           "type": "frame",
-                          "id": "iTb25",
+                          "id": "vPTif",
                           "name": "histGenres2",
                           "gap": 4,
                           "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
-                              "id": "W16LFB",
+                              "id": "C1VyyD",
                               "name": "histGenre2_1",
                               "height": 22,
                               "fill": "$tag-green",
@@ -7708,7 +7765,7 @@
                               "children": [
                                 {
                                   "type": "text",
-                                  "id": "dCYf6",
+                                  "id": "u4gOut",
                                   "name": "histGenreText2_1",
                                   "fill": "$accent-green",
                                   "content": "Drama",
@@ -7720,7 +7777,7 @@
                             },
                             {
                               "type": "frame",
-                              "id": "R37tl",
+                              "id": "o9UcE",
                               "name": "histGenre2_2",
                               "height": 22,
                               "fill": "$tag-green",
@@ -7733,7 +7790,7 @@
                               "children": [
                                 {
                                   "type": "text",
-                                  "id": "FpH7Y",
+                                  "id": "jG2yK",
                                   "name": "histGenreText2_2",
                                   "fill": "$accent-green",
                                   "content": "Romance",
@@ -7749,7 +7806,7 @@
                     },
                     {
                       "type": "frame",
-                      "id": "AJ09U",
+                      "id": "MStSF",
                       "name": "histFav2",
                       "width": 36,
                       "height": 36,
@@ -7760,7 +7817,7 @@
                       "children": [
                         {
                           "type": "icon",
-                          "id": "GzD2v",
+                          "id": "vXtpw",
                           "name": "histFavIcon2",
                           "width": 16,
                           "height": 16,
@@ -7774,7 +7831,7 @@
                 },
                 {
                   "type": "frame",
-                  "id": "wHXWI",
+                  "id": "rJOyT",
                   "name": "histCard3",
                   "width": "fill_container",
                   "fill": "$bg-card",
@@ -7785,7 +7842,7 @@
                   "children": [
                     {
                       "type": "frame",
-                      "id": "LOl8x",
+                      "id": "K1sSTc",
                       "name": "histPoster3",
                       "width": 60,
                       "height": 84,
@@ -7814,7 +7871,7 @@
                       "children": [
                         {
                           "type": "icon",
-                          "id": "XGqKC",
+                          "id": "J8PsXS",
                           "name": "histPosterIcon3",
                           "width": 22,
                           "height": 22,
@@ -7826,7 +7883,7 @@
                     },
                     {
                       "type": "frame",
-                      "id": "LQWmw",
+                      "id": "QupHg",
                       "name": "histInfo3",
                       "width": "fill_container",
                       "layout": "vertical",
@@ -7834,7 +7891,7 @@
                       "children": [
                         {
                           "type": "text",
-                          "id": "iaQg9",
+                          "id": "LOG7U",
                           "name": "histTitle3",
                           "fill": "$text-primary",
                           "textGrowth": "fixed-width",
@@ -7846,7 +7903,7 @@
                         },
                         {
                           "type": "text",
-                          "id": "Vpe4Z",
+                          "id": "q9nnx",
                           "name": "histMeta3",
                           "fill": "$text-muted",
                           "textGrowth": "fixed-width",
@@ -7858,14 +7915,14 @@
                         },
                         {
                           "type": "frame",
-                          "id": "Nol4m",
+                          "id": "ltBAB",
                           "name": "histUsers3",
                           "gap": 4,
                           "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
-                              "id": "jv76Q",
+                              "id": "TA5Gi",
                               "name": "histUser3_1",
                               "height": 22,
                               "fill": "#000000",
@@ -7879,7 +7936,7 @@
                               "children": [
                                 {
                                   "type": "text",
-                                  "id": "t8SRI7",
+                                  "id": "yQhmh",
                                   "name": "histUserText3_1",
                                   "fill": "#FFFFFF",
                                   "content": "shoegazer94",
@@ -7893,14 +7950,14 @@
                         },
                         {
                           "type": "frame",
-                          "id": "K6eNGL",
+                          "id": "i2Yqad",
                           "name": "histGenres3",
                           "gap": 4,
                           "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
-                              "id": "pJACm",
+                              "id": "VkYqH",
                               "name": "histGenre3_1",
                               "height": 22,
                               "fill": "$bg-elevated",
@@ -7913,7 +7970,7 @@
                               "children": [
                                 {
                                   "type": "text",
-                                  "id": "fT3tr",
+                                  "id": "YEn3o",
                                   "name": "histGenreText3_1",
                                   "fill": "$text-muted",
                                   "content": "Any genre",
@@ -7929,7 +7986,7 @@
                     },
                     {
                       "type": "frame",
-                      "id": "Mbf3j",
+                      "id": "z86gQ",
                       "name": "histFav3",
                       "width": 36,
                       "height": 36,
@@ -7940,7 +7997,7 @@
                       "children": [
                         {
                           "type": "icon",
-                          "id": "qic13",
+                          "id": "N6kwn",
                           "name": "histFavIcon3",
                           "width": 16,
                           "height": 16,
@@ -7954,7 +8011,7 @@
                 },
                 {
                   "type": "frame",
-                  "id": "f0T6F",
+                  "id": "ASdwk",
                   "name": "histCard4",
                   "width": "fill_container",
                   "fill": "$bg-card",
@@ -7965,7 +8022,7 @@
                   "children": [
                     {
                       "type": "frame",
-                      "id": "RwmLw",
+                      "id": "UtKO2",
                       "name": "histPoster4",
                       "width": 60,
                       "height": 84,
@@ -7994,7 +8051,7 @@
                       "children": [
                         {
                           "type": "icon",
-                          "id": "rzWAI",
+                          "id": "ZC6j7",
                           "name": "histPosterIcon4",
                           "width": 22,
                           "height": 22,
@@ -8006,7 +8063,7 @@
                     },
                     {
                       "type": "frame",
-                      "id": "Yhi7F",
+                      "id": "Gzc8S",
                       "name": "histInfo4",
                       "width": "fill_container",
                       "layout": "vertical",
@@ -8014,7 +8071,7 @@
                       "children": [
                         {
                           "type": "text",
-                          "id": "GlCjX",
+                          "id": "Jwoh3",
                           "name": "histTitle4",
                           "fill": "$text-primary",
                           "textGrowth": "fixed-width",
@@ -8026,7 +8083,7 @@
                         },
                         {
                           "type": "text",
-                          "id": "s0Bos7",
+                          "id": "F6r6lC",
                           "name": "histMeta4",
                           "fill": "$text-muted",
                           "textGrowth": "fixed-width",
@@ -8038,14 +8095,14 @@
                         },
                         {
                           "type": "frame",
-                          "id": "wIKNm",
+                          "id": "l1ygi",
                           "name": "histUsers4",
                           "gap": 4,
                           "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
-                              "id": "VgWEl",
+                              "id": "GGJ4J",
                               "name": "histUser4_1",
                               "height": 22,
                               "fill": "$accent-orange",
@@ -8059,7 +8116,7 @@
                               "children": [
                                 {
                                   "type": "text",
-                                  "id": "GSAsJ",
+                                  "id": "EOpUA",
                                   "name": "histUserText4_1",
                                   "fill": "#14181C",
                                   "content": "nacchofer31",
@@ -8071,7 +8128,7 @@
                             },
                             {
                               "type": "frame",
-                              "id": "xh2QT",
+                              "id": "lgc9Y",
                               "name": "histUser4_2",
                               "height": 22,
                               "fill": "$accent-orange",
@@ -8085,7 +8142,7 @@
                               "children": [
                                 {
                                   "type": "text",
-                                  "id": "M5Rvk",
+                                  "id": "KBxuz",
                                   "name": "histUserText4_2",
                                   "fill": "#14181C",
                                   "content": "shoegazer94",
@@ -8099,14 +8156,14 @@
                         },
                         {
                           "type": "frame",
-                          "id": "we7Xz",
+                          "id": "fKcgC",
                           "name": "histGenres4",
                           "gap": 4,
                           "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
-                              "id": "aNs27",
+                              "id": "vBlfN",
                               "name": "histGenre4_1",
                               "height": 22,
                               "fill": "$tag-green",
@@ -8119,7 +8176,7 @@
                               "children": [
                                 {
                                   "type": "text",
-                                  "id": "msFvf",
+                                  "id": "NZy0g",
                                   "name": "histGenreText4_1",
                                   "fill": "$accent-green",
                                   "content": "Comedy",
@@ -8135,7 +8192,7 @@
                     },
                     {
                       "type": "frame",
-                      "id": "rOU1P",
+                      "id": "H8A3zY",
                       "name": "histFav4",
                       "width": 36,
                       "height": 36,
@@ -8146,7 +8203,7 @@
                       "children": [
                         {
                           "type": "icon",
-                          "id": "eWtXC",
+                          "id": "DxDP5",
                           "name": "histFavIcon4",
                           "width": 16,
                           "height": 16,
@@ -8160,7 +8217,7 @@
                 },
                 {
                   "type": "frame",
-                  "id": "wDK7P",
+                  "id": "IjcrA",
                   "name": "histCard5",
                   "width": "fill_container",
                   "fill": "$bg-card",
@@ -8171,7 +8228,7 @@
                   "children": [
                     {
                       "type": "frame",
-                      "id": "jlTiw",
+                      "id": "SDclH",
                       "name": "histPoster5",
                       "width": 60,
                       "height": 84,
@@ -8200,7 +8257,7 @@
                       "children": [
                         {
                           "type": "icon",
-                          "id": "C67TiK",
+                          "id": "ftqt4",
                           "name": "histPosterIcon5",
                           "width": 22,
                           "height": 22,
@@ -8212,7 +8269,7 @@
                     },
                     {
                       "type": "frame",
-                      "id": "LHnqY",
+                      "id": "YKP5i",
                       "name": "histInfo5",
                       "width": "fill_container",
                       "layout": "vertical",
@@ -8220,7 +8277,7 @@
                       "children": [
                         {
                           "type": "text",
-                          "id": "G3Nc6",
+                          "id": "J3YlP7",
                           "name": "histTitle5",
                           "fill": "$text-primary",
                           "textGrowth": "fixed-width",
@@ -8232,7 +8289,7 @@
                         },
                         {
                           "type": "text",
-                          "id": "NxqjB",
+                          "id": "LbZV3",
                           "name": "histMeta5",
                           "fill": "$text-muted",
                           "textGrowth": "fixed-width",
@@ -8244,14 +8301,14 @@
                         },
                         {
                           "type": "frame",
-                          "id": "GK8UN",
+                          "id": "e1MPv2",
                           "name": "histUsers5",
                           "gap": 4,
                           "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
-                              "id": "jnXC0",
+                              "id": "GDohb",
                               "name": "histUser5_1",
                               "height": 22,
                               "fill": "#000000",
@@ -8265,7 +8322,7 @@
                               "children": [
                                 {
                                   "type": "text",
-                                  "id": "ce77Y",
+                                  "id": "V33CmZ",
                                   "name": "histUserText5_1",
                                   "fill": "#FFFFFF",
                                   "content": "nacchofer31",
@@ -8279,14 +8336,14 @@
                         },
                         {
                           "type": "frame",
-                          "id": "oxoAN",
+                          "id": "Se7IU",
                           "name": "histGenres5",
                           "gap": 4,
                           "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
-                              "id": "sJWvK",
+                              "id": "k5LdG",
                               "name": "histGenre5_1",
                               "height": 22,
                               "fill": "$tag-green",
@@ -8299,7 +8356,7 @@
                               "children": [
                                 {
                                   "type": "text",
-                                  "id": "SAWjf",
+                                  "id": "Q7TwM",
                                   "name": "histGenreText5_1",
                                   "fill": "$accent-green",
                                   "content": "Sci-Fi",
@@ -8315,7 +8372,7 @@
                     },
                     {
                       "type": "frame",
-                      "id": "QW2Oh",
+                      "id": "uY81N",
                       "name": "histFav5",
                       "width": 36,
                       "height": 36,
@@ -8326,7 +8383,7 @@
                       "children": [
                         {
                           "type": "icon",
-                          "id": "UJih3",
+                          "id": "qRpxn",
                           "name": "histFavIcon5",
                           "width": 16,
                           "height": 16,
@@ -8342,7 +8399,7 @@
             },
             {
               "type": "frame",
-              "id": "rHxIH",
+              "id": "k3QINf",
               "name": "historyFooter",
               "width": "fill_container",
               "padding": [
@@ -8356,13 +8413,2285 @@
               "children": [
                 {
                   "type": "text",
-                  "id": "OwkiY",
+                  "id": "lx1zD",
                   "name": "historyFooterText",
                   "fill": "$text-muted",
                   "content": "24 movies picked in total",
                   "fontFamily": "$font-secondary",
                   "fontSize": 11,
                   "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Sw03G",
+      "x": 3880,
+      "y": 0,
+      "name": "Share Card - Cine",
+      "clip": true,
+      "width": 1080,
+      "height": 1080,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "radial",
+        "enabled": true,
+        "rotation": 0,
+        "size": {
+          "width": 1.4,
+          "height": 1.4
+        },
+        "colors": [
+          {
+            "color": "#40BCF460",
+            "position": 0
+          },
+          {
+            "color": "#0C1013",
+            "position": 0.55
+          },
+          {
+            "color": "#14181C",
+            "position": 1
+          }
+        ]
+      },
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Gtqb3",
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 0,
+          "name": "dicePattern",
+          "width": 1080,
+          "height": 1080,
+          "layout": "none",
+          "children": [
+            {
+              "type": "icon",
+              "id": "AYuV8",
+              "x": 20,
+              "y": 20,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "pmnh4",
+              "x": 108,
+              "y": 20,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "fKGI1",
+              "x": 196,
+              "y": 20,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "aOAma",
+              "x": 284,
+              "y": 20,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "dMl2j",
+              "x": 372,
+              "y": 20,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "cKC44",
+              "x": 460,
+              "y": 20,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "t1CDM",
+              "x": 548,
+              "y": 20,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "tjdIY",
+              "x": 636,
+              "y": 20,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "rzbvv",
+              "x": 724,
+              "y": 20,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "BhTZW",
+              "x": 812,
+              "y": 20,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "tYNIq",
+              "x": 900,
+              "y": 20,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "OOPga",
+              "x": 988,
+              "y": 20,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "eTYu5",
+              "x": 1076,
+              "y": 20,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "HvsZN",
+              "x": 64,
+              "y": 108,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "fyrdA",
+              "x": 152,
+              "y": 108,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "MwrlI",
+              "x": 240,
+              "y": 108,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "nAEF4",
+              "x": 328,
+              "y": 108,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "H81Bz",
+              "x": 416,
+              "y": 108,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "vyhf9",
+              "x": 504,
+              "y": 108,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "h7uTsx",
+              "x": 592,
+              "y": 108,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "U6QkLG",
+              "x": 680,
+              "y": 108,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "x3a5N",
+              "x": 768,
+              "y": 108,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "i4LR0",
+              "x": 856,
+              "y": 108,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "NtCtp",
+              "x": 944,
+              "y": 108,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "TLHs9",
+              "x": 1032,
+              "y": 108,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "tcMvq",
+              "x": 1120,
+              "y": 108,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "T5fEM4",
+              "x": 20,
+              "y": 196,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "Q8QIEJ",
+              "x": 108,
+              "y": 196,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "a7Yqmd",
+              "x": 196,
+              "y": 196,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "q8amjw",
+              "x": 284,
+              "y": 196,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "WJ29C",
+              "x": 372,
+              "y": 196,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "MRXt3",
+              "x": 460,
+              "y": 196,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "pL8me",
+              "x": 548,
+              "y": 196,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "iSFZh",
+              "x": 636,
+              "y": 196,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "t6dNk",
+              "x": 724,
+              "y": 196,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "rGlrh",
+              "x": 812,
+              "y": 196,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "E1Mm3",
+              "x": 900,
+              "y": 196,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "EuLdY",
+              "x": 988,
+              "y": 196,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "jClm1",
+              "x": 1076,
+              "y": 196,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "e0iKD",
+              "x": 64,
+              "y": 284,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "mswLt",
+              "x": 152,
+              "y": 284,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "VtJZx",
+              "x": 240,
+              "y": 284,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "yyzRA",
+              "x": 328,
+              "y": 284,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "l15q9f",
+              "x": 416,
+              "y": 284,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "EWGQW",
+              "x": 504,
+              "y": 284,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "BPIak",
+              "x": 592,
+              "y": 284,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "hCWFK",
+              "x": 680,
+              "y": 284,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "amGKL",
+              "x": 768,
+              "y": 284,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "OrxQR",
+              "x": 856,
+              "y": 284,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "Uvtlj",
+              "x": 944,
+              "y": 284,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "gykZ0",
+              "x": 1032,
+              "y": 284,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "s5VEeE",
+              "x": 1120,
+              "y": 284,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "RlVB2",
+              "x": 20,
+              "y": 372,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "noIwm",
+              "x": 108,
+              "y": 372,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "WHXjO",
+              "x": 196,
+              "y": 372,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "JKeLW",
+              "x": 284,
+              "y": 372,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "SK0YC",
+              "x": 372,
+              "y": 372,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "RCyIP",
+              "x": 460,
+              "y": 372,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "bvEsO",
+              "x": 548,
+              "y": 372,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "cuQt8",
+              "x": 636,
+              "y": 372,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "pdySe",
+              "x": 724,
+              "y": 372,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "HdEsO",
+              "x": 812,
+              "y": 372,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "s6Xx4S",
+              "x": 900,
+              "y": 372,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "pgUas",
+              "x": 988,
+              "y": 372,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "KCh3n",
+              "x": 1076,
+              "y": 372,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "WNsoJ",
+              "x": 64,
+              "y": 460,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "V0Bmp",
+              "x": 152,
+              "y": 460,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "Bq3Vk",
+              "x": 240,
+              "y": 460,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "wPHJP",
+              "x": 328,
+              "y": 460,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "WDjW0",
+              "x": 416,
+              "y": 460,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "MNoBs",
+              "x": 504,
+              "y": 460,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "jSqTH",
+              "x": 592,
+              "y": 460,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "eqPIk",
+              "x": 680,
+              "y": 460,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "pMuW9",
+              "x": 768,
+              "y": 460,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "nahCh",
+              "x": 856,
+              "y": 460,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "omZnp",
+              "x": 944,
+              "y": 460,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "oPob0",
+              "x": 1032,
+              "y": 460,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "v1M3Z",
+              "x": 1120,
+              "y": 460,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "n6EO2",
+              "x": 20,
+              "y": 548,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "EwsK3",
+              "x": 108,
+              "y": 548,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "lfZww",
+              "x": 196,
+              "y": 548,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "HakgT",
+              "x": 284,
+              "y": 548,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "arTPy",
+              "x": 372,
+              "y": 548,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "X2gn1k",
+              "x": 460,
+              "y": 548,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "mxo47",
+              "x": 548,
+              "y": 548,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "h3WEut",
+              "x": 636,
+              "y": 548,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "fkFrZ",
+              "x": 724,
+              "y": 548,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "b5qIO",
+              "x": 812,
+              "y": 548,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "a17aw3",
+              "x": 900,
+              "y": 548,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "Y9ue2C",
+              "x": 988,
+              "y": 548,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "kDJRD",
+              "x": 1076,
+              "y": 548,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "B1Leia",
+              "x": 64,
+              "y": 636,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "iL4FO",
+              "x": 152,
+              "y": 636,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "F6KgaR",
+              "x": 240,
+              "y": 636,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "Kpcly",
+              "x": 328,
+              "y": 636,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "m4GmcZ",
+              "x": 416,
+              "y": 636,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "dVzwg",
+              "x": 504,
+              "y": 636,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "RzXoQ",
+              "x": 592,
+              "y": 636,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "i3v2de",
+              "x": 680,
+              "y": 636,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "bOgT3",
+              "x": 768,
+              "y": 636,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "c6HVY",
+              "x": 856,
+              "y": 636,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "YwzM0",
+              "x": 944,
+              "y": 636,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "WuetN",
+              "x": 1032,
+              "y": 636,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "ahKdr",
+              "x": 1120,
+              "y": 636,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "eobY5",
+              "x": 20,
+              "y": 724,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "Sasz5",
+              "x": 108,
+              "y": 724,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "QSDo4",
+              "x": 196,
+              "y": 724,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "moIYa",
+              "x": 284,
+              "y": 724,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "BNMxJ",
+              "x": 372,
+              "y": 724,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "xb0DB",
+              "x": 460,
+              "y": 724,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "xZvPD",
+              "x": 548,
+              "y": 724,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "iFA1a",
+              "x": 636,
+              "y": 724,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "JeYAc",
+              "x": 724,
+              "y": 724,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "yCuBM",
+              "x": 812,
+              "y": 724,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "XsU7X",
+              "x": 900,
+              "y": 724,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "N91kxi",
+              "x": 988,
+              "y": 724,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "uVYDN",
+              "x": 1076,
+              "y": 724,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "I64ba",
+              "x": 64,
+              "y": 812,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "zwRl5",
+              "x": 152,
+              "y": 812,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "osPGk",
+              "x": 240,
+              "y": 812,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "fpZVv",
+              "x": 328,
+              "y": 812,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "eAQ2G",
+              "x": 416,
+              "y": 812,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "pNZ5B",
+              "x": 504,
+              "y": 812,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "Vqiq0",
+              "x": 592,
+              "y": 812,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "Z5ftky",
+              "x": 680,
+              "y": 812,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "Cre9T",
+              "x": 768,
+              "y": 812,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "jrWRU",
+              "x": 856,
+              "y": 812,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "sKWcA",
+              "x": 944,
+              "y": 812,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "BpFDe",
+              "x": 1032,
+              "y": 812,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "OPPOu",
+              "x": 1120,
+              "y": 812,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "OJQHU",
+              "x": 20,
+              "y": 900,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "j8cLY",
+              "x": 108,
+              "y": 900,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "TmtxX",
+              "x": 196,
+              "y": 900,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "Q7IsaU",
+              "x": 284,
+              "y": 900,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "x3W93",
+              "x": 372,
+              "y": 900,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "Q4bR8",
+              "x": 460,
+              "y": 900,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "FayLn",
+              "x": 548,
+              "y": 900,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "q0GKe",
+              "x": 636,
+              "y": 900,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "rcGk4",
+              "x": 724,
+              "y": 900,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "E7t6o",
+              "x": 812,
+              "y": 900,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "UBkJx",
+              "x": 900,
+              "y": 900,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "NAenX",
+              "x": 988,
+              "y": 900,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "O4a1vc",
+              "x": 1076,
+              "y": 900,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "QE3c1",
+              "x": 64,
+              "y": 988,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "j15QD",
+              "x": 152,
+              "y": 988,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "kscoz",
+              "x": 240,
+              "y": 988,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "VPtYJ",
+              "x": 328,
+              "y": 988,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "jisyY",
+              "x": 416,
+              "y": 988,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "xRo2G",
+              "x": 504,
+              "y": 988,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "XyNRe",
+              "x": 592,
+              "y": 988,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "y7cf3J",
+              "x": 680,
+              "y": 988,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "c10Gl",
+              "x": 768,
+              "y": 988,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "T8P9w6",
+              "x": 856,
+              "y": 988,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "XVhpK",
+              "x": 944,
+              "y": 988,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "Dwsd0",
+              "x": 1032,
+              "y": 988,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "r56o6L",
+              "x": 1120,
+              "y": 988,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "DCDU8",
+              "x": 20,
+              "y": 1076,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "hHdMn",
+              "x": 108,
+              "y": 1076,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "x29Rmj",
+              "x": 196,
+              "y": 1076,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "kc10O",
+              "x": 284,
+              "y": 1076,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "EccnK",
+              "x": 372,
+              "y": 1076,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "j2tD3",
+              "x": 460,
+              "y": 1076,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "SDWQj",
+              "x": 548,
+              "y": 1076,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "qkcW6",
+              "x": 636,
+              "y": 1076,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "k003XO",
+              "x": 724,
+              "y": 1076,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "D2e9b",
+              "x": 812,
+              "y": 1076,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "I2VpCx",
+              "x": 900,
+              "y": 1076,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "xg0F7",
+              "x": 988,
+              "y": 1076,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            },
+            {
+              "type": "icon",
+              "id": "hY8bK",
+              "x": 1076,
+              "y": 1076,
+              "name": "diceCell",
+              "width": 48,
+              "height": 48,
+              "icon": "dices",
+              "library": "lucide",
+              "fill": "#40BCF418"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "drRvK",
+          "name": "shareCardContent",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "padding": [
+            48,
+            64,
+            64,
+            64
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "rdVDX",
+              "name": "cardTop",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 32,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "VPTwo",
+                  "name": "shareTagline",
+                  "fill": "$text-secondary",
+                  "content": "The dice has spoken.",
+                  "textAlign": "center",
+                  "fontFamily": "Plus Jakarta Sans",
+                  "fontSize": 30,
+                  "fontWeight": "700",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "K0wBw",
+                  "name": "sharePoster",
+                  "width": 360,
+                  "height": 500,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "https://images.unsplash.com/photo-1505457315458-62417e662cf4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fHwxNzY5MjA3NjI2fA&ixlib=rb-4.1.0&q=80&w=1080",
+                    "mode": "fill"
+                  },
+                  "cornerRadius": 24,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#40BCF4A0",
+                    "blur": 120
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "Tayy4",
+                  "name": "shareTitle",
+                  "fill": "$text-primary",
+                  "content": "Ghostwatch",
+                  "textAlign": "center",
+                  "fontFamily": "Plus Jakarta Sans",
+                  "fontSize": 64,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "ctdwu",
+                  "name": "shareYear",
+                  "fill": "$text-secondary",
+                  "content": "1992",
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 34,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "TXIBv",
+              "name": "cardFooter",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "rLwN0",
+                  "name": "brandRow",
+                  "gap": 18,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "s7AYl",
+                      "name": "shareLogo",
+                      "width": 56,
+                      "height": 56,
+                      "fill": "$accent-green",
+                      "cornerRadius": 14,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "Qqtcy",
+                          "name": "shareLogoIcon",
+                          "width": 34,
+                          "height": 34,
+                          "icon": "clapperboard",
+                          "library": "lucide",
+                          "fill": "#14181C"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "lWY0T",
+                      "name": "brandText",
+                      "fill": "$text-primary",
+                      "content": "RandomBoxd",
+                      "fontFamily": "Plus Jakarta Sans",
+                      "fontSize": 44,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "s7UbD",
+                  "name": "brandTagline",
+                  "fill": "$text-muted",
+                  "content": "Never struggle to pick a movie again",
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 22
+                },
+                {
+                  "type": "frame",
+                  "id": "iJYRI",
+                  "name": "storeRow",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "S5Yeo",
+                      "name": "playStoreBadge",
+                      "height": 40,
+                      "fill": "$bg-elevated",
+                      "cornerRadius": 20,
+                      "stroke": "$border-subtle",
+                      "strokeWidth": 1,
+                      "gap": 10,
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "m2m1q",
+                          "name": "playIcon",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "play",
+                          "library": "lucide",
+                          "fill": "$accent-teal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "NpaPT",
+                          "name": "playStoreText",
+                          "fill": "$text-primary",
+                          "content": "Available on Google Play",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }

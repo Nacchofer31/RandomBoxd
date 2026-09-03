@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import com.nacchofer31.randomboxd.history.domain.model.FilmPick
 import com.nacchofer31.randomboxd.history.domain.repository.FilmHistoryRepository
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
+import com.nacchofer31.randomboxd.random_film.domain.repository.ShareRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -27,8 +28,11 @@ import kotlin.time.Instant
 class HistoryViewModelTest : TestsWithMocks() {
     @Mock lateinit var repository: FilmHistoryRepository
 
+    @Mock lateinit var shareRepository: ShareRepository
+
     private lateinit var viewModel: HistoryViewModel
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -72,10 +76,11 @@ class HistoryViewModelTest : TestsWithMocks() {
 
     override fun setUpMocks() {
         repository = mocker.mock<FilmHistoryRepository>()
+        shareRepository = mocker.mock<ShareRepository>()
     }
 
     private fun createViewModel() {
-        viewModel = HistoryViewModel(repository)
+        viewModel = HistoryViewModel(repository, shareRepository)
     }
 
     @Test

@@ -15,6 +15,7 @@ internal fun FilmDisplay(
     film: Film,
     onAction: (RandomFilmAction) -> Unit,
     numberOfResults: Int = 0,
+    onShareClick: () -> Unit = {},
 ) = Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = Modifier.padding(vertical = 20.dp).testTag("test-film-display"),
@@ -29,6 +30,7 @@ internal fun FilmDisplay(
         onRerollClick = {
             onAction(RandomFilmAction.OnRerollClicked)
         },
+        onShareClick = onShareClick,
         numberOfResults = numberOfResults,
     )
 }

@@ -78,6 +78,8 @@
     <string name="rolling_the_dice">サイコロを振っています...</string>
     <string name="finding_random_movie">ランダム映画を探しています</string>
     <string name="reroll">もう一度振る</string>
+    <string name="share">共有</string>
+    <string name="share_card_tagline">サイコロは語った…今日の一作は…</string>
     <string name="history_title">履歴</string>
     <string name="history_subtitle">あなたのランダム選択</string>
     <string name="history_empty_state">まだ選択された映画はありません</string>

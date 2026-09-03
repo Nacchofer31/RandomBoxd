@@ -78,6 +78,8 @@
     <string name="rolling_the_dice">Lancement des dés...</string>
     <string name="finding_random_movie">Trouver votre film aléatoire</string>
     <string name="reroll">Relancer</string>
+    <string name="share">Partager</string>
+    <string name="share_card_tagline">Les dés ont parlé... Le choix du jour est...</string>
     <string name="history_title">Historique</string>
     <string name="history_subtitle">Tes sélections aléatoires</string>
     <string name="history_empty_state">Aucun film sélectionné pour le moment</string>

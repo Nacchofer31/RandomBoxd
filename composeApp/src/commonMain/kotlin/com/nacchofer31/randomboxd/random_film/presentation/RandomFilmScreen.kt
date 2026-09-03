@@ -15,10 +15,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
@@ -36,6 +39,7 @@ import com.nacchofer31.randomboxd.random_film.presentation.components.FilmHeader
 import com.nacchofer31.randomboxd.random_film.presentation.components.GenreFilterBottomSheet
 import com.nacchofer31.randomboxd.random_film.presentation.components.LoadingOrPrompt
 import com.nacchofer31.randomboxd.random_film.presentation.components.RandomFilmInfoView
+import com.nacchofer31.randomboxd.random_film.presentation.components.ShareFilmCardDialog
 import com.nacchofer31.randomboxd.random_film.presentation.components.UnionIntersectionSwitch
 import com.nacchofer31.randomboxd.random_film.presentation.components.UserNameTagListView
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
@@ -105,6 +109,7 @@ fun RandomFilmScreenRoot(
         numberOfResults = numberOfResults,
         userNameList = viewModel.userNameList,
         onAction = onAction,
+        onShareImage = viewModel::shareImage,
     )
 }
 
@@ -120,15 +125,25 @@ fun RandomFilmScreen(
     showGenreBottomSheet: Boolean = false,
     numberOfResults: Int = 0,
     userNameList: StateFlow<List<UserName>> = MutableStateFlow(emptyList()),
+    onShareImage: (ImageBitmap, String) -> Unit = { _, _ -> },
     onAction: (RandomFilmAction) -> Unit = {},
 ) {
     val focusManager = LocalFocusManager.current
+    var showShareDialog by remember { mutableStateOf(false) }
 
     if (showGenreBottomSheet) {
         GenreFilterBottomSheet(
             selectedGenres = selectedGenres,
             onApply = { genres -> onAction(RandomFilmAction.OnGenreSelectionApplied(genres)) },
             onDismiss = { onAction(RandomFilmAction.OnGenreBottomSheetDismiss) },
+        )
+    }
+
+    resultFilm?.takeIf { showShareDialog }?.let {
+        ShareFilmCardDialog(
+            film = it,
+            onShare = onShareImage,
+            onDismiss = { showShareDialog = false },
         )
     }
 
@@ -168,7 +183,12 @@ fun RandomFilmScreen(
                         FilmErrorView(it)
                     }
                     resultFilm?.takeIf { !isLoading }?.let {
-                        FilmDisplay(it, onAction, numberOfResults)
+                        FilmDisplay(
+                            it,
+                            onAction,
+                            numberOfResults,
+                            onShareClick = { showShareDialog = true },
+                        )
                     } ?: LoadingOrPrompt(isLoading)
 
                     if (resultError == null && resultFilm == null && !isLoading) {

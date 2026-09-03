@@ -1,5 +1,6 @@
 package com.randomboxd.history.presentation
 
+import android.graphics.Bitmap
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,12 +11,19 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import coil3.ImageLoader
+import coil3.SingletonImageLoader
+import coil3.annotation.DelicateCoilApi
+import coil3.asImage
+import coil3.test.FakeImageLoaderEngine
 import com.nacchofer31.randomboxd.history.domain.model.FilmPick
 import com.nacchofer31.randomboxd.history.presentation.HistoryScreen
 import com.nacchofer31.randomboxd.history.presentation.HistoryScreenRoot
 import com.nacchofer31.randomboxd.history.presentation.viewmodel.HistoryAction
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
+import org.junit.After
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -28,6 +36,20 @@ import kotlin.time.Instant
 class HistoryScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
+
+    private val context get() = InstrumentationRegistry.getInstrumentation().targetContext
+
+    @After
+    @OptIn(DelicateCoilApi::class)
+    fun resetImageLoader() {
+        SingletonImageLoader.reset()
+    }
+
+    private fun setImageLoader(engine: FakeImageLoaderEngine) {
+        SingletonImageLoader.setSafe {
+            ImageLoader.Builder(context).components { add(engine) }.build()
+        }
+    }
 
     private fun samplePick(
         id: Int,
@@ -217,5 +239,32 @@ class HistoryScreenTest {
         composeTestRule.onNodeWithContentDescription("Back").assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription("Clear history").assertIsDisplayed()
         composeTestRule.onNodeWithText("History").assertIsDisplayed()
+    }
+
+    @Test
+    fun history_screen_share_button_opens_share_dialog() {
+        val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
+        setImageLoader(
+            FakeImageLoaderEngine
+                .Builder()
+                .default(bitmap.asImage())
+                .build(),
+        )
+
+        composeTestRule.setContent {
+            HistoryScreen(
+                picks = listOf(samplePick(id = 1, filmName = "Inception")),
+                showClearConfirmDialog = false,
+                isFavoritesOnly = false,
+                onBackClick = {},
+                onPosterClick = {},
+                onAction = {},
+                isLoading = false,
+            )
+        }
+
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithContentDescription("Share").performClick()
+        composeTestRule.onNodeWithText("The dice has spoken... Today's pick is...").assertIsDisplayed()
     }
 }

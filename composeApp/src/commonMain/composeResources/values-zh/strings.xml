@@ -78,6 +78,8 @@
     <string name="rolling_the_dice">掷骰子中...</string>
     <string name="finding_random_movie">正在寻找您的随机电影</string>
     <string name="reroll">重新掷骰</string>
+    <string name="share">分享</string>
+    <string name="share_card_tagline">骰子已经落下……今天的选片是……</string>
     <string name="history_title">历史记录</string>
     <string name="history_subtitle">你的随机选择</string>
     <string name="history_empty_state">还没有选择的电影</string>

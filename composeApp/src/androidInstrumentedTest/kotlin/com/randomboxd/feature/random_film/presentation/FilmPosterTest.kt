@@ -56,6 +56,7 @@ class FilmPosterTest {
                 releaseYear = "2020",
                 onClick = {},
                 onRerollClick = {},
+                onShareClick = {},
             )
         }
 
@@ -82,6 +83,7 @@ class FilmPosterTest {
                 releaseYear = "2020",
                 onClick = {},
                 onRerollClick = {},
+                onShareClick = {},
             )
         }
 
@@ -108,6 +110,7 @@ class FilmPosterTest {
                 releaseYear = "2010",
                 onClick = { clicked = true },
                 onRerollClick = {},
+                onShareClick = {},
             )
         }
 
@@ -134,6 +137,7 @@ class FilmPosterTest {
                 releaseYear = "2020",
                 onClick = {},
                 onRerollClick = {},
+                onShareClick = {},
                 numberOfResults = 0,
             )
         }
@@ -159,6 +163,7 @@ class FilmPosterTest {
                 releaseYear = "2020",
                 onClick = {},
                 onRerollClick = {},
+                onShareClick = {},
                 numberOfResults = 42,
             )
         }
