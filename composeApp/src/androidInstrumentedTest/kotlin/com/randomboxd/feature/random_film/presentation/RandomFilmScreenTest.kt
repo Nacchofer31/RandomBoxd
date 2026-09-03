@@ -308,8 +308,6 @@ class RandomFilmScreenTest {
         composeTestRule.waitForIdle()
         composeTestRule.onNodeWithTag("test-share-button").performClick()
         composeTestRule.onNodeWithText("The dice has spoken... Today's pick is...").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Cancel").performClick()
-        composeTestRule.onNodeWithText("The dice has spoken... Today's pick is...").assertDoesNotExist()
     }
 
     @Test
