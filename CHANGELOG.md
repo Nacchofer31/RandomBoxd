@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.6.0
+- Added `Share pick as image` feature.
+- Share any pick as a branded card with poster, title, year and the Google Play badge.
+- Share from the random pick screen and from the history screen.
+
 ## 1.5.0
 - Added `Pick History` feature.
 - Added `Favorites filter` on history screen.
