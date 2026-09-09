@@ -33,6 +33,7 @@ RandomBoxd is a **Compose Multiplatform** project designed to fetch a random mov
 - ∩∪ **Intersection & Union** → Combine multiple users' watchlists and pick a random movie either from their **shared movies** (Intersection) or from the **merged pool** (Union).
 - 🎭 **Genre Filters** → Narrow results to one or more genres at once. Works in both single-user and multi-user modes.
 - 🕘 **Pick History** → Every pick is saved locally, so you can review past rolls, filter by favorites, and clear the list anytime.
+- 📤 **Share as Image** → Turn any pick into a branded share card with the poster, title and year, ready to post on social media. Available from the pick screen and the history screen.
 
 ## 🧙‍♂️ Watch the Magic
 
@@ -132,6 +133,15 @@ Select one or more genres and the app will only consider movies that match your 
 - **Reset anytime** → clear the filter with one tap to go back to the full list.
 
 Works seamlessly with both **single-user** and **multi-user** (Intersection & Union) modes.
+
+## 📤 Share a Pick as an Image
+RandomBoxd lets you turn any random pick into a **branded share card** you can post on social media.  
+The card includes the poster, title, year and the RandomBoxd branding with a Google Play badge.
+
+- **From the pick screen** → tap the **Share** button next to Reroll.
+- **From the history screen** → tap the **Share** icon below the favorite button on any pick.
+
+A preview lets you review the card before sharing it through the system share sheet.
 
 ## 🚀 Getting Started
 1. Clone the repository:
