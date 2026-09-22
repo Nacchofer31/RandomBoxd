@@ -365,32 +365,34 @@ tasks.register("fullCoverageReport") {
 
         if (reportFile.exists()) {
             val content = reportFile.readText()
-            val regex = Regex("""<counter type="LINE" missed="(\d+)" covered="(\d+)"/>""")
-            val matches = regex.findAll(content).toList()
+            // Bundle-level counters are the direct children of <report>, placed after the last
+            // </package>. Nested per-class/per-package counters must not be summed.
+            val bundleCounters = content.substringAfterLast("</package>")
+            val lineCounter =
+                Regex("""<counter type="LINE" missed="(\d+)" covered="(\d+)"/>""")
+                    .find(bundleCounters)
 
-            var totalMissed = 0
-            var totalCovered = 0
+            if (lineCounter != null) {
+                val totalMissed = lineCounter.groupValues[1].toInt()
+                val totalCovered = lineCounter.groupValues[2].toInt()
+                val total = totalMissed + totalCovered
+                val coverage = if (total > 0) (totalCovered.toDouble() / total * 100) else 0.0
 
-            for (match in matches) {
-                totalMissed += match.groupValues[1].toInt()
-                totalCovered += match.groupValues[2].toInt()
+                println("")
+                println("=".repeat(50))
+                println("  CODE COVERAGE SUMMARY")
+                println("=".repeat(50))
+                println("  Total Lines:     $total")
+                println("  Covered Lines:   $totalCovered")
+                println("  Missed Lines:    $totalMissed")
+                println("  Coverage:        ${"%.1f".format(coverage)}%")
+                println("=".repeat(50))
+                println("  HTML Report:     file://${layout.buildDirectory.get().asFile.absolutePath}/jacocoHtml/index.html")
+                println("=".repeat(50))
+                println("")
+            } else {
+                println("Warning: no LINE counter found in ${reportFile.absolutePath}")
             }
-
-            val total = totalMissed + totalCovered
-            val coverage = if (total > 0) (totalCovered.toDouble() / total * 100) else 0.0
-
-            println("")
-            println("=".repeat(50))
-            println("  CODE COVERAGE SUMMARY")
-            println("=".repeat(50))
-            println("  Total Lines:     $total")
-            println("  Covered Lines:   $totalCovered")
-            println("  Missed Lines:    $totalMissed")
-            println("  Coverage:        ${"%.1f".format(coverage)}%")
-            println("=".repeat(50))
-            println("  HTML Report:     file://${layout.buildDirectory.get().asFile.absolutePath}/jacocoHtml/index.html")
-            println("=".repeat(50))
-            println("")
         } else {
             println("Warning: JaCoCo XML report not found at ${reportFile.absolutePath}")
         }
