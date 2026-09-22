@@ -21,7 +21,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
-internal fun RandomBoxdApp() {
+fun RandomBoxdApp() {
     MaterialTheme(
         typography = RandomBoxdTypography(),
     ) {

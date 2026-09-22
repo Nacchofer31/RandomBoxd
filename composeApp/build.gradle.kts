@@ -1,17 +1,15 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.spotless)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
-    alias(libs.plugins.mockmp)
     jacoco
 }
 
@@ -20,7 +18,34 @@ jacoco {
 }
 
 kotlin {
-    androidTarget {
+    android {
+        namespace = "com.nacchofer31.randomboxd.shared"
+        compileSdk =
+            libs.versions.android.compileSdk
+                .get()
+                .toInt()
+        minSdk =
+            libs.versions.android.minSdk
+                .get()
+                .toInt()
+
+        androidResources {
+            enable = true
+        }
+
+        packaging {
+            resources {
+                excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            }
+        }
+
+        withHostTest {}
+
+        withDeviceTest {
+            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+            enableCoverage = true
+        }
+
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_21)
@@ -41,14 +66,8 @@ kotlin {
     sourceSets {
 
         androidMain.dependencies {
-            implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.0")
-            implementation(libs.androidx.activity.compose)
-
-            // splash
-            implementation(libs.core.splashscreen)
-
-            // koin
-            implementation(libs.koin.android)
+            // androidx core (FileProvider)
+            implementation(libs.androidx.core.ktx)
 
             // ktor
             implementation(libs.ktor.client.okhttp)
@@ -105,97 +124,40 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
         commonTest.dependencies {
-            implementation("org.jetbrains.compose.ui:ui-test:1.10.0")
-            implementation(libs.junit)
-            implementation(libs.androidx.junit)
-            implementation(libs.androidx.ui.test.junit4)
-            implementation(libs.androidx.espresso.core)
             implementation(libs.kotlin.test)
             implementation(libs.ktor.client.mock)
             implementation(libs.assertk)
             implementation(libs.turbine)
             implementation(libs.coroutines.test)
         }
-        androidInstrumentedTest.dependencies {
+        getByName("androidDeviceTest").dependencies {
+            implementation("org.jetbrains.compose.ui:ui-test:1.10.0")
+            implementation(libs.koin.android)
+            implementation(libs.androidx.ui.test.junit4.android)
+            implementation(libs.androidx.ui.test.android)
+            implementation(libs.androidx.ui.test.manifest)
+            implementation(libs.androidx.test.runner)
+            implementation(libs.androidx.junit)
+            implementation(libs.junit)
             implementation(libs.kotlin.test)
             implementation(libs.assertk)
-            implementation(kotlin("test"))
-            implementation(libs.androidx.test.runner)
+            implementation(libs.androidx.espresso.core)
             implementation("io.coil-kt.coil3:coil-test:3.3.0")
             implementation("androidx.room:room-testing:2.7.2")
         }
     }
 }
 
-android {
-    namespace = "com.nacchofer31.randomboxd"
-    compileSdk =
-        libs.versions.android.compileSdk
-            .get()
-            .toInt()
-
-    defaultConfig {
-        applicationId = "com.nacchofer31.randomboxd"
-        versionName = "1.6.0"
-        versionCode = 22
-        minSdk =
-            libs.versions.android.minSdk
-                .get()
-                .toInt()
-        targetSdk =
-            libs.versions.android.targetSdk
-                .get()
-                .toInt()
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-
-    signingConfigs {
-        create("release") {
-            val props = Properties()
-            val keyPropsFile = rootProject.file("key.properties")
-            if (keyPropsFile.exists()) props.load(keyPropsFile.inputStream())
-            storeFile = props["storeFile"]?.let { file(it) }
-            storePassword = props["storePassword"] as String?
-            keyPassword = props["keyPassword"] as String?
-            keyAlias = props["keyAlias"] as String?
-        }
-    }
-
-    buildTypes {
-        debug {
-            enableAndroidTestCoverage = true
-        }
-        getByName("release") {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            signingConfig = signingConfigs.getByName("release")
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
-}
-
-mockmp {
-    onTest {
-        withHelper(junit4)
-    }
-}
-
 room {
     schemaDirectory("$projectDir/schemas")
+}
+
+androidComponents {
+    onVariants { variant ->
+        variant.deviceTests.values.forEach { deviceTest ->
+            deviceTest.sources.assets?.addStaticSourceDirectory("schemas")
+        }
+    }
 }
 
 ksp {
@@ -211,11 +173,6 @@ tasks.withType<com.google.devtools.ksp.gradle.KspAATask>().configureEach {
 }
 
 dependencies {
-    implementation(libs.room.runtime.android)
-    debugImplementation(libs.androidx.ui.test.junit4.android)
-    debugImplementation(libs.androidx.ui.test.android)
-    debugImplementation("org.jetbrains.compose.ui:ui-tooling:1.10.0")
-    debugImplementation(libs.androidx.ui.test.manifest)
     add("kspAndroid", libs.room.compiler)
     add("kspIosSimulatorArm64", libs.room.compiler)
     add("kspIosX64", libs.room.compiler)
@@ -273,7 +230,7 @@ val fileFilter =
     )
 
 tasks.register("jacocoTestReport", JacocoReport::class) {
-    dependsOn(tasks.withType(Test::class), "connectedDebugAndroidTest")
+    dependsOn(tasks.withType(Test::class), "connectedAndroidDeviceTest")
 
     group = "Reporting"
     description = "Generate Jacoco coverage reports."
@@ -286,7 +243,7 @@ tasks.register("jacocoTestReport", JacocoReport::class) {
 
     val classFiles =
         layout.buildDirectory
-            .dir("tmp/kotlin-classes/debug")
+            .dir("classes/kotlin/android/main")
             .get()
             .asFileTree
             .matching {
@@ -298,7 +255,7 @@ tasks.register("jacocoTestReport", JacocoReport::class) {
     sourceDirectories.setFrom(files(coverageSourceDirs))
     executionData.setFrom(
         fileTree(layout.buildDirectory) {
-            include("jacoco/testDebugUnitTest.exec")
+            include("jacoco/testAndroidHostTest.exec")
             include("outputs/code_coverage/**/*.ec")
         },
     )
@@ -311,7 +268,7 @@ tasks.register("jacocoTestReport", JacocoReport::class) {
 }
 
 tasks.register("jacocoTestCoverageVerification", JacocoCoverageVerification::class) {
-    dependsOn(tasks.withType(Test::class), "connectedDebugAndroidTest")
+    dependsOn(tasks.withType(Test::class), "connectedAndroidDeviceTest")
 
     group = "Reporting"
     description = "Verifies code coverage metrics based on specific rules."
@@ -324,7 +281,7 @@ tasks.register("jacocoTestCoverageVerification", JacocoCoverageVerification::cla
 
     val classFiles =
         layout.buildDirectory
-            .dir("tmp/kotlin-classes/debug")
+            .dir("classes/kotlin/android/main")
             .get()
             .asFileTree
             .matching {
@@ -336,7 +293,7 @@ tasks.register("jacocoTestCoverageVerification", JacocoCoverageVerification::cla
     sourceDirectories.setFrom(files(coverageSourceDirs))
     executionData.setFrom(
         fileTree(layout.buildDirectory) {
-            include("jacoco/testDebugUnitTest.exec")
+            include("jacoco/testAndroidHostTest.exec")
             include("outputs/code_coverage/**/*.ec")
         },
     )
@@ -357,7 +314,7 @@ tasks.register("jacocoTestCoverageVerification", JacocoCoverageVerification::cla
 tasks.register("fullCoverageReport") {
     group = "Reporting"
     description = "Runs all tests (unit + android) and generates full coverage report."
-    dependsOn("testDebugUnitTest", "connectedDebugAndroidTest", "jacocoTestReport")
+    dependsOn("testAndroidHostTest", "connectedAndroidDeviceTest", "jacocoTestReport")
 
     doLast {
         val xmlReport = layout.buildDirectory.file("reports/jacoco/jacocoTestReport/jacocoTestReport.xml")

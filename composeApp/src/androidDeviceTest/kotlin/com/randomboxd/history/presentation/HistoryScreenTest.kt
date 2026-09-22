@@ -23,8 +23,11 @@ import com.nacchofer31.randomboxd.history.presentation.HistoryScreenRoot
 import com.nacchofer31.randomboxd.history.presentation.viewmodel.HistoryAction
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
+import com.nacchofer31.randomboxd.utils.startTestKoin
+import com.nacchofer31.randomboxd.utils.stopTestKoin
 import org.junit.After
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,6 +41,16 @@ class HistoryScreenTest {
     val composeTestRule = createComposeRule()
 
     private val context get() = InstrumentationRegistry.getInstrumentation().targetContext
+
+    @Before
+    fun setUpKoin() {
+        startTestKoin()
+    }
+
+    @After
+    fun tearDownKoin() {
+        stopTestKoin()
+    }
 
     @After
     @OptIn(DelicateCoilApi::class)
