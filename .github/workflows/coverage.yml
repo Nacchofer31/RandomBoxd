@@ -33,10 +33,10 @@ jobs:
           path: composeApp/build/outputs/code_coverage/
 
       - name: Generate coverage report
-        run: ./gradlew composeApp:testDebugUnitTest composeApp:jacocoTestReport -x connectedDebugAndroidTest
+        run: ./gradlew composeApp:testAndroidHostTest composeApp:jacocoTestReport -x connectedAndroidDeviceTest
 
       - name: Check minimum coverage threshold (70% lines at project level)
-        run: ./gradlew composeApp:jacocoTestCoverageVerification -x testDebugUnitTest -x connectedDebugAndroidTest
+        run: ./gradlew composeApp:jacocoTestCoverageVerification -x testAndroidHostTest -x connectedAndroidDeviceTest
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
