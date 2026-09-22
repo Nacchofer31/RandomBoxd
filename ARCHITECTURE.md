@@ -10,12 +10,14 @@ RandomBoxd is a **Kotlin Multiplatform (KMP)** application built with **Compose 
 
 ```
 RandomBoxd/
-├── composeApp/                    # Shared KMP application module
+├── androidApp/                    # Android application entry point (com.android.application)
+│   └── src/main/                  # Manifest, MainActivity, Application, launcher resources
+├── composeApp/                    # Shared KMP library (com.android.kotlin.multiplatform.library)
 │   └── src/
 │       ├── commonMain/            # Shared business logic and UI
 │       ├── commonTest/            # Shared unit tests
 │       ├── androidMain/           # Android platform implementations
-│       ├── androidInstrumentedTest/ # Android UI tests
+│       ├── androidDeviceTest/     # Android UI (instrumented) tests
 │       ├── iosMain/               # iOS platform implementations
 │       └── nativeMain/            # Native-common code (iOS targets)
 ├── iosApp/                        # iOS entry point (Swift)
@@ -24,7 +26,7 @@ RandomBoxd/
 └── settings.gradle.kts            # Module inclusion
 ```
 
-There is a **single shared module** (`composeApp`). There are no separate feature modules; feature separation is achieved through package structure within `commonMain`.
+The shared code lives in **`composeApp`**, a Kotlin Multiplatform library built with the AGP 9 Android-KMP library plugin (`com.android.kotlin.multiplatform.library`). The Android app entry point was extracted into the thin **`androidApp`** module (`com.android.application` with AGP 9 built-in Kotlin support), which depends on `composeApp`. This split is required because, since AGP 9.0, the Kotlin Multiplatform plugin is no longer compatible with the Android application/library plugins in the same module. There are no separate feature modules; feature separation is achieved through package structure within `commonMain`.
 
 ---
 
@@ -265,12 +267,14 @@ The ViewModel uses a Flow-based reactive pipeline:
 | Kotlin Test | Assertions and test utilities |
 | Turbine | Flow/StateFlow emission testing |
 | AssertK | Fluent assertions |
-| Mockmp (Kodein) | Mocking with KSP generation |
 | Ktor MockEngine | HTTP request interception |
 | Compose UI Test | Instrumented UI testing |
 
+**Test doubles**: dependencies are replaced with hand-written fakes (no mocking framework) — see `utils/fakes/FakeRepositories.kt`. Each fake exposes simple, mutable state (e.g. `FakeRandomFilmRepository.getRandomMoviesResult`) instead of a stubbing DSL.
+
 **Test utilities** (in `commonTest`):
 - `TestDispatchers`: Provides `UnconfinedTestDispatcher` for all dispatcher types.
+- `FakeRepositories`: Hand-written implementations of the domain repository/DAO interfaces.
 - `HttpResponseData`: Helper to build mock Ktor responses.
 
 **Testing patterns**:
@@ -284,25 +288,27 @@ The ViewModel uses a Flow-based reactive pipeline:
 
 ## Build System
 
-- **Gradle**: 9.2.1
+- **Gradle**: 9.5.0
 - **Kotlin**: 2.2.10
-- **AGP**: 9.0.1
+- **AGP**: 9.3.1
 - **Compose Multiplatform**: 1.10.0
-- **KSP**: Used for Room code generation and Mockmp mock generation.
+- **KSP**: Used for Room code generation. Android modules use AGP 9 built-in Kotlin (no `kotlin-android` plugin).
 
-**Android targets**: minSdk 24, targetSdk 35, compileSdk 35, JVM target Java 21.
+**Android targets**: minSdk 24, targetSdk 36, compileSdk 36, JVM target Java 21.
 
 **iOS targets**: `iosArm64`, `iosX64`, `iosSimulatorArm64` — grouped via `iosMain` intermediate source set.
 
-**Code formatting**: Spotless plugin with KtLint rules. Run via `./gradlew :composeApp:spotlessApply`.
+**Code formatting**: Spotless plugin with KtLint rules. Run via `./gradlew spotlessApply`.
 
 **Key Gradle tasks**:
-- `:composeApp:testDebugUnitTest` — run unit tests.
+- `:androidApp:assembleDebug` — build the Android debug app.
+- `:composeApp:testAndroidHostTest` — run the shared/host unit tests.
+- `:composeApp:connectedAndroidDeviceTest` — run the Android instrumented (device) tests.
 - `:composeApp:jacocoTestReport` — generate coverage report.
 - `:composeApp:jacocoTestCoverageVerification` — enforce 70% threshold.
 - `:composeApp:fullCoverageReport` — tests + coverage in one task.
-- `:composeApp:spotlessApply` — format code.
-- `:composeApp:spotlessCheck` — verify formatting.
+- `./gradlew spotlessApply` — format code.
+- `./gradlew spotlessCheck` — verify formatting.
 
 ---
 
@@ -317,7 +323,7 @@ The ViewModel uses a Flow-based reactive pipeline:
 
 ## Key Conventions and Rules
 
-1. **No feature modules** — features are packages, not Gradle modules. All code lives in `composeApp`.
+1. **No feature modules** — features are packages, not Gradle modules. Shared code lives in `composeApp`; `androidApp` holds only the Android entry point (Activity, Application, manifest, launcher resources).
 2. **Repository pattern** — domain layer defines interfaces; data layer provides implementations. Never depend on concrete repository classes from presentation.
 3. **Single ViewModel per feature** — `RandomFilmViewModel` handles all state for the main feature, scoped to the `Home` navigation graph.
 4. **Actions over callbacks** — UI communicates with ViewModels exclusively through sealed interface actions, not individual callback lambdas.

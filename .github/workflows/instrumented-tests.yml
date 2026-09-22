@@ -28,7 +28,7 @@ jobs:
         with:
           api-level: 29
           arch: x86_64
-          script: ./gradlew composeApp:connectedDebugAndroidTest
+          script: ./gradlew composeApp:connectedAndroidDeviceTest
 
       - name: Upload test report
         uses: actions/upload-artifact@v4

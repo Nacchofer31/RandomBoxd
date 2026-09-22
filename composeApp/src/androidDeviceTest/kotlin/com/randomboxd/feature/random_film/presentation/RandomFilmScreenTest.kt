@@ -24,8 +24,11 @@ import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreen
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreenRoot
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
+import com.nacchofer31.randomboxd.utils.startTestKoin
+import com.nacchofer31.randomboxd.utils.stopTestKoin
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -36,6 +39,16 @@ class RandomFilmScreenTest {
     val composeTestRule = createComposeRule()
 
     private val context get() = InstrumentationRegistry.getInstrumentation().targetContext
+
+    @Before
+    fun setUpKoin() {
+        startTestKoin()
+    }
+
+    @After
+    fun tearDownKoin() {
+        stopTestKoin()
+    }
 
     @After
     @OptIn(DelicateCoilApi::class)

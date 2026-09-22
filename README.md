@@ -46,9 +46,13 @@ This project follows the **Clean Architecture** principles to ensure a scalable 
 For a detailed breakdown of layers, patterns, conventions, and technical decisions, see the [Architecture Document](ARCHITECTURE.md).
 
 ## 🏛️ KMP Structure
-- **`/composeApp`** is for code that will be shared across your **Compose Multiplatform** applications.
+- **`/androidApp`** is the **Android application entry point** (`com.android.application`). It holds the `MainActivity`, `Application`, manifest, launcher icons and splash theme, and depends on `composeApp`.
+  - `src/main` contains the Android-specific entry point code and resources.
+
+- **`/composeApp`** is the **shared Kotlin Multiplatform library** (`com.android.kotlin.multiplatform.library`) consumed by the **Compose Multiplatform** app.
   - `commonMain` contains code common for all targets.
-  - Other folders include platform-specific code (e.g., `iosMain` for iOS-specific code like **CoreCrypto** integration).
+  - Other folders include platform-specific code (e.g., `androidMain` for Android, `iosMain` for iOS-specific code).
+  - `commonTest` holds the shared unit tests and `androidDeviceTest` the Android UI (instrumented) tests.
 
 - **`/iosApp`** contains iOS applications.
   - Even if you're sharing UI with **Compose Multiplatform**, this folder is the **entry point** for the iOS app.
@@ -66,7 +70,7 @@ For a detailed breakdown of layers, patterns, conventions, and technical decisio
 - **Navigation Compose** - Jetpack Compose navigation.
 - **Kotlinx Serialization** - JSON serialization.
 - **Spotless** - Code formatting.
-- **Junit5** - Unit testing.
+- **JUnit 4** - Unit testing.
 - **Turbine** - State testing.
 - **Jacoco** - Code coverage.
 
@@ -81,7 +85,7 @@ RandomBoxd is built with **full localization support**, allowing the app to be t
 ## ✅ Testing
 
 RandomBoxd's **codebase** is **tested** with:
-- 🧪 **JUnit5** for unit tests.
+- 🧪 **JUnit 4** for unit tests.
 - 🌊 **Turbine** for verifying Kotlin Flow emissions and state changes.
 - 🔌 **Ktor Client Mock** for mocking and testing network requests.
 - 📈 **Jacoco** to measure and ensure code coverage across the project.
@@ -154,7 +158,7 @@ A preview lets you review the card before sharing it through the system share sh
    <img src="screenshots/run-config.png" width="400" />
 4. Run spotless commmands:
    ```sh
-   ./gradlew :composeApp:spotlessApply 
+   ./gradlew spotlessApply
    ```
 5. Generate jacoco reports:
    ```sh

@@ -35,19 +35,19 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Start Android Release Build
-        run: ./gradlew composeApp:bundleRelease
+        run: ./gradlew androidApp:bundleRelease
 
       - name: Upload Release Build to Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: android-release-artifacts
-          path: composeApp/build/outputs/bundle/release/composeApp-release.aab
+          path: androidApp/build/outputs/bundle/release/androidApp-release.aab
 
       - name: Release Build to production track
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.ANDROID_PLAYSTORE_ACCOUNT_KEY }}
           packageName: com.nacchofer31.randomboxd
-          releaseFiles: composeApp/build/outputs/bundle/release/composeApp-release.aab
+          releaseFiles: androidApp/build/outputs/bundle/release/androidApp-release.aab
           tracks: production
           status: completed

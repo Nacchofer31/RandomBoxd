@@ -24,6 +24,8 @@ jobs:
             source:
               - 'composeApp/src/**/*.kt'
               - 'composeApp/src/**/*.java'
+              - 'androidApp/src/**/*.kt'
+              - 'androidApp/src/**/*.java'
 
   build:
     uses: ./.github/workflows/build.yml

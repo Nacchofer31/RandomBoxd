@@ -18,17 +18,17 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Run unit tests
-        run: ./gradlew composeApp:testDebugUnitTest
+        run: ./gradlew composeApp:testAndroidHostTest
 
       - name: Upload test report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: unit-test-report
-          path: composeApp/build/reports/tests/testDebugUnitTest/
+          path: composeApp/build/reports/tests/testAndroidHostTest/
 
       - name: Upload Jacoco execution data
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-unit-exec
-          path: composeApp/build/jacoco/testDebugUnitTest.exec
+          path: composeApp/build/jacoco/testAndroidHostTest.exec

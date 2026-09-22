@@ -1,17 +1,13 @@
 package com.nacchofer31.randomboxd.history.data.repository_impl
 
 import app.cash.turbine.test
-import com.nacchofer31.randomboxd.history.domain.model.FilmHistoryDao
 import com.nacchofer31.randomboxd.history.domain.model.FilmHistoryEntry
 import com.nacchofer31.randomboxd.history.domain.repository.FilmHistoryRepository
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
-import kotlinx.coroutines.flow.flowOf
+import com.nacchofer31.randomboxd.utils.fakes.FakeFilmHistoryDao
 import kotlinx.coroutines.test.runTest
-import org.kodein.mock.Mock
-import org.kodein.mock.generated.mock
-import org.kodein.mock.tests.TestsWithMocks
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -20,8 +16,8 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 @OptIn(ExperimentalTime::class)
-class FilmHistoryRepositoryImplTest : TestsWithMocks() {
-    @Mock lateinit var dao: FilmHistoryDao
+class FilmHistoryRepositoryImplTest {
+    private val dao = FakeFilmHistoryDao()
 
     private val fixedInstant = Instant.fromEpochMilliseconds(1_700_000_000_000L)
     private val clock: Clock =
@@ -30,10 +26,6 @@ class FilmHistoryRepositoryImplTest : TestsWithMocks() {
         }
 
     private lateinit var repository: FilmHistoryRepository
-
-    override fun setUpMocks() {
-        dao = mocker.mock<FilmHistoryDao>()
-    }
 
     private fun createRepository() {
         repository = FilmHistoryRepositoryImpl(dao, clock)
@@ -50,24 +42,24 @@ class FilmHistoryRepositoryImplTest : TestsWithMocks() {
     @Test
     fun `save inserts entity with timestamp from injected Clock`() =
         runTest {
-            mocker.everySuspending { dao.insert(isAny()) } returns Unit
             createRepository()
 
             repository.save(testFilm, setOf("alice"), FilmSearchMode.UNION, setOf(FilmGenre.ACTION))
 
-            // Verify no exception — insert was called. Assertion on the specific entry is implicit
-            // through the fact that all input fields are encoded correctly and the call resolved.
+            // The entry is captured by the fake DAO and encoded from the injected Clock.
+            assertEquals(1, dao.insertedEntries.size)
+            assertEquals(fixedInstant.toEpochMilliseconds(), dao.insertedEntries.single().timestamp)
         }
 
     @Test
     fun `save with null releaseYear inserts null`() =
         runTest {
             val noYearFilm = Film(slug = "slug", imageUrl = "url", releaseYear = null, name = "Film")
-            mocker.everySuspending { dao.insert(isAny()) } returns Unit
             createRepository()
 
             repository.save(noYearFilm, setOf("bob"), FilmSearchMode.INTERSECTION, emptySet())
-            // No exception
+
+            assertEquals(null, dao.insertedEntries.single().releaseYear)
         }
 
     @Test
@@ -99,7 +91,7 @@ class FilmHistoryRepositoryImplTest : TestsWithMocks() {
                     timestamp = 2000,
                     isFavorite = true,
                 )
-            mocker.every { dao.getAllPicks() } returns flowOf(listOf(laterEntry, earlierEntry))
+            dao.picks = listOf(laterEntry, earlierEntry)
             createRepository()
 
             repository.getAllPicks().test {
@@ -115,27 +107,27 @@ class FilmHistoryRepositoryImplTest : TestsWithMocks() {
     @Test
     fun `updateFavorite delegates to DAO`() =
         runTest {
-            mocker.everySuspending { dao.updateFavorite(42, true) } returns Unit
             createRepository()
 
             repository.updateFavorite(42, true)
-            // No exception = pass
+
+            assertEquals(listOf(42 to true), dao.updateFavoriteCalls)
         }
 
     @Test
     fun `deleteAll delegates to DAO`() =
         runTest {
-            mocker.everySuspending { dao.deleteAll() } returns Unit
             createRepository()
 
             repository.deleteAll()
-            // No exception = pass
+
+            assertEquals(1, dao.deleteAllCount)
         }
 
     @Test
     fun `getAllPicks empty list maps correctly`() =
         runTest {
-            mocker.every { dao.getAllPicks() } returns flowOf(emptyList())
+            dao.picks = emptyList()
             createRepository()
 
             repository.getAllPicks().test {

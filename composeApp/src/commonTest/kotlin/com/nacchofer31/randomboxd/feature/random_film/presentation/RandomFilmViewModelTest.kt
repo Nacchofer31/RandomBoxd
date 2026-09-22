@@ -3,26 +3,23 @@ package com.nacchofer31.randomboxd.feature.random_film.presentation
 import app.cash.turbine.test
 import com.nacchofer31.randomboxd.core.domain.DataError
 import com.nacchofer31.randomboxd.core.domain.ResultData
-import com.nacchofer31.randomboxd.history.domain.repository.FilmHistoryRepository
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
-import com.nacchofer31.randomboxd.random_film.domain.repository.InAppReviewRepository
-import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
-import com.nacchofer31.randomboxd.random_film.domain.repository.ShareRepository
-import com.nacchofer31.randomboxd.random_film.domain.repository.UserNameRepository
+import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
 import com.nacchofer31.randomboxd.utils.dispatchers.TestDispatchers
+import com.nacchofer31.randomboxd.utils.fakes.FakeFilmHistoryRepository
+import com.nacchofer31.randomboxd.utils.fakes.FakeInAppReviewRepository
+import com.nacchofer31.randomboxd.utils.fakes.FakeRandomFilmRepository
+import com.nacchofer31.randomboxd.utils.fakes.FakeShareRepository
+import com.nacchofer31.randomboxd.utils.fakes.FakeUserNameRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import org.kodein.mock.Mock
-import org.kodein.mock.generated.mock
-import org.kodein.mock.tests.TestsWithMocks
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -31,19 +28,15 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertSame
 
-class RandomFilmViewModelTest : TestsWithMocks() {
+class RandomFilmViewModelTest {
     private lateinit var viewModel: RandomFilmViewModel
     private lateinit var testDispatchers: TestDispatchers
 
-    @Mock lateinit var repository: RandomFilmRepository
-
-    @Mock lateinit var userNameRepository: UserNameRepository
-
-    @Mock lateinit var inAppReviewRepository: InAppReviewRepository
-
-    @Mock lateinit var historyRepository: FilmHistoryRepository
-
-    @Mock lateinit var shareRepository: ShareRepository
+    private val repository = FakeRandomFilmRepository()
+    private val userNameRepository = FakeUserNameRepository()
+    private val inAppReviewRepository = FakeInAppReviewRepository()
+    private val historyRepository = FakeFilmHistoryRepository()
+    private val shareRepository = FakeShareRepository()
 
     private val testFilm =
         Film(
@@ -52,17 +45,6 @@ class RandomFilmViewModelTest : TestsWithMocks() {
             releaseYear = 2020,
             name = "Test Film",
         )
-
-    override fun setUpMocks() {
-        repository = mocker.mock<RandomFilmRepository>()
-        userNameRepository = mocker.mock<UserNameRepository>()
-        inAppReviewRepository = mocker.mock<InAppReviewRepository>()
-        historyRepository = mocker.mock<FilmHistoryRepository>()
-        shareRepository = mocker.mock<ShareRepository>()
-        mocker.every {
-            userNameRepository.getAllUserNames()
-        } returns flow { emit(emptyList()) }
-    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @BeforeTest
@@ -84,10 +66,8 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     @Test
     fun `given successful response when submit button clicked then update state with film`() =
         runTest(testDispatchers.testDispatcher) {
-            mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending { repository.getRandomMovies(isAny(), isAny()) } returns ResultData.Success(setOf(testFilm))
-            mocker.everySuspending { repository.extractResultMovie(isAny()) } returns ResultData.Success(testFilm)
-            mocker.everySuspending { inAppReviewRepository.requestInAppReview() } returns Unit
+            repository.getRandomMoviesResult = ResultData.Success(setOf(testFilm))
+            repository.extractResultMovieResult = ResultData.Success(testFilm)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
@@ -110,10 +90,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     @Test
     fun `given error response when submit button clicked then update state with null film`() =
         runTest(testDispatchers.testDispatcher) {
-            mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending {
-                repository.getRandomMovies(isAny(), isAny())
-            } returns ResultData.Error(DataError.Remote.SERIALIZATION)
+            repository.getRandomMoviesResult = ResultData.Error(DataError.Remote.SERIALIZATION)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
@@ -136,10 +113,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     @Test
     fun `when clear button clicked then result error is cleared`() =
         runTest(testDispatchers.testDispatcher) {
-            mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending {
-                repository.getRandomMovies(isAny(), isAny())
-            } returns ResultData.Error(DataError.Remote.SERIALIZATION)
+            repository.getRandomMoviesResult = ResultData.Error(DataError.Remote.SERIALIZATION)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
@@ -162,10 +136,8 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     @Test
     fun `when submit button clicked twice then state has film both times`() =
         runTest(testDispatchers.testDispatcher) {
-            mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending { repository.getRandomMovies(isAny(), isAny()) } returns ResultData.Success(setOf(testFilm))
-            mocker.everySuspending { repository.extractResultMovie(isAny()) } returns ResultData.Success(testFilm)
-            mocker.everySuspending { inAppReviewRepository.requestInAppReview() } returns Unit
+            repository.getRandomMoviesResult = ResultData.Success(setOf(testFilm))
+            repository.extractResultMovieResult = ResultData.Success(testFilm)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
@@ -201,10 +173,8 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     @Test
     fun `when info button clicked then resultFilm and resultError are cleared`() =
         runTest(testDispatchers.testDispatcher) {
-            mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending { repository.getRandomMovies(isAny(), isAny()) } returns ResultData.Success(setOf(testFilm))
-            mocker.everySuspending { repository.extractResultMovie(isAny()) } returns ResultData.Success(testFilm)
-            mocker.everySuspending { inAppReviewRepository.requestInAppReview() } returns Unit
+            repository.getRandomMoviesResult = ResultData.Success(setOf(testFilm))
+            repository.extractResultMovieResult = ResultData.Success(testFilm)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
@@ -248,26 +218,23 @@ class RandomFilmViewModelTest : TestsWithMocks() {
 
             viewModel.state.test {
                 val initialState = awaitItem()
-                assertEquals(com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode.INTERSECTION, initialState.filmSearchMode)
+                assertEquals(FilmSearchMode.INTERSECTION, initialState.filmSearchMode)
 
                 viewModel.onAction(RandomFilmAction.OnFilmSearchModeToggle)
                 val toggledState = awaitItem()
-                assertEquals(com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode.UNION, toggledState.filmSearchMode)
+                assertEquals(FilmSearchMode.UNION, toggledState.filmSearchMode)
 
                 viewModel.onAction(RandomFilmAction.OnFilmSearchModeToggle)
                 val revertedState = awaitItem()
-                assertEquals(com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode.INTERSECTION, revertedState.filmSearchMode)
+                assertEquals(FilmSearchMode.INTERSECTION, revertedState.filmSearchMode)
             }
         }
 
     @Test
     fun `when multi-user submit clicked then getRandomMoviesFromSearchList is called`() =
         runTest(testDispatchers.testDispatcher) {
-            mocker.everySuspending {
-                repository.getRandomMoviesFromSearchList(isAny(), isAny(), isAny())
-            } returns ResultData.Success(setOf(testFilm))
-            mocker.everySuspending { repository.extractResultMovie(isAny()) } returns ResultData.Success(testFilm)
-            mocker.everySuspending { inAppReviewRepository.requestInAppReview() } returns Unit
+            repository.getRandomMoviesFromSearchListResult = ResultData.Success(setOf(testFilm))
+            repository.extractResultMovieResult = ResultData.Success(testFilm)
             createViewModel()
 
             viewModel.onAction(RandomFilmAction.OnAddOrRemoveUserNameSearchList("user1"))
@@ -288,7 +255,6 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     @Test
     fun `when username added action then addUserName is called on repository`() =
         runTest(testDispatchers.testDispatcher) {
-            mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
             createViewModel()
 
             viewModel.onAction(RandomFilmAction.OnUserNameAdded("  newuser  "))
@@ -303,10 +269,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     @Test
     fun `when remove username action then user is removed from search list and deleteUserName is called`() =
         runTest(testDispatchers.testDispatcher) {
-            val userName =
-                com.nacchofer31.randomboxd.random_film.domain.model
-                    .UserName(id = 1, username = "user1")
-            mocker.everySuspending { userNameRepository.deleteUserName(isAny()) } returns Unit
+            val userName = UserName(id = 1, username = "user1")
             createViewModel()
 
             viewModel.onAction(RandomFilmAction.OnAddOrRemoveUserNameSearchList("user1"))
@@ -455,10 +418,8 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     @Test
     fun `when submit clicked with genres then selectedGenres passed to repository`() =
         runTest(testDispatchers.testDispatcher) {
-            mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending { repository.getRandomMovies(isAny(), isAny()) } returns ResultData.Success(setOf(testFilm))
-            mocker.everySuspending { repository.extractResultMovie(isAny()) } returns ResultData.Success(testFilm)
-            mocker.everySuspending { inAppReviewRepository.requestInAppReview() } returns Unit
+            repository.getRandomMoviesResult = ResultData.Success(setOf(testFilm))
+            repository.extractResultMovieResult = ResultData.Success(testFilm)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
             viewModel.onAction(RandomFilmAction.OnGenreSelectionApplied(setOf(FilmGenre.HORROR)))
@@ -476,11 +437,8 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     @Test
     fun `when multi-user submit clicked with genres then genres passed to getRandomMoviesFromSearchList`() =
         runTest(testDispatchers.testDispatcher) {
-            mocker.everySuspending {
-                repository.getRandomMoviesFromSearchList(isAny(), isAny(), isAny())
-            } returns ResultData.Success(setOf(testFilm))
-            mocker.everySuspending { repository.extractResultMovie(isAny()) } returns ResultData.Success(testFilm)
-            mocker.everySuspending { inAppReviewRepository.requestInAppReview() } returns Unit
+            repository.getRandomMoviesFromSearchListResult = ResultData.Success(setOf(testFilm))
+            repository.extractResultMovieResult = ResultData.Success(testFilm)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnAddOrRemoveUserNameSearchList("user1"))
             viewModel.onAction(RandomFilmAction.OnGenreSelectionApplied(setOf(FilmGenre.COMEDY)))
@@ -498,10 +456,8 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     @Test
     fun `when film successfully retrieved then requestInAppReview is called`() =
         runTest(testDispatchers.testDispatcher) {
-            mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending { repository.getRandomMovies(isAny(), isAny()) } returns ResultData.Success(setOf(testFilm))
-            mocker.everySuspending { repository.extractResultMovie(isAny()) } returns ResultData.Success(testFilm)
-            mocker.everySuspending { inAppReviewRepository.requestInAppReview() } returns Unit
+            repository.getRandomMoviesResult = ResultData.Success(setOf(testFilm))
+            repository.extractResultMovieResult = ResultData.Success(testFilm)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
@@ -520,10 +476,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     @Test
     fun `when film retrieval fails then requestInAppReview is not called`() =
         runTest(testDispatchers.testDispatcher) {
-            mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending {
-                repository.getRandomMovies(isAny(), isAny())
-            } returns ResultData.Error(DataError.Remote.SERIALIZATION)
+            repository.getRandomMoviesResult = ResultData.Error(DataError.Remote.SERIALIZATION)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
@@ -550,10 +503,8 @@ class RandomFilmViewModelTest : TestsWithMocks() {
                     releaseYear = 2021,
                     name = "Second Film",
                 )
-            mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending { repository.getRandomMovies(isAny(), isAny()) } returns ResultData.Success(setOf(testFilm, secondFilm))
-            mocker.everySuspending { repository.extractResultMovie(isAny()) } returns ResultData.Success(testFilm)
-            mocker.everySuspending { inAppReviewRepository.requestInAppReview() } returns Unit
+            repository.getRandomMoviesResult = ResultData.Success(setOf(testFilm, secondFilm))
+            repository.extractResultMovieResult = ResultData.Success(testFilm)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
@@ -585,49 +536,8 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     @Test
     fun `when reroll clicked and extractResultMovie fails then state has error`() =
         runTest(testDispatchers.testDispatcher) {
-            // Use a fake repository that can be controlled
-            var shouldFailExtract = false
-            val fakeRepository =
-                object : RandomFilmRepository {
-                    override suspend fun getRandomMovies(
-                        userName: String,
-                        selectedGenres: Set<FilmGenre>,
-                    ): ResultData<Set<Film>, DataError.Remote> = ResultData.Success(setOf(testFilm))
-
-                    override suspend fun getRandomMoviesFromSearchList(
-                        searchList: Set<String>,
-                        filmSearchMode: com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode,
-                        selectedGenres: Set<FilmGenre>,
-                    ): ResultData<Set<Film>, DataError.Remote> = ResultData.Success(setOf(testFilm))
-
-                    override suspend fun extractResultMovie(film: Film): ResultData<Film, DataError.Remote> =
-                        if (shouldFailExtract) {
-                            ResultData.Error(DataError.Remote.SERIALIZATION)
-                        } else {
-                            ResultData.Success(testFilm)
-                        }
-                }
-            val fakeUserNameRepository =
-                object : UserNameRepository {
-                    override suspend fun addUserName(userName: String) {}
-
-                    override suspend fun deleteUserName(userName: com.nacchofer31.randomboxd.random_film.domain.model.UserName) {}
-
-                    override fun getAllUserNames(): kotlinx.coroutines.flow.Flow<List<com.nacchofer31.randomboxd.random_film.domain.model.UserName>> = kotlinx.coroutines.flow.flowOf(emptyList())
-                }
-            val fakeInAppReviewRepository =
-                object : InAppReviewRepository {
-                    override suspend fun requestInAppReview() {}
-                }
-            val fakeShareRepository =
-                object : ShareRepository {
-                    override suspend fun shareImage(
-                        image: androidx.compose.ui.graphics.ImageBitmap,
-                        fileName: String,
-                    ) {}
-                }
-
-            viewModel = RandomFilmViewModel(fakeRepository, fakeUserNameRepository, testDispatchers, fakeInAppReviewRepository, historyRepository, fakeShareRepository)
+            repository.getRandomMoviesResult = ResultData.Success(setOf(testFilm))
+            createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
             viewModel.state.test {
@@ -639,7 +549,7 @@ class RandomFilmViewModelTest : TestsWithMocks() {
                 assertNotNull(state.resultFilm)
 
                 // Configure fake to return error for reroll
-                shouldFailExtract = true
+                repository.extractResultMovieResult = ResultData.Error(DataError.Remote.SERIALIZATION)
 
                 // Trigger reroll
                 viewModel.onAction(RandomFilmAction.OnRerollClicked)
@@ -663,11 +573,8 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     @Test
     fun `save is called after successful submit extraction`() =
         runTest(testDispatchers.testDispatcher) {
-            mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending { repository.getRandomMovies(isAny(), isAny()) } returns ResultData.Success(setOf(testFilm))
-            mocker.everySuspending { repository.extractResultMovie(isAny()) } returns ResultData.Success(testFilm)
-            mocker.everySuspending { inAppReviewRepository.requestInAppReview() } returns Unit
-            mocker.everySuspending { historyRepository.save(isAny(), isAny(), isAny(), isAny()) } returns Unit
+            repository.getRandomMoviesResult = ResultData.Success(setOf(testFilm))
+            repository.extractResultMovieResult = ResultData.Success(testFilm)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
@@ -692,12 +599,8 @@ class RandomFilmViewModelTest : TestsWithMocks() {
                     releaseYear = 2021,
                     name = "Second Film",
                 )
-            mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending { repository.getRandomMovies(isAny(), isAny()) } returns ResultData.Success(setOf(testFilm, secondFilm))
-            mocker.everySuspending { repository.extractResultMovie(testFilm) } returns ResultData.Success(testFilm)
-            mocker.everySuspending { repository.extractResultMovie(secondFilm) } returns ResultData.Success(secondFilm)
-            mocker.everySuspending { inAppReviewRepository.requestInAppReview() } returns Unit
-            mocker.everySuspending { historyRepository.save(isAny(), isAny(), isAny(), isAny()) } returns Unit
+            repository.getRandomMoviesResult = ResultData.Success(setOf(testFilm, secondFilm))
+            repository.extractResultMovieResult = ResultData.Success(testFilm)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
@@ -724,11 +627,8 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     @Test
     fun `save exception does not break pick state after submit`() =
         runTest(testDispatchers.testDispatcher) {
-            mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending { repository.getRandomMovies(isAny(), isAny()) } returns ResultData.Success(setOf(testFilm))
-            mocker.everySuspending { repository.extractResultMovie(isAny()) } returns ResultData.Success(testFilm)
-            mocker.everySuspending { inAppReviewRepository.requestInAppReview() } returns Unit
-            mocker.everySuspending { historyRepository.save(isAny(), isAny(), isAny(), isAny()) } returns Unit
+            repository.getRandomMoviesResult = ResultData.Success(setOf(testFilm))
+            repository.extractResultMovieResult = ResultData.Success(testFilm)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 
@@ -747,11 +647,8 @@ class RandomFilmViewModelTest : TestsWithMocks() {
     @Test
     fun `no save on error extraction paths`() =
         runTest(testDispatchers.testDispatcher) {
-            mocker.everySuspending { userNameRepository.addUserName(isAny()) } returns Unit
-            mocker.everySuspending { repository.getRandomMovies(isAny(), isAny()) } returns ResultData.Success(setOf(testFilm))
-            mocker.everySuspending { repository.extractResultMovie(isAny()) } returns ResultData.Error(DataError.Remote.SERIALIZATION)
-            mocker.everySuspending { inAppReviewRepository.requestInAppReview() } returns Unit
-            mocker.everySuspending { historyRepository.save(isAny(), isAny(), isAny(), isAny()) } returns Unit
+            repository.getRandomMoviesResult = ResultData.Success(setOf(testFilm))
+            repository.extractResultMovieResult = ResultData.Error(DataError.Remote.SERIALIZATION)
             createViewModel()
             viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
 

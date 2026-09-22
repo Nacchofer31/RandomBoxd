@@ -2,19 +2,15 @@ package com.nacchofer31.randomboxd.history.presentation.viewmodel
 
 import app.cash.turbine.test
 import com.nacchofer31.randomboxd.history.domain.model.FilmPick
-import com.nacchofer31.randomboxd.history.domain.repository.FilmHistoryRepository
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
-import com.nacchofer31.randomboxd.random_film.domain.repository.ShareRepository
+import com.nacchofer31.randomboxd.utils.fakes.FakeFilmHistoryRepository
+import com.nacchofer31.randomboxd.utils.fakes.FakeShareRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import org.kodein.mock.Mock
-import org.kodein.mock.generated.mock
-import org.kodein.mock.tests.TestsWithMocks
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -25,10 +21,10 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 @OptIn(ExperimentalTime::class)
-class HistoryViewModelTest : TestsWithMocks() {
-    @Mock lateinit var repository: FilmHistoryRepository
+class HistoryViewModelTest {
+    private val repository = FakeFilmHistoryRepository()
 
-    @Mock lateinit var shareRepository: ShareRepository
+    private val shareRepository = FakeShareRepository()
 
     private lateinit var viewModel: HistoryViewModel
 
@@ -74,11 +70,6 @@ class HistoryViewModelTest : TestsWithMocks() {
             isFavorite = true,
         )
 
-    override fun setUpMocks() {
-        repository = mocker.mock<FilmHistoryRepository>()
-        shareRepository = mocker.mock<ShareRepository>()
-    }
-
     private fun createViewModel() {
         viewModel = HistoryViewModel(repository, shareRepository)
     }
@@ -86,7 +77,7 @@ class HistoryViewModelTest : TestsWithMocks() {
     @Test
     fun `picks are emitted in repo order`() =
         runTest(testDispatcher) {
-            mocker.every { repository.getAllPicks() } returns flowOf(listOf(newerPick, olderPick))
+            repository.picks = listOf(newerPick, olderPick)
             createViewModel()
 
             viewModel.historyPicks.test {
@@ -103,8 +94,7 @@ class HistoryViewModelTest : TestsWithMocks() {
     @Test
     fun `toggle favorite calls repo`() =
         runTest(testDispatcher) {
-            mocker.every { repository.getAllPicks() } returns flowOf(listOf(newerPick))
-            mocker.everySuspending { repository.updateFavorite(2, false) } returns Unit
+            repository.picks = listOf(newerPick)
             createViewModel()
 
             viewModel.onAction(HistoryAction.ToggleFavorite(2))
@@ -119,7 +109,7 @@ class HistoryViewModelTest : TestsWithMocks() {
     @Test
     fun `clear all shows dialog`() =
         runTest(testDispatcher) {
-            mocker.every { repository.getAllPicks() } returns flowOf(listOf(newerPick))
+            repository.picks = listOf(newerPick)
             createViewModel()
 
             viewModel.state.test {
@@ -134,8 +124,7 @@ class HistoryViewModelTest : TestsWithMocks() {
     @Test
     fun `confirm clear all calls repo and closes dialog`() =
         runTest(testDispatcher) {
-            mocker.every { repository.getAllPicks() } returns flowOf(listOf(newerPick))
-            mocker.everySuspending { repository.deleteAll() } returns Unit
+            repository.picks = listOf(newerPick)
             createViewModel()
 
             // Show dialog first, then confirm closes it
@@ -151,7 +140,7 @@ class HistoryViewModelTest : TestsWithMocks() {
     @Test
     fun `dismiss clear hides dialog without deleting`() =
         runTest(testDispatcher) {
-            mocker.every { repository.getAllPicks() } returns flowOf(listOf(newerPick))
+            repository.picks = listOf(newerPick)
             createViewModel()
 
             viewModel.state.test {
@@ -168,7 +157,7 @@ class HistoryViewModelTest : TestsWithMocks() {
     @Test
     fun `empty picks state has empty list`() =
         runTest(testDispatcher) {
-            mocker.every { repository.getAllPicks() } returns flowOf(emptyList())
+            repository.picks = emptyList()
             createViewModel()
 
             viewModel.historyPicks.test {
@@ -182,7 +171,7 @@ class HistoryViewModelTest : TestsWithMocks() {
     @Test
     fun `starts in loading state until first emission`() =
         runTest(testDispatcher) {
-            mocker.every { repository.getAllPicks() } returns flowOf(emptyList())
+            repository.picks = emptyList()
             createViewModel()
 
             assertTrue(viewModel.state.value.isLoading)
@@ -197,7 +186,7 @@ class HistoryViewModelTest : TestsWithMocks() {
     @Test
     fun `isLoading stays false once data has been emitted`() =
         runTest(testDispatcher) {
-            mocker.every { repository.getAllPicks() } returns flowOf(listOf(newerPick))
+            repository.picks = listOf(newerPick)
             createViewModel()
 
             viewModel.historyPicks.test {
@@ -216,7 +205,7 @@ class HistoryViewModelTest : TestsWithMocks() {
     @Test
     fun `visiblePicks shows all picks when favorites filter is off`() =
         runTest(testDispatcher) {
-            mocker.every { repository.getAllPicks() } returns flowOf(listOf(newerPick, olderPick))
+            repository.picks = listOf(newerPick, olderPick)
             createViewModel()
 
             assertFalse(viewModel.state.value.isFavoritesOnly)
@@ -231,7 +220,7 @@ class HistoryViewModelTest : TestsWithMocks() {
     @Test
     fun `toggling favorites filter shows only favorites`() =
         runTest(testDispatcher) {
-            mocker.every { repository.getAllPicks() } returns flowOf(listOf(newerPick, olderPick))
+            repository.picks = listOf(newerPick, olderPick)
             createViewModel()
 
             viewModel.onAction(HistoryAction.ToggleFavoritesOnly)
@@ -250,7 +239,7 @@ class HistoryViewModelTest : TestsWithMocks() {
     @Test
     fun `toggling favorites filter off restores all picks`() =
         runTest(testDispatcher) {
-            mocker.every { repository.getAllPicks() } returns flowOf(listOf(newerPick, olderPick))
+            repository.picks = listOf(newerPick, olderPick)
             createViewModel()
 
             viewModel.onAction(HistoryAction.ToggleFavoritesOnly)
