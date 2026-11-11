@@ -43,7 +43,10 @@ import com.nacchofer31.randomboxd.random_film.presentation.components.ShareFilmC
 import com.nacchofer31.randomboxd.random_film.presentation.components.UnionIntersectionSwitch
 import com.nacchofer31.randomboxd.random_film.presentation.components.UserNameTagListView
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
+import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmEvent
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
+import com.nacchofer31.randomboxd.tournament.domain.model.TournamentSize
+import com.nacchofer31.randomboxd.tournament.presentation.components.TournamentSizeBottomSheet
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -56,6 +59,7 @@ fun RandomFilmScreenRoot(
     onFilmClicked: (Film) -> Unit,
     onInfoClick: () -> Unit = {},
     onHistoryClick: () -> Unit = {},
+    onTournamentStarted: (TournamentSize, List<Film>, Set<String>, FilmSearchMode, Set<FilmGenre>) -> Unit = { _, _, _, _, _ -> },
 ) {
     val stateFlow = viewModel.state
     val isLoading by stateFlow.map { it.isLoading }.collectAsStateWithLifecycle(initialValue = false)
@@ -66,9 +70,27 @@ fun RandomFilmScreenRoot(
     val filmSearchMode by stateFlow.map { it.filmSearchMode }.collectAsStateWithLifecycle(initialValue = FilmSearchMode.INTERSECTION)
     val selectedGenres by stateFlow.map { it.selectedGenres }.collectAsStateWithLifecycle(initialValue = emptySet())
     val showGenreBottomSheet by stateFlow.map { it.showGenreBottomSheet }.collectAsStateWithLifecycle(initialValue = false)
+    val showTournamentBottomSheet by stateFlow.map { it.showTournamentBottomSheet }.collectAsStateWithLifecycle(initialValue = false)
+    val tournamentSize by stateFlow.map { it.tournamentSize }.collectAsStateWithLifecycle(initialValue = null)
     val numberOfResults by stateFlow.map { it.numberOfResults }.collectAsStateWithLifecycle(initialValue = 0)
 
     val usernameState = remember { TextFieldState(userName) }
+
+    LaunchedEffect(viewModel) {
+        viewModel.eventFlow.collect { event ->
+            when (event) {
+                is RandomFilmEvent.TournamentStarted -> {
+                    onTournamentStarted(
+                        event.size,
+                        event.films,
+                        event.userNames,
+                        event.searchMode,
+                        event.genres,
+                    )
+                }
+            }
+        }
+    }
 
     // Sync ViewModel → TextFieldState: chip clicks, clear, external changes
     LaunchedEffect(userName) {
@@ -106,6 +128,8 @@ fun RandomFilmScreenRoot(
         filmSearchMode = filmSearchMode,
         selectedGenres = selectedGenres,
         showGenreBottomSheet = showGenreBottomSheet,
+        showTournamentBottomSheet = showTournamentBottomSheet,
+        tournamentSize = tournamentSize,
         numberOfResults = numberOfResults,
         userNameList = viewModel.userNameList,
         onAction = onAction,
@@ -123,6 +147,8 @@ fun RandomFilmScreen(
     filmSearchMode: FilmSearchMode = FilmSearchMode.INTERSECTION,
     selectedGenres: Set<FilmGenre> = emptySet(),
     showGenreBottomSheet: Boolean = false,
+    showTournamentBottomSheet: Boolean = false,
+    tournamentSize: TournamentSize? = null,
     numberOfResults: Int = 0,
     userNameList: StateFlow<List<UserName>> = MutableStateFlow(emptyList()),
     onShareImage: (ImageBitmap, String) -> Unit = { _, _ -> },
@@ -136,6 +162,15 @@ fun RandomFilmScreen(
             selectedGenres = selectedGenres,
             onApply = { genres -> onAction(RandomFilmAction.OnGenreSelectionApplied(genres)) },
             onDismiss = { onAction(RandomFilmAction.OnGenreBottomSheetDismiss) },
+        )
+    }
+
+    if (showTournamentBottomSheet) {
+        TournamentSizeBottomSheet(
+            selectedSize = tournamentSize,
+            availableFilms = numberOfResults,
+            onStart = { onAction(RandomFilmAction.OnTournamentStart(it)) },
+            onDismiss = { onAction(RandomFilmAction.OnTournamentBottomSheetDismiss) },
         )
     }
 
@@ -216,6 +251,11 @@ fun RandomFilmScreen(
                         onAction,
                         filmSearchMode,
                         selectedGenres,
+                        numberOfResults,
+                        tournamentSize,
+                        onTournamentClick = {
+                            onAction(RandomFilmAction.OnTournamentBottomSheetOpen)
+                        },
                     )
                     if (userNameSearchList.isNotEmpty()) {
                         UnionIntersectionSwitch(

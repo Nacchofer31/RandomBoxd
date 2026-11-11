@@ -12,8 +12,11 @@ import com.nacchofer31.randomboxd.random_film.data.repository_impl.UserNameRepos
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.UserNameRepository
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
+import com.nacchofer31.randomboxd.tournament.presentation.TournamentFilmProvider
+import com.nacchofer31.randomboxd.tournament.presentation.viewmodel.TournamentViewModel
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -34,4 +37,17 @@ val sharedModule =
         single { FilmHistoryRepositoryImpl(get(), get()) } bind FilmHistoryRepository::class
         viewModelOf(::RandomFilmViewModel)
         viewModelOf(::HistoryViewModel)
+        single { TournamentFilmProvider() }
+        viewModel { params ->
+            TournamentViewModel(
+                size = params.get(),
+                films = params.get(),
+                repository = get(),
+                dispatchers = get(),
+                historyRepository = get(),
+                userNames = params.get(),
+                searchMode = params.get(),
+                genres = params.get(),
+            )
+        }
     }
