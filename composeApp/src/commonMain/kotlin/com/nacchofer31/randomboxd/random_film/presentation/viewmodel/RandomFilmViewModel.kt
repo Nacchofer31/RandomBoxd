@@ -15,9 +15,11 @@ import com.nacchofer31.randomboxd.random_film.domain.repository.InAppReviewRepos
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.ShareRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.UserNameRepository
+import com.nacchofer31.randomboxd.tournament.domain.model.TournamentSize
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterIsInstance
@@ -42,6 +44,10 @@ class RandomFilmViewModel(
     private val shareRepository: ShareRepository,
 ) : ViewModel() {
     private val actions = MutableSharedFlow<RandomFilmAction>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+
+    private val events = MutableSharedFlow<RandomFilmEvent>(extraBufferCapacity = 8)
+
+    internal val eventFlow: SharedFlow<RandomFilmEvent> = events
 
     private val internalState = MutableStateFlow(RandomFilmState())
 
@@ -229,6 +235,18 @@ class RandomFilmViewModel(
                 }
             }
 
+            is RandomFilmAction.OnTournamentBottomSheetOpen -> {
+                internalState.update { it.copy(showTournamentBottomSheet = true) }
+            }
+
+            is RandomFilmAction.OnTournamentBottomSheetDismiss -> {
+                internalState.update { it.copy(showTournamentBottomSheet = false) }
+            }
+
+            is RandomFilmAction.OnTournamentStart -> {
+                startTournament(action.size)
+            }
+
             is RandomFilmAction.OnRerollClicked -> {
                 rerollMovie()
             }
@@ -282,6 +300,27 @@ class RandomFilmViewModel(
                 current.copy(userNameSearchList = current.userNameSearchList + userName, userName = "", resultError = null)
             }
         }
+
+    private fun startTournament(size: TournamentSize) {
+        if (cachedResultFilms.size < size.filmCount) return
+
+        val films = cachedResultFilms.shuffled().take(size.filmCount)
+        internalState.update {
+            it.copy(
+                showTournamentBottomSheet = false,
+                tournamentSize = size,
+            )
+        }
+        events.tryEmit(
+            RandomFilmEvent.TournamentStarted(
+                size = size,
+                films = films,
+                userNames = savedSearchUserNames,
+                searchMode = savedSearchMode,
+                genres = savedSearchGenres,
+            ),
+        )
+    }
 
     private fun rerollMovie() =
         viewModelScope.launch {
