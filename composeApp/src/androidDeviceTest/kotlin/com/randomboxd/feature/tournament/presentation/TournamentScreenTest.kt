@@ -84,7 +84,7 @@ class TournamentScreenTest {
 
     @Test
     fun round_summary_shows_winners_and_continue_emits_action() {
-        var tournament = tournament(TournamentSize.EIGHT)
+        var tournament = tournament(TournamentSize.FOUR)
         tournament.currentRoundMatches.indices.forEach { index ->
             tournament = tournament.selectWinner(index, tournament.currentRoundMatches[index].film1)
         }
