@@ -8,7 +8,9 @@ import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
+import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmEvent
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
+import com.nacchofer31.randomboxd.tournament.domain.model.TournamentSize
 import com.nacchofer31.randomboxd.utils.dispatchers.TestDispatchers
 import com.nacchofer31.randomboxd.utils.fakes.FakeFilmHistoryRepository
 import com.nacchofer31.randomboxd.utils.fakes.FakeInAppReviewRepository
@@ -27,6 +29,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertSame
+import kotlin.test.assertTrue
 
 class RandomFilmViewModelTest {
     private lateinit var viewModel: RandomFilmViewModel
@@ -45,6 +48,17 @@ class RandomFilmViewModelTest {
             releaseYear = 2020,
             name = "Test Film",
         )
+
+    private fun distinctTestFilms(count: Int): Set<Film> =
+        (1..count)
+            .map {
+                Film(
+                    slug = "film-$it",
+                    imageUrl = "https://example.com/$it.jpg",
+                    releaseYear = 2000,
+                    name = "Film $it",
+                )
+            }.toSet()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @BeforeTest
@@ -565,6 +579,75 @@ class RandomFilmViewModelTest {
                 assertNull(rerollState.resultFilm)
                 assertNotNull(rerollState.resultError)
                 assertEquals(DataError.Remote.SERIALIZATION, rerollState.resultError)
+            }
+        }
+
+    @Test
+    fun `given enough cached films when tournament started then event emits N films and state updates`() =
+        runTest(testDispatchers.testDispatcher) {
+            val films = distinctTestFilms(12)
+            repository.getRandomMoviesResult = ResultData.Success(films)
+            createViewModel()
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
+
+            viewModel.state.test {
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick())
+
+                awaitItem() // idle
+                var state = awaitItem()
+                if (state.isLoading) state = awaitItem()
+                assertNotNull(state.resultFilm)
+
+                viewModel.eventFlow.test {
+                    viewModel.onAction(RandomFilmAction.OnTournamentStart(TournamentSize.EIGHT))
+
+                    val event = awaitItem() as RandomFilmEvent.TournamentStarted
+                    assertEquals(TournamentSize.EIGHT, event.size)
+                    assertEquals(8, event.films.size)
+                    assertTrue(event.films.all { it in films })
+                    assertEquals(setOf("user"), event.userNames)
+                    assertEquals(FilmSearchMode.INTERSECTION, event.searchMode)
+                    assertEquals(emptySet(), event.genres)
+                }
+
+                // startTournament() also updates the state, so consume that emission to keep Turbine balanced
+                val tournamentState = awaitItem()
+                assertEquals(TournamentSize.EIGHT, tournamentState.tournamentSize)
+                assertSame(false, tournamentState.showTournamentBottomSheet)
+                assertEquals(TournamentSize.EIGHT, viewModel.state.value.tournamentSize)
+                assertSame(false, viewModel.state.value.showTournamentBottomSheet)
+            }
+        }
+
+    @Test
+    fun `given insufficient pool when tournament started then no event and sheet stays open`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getRandomMoviesResult = ResultData.Success(distinctTestFilms(4))
+            createViewModel()
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
+
+            viewModel.state.test {
+                viewModel.onAction(RandomFilmAction.OnSubmitButtonClick())
+
+                awaitItem() // idle
+                var state = awaitItem()
+                if (state.isLoading) state = awaitItem()
+                assertNotNull(state.resultFilm)
+
+                viewModel.onAction(RandomFilmAction.OnTournamentBottomSheetOpen)
+                assertTrue(awaitItem().showTournamentBottomSheet)
+
+                viewModel.eventFlow.test {
+                    viewModel.onAction(RandomFilmAction.OnTournamentStart(TournamentSize.THIRTY_TWO))
+                    expectNoEvents()
+                    cancelAndIgnoreRemainingEvents()
+                }
+
+                assertNull(viewModel.state.value.tournamentSize)
+                assertTrue(viewModel.state.value.showTournamentBottomSheet)
+
+                viewModel.onAction(RandomFilmAction.OnTournamentBottomSheetDismiss)
+                assertSame(false, awaitItem().showTournamentBottomSheet)
             }
         }
 
