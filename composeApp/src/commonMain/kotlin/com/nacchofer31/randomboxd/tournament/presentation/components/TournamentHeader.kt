@@ -1,12 +1,15 @@
 package com.nacchofer31.randomboxd.tournament.presentation.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
@@ -28,33 +31,38 @@ internal fun TournamentHeader(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Box(
+    Row(
         modifier =
             modifier
                 .fillMaxWidth()
-                .statusBarsPadding(),
+                .statusBarsPadding()
+                .padding(horizontal = 20.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp, horizontal = 4.dp),
-            verticalAlignment = Alignment.CenterVertically,
+        Box(
+            modifier =
+                Modifier
+                    .size(36.dp)
+                    .background(
+                        color = RandomBoxdColors.BackgroundColor,
+                        shape = RoundedCornerShape(18.dp),
+                    ).clickable(onClick = onBackClick)
+                    .testTag("test-tournament-back-arrow"),
+            contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = null,
+                contentDescription = "Back",
                 tint = RandomBoxdColors.White,
-                modifier =
-                    Modifier
-                        .size(40.dp)
-                        .clickable { onBackClick() }
-                        .padding(8.dp)
-                        .testTag("test-tournament-back-arrow"),
-            )
-            Text(
-                text = stringResource(Res.string.tournament_screen_title),
-                color = RandomBoxdColors.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
+                modifier = Modifier.size(24.dp),
             )
         }
+        Text(
+            text = stringResource(Res.string.tournament_screen_title),
+            color = RandomBoxdColors.White,
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+        )
     }
 }
