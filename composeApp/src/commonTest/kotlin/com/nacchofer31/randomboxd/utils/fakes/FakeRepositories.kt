@@ -71,6 +71,10 @@ class FakeShareRepository : ShareRepository {
 class FakeFilmHistoryRepository : FilmHistoryRepository {
     var picks: List<FilmPick> = emptyList()
     var saveCount = 0
+    val savedFilms = mutableListOf<Film>()
+    var lastSavedUserNames: Set<String> = emptySet()
+    var lastSavedSearchMode: FilmSearchMode? = null
+    var lastSavedGenres: Set<FilmGenre> = emptySet()
     val updateFavoriteCalls = mutableListOf<Pair<Int, Boolean>>()
     var deleteAllCount = 0
 
@@ -81,6 +85,10 @@ class FakeFilmHistoryRepository : FilmHistoryRepository {
         selectedGenres: Set<FilmGenre>,
     ) {
         saveCount++
+        savedFilms += film
+        lastSavedUserNames = userNames
+        lastSavedSearchMode = searchMode
+        lastSavedGenres = selectedGenres
     }
 
     override fun getAllPicks(): Flow<List<FilmPick>> = flowOf(picks)

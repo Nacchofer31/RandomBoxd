@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -31,10 +32,12 @@ import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
+import com.nacchofer31.randomboxd.tournament.domain.model.TournamentSize
 import org.jetbrains.compose.resources.stringResource
 import randomboxd.composeapp.generated.resources.Res
 import randomboxd.composeapp.generated.resources.genre_button_label
 import randomboxd.composeapp.generated.resources.submit
+import randomboxd.composeapp.generated.resources.tournament_button_label
 
 @Composable
 internal fun ActionRow(
@@ -45,6 +48,9 @@ internal fun ActionRow(
     onAction: (RandomFilmAction) -> Unit,
     filmSearchMode: FilmSearchMode?,
     selectedGenres: Set<FilmGenre>,
+    numberOfResults: Int,
+    tournamentSize: TournamentSize?,
+    onTournamentClick: () -> Unit,
 ) = Row(
     horizontalArrangement = Arrangement.Center,
     modifier = Modifier.height(56.dp),
@@ -168,6 +174,38 @@ internal fun ActionRow(
                 fontSize = 15.sp,
                 modifier = Modifier.padding(horizontal = 15.dp),
             )
+        }
+    }
+
+    if (numberOfResults > 0) {
+        Surface(
+            modifier =
+                Modifier
+                    .fillMaxHeight()
+                    .padding(start = 5.dp)
+                    .testTag("test-tournament-pill"),
+            onClick = onTournamentClick,
+            color = RandomBoxdColors.CardBackground,
+            shape = RoundedCornerShape(10.dp),
+        ) {
+            Column(
+                modifier = Modifier.padding(horizontal = 14.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.EmojiEvents,
+                    contentDescription = null,
+                    tint = RandomBoxdColors.TournamentOrange,
+                    modifier = Modifier.size(18.dp),
+                )
+                Text(
+                    text = stringResource(Res.string.tournament_button_label),
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = RandomBoxdColors.BackgroundLightColor,
+                )
+            }
         }
     }
 }

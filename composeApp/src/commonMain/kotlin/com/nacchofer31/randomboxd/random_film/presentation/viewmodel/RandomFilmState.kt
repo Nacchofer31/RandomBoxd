@@ -4,6 +4,7 @@ import com.nacchofer31.randomboxd.core.domain.DataError
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
+import com.nacchofer31.randomboxd.tournament.domain.model.TournamentSize
 
 data class RandomFilmState(
     val userName: String = "",
@@ -14,5 +15,7 @@ data class RandomFilmState(
     val filmSearchMode: FilmSearchMode = FilmSearchMode.INTERSECTION,
     val selectedGenres: Set<FilmGenre> = emptySet(),
     val showGenreBottomSheet: Boolean = false,
+    val showTournamentBottomSheet: Boolean = false,
+    val tournamentSize: TournamentSize? = null,
     val numberOfResults: Int = 0,
 )

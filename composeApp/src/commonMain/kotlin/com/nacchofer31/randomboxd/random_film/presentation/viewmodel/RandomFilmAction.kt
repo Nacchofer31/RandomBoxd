@@ -3,6 +3,7 @@ package com.nacchofer31.randomboxd.random_film.presentation.viewmodel
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
+import com.nacchofer31.randomboxd.tournament.domain.model.TournamentSize
 
 sealed interface RandomFilmAction {
     data class OnFilmClicked(
@@ -47,6 +48,14 @@ sealed interface RandomFilmAction {
 
     data class OnGenreSelectionApplied(
         val genres: Set<FilmGenre>,
+    ) : RandomFilmAction
+
+    data object OnTournamentBottomSheetOpen : RandomFilmAction
+
+    data object OnTournamentBottomSheetDismiss : RandomFilmAction
+
+    data class OnTournamentStart(
+        val size: TournamentSize,
     ) : RandomFilmAction
 
     data object OnRerollClicked : RandomFilmAction
