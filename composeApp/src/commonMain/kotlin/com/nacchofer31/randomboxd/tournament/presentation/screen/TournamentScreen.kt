@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -220,12 +221,17 @@ private fun MatchPhaseView(
             fontSize = 20.sp,
         )
         Spacer(Modifier.height(16.dp))
-        MatchCard(
-            match = matches[matchIndex],
-            onFilmSelected = { film ->
-                onAction(TournamentAction.OnFilmSelected(matchIndex, film))
-            },
-        )
+        Box(
+            modifier = Modifier.weight(1f).fillMaxWidth(),
+            contentAlignment = Alignment.Center,
+        ) {
+            MatchCard(
+                match = matches[matchIndex],
+                onFilmSelected = { film ->
+                    onAction(TournamentAction.OnFilmSelected(matchIndex, film))
+                },
+            )
+        }
         Spacer(Modifier.height(24.dp))
     }
 }

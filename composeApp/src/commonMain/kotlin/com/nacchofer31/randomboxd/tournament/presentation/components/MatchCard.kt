@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -53,7 +54,7 @@ internal fun MatchCard(
                 .padding(horizontal = 20.dp),
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().fillMaxHeight(),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             TournamentPosterSide(
@@ -109,38 +110,45 @@ private fun RowScope.TournamentPosterSide(
     isWinner: Boolean,
     testTag: String,
 ) {
-    Column(modifier = Modifier.weight(1f)) {
+    Column(
+        modifier = Modifier.weight(1f).fillMaxHeight(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         Box(
-            modifier =
-                Modifier
-                    .aspectRatio(2f / 3f)
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(Brush.verticalGradient(gradient))
-                    .clickable(onClick = onClick)
-                    .testTag(testTag)
-                    .then(
-                        if (isWinner) {
-                            Modifier.border(
-                                2.dp,
-                                RandomBoxdColors.GreenAccent,
-                                RoundedCornerShape(16.dp),
-                            )
-                        } else {
-                            Modifier
-                        },
-                    ),
+            modifier = Modifier.weight(1f).fillMaxWidth(),
+            contentAlignment = Alignment.Center,
         ) {
-            AsyncImage(
-                model = film.imageUrl,
-                contentDescription = null,
+            Box(
                 modifier =
                     Modifier
-                        .fillMaxSize()
-                        .padding(8.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Crop,
-            )
+                        .aspectRatio(2f / 3f)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Brush.verticalGradient(gradient))
+                        .clickable(onClick = onClick)
+                        .testTag(testTag)
+                        .then(
+                            if (isWinner) {
+                                Modifier.border(
+                                    2.dp,
+                                    RandomBoxdColors.GreenAccent,
+                                    RoundedCornerShape(16.dp),
+                                )
+                            } else {
+                                Modifier
+                            },
+                        ),
+            ) {
+                AsyncImage(
+                    model = film.imageUrl,
+                    contentDescription = null,
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(8.dp)
+                            .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop,
+                )
+            }
         }
         Spacer(Modifier.height(8.dp))
         Text(
