@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
@@ -44,9 +45,11 @@ import randomboxd.composeapp.generated.resources.tournament_versus
 @Composable
 internal fun MatchCard(
     match: Match,
+    maxAvailableHeight: Dp,
     onFilmSelected: (Film) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val posterMaxHeight = (maxAvailableHeight - 56.dp).coerceAtLeast(0.dp)
     Box(
         modifier =
             modifier
@@ -54,8 +57,9 @@ internal fun MatchCard(
                 .padding(horizontal = 20.dp),
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             TournamentPosterSide(
                 film = match.film1,
@@ -64,6 +68,7 @@ internal fun MatchCard(
                         RandomBoxdColors.TournamentOrange.copy(alpha = 0.45f),
                         RandomBoxdColors.BackgroundDarkColor,
                     ),
+                maxHeight = posterMaxHeight,
                 onClick = { onFilmSelected(match.film1) },
                 isWinner = match.winner?.slug == match.film1.slug,
                 testTag = "test-match-film1",
@@ -75,6 +80,7 @@ internal fun MatchCard(
                         RandomBoxdColors.BlueAccent.copy(alpha = 0.45f),
                         RandomBoxdColors.BackgroundDarkColor,
                     ),
+                maxHeight = posterMaxHeight,
                 onClick = { onFilmSelected(match.film2) },
                 isWinner = match.winner?.slug == match.film2.slug,
                 testTag = "test-match-film2",
@@ -106,49 +112,46 @@ internal fun MatchCard(
 private fun RowScope.TournamentPosterSide(
     film: Film,
     gradient: List<Color>,
+    maxHeight: Dp,
     onClick: () -> Unit,
     isWinner: Boolean,
     testTag: String,
 ) {
     Column(
-        modifier = Modifier.weight(1f).fillMaxHeight(),
+        modifier = Modifier.weight(1f),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
-            modifier = Modifier.weight(1f).fillMaxWidth(),
-            contentAlignment = Alignment.Center,
+            modifier =
+                Modifier
+                    .heightIn(max = maxHeight)
+                    .aspectRatio(2f / 3f)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Brush.verticalGradient(gradient))
+                    .clickable(onClick = onClick)
+                    .testTag(testTag)
+                    .then(
+                        if (isWinner) {
+                            Modifier.border(
+                                2.dp,
+                                RandomBoxdColors.GreenAccent,
+                                RoundedCornerShape(16.dp),
+                            )
+                        } else {
+                            Modifier
+                        },
+                    ),
         ) {
-            Box(
+            AsyncImage(
+                model = film.imageUrl,
+                contentDescription = null,
                 modifier =
                     Modifier
-                        .aspectRatio(2f / 3f)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Brush.verticalGradient(gradient))
-                        .clickable(onClick = onClick)
-                        .testTag(testTag)
-                        .then(
-                            if (isWinner) {
-                                Modifier.border(
-                                    2.dp,
-                                    RandomBoxdColors.GreenAccent,
-                                    RoundedCornerShape(16.dp),
-                                )
-                            } else {
-                                Modifier
-                            },
-                        ),
-            ) {
-                AsyncImage(
-                    model = film.imageUrl,
-                    contentDescription = null,
-                    modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .padding(8.dp)
-                            .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop,
-                )
-            }
+                        .fillMaxSize()
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Crop,
+            )
         }
         Spacer(Modifier.height(8.dp))
         Text(
