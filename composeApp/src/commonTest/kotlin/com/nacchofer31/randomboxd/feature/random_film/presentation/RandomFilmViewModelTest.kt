@@ -1262,4 +1262,112 @@ class RandomFilmViewModelTest {
             assertEquals(listOf("alice" to 1), repository.getUserListsCalls)
             assertEquals(1, viewModel.state.value.userListsPage)
         }
+
+    @Test
+    fun `changing the user while the initial scrape is in flight discards the result`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+            observeState()
+
+            val gate = CompletableDeferred<Unit>()
+            repository.getUserListsGate = gate
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf("alice" to 1), repository.getUserListsCalls)
+
+            // The picker moves to another user before page 1 arrives: the stale scrape must not be applied.
+            viewModel.onAction(RandomFilmAction.OnUserNameChipClicked("bob/some-list"))
+            gate.complete(Unit)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val state = viewModel.state.value
+            assertEquals("bob/some-list", state.userName)
+            assertTrue(state.userLists.isEmpty())
+            assertEquals("", state.userListsForUser)
+            assertFalse(state.userListsDropdownVisible)
+            assertEquals(1, state.userListsPage)
+        }
+
+    @Test
+    fun `end reached with a mismatched field user is ignored`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+            observeState()
+            loadFirstPageWithMore()
+
+            // Chip tap hides the picker and moves the field to another user while the cached lists are alice's.
+            viewModel.onAction(RandomFilmAction.OnUserNameChipClicked("bob/some-list"))
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf("alice" to 1), repository.getUserListsCalls)
+            assertEquals(aliceLists, viewModel.state.value.userLists)
+        }
+
+    @Test
+    fun `selecting a list without a valid user in the field is ignored`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice"))
+            viewModel.onAction(RandomFilmAction.OnUserListSelected(aliceLists[0]))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val state = viewModel.state.value
+            assertEquals("alice", state.userName)
+            assertTrue(state.userNameSearchList.isEmpty())
+            assertTrue(userNameRepository.storedUserNames.isEmpty())
+            assertEquals("", state.programmaticFillValue)
+        }
+
+    @Test
+    fun `an empty next page stops pagination even if it reports more`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResultsByPage =
+                mapOf(
+                    1 to ResultData.Success(UserListsPage(lists = aliceLists, hasMore = true)),
+                    2 to ResultData.Success(UserListsPage(lists = emptyList(), hasMore = true)),
+                )
+            createViewModel()
+            observeState()
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val state = viewModel.state.value
+            assertEquals(aliceLists, state.userLists)
+            assertEquals(2, state.userListsPage)
+            assertFalse(state.userListsHasMore)
+
+            // No further request is attempted.
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+            assertEquals(listOf("alice" to 1, "alice" to 2), repository.getUserListsCalls)
+        }
+
+    @Test
+    fun `a non empty next page keeps pagination open`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResultsByPage =
+                mapOf(
+                    1 to ResultData.Success(UserListsPage(lists = aliceLists, hasMore = true)),
+                    2 to ResultData.Success(UserListsPage(lists = secondPageWithOverlap, hasMore = true)),
+                )
+            createViewModel()
+            observeState()
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val state = viewModel.state.value
+            assertEquals(aliceLists + secondPageLists, state.userLists)
+            assertEquals(2, state.userListsPage)
+            assertTrue(state.userListsHasMore)
+        }
 }

@@ -132,4 +132,66 @@ class UserListsDropdownTest {
 
         assertTrue(loadMoreCalls > callsAfterScroll)
     }
+
+    @Test
+    fun dropdown_shows_spinner_in_the_footer_while_loading_more() {
+        composeTestRule.setContent {
+            UserListsDropdown(
+                isLoading = false,
+                lists = lists,
+                error = null,
+                onListSelected = {},
+                canLoadMore = true,
+                isLoadingMore = true,
+            )
+        }
+
+        composeTestRule.onNodeWithTag("test-user-lists-load-more").assertIsDisplayed()
+        // Only the spinner is rendered, not the footer text.
+        composeTestRule.onNodeWithText("Searching lists…").assertDoesNotExist()
+    }
+
+    @Test
+    fun dropdown_footer_shows_error_and_retries_on_click() {
+        var loadMoreCalls = 0
+        composeTestRule.setContent {
+            UserListsDropdown(
+                isLoading = false,
+                lists = lists,
+                error = null,
+                onListSelected = {},
+                canLoadMore = true,
+                loadMoreError = true,
+                onLoadMore = { loadMoreCalls++ },
+            )
+        }
+
+        composeTestRule.onNodeWithText("Couldn't load lists. Try again.").assertIsDisplayed()
+
+        composeTestRule.waitForIdle()
+        val callsBeforeClick = loadMoreCalls
+        composeTestRule.onNodeWithTag("test-user-lists-load-more").performClick()
+
+        assertEquals(callsBeforeClick + 1, loadMoreCalls)
+    }
+
+    @Test
+    fun dropdown_requests_more_when_the_list_does_not_scroll() {
+        var loadMoreCalls = 0
+        composeTestRule.setContent {
+            UserListsDropdown(
+                isLoading = false,
+                lists = lists,
+                error = null,
+                onListSelected = {},
+                canLoadMore = true,
+                onLoadMore = { loadMoreCalls++ },
+            )
+        }
+
+        composeTestRule.waitForIdle()
+
+        // Two items plus the footer fit in the fixed height, so the end-reached effect must request the next page.
+        assertTrue(loadMoreCalls >= 1)
+    }
 }

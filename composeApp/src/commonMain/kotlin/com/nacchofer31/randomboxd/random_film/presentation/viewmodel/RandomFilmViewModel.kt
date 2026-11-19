@@ -363,6 +363,10 @@ class RandomFilmViewModel(
 
     private fun onUserListsEndReached() {
         val state = internalState.value
+        // Same parser as the textfield, so a chip tap or a different user typed mid-flight invalidates the load.
+        // Every guard below is a pure early return, so their order does not change the behaviour.
+        val listUser = ParsedUserNameInput.from(state.userName).listUser ?: return
+        if (listUser != state.userListsForUser) return
         if (!state.userListsDropdownVisible ||
             !state.userListsHasMore ||
             state.isLoadingUserLists ||
@@ -370,10 +374,6 @@ class RandomFilmViewModel(
         ) {
             return
         }
-
-        // Same parser as the textfield, so a chip tap or a different user typed mid-flight invalidates the load.
-        val listUser = ParsedUserNameInput.from(state.userName).listUser ?: return
-        if (listUser != state.userListsForUser) return
 
         val nextPage = state.userListsPage + 1
         internalState.update {

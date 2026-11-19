@@ -8,8 +8,10 @@ import com.nacchofer31.randomboxd.random_film.domain.model.UserListsPage
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
+import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
+import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -748,5 +750,143 @@ class RandomFilmScrappingRepositoryTest {
             assertEquals("good-list", lists[0].slug)
             assertEquals(null, lists[0].filmCount)
             assertFalse(page.hasMore)
+        }
+
+    // ── User lists: defensive parsing & transport failures ──────────
+
+    @Test
+    fun `getUserLists returns SERIALIZATION when every item is unparsable`() =
+        runTest {
+            val html =
+                """
+                <div class="listitem"><article class="list-summary"><div class="body"></div></article></div>
+                <div class="listitem"><article class="list-summary"><h2 class="other"><span>No anchor here</span></h2></article></div>
+                """.trimIndent()
+            val mockEngine =
+                MockEngine { _ ->
+                    respond(html, HttpStatusCode.OK, headersOf("Content-Type", "text/html"))
+                }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getUserLists("jack")
+
+            assertIs<ResultData.Error<*>>(result)
+            assertEquals(DataError.Remote.SERIALIZATION, (result as ResultData.Error).error)
+        }
+
+    @Test
+    fun `getUserLists skips items with blank names`() =
+        runTest {
+            val html =
+                """
+                <div class="listitem"><article class="list-summary"><h2 class="name"><a href="/jack/list/blank-name/">   </a></h2></article></div>
+                <div class="listitem"><article class="list-summary"><h2 class="name"><a href="/jack/list/kept-list/">Kept List</a></h2><span class="value">5 films</span></article></div>
+                """.trimIndent()
+            val mockEngine =
+                MockEngine { _ ->
+                    respond(html, HttpStatusCode.OK, headersOf("Content-Type", "text/html"))
+                }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getUserLists("jack")
+
+            assertIs<ResultData.Success<*>>(result)
+            val page = (result as ResultData.Success).data as UserListsPage
+            assertEquals(listOf("kept-list"), page.lists.map { it.slug })
+        }
+
+    @Test
+    fun `getUserLists strips query and fragment from the list href and skips blank slugs`() =
+        runTest {
+            val html =
+                """
+                <div class="listitem"><article class="list-summary"><h2 class="name"><a href="/jack/list/with-query?foo=1#bar">With Query</a></h2></article></div>
+                <div class="listitem"><article class="list-summary"><h2 class="name"><a href="/jack/list//">Blank Slug</a></h2></article></div>
+                """.trimIndent()
+            val mockEngine =
+                MockEngine { _ ->
+                    respond(html, HttpStatusCode.OK, headersOf("Content-Type", "text/html"))
+                }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getUserLists("jack")
+
+            assertIs<ResultData.Success<*>>(result)
+            val page = (result as ResultData.Success).data as UserListsPage
+            assertEquals(1, page.lists.size)
+            assertEquals("with-query", page.lists[0].slug)
+            assertEquals("With Query", page.lists[0].name)
+        }
+
+    @Test
+    fun `getUserLists keeps film count null when the item has none or it is not numeric`() =
+        runTest {
+            val html =
+                """
+                <div class="listitem"><article class="list-summary"><h2 class="name"><a href="/jack/list/no-count/">No Count</a></h2></article></div>
+                <div class="listitem"><article class="list-summary"><h2 class="name"><a href="/jack/list/odd-count/">Odd Count</a></h2><span class="value">many films</span></article></div>
+                """.trimIndent()
+            val mockEngine =
+                MockEngine { _ ->
+                    respond(html, HttpStatusCode.OK, headersOf("Content-Type", "text/html"))
+                }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getUserLists("jack")
+
+            assertIs<ResultData.Success<*>>(result)
+            val page = (result as ResultData.Success).data as UserListsPage
+            assertEquals(listOf(null, null), page.lists.map { it.filmCount })
+        }
+
+    @Test
+    fun `getUserLists maps a socket timeout to REQUEST_TIMEOUT`() =
+        runTest {
+            val mockEngine = MockEngine { _ -> throw SocketTimeoutException("timed out") }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getUserLists("jack")
+
+            assertIs<ResultData.Error<*>>(result)
+            assertEquals(DataError.Remote.REQUEST_TIMEOUT, (result as ResultData.Error).error)
+        }
+
+    @Test
+    fun `getUserLists maps an unresolved address to NO_INTERNET`() =
+        runTest {
+            val mockEngine = MockEngine { _ -> throw UnresolvedAddressException() }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getUserLists("jack")
+
+            assertIs<ResultData.Error<*>>(result)
+            assertEquals(DataError.Remote.NO_INTERNET, (result as ResultData.Error).error)
+        }
+
+    @Test
+    fun `getUserLists maps any other exception to NO_INTERNET`() =
+        runTest {
+            val mockEngine = MockEngine { _ -> throw IllegalStateException("boom") }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getUserLists("jack")
+
+            assertIs<ResultData.Error<*>>(result)
+            assertEquals(DataError.Remote.NO_INTERNET, (result as ResultData.Error).error)
+        }
+
+    @Test
+    fun `getUserLists maps a server error status to SERVER`() =
+        runTest {
+            val mockEngine =
+                MockEngine { _ ->
+                    respond("oops", HttpStatusCode.InternalServerError, headersOf("Content-Type", "text/html"))
+                }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getUserLists("jack")
+
+            assertIs<ResultData.Error<*>>(result)
+            assertEquals(DataError.Remote.SERVER, (result as ResultData.Error).error)
         }
 }

@@ -20,6 +20,7 @@ import coil3.test.FakeImageLoaderEngine
 import com.nacchofer31.randomboxd.core.domain.DataError
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
+import com.nacchofer31.randomboxd.random_film.domain.model.UserList
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreen
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreenRoot
@@ -28,6 +29,7 @@ import com.nacchofer31.randomboxd.utils.startTestKoin
 import com.nacchofer31.randomboxd.utils.stopTestKoin
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.After
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -355,5 +357,118 @@ class RandomFilmScreenTest {
         composeTestRule.waitForIdle()
         composeTestRule.onNodeWithTag("test-film-poster").performClick()
         assert(filmClicked)
+    }
+
+    // ── User lists dropdown ─────────────────────────────────────────
+
+    private val screenLists =
+        listOf(
+            UserList(name = "100 Classics", slug = "100-classics", filmCount = 93),
+            UserList(name = "Horror Night", slug = "horror-night"),
+        )
+
+    @Test
+    fun user_lists_dropdown_is_not_rendered_when_hidden() {
+        composeTestRule.setContent {
+            RandomFilmScreen(userNameList = MutableStateFlow<List<UserName>>(emptyList())) { }
+        }
+
+        composeTestRule.onNodeWithTag("test-user-lists-dropdown").assertDoesNotExist()
+    }
+
+    @Test
+    fun user_lists_dropdown_shows_loading_state() {
+        composeTestRule.setContent {
+            RandomFilmScreen(
+                userNameList = MutableStateFlow<List<UserName>>(emptyList()),
+                userListsDropdownVisible = true,
+                isLoadingUserLists = true,
+            ) { }
+        }
+
+        composeTestRule.onNodeWithTag("test-user-lists-dropdown").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("test-user-lists-loading").assertIsDisplayed()
+    }
+
+    @Test
+    fun user_lists_dropdown_shows_error_state() {
+        composeTestRule.setContent {
+            RandomFilmScreen(
+                userNameList = MutableStateFlow<List<UserName>>(emptyList()),
+                userListsDropdownVisible = true,
+                userListsError = DataError.Remote.NO_RESULTS,
+            ) { }
+        }
+
+        composeTestRule.onNodeWithText("Couldn't load lists. Try again.").assertIsDisplayed()
+    }
+
+    @Test
+    fun user_lists_dropdown_click_dispatches_selection() {
+        val actions = mutableListOf<RandomFilmAction>()
+        composeTestRule.setContent {
+            RandomFilmScreen(
+                userNameList = MutableStateFlow<List<UserName>>(emptyList()),
+                userListsDropdownVisible = true,
+                filteredUserLists = screenLists,
+                onAction = { actions += it },
+            )
+        }
+
+        composeTestRule.onNodeWithTag("test-user-lists-item-horror-night").performClick()
+
+        assertTrue(actions.contains(RandomFilmAction.OnUserListSelected(screenLists[1])))
+    }
+
+    @Test
+    fun user_lists_dropdown_footer_dispatches_end_reached() {
+        val actions = mutableListOf<RandomFilmAction>()
+        composeTestRule.setContent {
+            RandomFilmScreen(
+                userNameList = MutableStateFlow<List<UserName>>(emptyList()),
+                userListsDropdownVisible = true,
+                filteredUserLists = screenLists,
+                userListsHasMore = true,
+                onAction = { actions += it },
+            )
+        }
+
+        composeTestRule.onNodeWithTag("test-user-lists-load-more").performClick()
+
+        assertTrue(actions.contains(RandomFilmAction.OnUserListsEndReached))
+    }
+
+    @Test
+    fun user_lists_dropdown_footer_shows_loading_more_spinner() {
+        val actions = mutableListOf<RandomFilmAction>()
+        composeTestRule.setContent {
+            RandomFilmScreen(
+                userNameList = MutableStateFlow<List<UserName>>(emptyList()),
+                userListsDropdownVisible = true,
+                filteredUserLists = screenLists,
+                userListsHasMore = true,
+                isLoadingMoreUserLists = true,
+                onAction = { actions += it },
+            )
+        }
+
+        composeTestRule.onNodeWithTag("test-user-lists-load-more").assertIsDisplayed()
+    }
+
+    @Test
+    fun user_lists_dropdown_footer_shows_load_more_error() {
+        val actions = mutableListOf<RandomFilmAction>()
+        composeTestRule.setContent {
+            RandomFilmScreen(
+                userNameList = MutableStateFlow<List<UserName>>(emptyList()),
+                userListsDropdownVisible = true,
+                filteredUserLists = screenLists,
+                userListsHasMore = true,
+                userListsLoadMoreError = true,
+                onAction = { actions += it },
+            )
+        }
+
+        composeTestRule.onNodeWithTag("test-user-lists-load-more").assertIsDisplayed()
     }
 }
