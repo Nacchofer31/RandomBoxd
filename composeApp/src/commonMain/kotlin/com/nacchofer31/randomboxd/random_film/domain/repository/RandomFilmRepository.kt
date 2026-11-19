@@ -5,6 +5,7 @@ import com.nacchofer31.randomboxd.core.domain.ResultData
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
+import com.nacchofer31.randomboxd.random_film.domain.model.UserListsPage
 
 interface RandomFilmRepository {
     suspend fun getRandomMovies(
@@ -21,4 +22,9 @@ interface RandomFilmRepository {
     suspend fun extractResultMovie(
         film: Film,
     ): ResultData<Film, DataError.Remote>
+
+    suspend fun getUserLists(
+        userName: String,
+        page: Int = 1,
+    ): ResultData<UserListsPage, DataError.Remote>
 }
