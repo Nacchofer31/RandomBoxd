@@ -4,6 +4,7 @@ import com.nacchofer31.randomboxd.core.domain.DataError
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
+import com.nacchofer31.randomboxd.random_film.domain.model.UserList
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -114,5 +115,41 @@ class RandomFilmStateTest {
         val state = RandomFilmState().copy(showGenreBottomSheet = true)
 
         assertEquals(true, state.showGenreBottomSheet)
+    }
+
+    // ── User lists picker ───────────────────────────────────────────
+
+    private val sampleLists =
+        listOf(
+            UserList(name = "100 Classics", slug = "100-classics", filmCount = 93),
+            UserList(name = "Horror Night", slug = "horror-night"),
+        )
+
+    @Test
+    fun `userListsQuery is empty when there is no slash`() {
+        val state = RandomFilmState(userName = "alice")
+
+        assertEquals("", state.userListsQuery)
+    }
+
+    @Test
+    fun `userListsQuery returns text after the slash`() {
+        val state = RandomFilmState(userName = "alice/hor")
+
+        assertEquals("hor", state.userListsQuery)
+    }
+
+    @Test
+    fun `filteredUserLists returns every list without a query`() {
+        val state = RandomFilmState(userName = "alice/", userLists = sampleLists)
+
+        assertEquals(sampleLists, state.filteredUserLists)
+    }
+
+    @Test
+    fun `filteredUserLists filters by name ignoring case`() {
+        val state = RandomFilmState(userName = "alice/HORROR", userLists = sampleLists)
+
+        assertEquals(listOf(sampleLists[1]), state.filteredUserLists)
     }
 }

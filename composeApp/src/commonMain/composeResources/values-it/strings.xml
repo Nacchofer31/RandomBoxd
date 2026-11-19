@@ -125,4 +125,7 @@
     <string name="tournament_retry">Riprova</string>
     <string name="tournament_screen_title">Torneo</string>
     <string name="tournament_loading_error">Qualcosa è andato storto nel caricamento del torneo</string>
+    <string name="user_lists_loading">Ricerca delle liste…</string>
+    <string name="user_lists_empty">Nessuna lista trovata per questo utente</string>
+    <string name="user_lists_error">Impossibile caricare le liste. Riprova.</string>
 </resources>

@@ -6,6 +6,8 @@ import com.nacchofer31.randomboxd.core.domain.ResultData
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
+import com.nacchofer31.randomboxd.random_film.domain.model.UserList
+import com.nacchofer31.randomboxd.random_film.domain.model.UserListsPage
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmEvent
@@ -17,8 +19,11 @@ import com.nacchofer31.randomboxd.utils.fakes.FakeInAppReviewRepository
 import com.nacchofer31.randomboxd.utils.fakes.FakeRandomFilmRepository
 import com.nacchofer31.randomboxd.utils.fakes.FakeShareRepository
 import com.nacchofer31.randomboxd.utils.fakes.FakeUserNameRepository
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -26,6 +31,7 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertSame
@@ -744,5 +750,516 @@ class RandomFilmViewModelTest {
 
                 assertNull(state.resultFilm)
             }
+        }
+
+    // ── User lists picker ───────────────────────────────────────────
+
+    private val aliceLists =
+        listOf(
+            UserList(name = "100 Classics I Saw in 2026", slug = "100-classics-i-saw-in-2026", filmCount = 93),
+            UserList(name = "Horror Night", slug = "horror-night", filmCount = 7),
+        )
+
+    /** Keeps [RandomFilmViewModel.state] hot (WhileSubscribed) so tests can read `.value` synchronously. */
+    private fun TestScope.observeState() {
+        backgroundScope.launch { viewModel.state.collect {} }
+    }
+
+    @Test
+    fun `typing user followed by slash requests lists and shows dropdown loading`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = aliceLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+
+            val loadingState = viewModel.state.value
+            assertTrue(loadingState.userListsDropdownVisible)
+            assertTrue(loadingState.isLoadingUserLists)
+
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf("alice" to 1), repository.getUserListsCalls)
+            val loadedState = viewModel.state.value
+            assertFalse(loadedState.isLoadingUserLists)
+            assertEquals(aliceLists, loadedState.userLists)
+            assertEquals("alice", loadedState.userListsForUser)
+        }
+
+    @Test
+    fun `typing after slash filters cached lists by name ignoring case`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = aliceLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/HOR"))
+
+            val state = viewModel.state.value
+            assertEquals(listOf(aliceLists[1]), state.filteredUserLists)
+            assertEquals("HOR", state.userListsQuery)
+            assertTrue(state.userListsDropdownVisible)
+            assertEquals(listOf("alice" to 1), repository.getUserListsCalls)
+        }
+
+    @Test
+    fun `removing the slash hides dropdown but keeps scrapped lists cached`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = aliceLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice"))
+
+            val state = viewModel.state.value
+            assertFalse(state.userListsDropdownVisible)
+            assertEquals(aliceLists, state.userLists)
+            assertEquals("alice", state.userListsForUser)
+        }
+
+    @Test
+    fun `retyping the slash uses the cached lists without a second request`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = aliceLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice"))
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+
+            val state = viewModel.state.value
+            assertTrue(state.userListsDropdownVisible)
+            assertFalse(state.isLoadingUserLists)
+            assertEquals(aliceLists, state.userLists)
+            assertEquals(listOf("alice" to 1), repository.getUserListsCalls)
+        }
+
+    @Test
+    fun `typing another user after the slash triggers a new request`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = aliceLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("bob/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf("alice" to 1, "bob" to 1), repository.getUserListsCalls)
+            assertEquals("bob", viewModel.state.value.userListsForUser)
+        }
+
+    @Test
+    fun `failing lists request exposes error and allows a retry`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResult = ResultData.Error(DataError.Remote.NO_RESULTS)
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("ghost/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val errorState = viewModel.state.value
+            assertEquals(DataError.Remote.NO_RESULTS, errorState.userListsError)
+            assertFalse(errorState.isLoadingUserLists)
+            assertTrue(errorState.userLists.isEmpty())
+            assertEquals("", errorState.userListsForUser)
+        }
+
+    @Test
+    fun `selecting a list fills the text field, saves the user and closes the dropdown`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = aliceLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.onAction(RandomFilmAction.OnUserListSelected(aliceLists[0]))
+
+            val state = viewModel.state.value
+            assertEquals("alice/100-classics-i-saw-in-2026", state.userName)
+            assertFalse(state.userNameSearchList.contains("alice/100-classics-i-saw-in-2026"))
+            assertTrue(state.userNameSearchList.isEmpty())
+            assertFalse(state.userListsDropdownVisible)
+            assertEquals("alice/100-classics-i-saw-in-2026", state.programmaticFillValue)
+            assertTrue(userNameRepository.storedUserNames.contains("alice/100-classics-i-saw-in-2026"))
+        }
+
+    @Test
+    fun `programmatic text field update after selecting a list does not reopen the dropdown`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = aliceLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+            viewModel.onAction(RandomFilmAction.OnUserListSelected(aliceLists[1]))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            // Simulates the textfield write originated by the ViewModel looping back through OnUserNameChanged.
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/horror-night"))
+
+            val state = viewModel.state.value
+            assertFalse(state.userListsDropdownVisible)
+            assertFalse(state.isLoadingUserLists)
+            assertEquals(listOf("alice" to 1), repository.getUserListsCalls)
+        }
+
+    @Test
+    fun `typing a second user after an empty result scrapes the new user`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = emptyList(), hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("userA/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals("userA", viewModel.state.value.userListsForUser)
+            assertTrue(
+                viewModel.state.value.userLists
+                    .isEmpty(),
+            )
+
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = aliceLists, hasMore = false))
+
+            // Reported repro: the field is not cleared, so the second user is typed after the previous slash.
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("userA/alice/"))
+
+            assertTrue(viewModel.state.value.isLoadingUserLists)
+            assertTrue(viewModel.state.value.userListsDropdownVisible)
+
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf("userA" to 1, "alice" to 1), repository.getUserListsCalls)
+            val state = viewModel.state.value
+            assertEquals("alice", state.userListsForUser)
+            assertEquals(aliceLists, state.userLists)
+            assertFalse(state.isLoadingUserLists)
+            assertNull(state.userListsError)
+        }
+
+    @Test
+    fun `query typed after a second user filters the lists of that user`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = emptyList(), hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("userA/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = aliceLists, hasMore = false))
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("userA/alice/hor"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val state = viewModel.state.value
+            assertEquals(listOf("alice" to 1), repository.getUserListsCalls.drop(1))
+            assertEquals("alice", state.userListsForUser)
+            assertEquals("hor", state.userListsQuery)
+            assertEquals(listOf(aliceLists[1]), state.filteredUserLists)
+        }
+
+    @Test
+    fun `selecting a list after typing a second user uses the second user in the value`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = emptyList(), hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("userA/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = aliceLists, hasMore = false))
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("userA/alice/hor"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.onAction(RandomFilmAction.OnUserListSelected(aliceLists[1]))
+
+            val state = viewModel.state.value
+            assertEquals("alice/horror-night", state.userName)
+            assertFalse(state.userNameSearchList.contains("alice/horror-night"))
+            assertTrue(state.userNameSearchList.isEmpty())
+            assertFalse(state.userListsDropdownVisible)
+            assertEquals("alice/horror-night", state.programmaticFillValue)
+            assertTrue(userNameRepository.storedUserNames.contains("alice/horror-night"))
+        }
+
+    @Test
+    fun `selecting a list does not enable the multi-user search on submit`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = aliceLists, hasMore = false))
+            repository.getRandomMoviesResult = ResultData.Success(setOf(testFilm))
+            repository.extractResultMovieResult = ResultData.Success(testFilm)
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+            viewModel.onAction(RandomFilmAction.OnUserListSelected(aliceLists[1]))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val selectedState = viewModel.state.value
+            assertEquals("alice/horror-night", selectedState.userName)
+            assertTrue(selectedState.userNameSearchList.isEmpty())
+
+            viewModel.onAction(RandomFilmAction.OnSubmitButtonClick(singleSearch = true))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf("alice/horror-night"), repository.getRandomMoviesCalls)
+            assertTrue(repository.getRandomMoviesFromSearchListCalls.isEmpty())
+            assertEquals(
+                testFilm.name,
+                viewModel.state.value.resultFilm
+                    ?.name,
+            )
+        }
+
+    // ── Chip tap: fill only, no list picker ─────────────────────────
+
+    @Test
+    fun `clicking a list chip fills the text field without opening the dropdown`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChipClicked("alice/horror-night"))
+
+            val tappedState = viewModel.state.value
+            assertEquals("alice/horror-night", tappedState.userName)
+            assertFalse(tappedState.userListsDropdownVisible)
+            assertEquals("alice/horror-night", tappedState.programmaticFillValue)
+
+            // Simulates the textfield write looping back through the screen's sync effect.
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/horror-night"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val loopedState = viewModel.state.value
+            assertFalse(loopedState.userListsDropdownVisible)
+            assertFalse(loopedState.isLoadingUserLists)
+            assertTrue(repository.getUserListsCalls.isEmpty())
+        }
+
+    @Test
+    fun `editing after a chip tap reopens the dropdown`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChipClicked("alice/horror-night"))
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/horror-nightx"))
+
+            assertTrue(viewModel.state.value.userListsDropdownVisible)
+            assertTrue(viewModel.state.value.isLoadingUserLists)
+
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf("alice" to 1), repository.getUserListsCalls)
+            assertEquals("horror-nightx", viewModel.state.value.userListsQuery)
+        }
+
+    // ── Lazy pagination of the scrapped lists ───────────────────────
+
+    private val secondPageLists =
+        listOf(
+            UserList(name = "Late Night Gems", slug = "late-night-gems", filmCount = 12),
+        )
+
+    /** Page 2 overlaps page 1 on purpose so the dedupe can be asserted. */
+    private val secondPageWithOverlap = listOf(aliceLists[1]) + secondPageLists
+
+    private fun loadFirstPageWithMore() {
+        repository.getUserListsResultsByPage =
+            mapOf(
+                1 to ResultData.Success(UserListsPage(lists = aliceLists, hasMore = true)),
+                2 to ResultData.Success(UserListsPage(lists = secondPageWithOverlap, hasMore = false)),
+            )
+        viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+        testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+    }
+
+    @Test
+    fun `initial load reports the loaded page and whether more pages exist`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResultsByPage =
+                mapOf(1 to ResultData.Success(UserListsPage(lists = aliceLists, hasMore = true)))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val state = viewModel.state.value
+            assertEquals(1, state.userListsPage)
+            assertTrue(state.userListsHasMore)
+            assertFalse(state.isLoadingMoreUserLists)
+            assertFalse(state.userListsLoadMoreError)
+            assertEquals(aliceLists, state.userLists)
+        }
+
+    @Test
+    fun `reaching the end appends the next page deduplicated and stops when exhausted`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+            observeState()
+            loadFirstPageWithMore()
+
+            // The fake resolves eagerly, so the page is already applied (the loading flag is covered by the
+            // single-in-flight test, which gates the repository).
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf("alice" to 1, "alice" to 2), repository.getUserListsCalls)
+            val state = viewModel.state.value
+            assertEquals(aliceLists + secondPageLists, state.userLists)
+            assertEquals(2, state.userListsPage)
+            assertFalse(state.userListsHasMore)
+            assertFalse(state.isLoadingMoreUserLists)
+            assertFalse(state.userListsLoadMoreError)
+
+            // Exhausted: another end-reached must not request anything.
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf("alice" to 1, "alice" to 2), repository.getUserListsCalls)
+        }
+
+    @Test
+    fun `end reached while a page is loading keeps a single request in flight`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+            observeState()
+            loadFirstPageWithMore()
+
+            val gate = CompletableDeferred<Unit>()
+            repository.getUserListsGate = gate
+
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+
+            assertEquals(listOf("alice" to 1, "alice" to 2), repository.getUserListsCalls)
+            assertTrue(viewModel.state.value.isLoadingMoreUserLists)
+
+            gate.complete(Unit)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf("alice" to 1, "alice" to 2), repository.getUserListsCalls)
+            assertEquals(2, viewModel.state.value.userListsPage)
+        }
+
+    @Test
+    fun `load more error keeps the loaded lists and allows a retry`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResultsByPage =
+                mapOf(
+                    1 to ResultData.Success(UserListsPage(lists = aliceLists, hasMore = true)),
+                    2 to ResultData.Error(DataError.Remote.TOO_MANY_REQUESTS),
+                )
+            createViewModel()
+            observeState()
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val errorState = viewModel.state.value
+            assertTrue(errorState.userListsLoadMoreError)
+            assertFalse(errorState.isLoadingMoreUserLists)
+            assertEquals(aliceLists, errorState.userLists)
+            assertEquals(1, errorState.userListsPage)
+            assertTrue(errorState.userListsHasMore)
+
+            // Retry through the footer.
+            repository.getUserListsResultsByPage =
+                mapOf(
+                    1 to ResultData.Success(UserListsPage(lists = aliceLists, hasMore = true)),
+                    2 to ResultData.Success(UserListsPage(lists = secondPageWithOverlap, hasMore = false)),
+                )
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val retriedState = viewModel.state.value
+            assertFalse(retriedState.userListsLoadMoreError)
+            assertEquals(aliceLists + secondPageLists, retriedState.userLists)
+            assertEquals(2, retriedState.userListsPage)
+            assertEquals(listOf("alice" to 1, "alice" to 2, "alice" to 2), repository.getUserListsCalls)
+        }
+
+    @Test
+    fun `switching user while a page loads discards that page`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+            observeState()
+            loadFirstPageWithMore()
+
+            val gate = CompletableDeferred<Unit>()
+            repository.getUserListsGate = gate
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            assertTrue(viewModel.state.value.isLoadingMoreUserLists)
+
+            // Picker moves to another user before the page arrives.
+            viewModel.onAction(RandomFilmAction.OnUserNameChipClicked("bob/some-list"))
+            gate.complete(Unit)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val state = viewModel.state.value
+            assertEquals(aliceLists, state.userLists)
+            assertEquals(1, state.userListsPage)
+            assertEquals("alice", state.userListsForUser)
+            assertFalse(state.isLoadingMoreUserLists)
+        }
+
+    @Test
+    fun `reopening the picker for the same user keeps the accumulated pages`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+            observeState()
+            loadFirstPageWithMore()
+
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice"))
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+
+            val state = viewModel.state.value
+            assertTrue(state.userListsDropdownVisible)
+            assertEquals(aliceLists + secondPageLists, state.userLists)
+            assertEquals(2, state.userListsPage)
+            assertFalse(state.userListsHasMore)
+            assertEquals(listOf("alice" to 1, "alice" to 2), repository.getUserListsCalls)
+        }
+
+    @Test
+    fun `end reached is ignored while the picker is hidden`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+            observeState()
+            loadFirstPageWithMore()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice"))
+
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf("alice" to 1), repository.getUserListsCalls)
+            assertEquals(1, viewModel.state.value.userListsPage)
         }
 }

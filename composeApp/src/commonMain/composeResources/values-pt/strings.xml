@@ -125,4 +125,7 @@
     <string name="tournament_retry">Tentar novamente</string>
     <string name="tournament_screen_title">Torneio</string>
     <string name="tournament_loading_error">Algo deu errado ao carregar o torneio</string>
+    <string name="user_lists_loading">Procurando listas…</string>
+    <string name="user_lists_empty">Nenhuma lista encontrada para este usuário</string>
+    <string name="user_lists_error">Não foi possível carregar as listas. Tente novamente.</string>
 </resources>

@@ -125,4 +125,7 @@
     <string name="tournament_retry">再試行</string>
     <string name="tournament_screen_title">トーナメント</string>
     <string name="tournament_loading_error">トーナメントの読み込み中に問題が発生しました</string>
+    <string name="user_lists_loading">リストを検索中…</string>
+    <string name="user_lists_empty">このユーザーのリストが見つかりません</string>
+    <string name="user_lists_error">リストを読み込めませんでした。もう一度お試しください。</string>
 </resources>

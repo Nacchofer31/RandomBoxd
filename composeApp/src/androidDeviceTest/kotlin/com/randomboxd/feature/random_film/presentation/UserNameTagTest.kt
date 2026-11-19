@@ -40,7 +40,7 @@ class UserNameTagTest {
     }
 
     @Test
-    fun tag_click_triggers_on_user_name_changed_action() {
+    fun tag_click_triggers_on_user_name_chip_clicked_action() {
         var capturedAction: RandomFilmAction? = null
         composeTestRule.setContent {
             UserNameTag(
@@ -53,7 +53,7 @@ class UserNameTagTest {
 
         composeTestRule.onNodeWithText("testuser").performClick()
 
-        assertEquals(RandomFilmAction.OnUserNameChanged("testuser"), capturedAction)
+        assertEquals(RandomFilmAction.OnUserNameChipClicked("testuser"), capturedAction)
     }
 
     @Test
