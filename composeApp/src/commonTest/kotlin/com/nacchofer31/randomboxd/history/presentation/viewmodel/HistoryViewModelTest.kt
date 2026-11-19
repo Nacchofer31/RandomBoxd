@@ -3,11 +3,11 @@ package com.nacchofer31.randomboxd.history.presentation.viewmodel
 import app.cash.turbine.test
 import com.nacchofer31.randomboxd.history.domain.model.FilmPick
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
+import com.nacchofer31.randomboxd.utils.dispatchers.TestDispatchers
 import com.nacchofer31.randomboxd.utils.fakes.FakeFilmHistoryRepository
 import com.nacchofer31.randomboxd.utils.fakes.FakeShareRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -24,12 +24,15 @@ import kotlin.time.Instant
 class HistoryViewModelTest {
     private val repository = FakeFilmHistoryRepository()
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val testDispatchers = TestDispatchers()
+
+    private val testDispatcher
+        get() = testDispatchers.testDispatcher
+
     private val shareRepository = FakeShareRepository()
 
     private lateinit var viewModel: HistoryViewModel
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val testDispatcher = UnconfinedTestDispatcher()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @BeforeTest
@@ -71,7 +74,7 @@ class HistoryViewModelTest {
         )
 
     private fun createViewModel() {
-        viewModel = HistoryViewModel(repository, shareRepository)
+        viewModel = HistoryViewModel(repository, shareRepository, testDispatchers)
     }
 
     @Test
