@@ -152,4 +152,25 @@ class RandomFilmStateTest {
 
         assertEquals(listOf(sampleLists[1]), state.filteredUserLists)
     }
+
+    @Test
+    fun `userListsCanLoadMore is true when more pages exist and no filter is active`() {
+        val state = RandomFilmState(userName = "alice/", userListsHasMore = true)
+
+        assertEquals(true, state.userListsCanLoadMore)
+    }
+
+    @Test
+    fun `userListsCanLoadMore is false when more pages exist but a filter is typed`() {
+        val state = RandomFilmState(userName = "alice/hor", userListsHasMore = true)
+
+        assertEquals(false, state.userListsCanLoadMore)
+    }
+
+    @Test
+    fun `userListsCanLoadMore is false when there are no more pages`() {
+        val state = RandomFilmState(userName = "alice/", userListsHasMore = false)
+
+        assertEquals(false, state.userListsCanLoadMore)
+    }
 }

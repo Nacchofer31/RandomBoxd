@@ -428,7 +428,7 @@ class RandomFilmScreenTest {
                 userNameList = MutableStateFlow<List<UserName>>(emptyList()),
                 userListsDropdownVisible = true,
                 filteredUserLists = screenLists,
-                userListsHasMore = true,
+                userListsCanLoadMore = true,
                 onAction = { actions += it },
             )
         }
@@ -446,7 +446,7 @@ class RandomFilmScreenTest {
                 userNameList = MutableStateFlow<List<UserName>>(emptyList()),
                 userListsDropdownVisible = true,
                 filteredUserLists = screenLists,
-                userListsHasMore = true,
+                userListsCanLoadMore = true,
                 isLoadingMoreUserLists = true,
                 onAction = { actions += it },
             )
@@ -463,12 +463,31 @@ class RandomFilmScreenTest {
                 userNameList = MutableStateFlow<List<UserName>>(emptyList()),
                 userListsDropdownVisible = true,
                 filteredUserLists = screenLists,
-                userListsHasMore = true,
+                userListsCanLoadMore = true,
                 userListsLoadMoreError = true,
                 onAction = { actions += it },
             )
         }
 
         composeTestRule.onNodeWithTag("test-user-lists-load-more").assertIsDisplayed()
+    }
+
+    @Test
+    fun user_lists_dropdown_hides_footer_while_a_filter_is_active() {
+        val actions = mutableListOf<RandomFilmAction>()
+        composeTestRule.setContent {
+            RandomFilmScreen(
+                userNameList = MutableStateFlow<List<UserName>>(emptyList()),
+                userListsDropdownVisible = true,
+                // Root derives `userListsCanLoadMore = userListsHasMore && userListsQuery.isBlank()`.
+                filteredUserLists = listOf(screenLists[1]),
+                userListsCanLoadMore = false,
+                onAction = { actions += it },
+            )
+        }
+
+        composeTestRule.onNodeWithTag("test-user-lists-dropdown").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("test-user-lists-item-horror-night").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("test-user-lists-load-more").assertDoesNotExist()
     }
 }

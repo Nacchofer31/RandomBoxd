@@ -1370,4 +1370,42 @@ class RandomFilmViewModelTest {
             assertEquals(2, state.userListsPage)
             assertTrue(state.userListsHasMore)
         }
+
+    @Test
+    fun `no page is requested while a name filter is active`() =
+        runTest(testDispatchers.testDispatcher) {
+            createViewModel()
+            observeState()
+            loadFirstPageWithMore()
+
+            // Typing a filter keeps the parsed user, so only the query guard can stop the pagination.
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/hor"))
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf("alice" to 1), repository.getUserListsCalls)
+            val filteredState = viewModel.state.value
+            assertEquals(1, filteredState.userListsPage)
+            assertFalse(filteredState.isLoadingMoreUserLists)
+            assertTrue(filteredState.userListsHasMore)
+            assertFalse(filteredState.userListsCanLoadMore)
+            assertEquals(listOf(aliceLists[1]), filteredState.filteredUserLists)
+
+            // Filtering further must not paginate either.
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/horror"))
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+            assertEquals(listOf("alice" to 1), repository.getUserListsCalls)
+
+            // Clearing the filter re-enables swipe-to-end pagination.
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            assertTrue(viewModel.state.value.userListsCanLoadMore)
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf("alice" to 1, "alice" to 2), repository.getUserListsCalls)
+            val clearedState = viewModel.state.value
+            assertEquals(aliceLists + secondPageLists, clearedState.userLists)
+            assertEquals(2, clearedState.userListsPage)
+        }
 }

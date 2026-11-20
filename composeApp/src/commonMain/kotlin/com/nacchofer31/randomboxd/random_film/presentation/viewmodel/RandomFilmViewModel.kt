@@ -365,8 +365,11 @@ class RandomFilmViewModel(
         val state = internalState.value
         // Same parser as the textfield, so a chip tap or a different user typed mid-flight invalidates the load.
         // Every guard below is a pure early return, so their order does not change the behaviour.
-        val listUser = ParsedUserNameInput.from(state.userName).listUser ?: return
+        val parsedInput = ParsedUserNameInput.from(state.userName)
+        val listUser = parsedInput.listUser ?: return
         if (listUser != state.userListsForUser) return
+        // Filtering is client side over the already loaded pages: never request more pages while it is active.
+        if (parsedInput.listQuery.isNotBlank()) return
         if (!state.userListsDropdownVisible ||
             !state.userListsHasMore ||
             state.isLoadingUserLists ||

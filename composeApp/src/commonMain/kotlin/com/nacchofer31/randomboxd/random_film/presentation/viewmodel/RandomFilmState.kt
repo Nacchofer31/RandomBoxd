@@ -40,6 +40,13 @@ data class RandomFilmState(
     val userListsQuery: String
         get() = ParsedUserNameInput.from(userName).listQuery
 
+    /**
+     * Whether another page can be requested right now: the scraper reported more pages and no name filter is
+     * active. Filtering is client side, so paginating while filtering would hammer Letterboxd for nothing.
+     */
+    val userListsCanLoadMore: Boolean
+        get() = userListsHasMore && userListsQuery.isBlank()
+
     val filteredUserLists: List<UserList>
         get() =
             if (userListsQuery.isBlank()) {

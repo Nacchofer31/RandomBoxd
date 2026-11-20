@@ -79,7 +79,7 @@ fun RandomFilmScreenRoot(
     val filteredUserLists by stateFlow.map { it.filteredUserLists }.collectAsStateWithLifecycle(initialValue = emptyList())
     val isLoadingUserLists by stateFlow.map { it.isLoadingUserLists }.collectAsStateWithLifecycle(initialValue = false)
     val userListsError by stateFlow.map { it.userListsError }.collectAsStateWithLifecycle(initialValue = null)
-    val userListsHasMore by stateFlow.map { it.userListsHasMore }.collectAsStateWithLifecycle(initialValue = false)
+    val userListsCanLoadMore by stateFlow.map { it.userListsCanLoadMore }.collectAsStateWithLifecycle(initialValue = false)
     val isLoadingMoreUserLists by stateFlow.map { it.isLoadingMoreUserLists }.collectAsStateWithLifecycle(initialValue = false)
     val userListsLoadMoreError by stateFlow.map { it.userListsLoadMoreError }.collectAsStateWithLifecycle(initialValue = false)
 
@@ -144,7 +144,7 @@ fun RandomFilmScreenRoot(
         filteredUserLists = filteredUserLists,
         isLoadingUserLists = isLoadingUserLists,
         userListsError = userListsError,
-        userListsHasMore = userListsHasMore,
+        userListsCanLoadMore = userListsCanLoadMore,
         isLoadingMoreUserLists = isLoadingMoreUserLists,
         userListsLoadMoreError = userListsLoadMoreError,
         userNameList = viewModel.userNameList,
@@ -170,7 +170,7 @@ fun RandomFilmScreen(
     filteredUserLists: List<UserList> = emptyList(),
     isLoadingUserLists: Boolean = false,
     userListsError: DataError.Remote? = null,
-    userListsHasMore: Boolean = false,
+    userListsCanLoadMore: Boolean = false,
     isLoadingMoreUserLists: Boolean = false,
     userListsLoadMoreError: Boolean = false,
     userNameList: StateFlow<List<UserName>> = MutableStateFlow(emptyList()),
@@ -273,7 +273,7 @@ fun RandomFilmScreen(
                             error = userListsError,
                             onListSelected = { onAction(RandomFilmAction.OnUserListSelected(it)) },
                             modifier = Modifier.padding(bottom = 6.dp),
-                            canLoadMore = userListsHasMore,
+                            canLoadMore = userListsCanLoadMore,
                             isLoadingMore = isLoadingMoreUserLists,
                             loadMoreError = userListsLoadMoreError,
                             onLoadMore = { onAction(RandomFilmAction.OnUserListsEndReached) },
