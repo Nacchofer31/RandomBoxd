@@ -2,6 +2,7 @@ package com.nacchofer31.randomboxd.random_film.presentation.viewmodel
 
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
+import com.nacchofer31.randomboxd.random_film.domain.model.UserList
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.tournament.domain.model.TournamentSize
 
@@ -11,6 +12,10 @@ sealed interface RandomFilmAction {
     ) : RandomFilmAction
 
     data class OnUserNameChanged(
+        val username: String,
+    ) : RandomFilmAction
+
+    data class OnUserNameChipClicked(
         val username: String,
     ) : RandomFilmAction
 
@@ -25,6 +30,12 @@ sealed interface RandomFilmAction {
     data class OnRemoveUserName(
         val userName: UserName,
     ) : RandomFilmAction
+
+    data class OnUserListSelected(
+        val list: UserList,
+    ) : RandomFilmAction
+
+    data object OnUserListsEndReached : RandomFilmAction
 
     data class OnSubmitButtonClick(
         val singleSearch: Boolean = true,

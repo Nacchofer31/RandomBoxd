@@ -125,4 +125,7 @@
     <string name="tournament_retry">Retry</string>
     <string name="tournament_screen_title">Tournament</string>
     <string name="tournament_loading_error">Something went wrong loading the tournament</string>
+    <string name="user_lists_loading">Searching lists…</string>
+    <string name="user_lists_empty">No lists found for this user</string>
+    <string name="user_lists_error">Couldn't load lists. Try again.</string>
 </resources>

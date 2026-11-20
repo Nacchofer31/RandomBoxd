@@ -31,6 +31,7 @@ import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
+import com.nacchofer31.randomboxd.random_film.domain.model.UserList
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.presentation.components.ActionRow
 import com.nacchofer31.randomboxd.random_film.presentation.components.FilmDisplay
@@ -41,6 +42,7 @@ import com.nacchofer31.randomboxd.random_film.presentation.components.LoadingOrP
 import com.nacchofer31.randomboxd.random_film.presentation.components.RandomFilmInfoView
 import com.nacchofer31.randomboxd.random_film.presentation.components.ShareFilmCardDialog
 import com.nacchofer31.randomboxd.random_film.presentation.components.UnionIntersectionSwitch
+import com.nacchofer31.randomboxd.random_film.presentation.components.UserListsDropdown
 import com.nacchofer31.randomboxd.random_film.presentation.components.UserNameTagListView
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmEvent
@@ -73,6 +75,13 @@ fun RandomFilmScreenRoot(
     val showTournamentBottomSheet by stateFlow.map { it.showTournamentBottomSheet }.collectAsStateWithLifecycle(initialValue = false)
     val tournamentSize by stateFlow.map { it.tournamentSize }.collectAsStateWithLifecycle(initialValue = null)
     val numberOfResults by stateFlow.map { it.numberOfResults }.collectAsStateWithLifecycle(initialValue = 0)
+    val userListsDropdownVisible by stateFlow.map { it.userListsDropdownVisible }.collectAsStateWithLifecycle(initialValue = false)
+    val filteredUserLists by stateFlow.map { it.filteredUserLists }.collectAsStateWithLifecycle(initialValue = emptyList())
+    val isLoadingUserLists by stateFlow.map { it.isLoadingUserLists }.collectAsStateWithLifecycle(initialValue = false)
+    val userListsError by stateFlow.map { it.userListsError }.collectAsStateWithLifecycle(initialValue = null)
+    val userListsCanLoadMore by stateFlow.map { it.userListsCanLoadMore }.collectAsStateWithLifecycle(initialValue = false)
+    val isLoadingMoreUserLists by stateFlow.map { it.isLoadingMoreUserLists }.collectAsStateWithLifecycle(initialValue = false)
+    val userListsLoadMoreError by stateFlow.map { it.userListsLoadMoreError }.collectAsStateWithLifecycle(initialValue = false)
 
     val usernameState = remember { TextFieldState(userName) }
 
@@ -131,6 +140,13 @@ fun RandomFilmScreenRoot(
         showTournamentBottomSheet = showTournamentBottomSheet,
         tournamentSize = tournamentSize,
         numberOfResults = numberOfResults,
+        userListsDropdownVisible = userListsDropdownVisible,
+        filteredUserLists = filteredUserLists,
+        isLoadingUserLists = isLoadingUserLists,
+        userListsError = userListsError,
+        userListsCanLoadMore = userListsCanLoadMore,
+        isLoadingMoreUserLists = isLoadingMoreUserLists,
+        userListsLoadMoreError = userListsLoadMoreError,
         userNameList = viewModel.userNameList,
         onAction = onAction,
         onShareImage = viewModel::shareImage,
@@ -150,6 +166,13 @@ fun RandomFilmScreen(
     showTournamentBottomSheet: Boolean = false,
     tournamentSize: TournamentSize? = null,
     numberOfResults: Int = 0,
+    userListsDropdownVisible: Boolean = false,
+    filteredUserLists: List<UserList> = emptyList(),
+    isLoadingUserLists: Boolean = false,
+    userListsError: DataError.Remote? = null,
+    userListsCanLoadMore: Boolean = false,
+    isLoadingMoreUserLists: Boolean = false,
+    userListsLoadMoreError: Boolean = false,
     userNameList: StateFlow<List<UserName>> = MutableStateFlow(emptyList()),
     onShareImage: (ImageBitmap, String) -> Unit = { _, _ -> },
     onAction: (RandomFilmAction) -> Unit = {},
@@ -243,6 +266,19 @@ fun RandomFilmScreen(
                         fimSearchMode = filmSearchMode,
                         onAction = onAction,
                     )
+                    if (userListsDropdownVisible) {
+                        UserListsDropdown(
+                            isLoading = isLoadingUserLists,
+                            lists = filteredUserLists,
+                            error = userListsError,
+                            onListSelected = { onAction(RandomFilmAction.OnUserListSelected(it)) },
+                            modifier = Modifier.padding(bottom = 6.dp),
+                            canLoadMore = userListsCanLoadMore,
+                            isLoadingMore = isLoadingMoreUserLists,
+                            loadMoreError = userListsLoadMoreError,
+                            onLoadMore = { onAction(RandomFilmAction.OnUserListsEndReached) },
+                        )
+                    }
                     ActionRow(
                         usernameState,
                         userNameSearchList,

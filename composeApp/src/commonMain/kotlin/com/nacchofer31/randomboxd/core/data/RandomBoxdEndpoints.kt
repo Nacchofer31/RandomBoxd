@@ -20,6 +20,14 @@ object RandomBoxdEndpoints {
         return if (genreSlugs.isNotEmpty()) "$base/genre/$genreSlugs" else base
     }
 
+    fun getUserLists(
+        userName: String,
+        page: Int = 1,
+    ): String {
+        val base = "https://letterboxd.com/$userName/lists/"
+        return if (page <= 1) base else "${base}page/$page/"
+    }
+
     fun filmSlugUrl(slug: String): String = "https://letterboxd.com/film/$slug/"
 
     fun filmPosterUrl(

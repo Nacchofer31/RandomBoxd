@@ -10,11 +10,13 @@ import com.nacchofer31.randomboxd.history.domain.repository.FilmHistoryRepositor
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
+import com.nacchofer31.randomboxd.random_film.domain.model.UserListsPage
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.domain.repository.InAppReviewRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.ShareRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.UserNameRepository
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -22,25 +24,50 @@ class FakeRandomFilmRepository : RandomFilmRepository {
     var getRandomMoviesResult: ResultData<Set<Film>, DataError.Remote> = ResultData.Success(emptySet())
     var getRandomMoviesFromSearchListResult: ResultData<Set<Film>, DataError.Remote> = ResultData.Success(emptySet())
     var extractResultMovieResult: ResultData<Film, DataError.Remote>? = null
+    var getUserListsResult: ResultData<UserListsPage, DataError.Remote> =
+        ResultData.Success(UserListsPage(lists = emptyList(), hasMore = false))
+    var getUserListsResultsByPage: Map<Int, ResultData<UserListsPage, DataError.Remote>> = emptyMap()
+    var getUserListsGate: CompletableDeferred<Unit>? = null
+    val getUserListsCalls = mutableListOf<Pair<String, Int>>()
+    val getRandomMoviesCalls = mutableListOf<String>()
+    val getRandomMoviesFromSearchListCalls = mutableListOf<Set<String>>()
 
     override suspend fun getRandomMovies(
         userName: String,
         selectedGenres: Set<FilmGenre>,
-    ): ResultData<Set<Film>, DataError.Remote> = getRandomMoviesResult
+    ): ResultData<Set<Film>, DataError.Remote> {
+        getRandomMoviesCalls += userName
+        return getRandomMoviesResult
+    }
 
     override suspend fun getRandomMoviesFromSearchList(
         searchList: Set<String>,
         filmSearchMode: FilmSearchMode,
         selectedGenres: Set<FilmGenre>,
-    ): ResultData<Set<Film>, DataError.Remote> = getRandomMoviesFromSearchListResult
+    ): ResultData<Set<Film>, DataError.Remote> {
+        getRandomMoviesFromSearchListCalls += searchList
+        return getRandomMoviesFromSearchListResult
+    }
 
     override suspend fun extractResultMovie(
         film: Film,
     ): ResultData<Film, DataError.Remote> = extractResultMovieResult ?: ResultData.Success(film)
+
+    override suspend fun getUserLists(
+        userName: String,
+        page: Int,
+    ): ResultData<UserListsPage, DataError.Remote> {
+        getUserListsCalls += userName to page
+        getUserListsGate?.await()
+        return getUserListsResultsByPage[page] ?: getUserListsResult
+    }
 }
 
 class FakeUserNameRepository : UserNameRepository {
     private val stored = mutableListOf<UserName>()
+
+    val storedUserNames: List<String>
+        get() = stored.map { it.username }
 
     override fun getAllUserNames(): Flow<List<UserName>> = flowOf(stored.toList())
 

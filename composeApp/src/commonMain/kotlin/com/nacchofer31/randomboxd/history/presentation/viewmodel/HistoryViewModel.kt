@@ -3,11 +3,10 @@ package com.nacchofer31.randomboxd.history.presentation.viewmodel
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nacchofer31.randomboxd.core.domain.DispatcherProvider
 import com.nacchofer31.randomboxd.history.domain.model.FilmPick
 import com.nacchofer31.randomboxd.history.domain.repository.FilmHistoryRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.ShareRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -23,6 +22,7 @@ import kotlinx.coroutines.withContext
 class HistoryViewModel(
     private val repository: FilmHistoryRepository,
     private val shareRepository: ShareRepository,
+    private val dispatchers: DispatcherProvider,
 ) : ViewModel() {
     private val _state = MutableStateFlow(HistoryState(isLoading = true))
     val state: StateFlow<HistoryState> = _state.asStateFlow()
@@ -65,7 +65,7 @@ class HistoryViewModel(
 
     private fun confirmClearAll() =
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatchers.io) {
                 repository.deleteAll()
             }
             _state.update { it.copy(showClearConfirmDialog = false) }

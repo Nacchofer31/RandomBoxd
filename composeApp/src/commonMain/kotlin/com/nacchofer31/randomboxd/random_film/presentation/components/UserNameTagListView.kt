@@ -77,7 +77,7 @@ fun UserNameTag(
                     shape = RoundedCornerShape(18.dp),
                 ).padding(horizontal = 12.dp, vertical = 6.dp)
                 .combinedClickable(
-                    onClick = { onAction(RandomFilmAction.OnUserNameChanged(userName.username)) },
+                    onClick = { onAction(RandomFilmAction.OnUserNameChipClicked(userName.username)) },
                     onLongClick = { onAction(RandomFilmAction.OnAddOrRemoveUserNameSearchList(userName.username)) },
                 ),
         verticalAlignment = Alignment.CenterVertically,

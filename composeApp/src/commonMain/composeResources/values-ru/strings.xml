@@ -125,4 +125,7 @@
     <string name="tournament_retry">Повторить</string>
     <string name="tournament_screen_title">Турнир</string>
     <string name="tournament_loading_error">Что-то пошло не так при загрузке турнира</string>
+    <string name="user_lists_loading">Поиск списков…</string>
+    <string name="user_lists_empty">Списки для этого пользователя не найдены</string>
+    <string name="user_lists_error">Не удалось загрузить списки. Попробуйте снова.</string>
 </resources>

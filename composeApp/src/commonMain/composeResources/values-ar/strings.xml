@@ -125,4 +125,7 @@
     <string name="tournament_retry">إعادة المحاولة</string>
     <string name="tournament_screen_title">البطولة</string>
     <string name="tournament_loading_error">حدث خطأ أثناء تحميل البطولة</string>
+    <string name="user_lists_loading">جارٍ البحث عن القوائم…</string>
+    <string name="user_lists_empty">لم يتم العثور على قوائم لهذا المستخدم</string>
+    <string name="user_lists_error">تعذّر تحميل القوائم. حاول مرة أخرى.</string>
 </resources>

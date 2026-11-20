@@ -125,4 +125,7 @@
     <string name="tournament_retry">重试</string>
     <string name="tournament_screen_title">锦标赛</string>
     <string name="tournament_loading_error">加载锦标赛时出错</string>
+    <string name="user_lists_loading">正在搜索片单…</string>
+    <string name="user_lists_empty">未找到该用户的片单</string>
+    <string name="user_lists_error">无法加载片单。请重试。</string>
 </resources>

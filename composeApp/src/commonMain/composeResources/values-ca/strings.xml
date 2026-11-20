@@ -125,4 +125,7 @@
     <string name="tournament_retry">Torna-ho a provar</string>
     <string name="tournament_screen_title">Torneig</string>
     <string name="tournament_loading_error">Alguna cosa ha fallat en carregar el torneig</string>
+    <string name="user_lists_loading">Cercant llistes…</string>
+    <string name="user_lists_empty">No s\'han trobat llistes per a aquest usuari</string>
+    <string name="user_lists_error">No s\'han pogut carregar les llistes. Torna-ho a provar.</string>
 </resources>

@@ -72,4 +72,22 @@ class RandomBoxdEndpointsTest {
         val result = RandomBoxdEndpoints.getUserNameFromList("testuser", "my-list", "")
         assertEquals("https://letterboxd.com/testuser/list/my-list", result)
     }
+
+    @Test
+    fun `getUserLists returns expected lists url`() {
+        val result = RandomBoxdEndpoints.getUserLists("testuser")
+        assertEquals("https://letterboxd.com/testuser/lists/", result)
+    }
+
+    @Test
+    fun `getUserLists with page returns the paged lists url`() {
+        val result = RandomBoxdEndpoints.getUserLists("testuser", page = 2)
+        assertEquals("https://letterboxd.com/testuser/lists/page/2/", result)
+    }
+
+    @Test
+    fun `getUserLists with page one returns the index url`() {
+        val result = RandomBoxdEndpoints.getUserLists("testuser", page = 1)
+        assertEquals("https://letterboxd.com/testuser/lists/", result)
+    }
 }

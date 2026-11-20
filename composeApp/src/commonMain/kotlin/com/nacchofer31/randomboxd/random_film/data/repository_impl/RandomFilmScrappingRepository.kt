@@ -2,23 +2,31 @@ package com.nacchofer31.randomboxd.random_film.data.repository_impl
 
 import com.fleeksoft.ksoup.Ksoup
 import com.nacchofer31.randomboxd.core.data.RandomBoxdEndpoints
+import com.nacchofer31.randomboxd.core.data.responseToResult
 import com.nacchofer31.randomboxd.core.data.safeCall
 import com.nacchofer31.randomboxd.core.domain.DataError
 import com.nacchofer31.randomboxd.core.domain.ResultData
 import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
+import com.nacchofer31.randomboxd.random_film.domain.model.UserList
+import com.nacchofer31.randomboxd.random_film.domain.model.UserListsPage
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
 import io.ktor.client.HttpClient
+import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
+import io.ktor.http.HttpStatusCode
+import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import kotlin.coroutines.coroutineContext
 
 class RandomFilmScrappingRepository(
     private val httpClient: HttpClient,
@@ -33,6 +41,12 @@ class RandomFilmScrappingRepository(
         const val FILM_POSTER_QUERY = "li.griditem > div.react-component[data-item-slug]"
         const val FILM_POSTER_LIST_QUERY = "li.posteritem > div.react-component[data-item-slug]"
         const val FILM_SCRIPT_QUERY = """script[type="application/ld+json"]"""
+        const val USER_LISTS_ITEM_QUERY = "div.listitem"
+        const val USER_LIST_NAME_QUERY = "h2.name a"
+        const val USER_LIST_FILM_COUNT_QUERY = "span.value"
+        const val USER_LISTS_NEXT_PAGE_QUERY = "div.paginate-nextprev a.next"
+        const val USER_LIST_PATH_MARKER = "/list/"
+        const val LIST_FILM_COUNT_REGEX = "\\d+"
     }
 
     override suspend fun getRandomMovies(
@@ -90,6 +104,75 @@ class RandomFilmScrappingRepository(
         }
 
     override suspend fun extractResultMovie(film: Film): ResultData<Film, DataError.Remote> = extractFilm(film)
+
+    override suspend fun getUserLists(
+        userName: String,
+        page: Int,
+    ): ResultData<UserListsPage, DataError.Remote> =
+        withContext(Dispatchers.IO) {
+            // Pages are scrapped on demand (one page per scroll-to-end) to stay Cloudflare friendly.
+            val html =
+                when (val htmlResult = getWebPageOrNotFound(RandomBoxdEndpoints.getUserLists(userName, page))) {
+                    is ResultData.Success -> htmlResult.data
+                    is ResultData.Error -> return@withContext ResultData.Error(htmlResult.error)
+                }
+
+            parseUserListsPage(html)
+        }
+
+    private fun parseUserListsPage(html: String): ResultData<UserListsPage, DataError.Remote> {
+        val doc =
+            try {
+                Ksoup.parse(html)
+            } catch (_: Exception) {
+                return ResultData.Error(DataError.Remote.SERIALIZATION)
+            }
+
+        val items = doc.select(USER_LISTS_ITEM_QUERY)
+        // A real `a.next` anchor means there is another page; the last page renders a disabled span instead.
+        val hasMore = doc.selectFirst(USER_LISTS_NEXT_PAGE_QUERY) != null
+
+        // Users with no lists render an empty-state section, and out-of-range pages return an empty body.
+        if (items.isEmpty()) return ResultData.Success(UserListsPage(lists = emptyList(), hasMore = false))
+
+        val userLists =
+            items
+                .mapNotNull { item ->
+                    val name =
+                        item
+                            .selectFirst(USER_LIST_NAME_QUERY)
+                            ?.text()
+                            ?.trim()
+                            .orEmpty()
+                    if (name.isEmpty()) return@mapNotNull null
+
+                    val slug = parseUserListSlug(item.selectFirst(USER_LIST_NAME_QUERY)?.attr("href").orEmpty())
+                    if (slug == null) return@mapNotNull null
+
+                    val filmCount =
+                        item
+                            .selectFirst(USER_LIST_FILM_COUNT_QUERY)
+                            ?.text()
+                            ?.let { Regex(LIST_FILM_COUNT_REGEX).find(it)?.value?.toIntOrNull() }
+
+                    UserList(name = name, slug = slug, filmCount = filmCount)
+                }.distinctBy { it.slug }
+
+        if (userLists.isEmpty()) return ResultData.Error(DataError.Remote.SERIALIZATION)
+
+        return ResultData.Success(UserListsPage(lists = userLists, hasMore = hasMore))
+    }
+
+    private fun parseUserListSlug(href: String): String? {
+        val path = href.substringBefore('?').substringBefore('#')
+        val markerIndex = path.indexOf(USER_LIST_PATH_MARKER)
+        if (markerIndex < 0) return null
+
+        return path
+            .substring(markerIndex + USER_LIST_PATH_MARKER.length)
+            .trim('/')
+            .ifBlank { null }
+    }
 
     private suspend fun getFilmsFromUserWatchlist(
         userName: String,
@@ -228,4 +311,29 @@ class RandomFilmScrappingRepository(
                 is ResultData.Error -> ResultData.Error(result.error)
             }
         }
+
+    /**
+     * Same behaviour as [getWebPage] but maps HTTP 404 to [DataError.Remote.NO_RESULTS], so callers can tell a
+     * nonexistent user apart from a generic failure.
+     */
+    private suspend fun getWebPageOrNotFound(url: String): ResultData<String, DataError.Remote> {
+        val response =
+            try {
+                httpClient.get(url)
+            } catch (_: SocketTimeoutException) {
+                return ResultData.Error(DataError.Remote.REQUEST_TIMEOUT)
+            } catch (_: UnresolvedAddressException) {
+                return ResultData.Error(DataError.Remote.NO_INTERNET)
+            } catch (_: Exception) {
+                coroutineContext.ensureActive()
+                return ResultData.Error(DataError.Remote.NO_INTERNET)
+            }
+
+        if (response.status == HttpStatusCode.NotFound) return ResultData.Error(DataError.Remote.NO_RESULTS)
+
+        return when (val result = responseToResult<HttpResponse>(response)) {
+            is ResultData.Success -> ResultData.Success(result.data.bodyAsText())
+            is ResultData.Error -> ResultData.Error(result.error)
+        }
+    }
 }
