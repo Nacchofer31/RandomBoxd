@@ -7,6 +7,12 @@ import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.domain.model.UserList
 import com.nacchofer31.randomboxd.tournament.domain.model.TournamentSize
 
+/**
+ * Cache key of the site wide popular lists listing. It cannot collide with a Letterboxd username (no `@` there),
+ * so the picker can tell the shared listing apart from the lists of a specific user.
+ */
+internal const val POPULAR_LISTS_USER_KEY = "@popular"
+
 data class RandomFilmState(
     val userName: String = "",
     val resultFilm: Film? = null,
@@ -38,7 +44,11 @@ data class RandomFilmState(
 ) {
     /** Text typed after the list user, used to filter the scrapped lists. */
     val userListsQuery: String
-        get() = ParsedUserNameInput.from(userName).listQuery
+        get() = if (isShowingPopularLists) "" else ParsedUserNameInput.from(userName).listQuery
+
+    /** Whether the picker is currently showing the shared popular listing instead of a user's lists. */
+    val isShowingPopularLists: Boolean
+        get() = userListsForUser == POPULAR_LISTS_USER_KEY
 
     /**
      * Whether another page can be requested right now: the scraper reported more pages and no name filter is

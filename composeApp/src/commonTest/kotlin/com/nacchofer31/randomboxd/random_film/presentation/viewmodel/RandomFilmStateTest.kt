@@ -173,4 +173,50 @@ class RandomFilmStateTest {
 
         assertEquals(false, state.userListsCanLoadMore)
     }
+
+    // ── Popular lists mode ──────────────────────────────────────────
+
+    @Test
+    fun `a typed filter is ignored while the popular lists are shown`() {
+        val state =
+            RandomFilmState(
+                userName = "alice/hor",
+                userLists = sampleLists,
+                userListsForUser = POPULAR_LISTS_USER_KEY,
+            )
+
+        assertEquals("", state.userListsQuery)
+    }
+
+    @Test
+    fun `a typed filter does not hide popular lists`() {
+        val state =
+            RandomFilmState(
+                userName = "alice/hor",
+                userLists = sampleLists,
+                userListsForUser = POPULAR_LISTS_USER_KEY,
+            )
+
+        assertEquals(sampleLists, state.filteredUserLists)
+    }
+
+    @Test
+    fun `popular lists can load more even with leftover text in the field`() {
+        val state =
+            RandomFilmState(
+                userName = "alice/hor",
+                userListsForUser = POPULAR_LISTS_USER_KEY,
+                userListsHasMore = true,
+            )
+
+        assertEquals(true, state.userListsCanLoadMore)
+    }
+
+    @Test
+    fun `user lists keep filtering while the popular lists are not shown`() {
+        val state = RandomFilmState(userName = "alice/hor", userLists = sampleLists, userListsForUser = "alice")
+
+        assertEquals("hor", state.userListsQuery)
+        assertEquals(listOf(sampleLists[1]), state.filteredUserLists)
+    }
 }
