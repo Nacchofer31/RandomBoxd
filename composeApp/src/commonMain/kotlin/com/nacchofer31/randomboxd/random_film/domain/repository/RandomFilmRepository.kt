@@ -27,4 +27,7 @@ interface RandomFilmRepository {
         userName: String,
         page: Int = 1,
     ): ResultData<UserListsPage, DataError.Remote>
+
+    /** Site wide listing of the most popular lists, scraped from `letterboxd.com/lists/popular/`. */
+    suspend fun getPopularLists(page: Int = 1): ResultData<UserListsPage, DataError.Remote>
 }
