@@ -3,6 +3,7 @@ package com.nacchofer31.randomboxd.random_film.presentation.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Explore
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,6 +25,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
@@ -30,6 +37,9 @@ import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import kotlinx.coroutines.flow.Flow
+import org.jetbrains.compose.resources.stringResource
+import randomboxd.composeapp.generated.resources.Res
+import randomboxd.composeapp.generated.resources.discover_lists
 
 @Composable
 fun UserNameTagListView(
@@ -40,18 +50,52 @@ fun UserNameTagListView(
 ) {
     val userNames by userNameList.collectAsState(initial = emptyList())
 
-    return LazyRow(
+    return Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        // Pinned outside the LazyRow so the entry point to the popular lists never scrolls away with the chips.
+        DiscoverListsButton(onAction = onAction)
+
+        LazyRow(
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(vertical = 8.dp),
+        ) {
+            val sortedUserNames = userNames.filter { it.username in userNameSearchList }.reversed() + userNames.filter { it.username !in userNameSearchList }.reversed()
+
+            items(sortedUserNames) { userName ->
+                val isIncludedInSearchList = userNameSearchList.contains(userName.username)
+                UserNameTag(userName, isIncludedInSearchList, onAction, fimSearchMode)
+            }
+        }
+    }
+}
+
+/** Icon only button shaped like an unselected chip, so it blends with the username tags next to it. */
+@Composable
+private fun DiscoverListsButton(onAction: (RandomFilmAction) -> Unit) {
+    val description = stringResource(Res.string.discover_lists)
+
+    Box(
         modifier =
             Modifier
-                .fillMaxWidth(),
-        contentPadding = PaddingValues(vertical = 8.dp),
+                .padding(horizontal = 4.dp, vertical = 2.dp)
+                .size(32.dp)
+                .clip(RoundedCornerShape(18.dp))
+                .background(
+                    color = RandomBoxdColors.Black,
+                    shape = RoundedCornerShape(18.dp),
+                ).testTag("test-discover-lists-button")
+                .semantics { contentDescription = description }
+                .clickable(role = Role.Button) { onAction(RandomFilmAction.OnDiscoverListsClick) },
+        contentAlignment = Alignment.Center,
     ) {
-        val sortedUserNames = userNames.filter { it.username in userNameSearchList }.reversed() + userNames.filter { it.username !in userNameSearchList }.reversed()
-
-        items(sortedUserNames) { userName ->
-            val isIncludedInSearchList = userNameSearchList.contains(userName.username)
-            UserNameTag(userName, isIncludedInSearchList, onAction, fimSearchMode)
-        }
+        Icon(
+            imageVector = Icons.Outlined.Explore,
+            contentDescription = null,
+            tint = RandomBoxdColors.White,
+            modifier = Modifier.size(18.dp),
+        )
     }
 }
 

@@ -368,6 +368,22 @@ class RandomFilmScreenTest {
         )
 
     @Test
+    fun discover_lists_button_is_displayed_and_dispatches_the_action() {
+        val actions = mutableListOf<RandomFilmAction>()
+        composeTestRule.setContent {
+            RandomFilmScreen(
+                userNameList = MutableStateFlow<List<UserName>>(emptyList()),
+                onAction = { actions += it },
+            )
+        }
+
+        composeTestRule.onNodeWithTag("test-discover-lists-button").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("test-discover-lists-button").performClick()
+
+        assertTrue(actions.contains(RandomFilmAction.OnDiscoverListsClick))
+    }
+
+    @Test
     fun user_lists_dropdown_is_not_rendered_when_hidden() {
         composeTestRule.setContent {
             RandomFilmScreen(userNameList = MutableStateFlow<List<UserName>>(emptyList())) { }
