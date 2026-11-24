@@ -129,4 +129,5 @@
     <string name="user_lists_empty">Keine Listen für diesen Benutzer gefunden</string>
     <string name="user_lists_error">Listen konnten nicht geladen werden. Versuche es erneut.</string>
     <string name="discover_lists">Beliebte Listen entdecken</string>
+    <string name="discover_lists_label">Entdecken!</string>
 </resources>

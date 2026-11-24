@@ -4,6 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
@@ -18,6 +19,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import randomboxd.composeapp.generated.resources.Res
 import randomboxd.composeapp.generated.resources.discover_lists
+import randomboxd.composeapp.generated.resources.discover_lists_label
 
 @RunWith(AndroidJUnit4::class)
 class DiscoverListsButtonTest {
@@ -66,6 +68,22 @@ class DiscoverListsButtonTest {
         }
 
         composeTestRule.onNodeWithContentDescription(description).assertIsDisplayed()
+    }
+
+    @Test
+    fun discover_button_shows_its_label_next_to_the_icon() {
+        var label = ""
+        composeTestRule.setContent {
+            label = stringResource(Res.string.discover_lists_label)
+            UserNameTagListView(
+                userNameList = MutableStateFlow<List<UserName>>(emptyList()),
+                userNameSearchList = emptySet(),
+                onAction = {},
+                fimSearchMode = FilmSearchMode.INTERSECTION,
+            )
+        }
+
+        composeTestRule.onNodeWithText(label).assertIsDisplayed()
     }
 
     @Test

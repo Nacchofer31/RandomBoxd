@@ -28,12 +28,15 @@ import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmA
 import com.nacchofer31.randomboxd.utils.startTestKoin
 import com.nacchofer31.randomboxd.utils.stopTestKoin
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.jetbrains.compose.resources.stringResource
 import org.junit.After
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import randomboxd.composeapp.generated.resources.Res
+import randomboxd.composeapp.generated.resources.discover_lists_label
 
 @RunWith(AndroidJUnit4::class)
 class RandomFilmScreenTest {
@@ -370,7 +373,9 @@ class RandomFilmScreenTest {
     @Test
     fun discover_lists_button_is_displayed_and_dispatches_the_action() {
         val actions = mutableListOf<RandomFilmAction>()
+        var label = ""
         composeTestRule.setContent {
+            label = stringResource(Res.string.discover_lists_label)
             RandomFilmScreen(
                 userNameList = MutableStateFlow<List<UserName>>(emptyList()),
                 onAction = { actions += it },
@@ -378,6 +383,7 @@ class RandomFilmScreenTest {
         }
 
         composeTestRule.onNodeWithTag("test-discover-lists-button").assertIsDisplayed()
+        composeTestRule.onNodeWithText(label).assertIsDisplayed()
         composeTestRule.onNodeWithTag("test-discover-lists-button").performClick()
 
         assertTrue(actions.contains(RandomFilmAction.OnDiscoverListsClick))

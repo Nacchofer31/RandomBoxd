@@ -129,4 +129,5 @@
     <string name="user_lists_empty">No s\'han trobat llistes per a aquest usuari</string>
     <string name="user_lists_error">No s\'han pogut carregar les llistes. Torna-ho a provar.</string>
     <string name="discover_lists">Descobreix llistes populars</string>
+    <string name="discover_lists_label">Descobreix!</string>
 </resources>

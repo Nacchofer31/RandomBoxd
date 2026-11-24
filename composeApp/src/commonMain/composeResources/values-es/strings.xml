@@ -129,4 +129,5 @@
     <string name="user_lists_empty">No se han encontrado listas para este usuario</string>
     <string name="user_lists_error">No se pudieron cargar las listas. Inténtalo de nuevo.</string>
     <string name="discover_lists">Descubre listas populares</string>
+    <string name="discover_lists_label">¡Descubre!</string>
 </resources>

@@ -3,11 +3,11 @@ package com.nacchofer31.randomboxd.random_film.presentation.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.Flow
 import org.jetbrains.compose.resources.stringResource
 import randomboxd.composeapp.generated.resources.Res
 import randomboxd.composeapp.generated.resources.discover_lists
+import randomboxd.composeapp.generated.resources.discover_lists_label
 
 @Composable
 fun UserNameTagListView(
@@ -71,30 +72,41 @@ fun UserNameTagListView(
     }
 }
 
-/** Icon only button shaped like an unselected chip, so it blends with the username tags next to it. */
+/** Pill shaped like an unselected chip with an icon and a short label, so it blends with the username tags. */
 @Composable
 private fun DiscoverListsButton(onAction: (RandomFilmAction) -> Unit) {
     val description = stringResource(Res.string.discover_lists)
 
-    Box(
+    Row(
         modifier =
             Modifier
                 .padding(horizontal = 4.dp, vertical = 2.dp)
-                .size(32.dp)
+                .height(32.dp)
                 .clip(RoundedCornerShape(18.dp))
                 .background(
                     color = RandomBoxdColors.Black,
                     shape = RoundedCornerShape(18.dp),
                 ).testTag("test-discover-lists-button")
                 .semantics { contentDescription = description }
-                .clickable(role = Role.Button) { onAction(RandomFilmAction.OnDiscoverListsClick) },
-        contentAlignment = Alignment.Center,
+                .clickable(role = Role.Button) { onAction(RandomFilmAction.OnDiscoverListsClick) }
+                .padding(horizontal = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
             imageVector = Icons.Outlined.Explore,
             contentDescription = null,
             tint = RandomBoxdColors.White,
             modifier = Modifier.size(18.dp),
+        )
+
+        Spacer(modifier = Modifier.width(4.dp))
+
+        Text(
+            text = stringResource(Res.string.discover_lists_label),
+            color = RandomBoxdColors.White,
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.SemiBold,
+            maxLines = 1,
         )
     }
 }
