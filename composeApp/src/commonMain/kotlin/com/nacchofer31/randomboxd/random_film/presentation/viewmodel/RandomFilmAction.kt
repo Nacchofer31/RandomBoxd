@@ -37,6 +37,9 @@ sealed interface RandomFilmAction {
 
     data object OnUserListsEndReached : RandomFilmAction
 
+    /** Opens (or closes) the picker filled with Letterboxd's most popular lists, no typing required. */
+    data object OnDiscoverListsClick : RandomFilmAction
+
     data class OnSubmitButtonClick(
         val singleSearch: Boolean = true,
     ) : RandomFilmAction

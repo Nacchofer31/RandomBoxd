@@ -128,4 +128,6 @@
     <string name="user_lists_loading">Recherche de listes…</string>
     <string name="user_lists_empty">Aucune liste trouvée pour cet utilisateur</string>
     <string name="user_lists_error">Impossible de charger les listes. Réessayez.</string>
+    <string name="discover_lists">Découvrir les listes populaires</string>
+    <string name="discover_lists_label">Découvrir !</string>
 </resources>

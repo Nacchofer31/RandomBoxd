@@ -128,4 +128,6 @@
     <string name="user_lists_loading">リストを検索中…</string>
     <string name="user_lists_empty">このユーザーのリストが見つかりません</string>
     <string name="user_lists_error">リストを読み込めませんでした。もう一度お試しください。</string>
+    <string name="discover_lists">人気のリストを見つける</string>
+    <string name="discover_lists_label">見つける!</string>
 </resources>

@@ -29,6 +29,11 @@ class FakeRandomFilmRepository : RandomFilmRepository {
     var getUserListsResultsByPage: Map<Int, ResultData<UserListsPage, DataError.Remote>> = emptyMap()
     var getUserListsGate: CompletableDeferred<Unit>? = null
     val getUserListsCalls = mutableListOf<Pair<String, Int>>()
+    var getPopularListsResult: ResultData<UserListsPage, DataError.Remote> =
+        ResultData.Success(UserListsPage(lists = emptyList(), hasMore = false))
+    var getPopularListsResultsByPage: Map<Int, ResultData<UserListsPage, DataError.Remote>> = emptyMap()
+    var getPopularListsGate: CompletableDeferred<Unit>? = null
+    val getPopularListsCalls = mutableListOf<Int>()
     val getRandomMoviesCalls = mutableListOf<String>()
     val getRandomMoviesFromSearchListCalls = mutableListOf<Set<String>>()
 
@@ -60,6 +65,12 @@ class FakeRandomFilmRepository : RandomFilmRepository {
         getUserListsCalls += userName to page
         getUserListsGate?.await()
         return getUserListsResultsByPage[page] ?: getUserListsResult
+    }
+
+    override suspend fun getPopularLists(page: Int): ResultData<UserListsPage, DataError.Remote> {
+        getPopularListsCalls += page
+        getPopularListsGate?.await()
+        return getPopularListsResultsByPage[page] ?: getPopularListsResult
     }
 }
 

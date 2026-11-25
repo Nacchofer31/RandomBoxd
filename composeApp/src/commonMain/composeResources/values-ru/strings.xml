@@ -128,4 +128,6 @@
     <string name="user_lists_loading">Поиск списков…</string>
     <string name="user_lists_empty">Списки для этого пользователя не найдены</string>
     <string name="user_lists_error">Не удалось загрузить списки. Попробуйте снова.</string>
+    <string name="discover_lists">Популярные списки</string>
+    <string name="discover_lists_label">Открыть!</string>
 </resources>

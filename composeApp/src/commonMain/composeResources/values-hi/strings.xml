@@ -128,4 +128,6 @@
     <string name="user_lists_loading">सूचियाँ खोजी जा रही हैं…</string>
     <string name="user_lists_empty">इस उपयोगकर्ता के लिए कोई सूची नहीं मिली</string>
     <string name="user_lists_error">सूचियाँ लोड नहीं हो सकीं। फिर से प्रयास करें।</string>
+    <string name="discover_lists">लोकप्रिय सूचियाँ खोजें</string>
+    <string name="discover_lists_label">खोजें!</string>
 </resources>

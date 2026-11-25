@@ -28,6 +28,12 @@ object RandomBoxdEndpoints {
         return if (page <= 1) base else "${base}page/$page/"
     }
 
+    /** Site wide listing of the most popular lists, shared by every user. */
+    fun getPopularLists(page: Int = 1): String {
+        val base = "https://letterboxd.com/lists/popular/"
+        return if (page <= 1) base else "${base}page/$page/"
+    }
+
     fun filmSlugUrl(slug: String): String = "https://letterboxd.com/film/$slug/"
 
     fun filmPosterUrl(

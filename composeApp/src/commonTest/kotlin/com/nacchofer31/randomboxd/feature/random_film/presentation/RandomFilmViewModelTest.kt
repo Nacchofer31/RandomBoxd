@@ -9,6 +9,7 @@ import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.domain.model.UserList
 import com.nacchofer31.randomboxd.random_film.domain.model.UserListsPage
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
+import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.POPULAR_LISTS_USER_KEY
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmEvent
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
@@ -1407,5 +1408,327 @@ class RandomFilmViewModelTest {
             val clearedState = viewModel.state.value
             assertEquals(aliceLists + secondPageLists, clearedState.userLists)
             assertEquals(2, clearedState.userListsPage)
+        }
+
+    // ── Discover popular lists ──────────────────────────────────────
+
+    private val popularLists =
+        listOf(
+            UserList(
+                name = "Letterboxd's Top 500 Films",
+                slug = "letterboxds-top-500-films",
+                filmCount = 500,
+                ownerUsername = "official",
+            ),
+            UserList(name = "Best of the Decade", slug = "best-of-the-decade", filmCount = 42, ownerUsername = "dave"),
+        )
+
+    @Test
+    fun `clicking discover shows the dropdown loading and then the popular lists`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getPopularListsResult = ResultData.Success(UserListsPage(lists = popularLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            // Unconfined dispatchers resolve the fake eagerly, so the in-flight state is only observable gated.
+            val gate = CompletableDeferred<Unit>()
+            repository.getPopularListsGate = gate
+
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+
+            val loadingState = viewModel.state.value
+            assertTrue(loadingState.userListsDropdownVisible)
+            assertTrue(loadingState.isLoadingUserLists)
+            assertTrue(loadingState.userLists.isEmpty())
+
+            gate.complete(Unit)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf(1), repository.getPopularListsCalls)
+            val loadedState = viewModel.state.value
+            assertFalse(loadedState.isLoadingUserLists)
+            assertEquals(popularLists, loadedState.userLists)
+            assertEquals(POPULAR_LISTS_USER_KEY, loadedState.userListsForUser)
+            assertEquals(1, loadedState.userListsPage)
+            assertFalse(loadedState.userListsHasMore)
+        }
+
+    @Test
+    fun `clicking discover while the popular lists are shown hides them`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getPopularListsResult = ResultData.Success(UserListsPage(lists = popularLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+
+            val state = viewModel.state.value
+            assertFalse(state.userListsDropdownVisible)
+            assertFalse(state.isLoadingUserLists)
+            // Toggling back open reuses the network call only once the user asks for it again.
+            assertEquals(listOf(1), repository.getPopularListsCalls)
+        }
+
+    @Test
+    fun `reopening discover after closing it scrapes the first page again`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getPopularListsResult = ResultData.Success(UserListsPage(lists = popularLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val state = viewModel.state.value
+            assertTrue(state.userListsDropdownVisible)
+            assertEquals(listOf(1, 1), repository.getPopularListsCalls)
+            assertEquals(popularLists, state.userLists)
+        }
+
+    @Test
+    fun `selecting a popular list fills owner slash slug, saves the chip and closes the dropdown`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getPopularListsResult = ResultData.Success(UserListsPage(lists = popularLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.onAction(RandomFilmAction.OnUserListSelected(popularLists[0]))
+
+            val state = viewModel.state.value
+            assertEquals("official/letterboxds-top-500-films", state.userName)
+            assertFalse(state.userListsDropdownVisible)
+            assertEquals("official/letterboxds-top-500-films", state.programmaticFillValue)
+            assertTrue(userNameRepository.storedUserNames.contains("official/letterboxds-top-500-films"))
+            assertTrue(state.userNameSearchList.isEmpty())
+        }
+
+    @Test
+    fun `selecting a popular list overrides the user already typed in the field`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = aliceLists, hasMore = false))
+            repository.getPopularListsResult = ResultData.Success(UserListsPage(lists = popularLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.onAction(RandomFilmAction.OnUserListSelected(popularLists[1]))
+
+            assertEquals("dave/best-of-the-decade", viewModel.state.value.userName)
+            assertTrue(userNameRepository.storedUserNames.contains("dave/best-of-the-decade"))
+        }
+
+    @Test
+    fun `programmatic fill after picking a popular list does not reopen the dropdown`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getPopularListsResult = ResultData.Success(UserListsPage(lists = popularLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+            viewModel.onAction(RandomFilmAction.OnUserListSelected(popularLists[0]))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            // Simulates the textfield write originated by the ViewModel looping back through OnUserNameChanged.
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("official/letterboxds-top-500-films"))
+
+            val state = viewModel.state.value
+            assertFalse(state.userListsDropdownVisible)
+            assertFalse(state.isLoadingUserLists)
+            assertTrue(repository.getUserListsCalls.isEmpty())
+        }
+
+    @Test
+    fun `reaching the end in popular mode loads the next page and appends it`() =
+        runTest(testDispatchers.testDispatcher) {
+            val secondPage = listOf(UserList(name = "Comfort Watches", slug = "comfort-watches", ownerUsername = "sarah"))
+            repository.getPopularListsResultsByPage =
+                mapOf(
+                    1 to ResultData.Success(UserListsPage(lists = popularLists, hasMore = true)),
+                    2 to ResultData.Success(UserListsPage(lists = popularLists.takeLast(1) + secondPage, hasMore = false)),
+                )
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf(1, 2), repository.getPopularListsCalls)
+            val state = viewModel.state.value
+            assertEquals(popularLists + secondPage, state.userLists)
+            assertEquals(2, state.userListsPage)
+            assertFalse(state.userListsHasMore)
+            assertFalse(state.isLoadingMoreUserLists)
+
+            // Exhausted: another end-reached must not request anything.
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+            assertEquals(listOf(1, 2), repository.getPopularListsCalls)
+        }
+
+    @Test
+    fun `popular pages are not requested while the dropdown is hidden`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getPopularListsResult = ResultData.Success(UserListsPage(lists = popularLists, hasMore = true))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+
+            viewModel.onAction(RandomFilmAction.OnUserListsEndReached)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf(1), repository.getPopularListsCalls)
+            assertEquals(1, viewModel.state.value.userListsPage)
+        }
+
+    @Test
+    fun `discover replaces the lists of a user already picked in the field`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = aliceLists, hasMore = false))
+            repository.getPopularListsResult = ResultData.Success(UserListsPage(lists = popularLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val gate = CompletableDeferred<Unit>()
+            repository.getPopularListsGate = gate
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+
+            val loadingState = viewModel.state.value
+            assertTrue(loadingState.isLoadingUserLists)
+            assertTrue(loadingState.userLists.isEmpty())
+
+            gate.complete(Unit)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val state = viewModel.state.value
+            assertTrue(state.userListsDropdownVisible)
+            assertEquals(popularLists, state.userLists)
+            assertEquals(POPULAR_LISTS_USER_KEY, state.userListsForUser)
+            assertEquals(listOf(1), repository.getPopularListsCalls)
+            assertEquals(listOf("alice" to 1), repository.getUserListsCalls)
+        }
+
+    @Test
+    fun `typing a user after discovering popular lists scrapes that user's lists`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getPopularListsResult = ResultData.Success(UserListsPage(lists = popularLists, hasMore = false))
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = aliceLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            assertEquals(listOf("alice" to 1), repository.getUserListsCalls)
+            val state = viewModel.state.value
+            assertEquals("alice", state.userListsForUser)
+            assertEquals(aliceLists, state.userLists)
+            assertTrue(state.userListsDropdownVisible)
+            assertFalse(state.isLoadingUserLists)
+        }
+
+    @Test
+    fun `typing without a slash hides the popular lists dropdown`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getPopularListsResult = ResultData.Success(UserListsPage(lists = popularLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("off"))
+
+            val state = viewModel.state.value
+            assertFalse(state.userListsDropdownVisible)
+            assertEquals(popularLists, state.userLists)
+            assertEquals(POPULAR_LISTS_USER_KEY, state.userListsForUser)
+            assertEquals(listOf(1), repository.getPopularListsCalls)
+        }
+
+    @Test
+    fun `a filter typed for a user does not hide the popular lists`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = aliceLists, hasMore = false))
+            repository.getPopularListsResult = ResultData.Success(UserListsPage(lists = popularLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/hor"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            // The leftover text is a filter for alice, not for the popular listing.
+            val state = viewModel.state.value
+            assertEquals("", state.userListsQuery)
+            assertEquals(popularLists, state.filteredUserLists)
+            assertEquals(listOf(1), repository.getPopularListsCalls)
+        }
+
+    @Test
+    fun `failing popular lists request exposes the error and keeps the picker open`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getPopularListsResult = ResultData.Error(DataError.Remote.TOO_MANY_REQUESTS)
+            createViewModel()
+            observeState()
+
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val state = viewModel.state.value
+            assertEquals(DataError.Remote.TOO_MANY_REQUESTS, state.userListsError)
+            assertFalse(state.isLoadingUserLists)
+            assertTrue(state.userLists.isEmpty())
+            assertTrue(state.userListsDropdownVisible)
+        }
+
+    @Test
+    fun `a popular page arriving after the picker switched to a user is discarded`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getPopularListsResult = ResultData.Success(UserListsPage(lists = popularLists, hasMore = false))
+            repository.getUserListsResult = ResultData.Success(UserListsPage(lists = aliceLists, hasMore = false))
+            createViewModel()
+            observeState()
+
+            val gate = CompletableDeferred<Unit>()
+            repository.getPopularListsGate = gate
+            viewModel.onAction(RandomFilmAction.OnDiscoverListsClick)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+            assertEquals(listOf(1), repository.getPopularListsCalls)
+
+            // The user starts typing another user before the popular scrape resolves.
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("alice/"))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+            gate.complete(Unit)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val state = viewModel.state.value
+            assertEquals(aliceLists, state.userLists)
+            assertEquals("alice", state.userListsForUser)
         }
 }

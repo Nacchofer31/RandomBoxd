@@ -128,4 +128,6 @@
     <string name="user_lists_loading">Searching lists…</string>
     <string name="user_lists_empty">No lists found for this user</string>
     <string name="user_lists_error">Couldn't load lists. Try again.</string>
+    <string name="discover_lists">Discover popular lists</string>
+    <string name="discover_lists_label">Discover!</string>
 </resources>

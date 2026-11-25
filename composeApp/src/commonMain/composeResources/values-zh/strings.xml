@@ -128,4 +128,6 @@
     <string name="user_lists_loading">正在搜索片单…</string>
     <string name="user_lists_empty">未找到该用户的片单</string>
     <string name="user_lists_error">无法加载片单。请重试。</string>
+    <string name="discover_lists">发现热门片单</string>
+    <string name="discover_lists_label">发现!</string>
 </resources>

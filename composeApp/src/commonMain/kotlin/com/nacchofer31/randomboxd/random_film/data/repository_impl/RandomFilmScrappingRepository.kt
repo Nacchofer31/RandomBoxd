@@ -1,6 +1,7 @@
 package com.nacchofer31.randomboxd.random_film.data.repository_impl
 
 import com.fleeksoft.ksoup.Ksoup
+import com.fleeksoft.ksoup.nodes.Element
 import com.nacchofer31.randomboxd.core.data.RandomBoxdEndpoints
 import com.nacchofer31.randomboxd.core.data.responseToResult
 import com.nacchofer31.randomboxd.core.data.safeCall
@@ -44,8 +45,10 @@ class RandomFilmScrappingRepository(
         const val USER_LISTS_ITEM_QUERY = "div.listitem"
         const val USER_LIST_NAME_QUERY = "h2.name a"
         const val USER_LIST_FILM_COUNT_QUERY = "span.value"
+        const val USER_LIST_OWNER_QUERY = "article[data-person]"
         const val USER_LISTS_NEXT_PAGE_QUERY = "div.paginate-nextprev a.next"
         const val USER_LIST_PATH_MARKER = "/list/"
+        const val USER_LIST_PATH_SEGMENT = "list"
         const val LIST_FILM_COUNT_REGEX = "\\d+"
     }
 
@@ -120,7 +123,23 @@ class RandomFilmScrappingRepository(
             parseUserListsPage(html)
         }
 
-    private fun parseUserListsPage(html: String): ResultData<UserListsPage, DataError.Remote> {
+    override suspend fun getPopularLists(page: Int): ResultData<UserListsPage, DataError.Remote> =
+        withContext(Dispatchers.IO) {
+            // Same card markup as the user lists pages, but the cards belong to other users, so the owner is
+            // scrapped too and callers can build the `owner/slug` identifier the film scraper understands.
+            val html =
+                when (val htmlResult = getWebPageOrNotFound(RandomBoxdEndpoints.getPopularLists(page))) {
+                    is ResultData.Success -> htmlResult.data
+                    is ResultData.Error -> return@withContext ResultData.Error(htmlResult.error)
+                }
+
+            parseUserListsPage(html, withOwner = true)
+        }
+
+    private fun parseUserListsPage(
+        html: String,
+        withOwner: Boolean = false,
+    ): ResultData<UserListsPage, DataError.Remote> {
         val doc =
             try {
                 Ksoup.parse(html)
@@ -146,7 +165,8 @@ class RandomFilmScrappingRepository(
                             .orEmpty()
                     if (name.isEmpty()) return@mapNotNull null
 
-                    val slug = parseUserListSlug(item.selectFirst(USER_LIST_NAME_QUERY)?.attr("href").orEmpty())
+                    val href = item.selectFirst(USER_LIST_NAME_QUERY)?.attr("href").orEmpty()
+                    val slug = parseUserListSlug(href)
                     if (slug == null) return@mapNotNull null
 
                     val filmCount =
@@ -155,7 +175,9 @@ class RandomFilmScrappingRepository(
                             ?.text()
                             ?.let { Regex(LIST_FILM_COUNT_REGEX).find(it)?.value?.toIntOrNull() }
 
-                    UserList(name = name, slug = slug, filmCount = filmCount)
+                    val ownerUsername = if (withOwner) parseUserListOwner(item, href) else null
+
+                    UserList(name = name, slug = slug, filmCount = filmCount, ownerUsername = ownerUsername)
                 }.distinctBy { it.slug }
 
         if (userLists.isEmpty()) return ResultData.Error(DataError.Remote.SERIALIZATION)
@@ -172,6 +194,27 @@ class RandomFilmScrappingRepository(
             .substring(markerIndex + USER_LIST_PATH_MARKER.length)
             .trim('/')
             .ifBlank { null }
+    }
+
+    /** Owner of a list card: the path segment right before `/list/` in the href, or the `data-person` fallback. */
+    private fun parseUserListOwner(
+        item: Element,
+        href: String,
+    ): String? {
+        val segments =
+            href
+                .substringBefore('?')
+                .substringBefore('#')
+                .split('/')
+                .filter { it.isNotBlank() }
+        val listIndex = segments.indexOf(USER_LIST_PATH_SEGMENT)
+        val owner = if (listIndex > 0) segments[listIndex - 1].trim().ifBlank { null } else null
+
+        return owner ?: item
+            .selectFirst(USER_LIST_OWNER_QUERY)
+            ?.attr("data-person")
+            ?.trim()
+            ?.ifBlank { null }
     }
 
     private suspend fun getFilmsFromUserWatchlist(

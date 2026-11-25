@@ -90,4 +90,22 @@ class RandomBoxdEndpointsTest {
         val result = RandomBoxdEndpoints.getUserLists("testuser", page = 1)
         assertEquals("https://letterboxd.com/testuser/lists/", result)
     }
+
+    @Test
+    fun `getPopularLists returns the popular lists index url`() {
+        val result = RandomBoxdEndpoints.getPopularLists()
+        assertEquals("https://letterboxd.com/lists/popular/", result)
+    }
+
+    @Test
+    fun `getPopularLists with page returns the paged popular lists url`() {
+        val result = RandomBoxdEndpoints.getPopularLists(page = 3)
+        assertEquals("https://letterboxd.com/lists/popular/page/3/", result)
+    }
+
+    @Test
+    fun `getPopularLists with page one returns the index url`() {
+        val result = RandomBoxdEndpoints.getPopularLists(page = 1)
+        assertEquals("https://letterboxd.com/lists/popular/", result)
+    }
 }

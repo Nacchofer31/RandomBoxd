@@ -3,6 +3,7 @@ package com.nacchofer31.randomboxd.random_film.presentation.viewmodel
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nacchofer31.randomboxd.core.domain.DataError
 import com.nacchofer31.randomboxd.core.domain.DispatcherProvider
 import com.nacchofer31.randomboxd.core.domain.ResultData
 import com.nacchofer31.randomboxd.core.domain.randomExcluding
@@ -11,6 +12,7 @@ import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.domain.model.UserList
+import com.nacchofer31.randomboxd.random_film.domain.model.UserListsPage
 import com.nacchofer31.randomboxd.random_film.domain.model.UserName
 import com.nacchofer31.randomboxd.random_film.domain.repository.InAppReviewRepository
 import com.nacchofer31.randomboxd.random_film.domain.repository.RandomFilmRepository
@@ -210,6 +212,10 @@ class RandomFilmViewModel(
                 onUserListsEndReached()
             }
 
+            is RandomFilmAction.OnDiscoverListsClick -> {
+                onDiscoverListsClick()
+            }
+
             is RandomFilmAction.OnRemoveUserName -> {
                 viewModelScope.launch {
                     if (internalState.value.userNameSearchList.contains(action.userName.username)) {
@@ -330,46 +336,101 @@ class RandomFilmViewModel(
                 delay(USER_LISTS_DEBOUNCE_MS)
                 val result = repository.getUserLists(listUser, page = 1)
                 // Drop results from a superseded lookup (cancelled or a different user was typed meanwhile).
-                if (!isActive || ParsedUserNameInput.from(internalState.value.userName).listUser != listUser) {
+                if (!isActive || !isListSessionActive(listUser)) {
                     return@launch
                 }
 
-                internalState.update { current ->
-                    when (result) {
-                        is ResultData.Success -> {
-                            current.copy(
-                                userLists = result.data.lists,
-                                userListsForUser = listUser,
-                                isLoadingUserLists = false,
-                                userListsError = null,
-                                userListsPage = 1,
-                                userListsHasMore = result.data.hasMore,
-                            )
-                        }
-
-                        is ResultData.Error -> {
-                            current.copy(
-                                userLists = emptyList(),
-                                isLoadingUserLists = false,
-                                userListsError = result.error,
-                                userListsPage = 1,
-                                userListsHasMore = false,
-                            )
-                        }
-                    }
-                }
+                internalState.update { it.withFirstUserListsPage(listUser, result) }
             }
     }
+
+    private fun onDiscoverListsClick() {
+        val state = internalState.value
+        // Same button closes the listing it opened, mirroring the picker's own dismiss behaviour.
+        if (state.userListsDropdownVisible && state.isShowingPopularLists) {
+            internalState.update { it.copy(userListsDropdownVisible = false) }
+            return
+        }
+
+        userListsJob?.cancel()
+        internalState.update {
+            it.copy(
+                userListsDropdownVisible = true,
+                // The shared listing is cached under a key no username can produce, so the picker can tell
+                // which source its lists came from (needed by the toggle above and by the owner fallback).
+                userListsForUser = POPULAR_LISTS_USER_KEY,
+                isLoadingUserLists = true,
+                userLists = emptyList(),
+                userListsError = null,
+                userListsPage = 1,
+                userListsHasMore = false,
+                isLoadingMoreUserLists = false,
+                userListsLoadMoreError = false,
+            )
+        }
+        userListsJob =
+            viewModelScope.launch(dispatchers.io) {
+                // A button tap is already an explicit request, so there is no debounce here.
+                val result = repository.getPopularLists(page = 1)
+                if (!isActive || !isListSessionActive(POPULAR_LISTS_USER_KEY)) {
+                    return@launch
+                }
+
+                internalState.update { it.withFirstUserListsPage(POPULAR_LISTS_USER_KEY, result) }
+            }
+    }
+
+    /**
+     * Whether [listUser] is still the source the picker shows. The popular listing is identified by its cache key
+     * because the textfield keeps whatever the user had typed while it is open.
+     */
+    private fun isListSessionActive(listUser: String): Boolean {
+        val state = internalState.value
+        return if (listUser == POPULAR_LISTS_USER_KEY) {
+            state.isShowingPopularLists
+        } else {
+            ParsedUserNameInput.from(state.userName).listUser == listUser
+        }
+    }
+
+    private fun RandomFilmState.withFirstUserListsPage(
+        listUser: String,
+        result: ResultData<UserListsPage, DataError.Remote>,
+    ): RandomFilmState =
+        when (result) {
+            is ResultData.Success -> {
+                copy(
+                    userLists = result.data.lists,
+                    userListsForUser = listUser,
+                    isLoadingUserLists = false,
+                    userListsError = null,
+                    userListsPage = 1,
+                    userListsHasMore = result.data.hasMore,
+                )
+            }
+
+            is ResultData.Error -> {
+                copy(
+                    userLists = emptyList(),
+                    isLoadingUserLists = false,
+                    userListsError = result.error,
+                    userListsPage = 1,
+                    userListsHasMore = false,
+                )
+            }
+        }
 
     private fun onUserListsEndReached() {
         val state = internalState.value
         // Same parser as the textfield, so a chip tap or a different user typed mid-flight invalidates the load.
         // Every guard below is a pure early return, so their order does not change the behaviour.
         val parsedInput = ParsedUserNameInput.from(state.userName)
-        val listUser = parsedInput.listUser ?: return
+        val listUser =
+            if (state.isShowingPopularLists) POPULAR_LISTS_USER_KEY else parsedInput.listUser ?: return
         if (listUser != state.userListsForUser) return
         // Filtering is client side over the already loaded pages: never request more pages while it is active.
-        if (parsedInput.listQuery.isNotBlank()) return
+        // In popular mode there is no meaningful query, so the picker keeps paginating.
+        if (state.userListsQuery.isNotBlank()) return
         if (!state.userListsDropdownVisible ||
             !state.userListsHasMore ||
             state.isLoadingUserLists ||
@@ -383,10 +444,15 @@ class RandomFilmViewModel(
             it.copy(isLoadingMoreUserLists = true, userListsLoadMoreError = false)
         }
         viewModelScope.launch(dispatchers.io) {
-            val result = repository.getUserLists(listUser, nextPage)
+            val result =
+                if (state.isShowingPopularLists) {
+                    repository.getPopularLists(nextPage)
+                } else {
+                    repository.getUserLists(listUser, nextPage)
+                }
             // Drop results of a page that no longer belongs to the current picker session (and release the
             // footer spinner so the next picker session starts clean).
-            if (!isActive || ParsedUserNameInput.from(internalState.value.userName).listUser != listUser) {
+            if (!isActive || !isListSessionActive(listUser)) {
                 internalState.update { it.copy(isLoadingMoreUserLists = false) }
                 return@launch
             }
@@ -417,9 +483,11 @@ class RandomFilmViewModel(
     }
 
     private fun onUserListSelected(list: UserList) {
-        val listUser = ParsedUserNameInput.from(internalState.value.userName).listUser ?: return
+        val listUser = ParsedUserNameInput.from(internalState.value.userName).listUser
+        // Popular lists belong to other users, so the owner scrapped from the card wins over the typed name.
+        val owner = list.ownerUsername ?: listUser ?: return
 
-        val value = "$listUser/${list.slug}"
+        val value = "$owner/${list.slug}"
         fillUserNameProgrammatically(value)
         // Persisted like any manually typed username (the chip shows up), but the union/intersection search
         // list stays manual: including it is a long-press action, not a side effect of picking a list.

@@ -889,4 +889,148 @@ class RandomFilmScrappingRepositoryTest {
             assertIs<ResultData.Error<*>>(result)
             assertEquals(DataError.Remote.SERVER, (result as ResultData.Error).error)
         }
+
+    // ── Popular lists ──────────────────────────────────────────────
+
+    private val popularListsHtml =
+        """
+        <div class="listitem js-listitem">
+            <article class="list-summary js-list-summary js-list" data-film-list-id="101" data-person="official">
+                <div class="body">
+                    <div class="masthead">
+                        <h2 class="name prettify"><a href="/official/list/letterboxds-top-500-films/">Letterboxd's Top 500 Films</a></h2>
+                        <div class="content-reactions-strip -filmlist"><span class="value">500&#160;films</span></div>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div class="listitem js-listitem">
+            <article class="list-summary js-list-summary js-list" data-film-list-id="102" data-person="dave">
+                <div class="body">
+                    <div class="masthead">
+                        <h2 class="name prettify"><a href="/dave/list/best-of-the-decade/">Best of the Decade</a></h2>
+                        <div class="content-reactions-strip -filmlist"><span class="value">42&#160;films</span></div>
+                    </div>
+                </div>
+            </article>
+        </div>
+        """.trimIndent()
+
+    private val popularListSecondPageHtml =
+        """
+        <div class="listitem js-listitem">
+            <article class="list-summary js-list-summary js-list" data-film-list-id="103" data-person="sarah">
+                <div class="body">
+                    <div class="masthead">
+                        <h2 class="name prettify"><a href="/sarah/list/comfort-watches/">Comfort Watches</a></h2>
+                        <div class="content-reactions-strip -filmlist"><span class="value">18&nbsp;films</span></div>
+                    </div>
+                </div>
+            </article>
+        </div>
+        """.trimIndent()
+
+    @Test
+    fun `getPopularLists parses lists with their owner usernames`() =
+        runTest {
+            val requestedUrls = mutableListOf<String>()
+            val mockEngine =
+                MockEngine { request ->
+                    requestedUrls += request.url.toString()
+                    respond(popularListsHtml, HttpStatusCode.OK, headersOf("Content-Type", "text/html"))
+                }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getPopularLists()
+
+            assertIs<ResultData.Success<*>>(result)
+            val page = (result as ResultData.Success).data as UserListsPage
+            assertEquals(2, page.lists.size)
+            assertEquals("Letterboxd's Top 500 Films", page.lists[0].name)
+            assertEquals("letterboxds-top-500-films", page.lists[0].slug)
+            assertEquals(500, page.lists[0].filmCount)
+            assertEquals("official", page.lists[0].ownerUsername)
+            assertEquals("Best of the Decade", page.lists[1].name)
+            assertEquals("best-of-the-decade", page.lists[1].slug)
+            assertEquals(42, page.lists[1].filmCount)
+            assertEquals("dave", page.lists[1].ownerUsername)
+            assertEquals(listOf("https://letterboxd.com/lists/popular/"), requestedUrls)
+        }
+
+    @Test
+    fun `getPopularLists reports more pages when a next anchor exists`() =
+        runTest {
+            val mockEngine =
+                MockEngine { _ ->
+                    respond(
+                        popularListsHtml + userListsNextPageHtml,
+                        HttpStatusCode.OK,
+                        headersOf("Content-Type", "text/html"),
+                    )
+                }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getPopularLists(page = 1)
+
+            assertIs<ResultData.Success<*>>(result)
+            val page = (result as ResultData.Success).data as UserListsPage
+            assertEquals(2, page.lists.size)
+            assertTrue(page.hasMore)
+        }
+
+    @Test
+    fun `getPopularLists requests the paged url and reports no more pages on the last page`() =
+        runTest {
+            val requestedUrls = mutableListOf<String>()
+            val mockEngine =
+                MockEngine { request ->
+                    requestedUrls += request.url.toString()
+                    respond(
+                        popularListSecondPageHtml + userListsLastPageHtml,
+                        HttpStatusCode.OK,
+                        headersOf("Content-Type", "text/html"),
+                    )
+                }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getPopularLists(page = 2)
+
+            assertIs<ResultData.Success<*>>(result)
+            val page = (result as ResultData.Success).data as UserListsPage
+            assertEquals(1, page.lists.size)
+            assertEquals("Comfort Watches", page.lists[0].name)
+            assertEquals("comfort-watches", page.lists[0].slug)
+            assertEquals(18, page.lists[0].filmCount)
+            assertEquals("sarah", page.lists[0].ownerUsername)
+            assertFalse(page.hasMore)
+            assertEquals(listOf("https://letterboxd.com/lists/popular/page/2/"), requestedUrls)
+        }
+
+    @Test
+    fun `getPopularLists returns an empty page when the listing is empty`() =
+        runTest {
+            val mockEngine =
+                MockEngine { _ -> respond("", HttpStatusCode.OK, headersOf("Content-Type", "text/html")) }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getPopularLists()
+
+            assertIs<ResultData.Success<*>>(result)
+            val page = (result as ResultData.Success).data as UserListsPage
+            assertTrue(page.lists.isEmpty())
+            assertFalse(page.hasMore)
+        }
+
+    @Test
+    fun `getPopularLists maps a not found page to NO_RESULTS`() =
+        runTest {
+            val mockEngine =
+                MockEngine { _ -> respond("", HttpStatusCode.NotFound, headersOf("Content-Type", "text/html")) }
+            val repository = createRepository(mockEngine)
+
+            val result = repository.getPopularLists()
+
+            assertIs<ResultData.Error<*>>(result)
+            assertEquals(DataError.Remote.NO_RESULTS, (result as ResultData.Error).error)
+        }
 }
