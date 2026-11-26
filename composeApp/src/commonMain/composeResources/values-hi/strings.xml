@@ -17,7 +17,7 @@
     <string name="tip_username_format">प्रयास करें: उपयोगकर्ता नाम या उपयोगकर्ता नाम/सूची-नाम</string>
     <string name="tip_hold_submit">बहु-उपयोगकर्ता मोड के लिए जमा करें या टैग को लंबे समय तक दबाएं</string>
     <string name="tip_genre_filter">शैली के आधार पर परिणामों को फ़िल्टर करने के लिए शैली बटन का उपयोग करें</string>
-    <string name="tip_history">अब आप इतिहास बटन दबाकर अपने चयनों का इतिहास देख सकते हैं</string>
+    <string name="tip_tournament">फ़िल्म टूर्नामेंट में भाग लें और विजेता का ताज पहनाएँ</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">अब कभी भी फिल्म चुनने में संघर्ष न करें</string>
     <string name="onboarding_welcome_description">अपनी Letterboxd वॉचलिस्ट और कस्टम सूचियों से यादृच्छिक फिल्म सुझाव प्राप्त करें। फिल्म की रातों के लिए एकदम सही!</string>
@@ -103,6 +103,10 @@
     <string name="history_days_ago">%1$d दिन पहले</string>
     <string name="tournament_size_title">टूर्नामेंट का आकार</string>
     <string name="tournament_button_label">टूर्नामेंट</string>
+    <plurals name="tournament_results_count">
+        <item quantity="one">%1$d परिणाम</item>
+        <item quantity="other">%1$d परिणाम</item>
+    </plurals>
     <string name="tournament_round_final">फ़ाइनल</string>
     <string name="tournament_round_semifinals">सेमीफ़ाइनल</string>
     <string name="tournament_round_quarterfinals">क्वार्टरफ़ाइनल</string>

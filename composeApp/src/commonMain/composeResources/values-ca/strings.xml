@@ -17,7 +17,7 @@
     <string name="tip_username_format">Prova: usuari o usuari/nom-llista</string>
     <string name="tip_hold_submit">Mantén premut Envia o les etiquetes per al mode multiusuari</string>
     <string name="tip_genre_filter">Usa el botó Gènere per filtrar resultats per gènere</string>
-    <string name="tip_history">Ara pots veure el teu historial de seleccions prement el botó Historial</string>
+    <string name="tip_tournament">Compiteix en un torneig de pel·lícules i corona un campió</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">No tornis a tenir problemes per triar pel·lícula</string>
     <string name="onboarding_welcome_description">Obtén suggeriments de pel·lícules aleatòries de les teves llistes de seguiment i llistes personalitzades de Letterboxd. Perfecte per a nits de cinema!</string>
@@ -103,6 +103,10 @@
     <string name="history_days_ago">Fa %1$d dies</string>
     <string name="tournament_size_title">Mida del torneig</string>
     <string name="tournament_button_label">Torneig</string>
+    <plurals name="tournament_results_count">
+        <item quantity="one">%1$d resultat</item>
+        <item quantity="other">%1$d resultats</item>
+    </plurals>
     <string name="tournament_round_final">Final</string>
     <string name="tournament_round_semifinals">Semifinals</string>
     <string name="tournament_round_quarterfinals">Quarts de final</string>

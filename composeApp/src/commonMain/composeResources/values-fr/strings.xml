@@ -17,7 +17,7 @@
     <string name="tip_username_format">Essayez : utilisateur ou utilisateur/nom-liste</string>
     <string name="tip_hold_submit">Appuyez longuement sur Envoyer ou sur les tags pour le mode multi-utilisateur</string>
     <string name="tip_genre_filter">Utilisez le bouton Genre pour filtrer les résultats par genre</string>
-    <string name="tip_history">Vous pouvez désormais consulter votre historique de sélections en appuyant sur le bouton Historique</string>
+    <string name="tip_tournament">Participez à un tournoi de films et couronnez un champion</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">Ne galérez plus jamais pour choisir un film</string>
     <string name="onboarding_welcome_description">Obtenez des suggestions de films aléatoires depuis vos listes de suivi et listes personnalisées Letterboxd. Parfait pour les soirées cinéma !</string>
@@ -103,6 +103,10 @@
     <string name="history_days_ago">Il y a %1$d jours</string>
     <string name="tournament_size_title">Taille du tournoi</string>
     <string name="tournament_button_label">Tournoi</string>
+    <plurals name="tournament_results_count">
+        <item quantity="one">%1$d résultat</item>
+        <item quantity="other">%1$d résultats</item>
+    </plurals>
     <string name="tournament_round_final">Finale</string>
     <string name="tournament_round_semifinals">Demi-finales</string>
     <string name="tournament_round_quarterfinals">Quarts de finale</string>

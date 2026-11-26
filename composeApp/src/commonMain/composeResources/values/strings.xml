@@ -17,7 +17,7 @@
     <string name="tip_username_format">Try: username or username/list-name</string>
     <string name="tip_hold_submit">Long-press Submit or tags for multi-user mode</string>
     <string name="tip_genre_filter">Use the Genre button to filter results by genre</string>
-    <string name="tip_history">Now you can view your pick history by pressing the History button</string>
+    <string name="tip_tournament">Compete in a film tournament and crown a champion</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">Never struggle to pick a movie again</string>
     <string name="onboarding_welcome_description">Get random movie suggestions from your Letterboxd watchlists and custom lists. Perfect for movie nights!</string>
@@ -103,6 +103,10 @@
     <string name="history_days_ago">%1$d days ago</string>
     <string name="tournament_size_title">Tournament Size</string>
     <string name="tournament_button_label">Tournament</string>
+    <plurals name="tournament_results_count">
+        <item quantity="one">%1$d result</item>
+        <item quantity="other">%1$d results</item>
+    </plurals>
     <string name="tournament_round_final">Final</string>
     <string name="tournament_round_semifinals">Semifinals</string>
     <string name="tournament_round_quarterfinals">Quarterfinals</string>
