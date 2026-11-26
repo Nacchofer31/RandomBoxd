@@ -72,6 +72,11 @@ sealed interface RandomFilmAction {
         val size: TournamentSize,
     ) : RandomFilmAction
 
+    /** The tournament finished and its champion becomes the shown result (history is saved by the tournament). */
+    data class OnTournamentChampion(
+        val champion: Film,
+    ) : RandomFilmAction
+
     data object OnRerollClicked : RandomFilmAction
 
     data object OnHistoryButtonClick : RandomFilmAction

@@ -2,7 +2,11 @@ package com.nacchofer31.randomboxd.app
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavBackStackEntry
@@ -16,8 +20,10 @@ import com.nacchofer31.randomboxd.core.data.OnboardingPreferences
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdTypography
 import com.nacchofer31.randomboxd.history.presentation.HistoryScreenRoot
 import com.nacchofer31.randomboxd.onboarding.presentation.OnboardingScreen
+import com.nacchofer31.randomboxd.random_film.domain.model.Film
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.presentation.RandomFilmScreenRoot
+import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmViewModel
 import com.nacchofer31.randomboxd.tournament.presentation.TournamentFilmProvider
 import com.nacchofer31.randomboxd.tournament.presentation.screen.TournamentScreenRoot
@@ -61,6 +67,14 @@ fun RandomBoxdApp() {
             ) {
                 composable<RandomBoxdRoute.RandomFilm> {
                     val viewModel = koinViewModel<RandomFilmViewModel>()
+                    // Consume the champion handed back by the tournament: it lives in a singleton, so the
+                    // LaunchedEffect can restart (recomposition, rotation) without applying it twice.
+                    LaunchedEffect(tournamentFilmProvider) {
+                        tournamentFilmProvider.champion.collect {
+                            val champion = tournamentFilmProvider.consumeChampion() ?: return@collect
+                            viewModel.onAction(RandomFilmAction.OnTournamentChampion(champion))
+                        }
+                    }
                     RandomFilmScreenRoot(
                         viewModel = viewModel,
                         onFilmClicked = { film ->
@@ -97,13 +111,25 @@ fun RandomBoxdApp() {
                     tournamentFilmProvider.pendingUserNames = emptySet()
                     tournamentFilmProvider.pendingSearchMode = FilmSearchMode.INTERSECTION
                     tournamentFilmProvider.pendingGenres = emptySet()
+                    // A tap and the system back can both land during the same transition: the exit may only be
+                    // started once (a second popBackStack would remove RandomFilm too).
+                    var exitRequested by remember(entry) { mutableStateOf(false) }
+                    val leaveTournament: (Film?) -> Unit = { champion ->
+                        if (!exitRequested) {
+                            exitRequested = true
+                            // Only publish when the exit is actually happening, so a stray call leaves no champion behind.
+                            if (champion != null) tournamentFilmProvider.publishChampion(champion)
+                            navController.popBackStack()
+                        }
+                    }
                     TournamentScreenRoot(
                         size = route.size,
                         films = films,
                         userNames = userNames,
                         searchMode = searchMode,
                         genres = genres,
-                        onBackClick = { navController.popBackStack() },
+                        onBackClick = { leaveTournament(null) },
+                        onChampionBack = { champion -> leaveTournament(champion) },
                     )
                 }
             }

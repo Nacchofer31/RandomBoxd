@@ -20,7 +20,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -66,23 +68,44 @@ fun TournamentScreenRoot(
     genres: Set<FilmGenre>,
     viewModel: TournamentViewModel = koinViewModel(parameters = { parametersOf(size, films, userNames, searchMode, genres) }),
     onBackClick: () -> Unit,
+    onChampionBack: ((Film) -> Unit)? = null,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     TournamentScreen(
         state = state,
         onAction = viewModel::onAction,
         onBackClick = onBackClick,
+        onChampionBack = onChampionBack,
     )
 }
 
+/**
+ * Renders the tournament. When the tournament is finished, every back path (system back, header arrow and the
+ * champion screen button) delivers the champion through [onChampionBack] instead of leaving it behind; without a
+ * sink it falls back to [onBackClick], and any earlier phase always uses [onBackClick] so an unfinished tournament
+ * never touches the previous RandomFilm result.
+ */
+@Suppress("DEPRECATION")
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TournamentScreen(
     state: TournamentState,
     onAction: (TournamentAction) -> Unit,
     onBackClick: () -> Unit,
+    onChampionBack: ((Film) -> Unit)? = null,
 ) {
+    val finishedChampion = if (state.phase == TournamentPhase.CHAMPION) state.tournament?.champion else null
+    val back: () -> Unit = {
+        if (finishedChampion != null && onChampionBack != null) {
+            onChampionBack(finishedChampion)
+        } else {
+            onBackClick()
+        }
+    }
+    // System back follows the very same path, and is only intercepted while a champion is on screen.
+    BackHandler(enabled = finishedChampion != null, onBack = back)
     Scaffold(
-        topBar = { TournamentHeader(onBackClick) },
+        topBar = { TournamentHeader(back) },
         containerColor = RandomBoxdColors.BackgroundDarkColor,
     ) { paddingValues ->
         Column(
@@ -124,7 +147,7 @@ fun TournamentScreen(
                         roundCount = tournament.size.roundCount,
                         matchCount = tournament.size.totalMatchCount,
                         onNewTournament = { onAction(TournamentAction.OnNewTournamentClicked) },
-                        onBackClick = onBackClick,
+                        onBackClick = back,
                     )
                 }
 

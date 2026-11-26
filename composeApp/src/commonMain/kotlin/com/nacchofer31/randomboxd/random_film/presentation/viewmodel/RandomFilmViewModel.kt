@@ -276,6 +276,10 @@ class RandomFilmViewModel(
                 startTournament(action.size)
             }
 
+            is RandomFilmAction.OnTournamentChampion -> {
+                applyTournamentChampion(action.champion)
+            }
+
             is RandomFilmAction.OnRerollClicked -> {
                 rerollMovie()
             }
@@ -516,6 +520,15 @@ class RandomFilmViewModel(
     private fun resetValues() =
         internalState.update {
             it.copy(resultError = null, resultFilm = null)
+        }
+
+    /**
+     * Shows the tournament champion as the current result. History is already saved by the tournament and
+     * the search context (cached films, result count, inputs) must stay untouched, so only the result changes.
+     */
+    private fun applyTournamentChampion(champion: Film) =
+        internalState.update {
+            it.copy(resultFilm = champion, resultError = null, isLoading = false)
         }
 
     private fun onFilmSearchModeToggle() =
