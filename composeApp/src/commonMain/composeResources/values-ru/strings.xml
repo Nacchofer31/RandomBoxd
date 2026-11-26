@@ -30,6 +30,7 @@
     <string name="onboarding_search_subtitle">Ищите список любого пользователя или пользовательский список. Предыдущие поиски сохраняются как теги быстрого доступа.</string>
     <string name="onboarding_search_feature1">Сохранение имён пользователей для быстрого повторного использования</string>
     <string name="onboarding_search_feature2">Доступ к любому пользовательскому списку Letterboxd</string>
+    <string name="onboarding_search_feature3">Популярные списки Letterboxd</string>
     <string name="onboarding_multiuser_title">Многопользовательский режим</string>
     <string name="onboarding_multiuser_subtitle">Объединяйте списки просмотра нескольких пользователей. Находите общие фильмы (Пересечение) или выбирайте из всех объединённых списков (Объединение).</string>
     <string name="onboarding_multiuser_feature1">Только общие фильмы</string>
@@ -75,6 +76,11 @@
     <string name="onboarding_history_feature2">Отмечайте любимое касанием сердца</string>
     <string name="onboarding_history_feature3">Очищайте историю в любое время</string>
     <string name="onboarding_history_footer">Всего выбрано 24 фильма</string>
+    <string name="onboarding_tournament_title">Турнир</string>
+    <string name="onboarding_tournament_subtitle">Превратите свой список просмотра в турнирную сетку и определите фильм-победитель.</string>
+    <string name="onboarding_tournament_feature1">Выберите 2, 4, 8, 16 или 32 фильма</string>
+    <string name="onboarding_tournament_feature2">Выбирайте победителя каждой пары</string>
+    <string name="onboarding_tournament_feature3">Голосуйте, пока не будет определён фильм-чемпион</string>
     <string name="rolling_the_dice">Бросаем кубики...</string>
     <string name="finding_random_movie">Ищем ваш случайный фильм</string>
     <string name="reroll">Перебросить</string>

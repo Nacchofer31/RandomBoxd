@@ -30,6 +30,7 @@
     <string name="onboarding_search_subtitle">搜索任何用户的列表或自定义列表。您之前的搜索将保存为快速访问标签。</string>
     <string name="onboarding_search_feature1">保存用户名以便快速重复使用</string>
     <string name="onboarding_search_feature2">访问任何 Letterboxd 自定义列表</string>
+    <string name="onboarding_search_feature3">发现热门的 Letterboxd 列表</string>
     <string name="onboarding_multiuser_title">多用户模式</string>
     <string name="onboarding_multiuser_subtitle">合并多个用户的想看列表。查找共同电影（交集）或从所有合并列表中选择（并集）。</string>
     <string name="onboarding_multiuser_feature1">仅共同电影</string>
@@ -75,6 +76,11 @@
     <string name="onboarding_history_feature2">点击心形图标标记收藏</string>
     <string name="onboarding_history_feature3">随时清除您的历史记录</string>
     <string name="onboarding_history_footer">共选择了 24 部电影</string>
+    <string name="onboarding_tournament_title">锦标赛</string>
+    <string name="onboarding_tournament_subtitle">把想看列表变成淘汰赛对阵图，选出最终获胜影片。</string>
+    <string name="onboarding_tournament_feature1">可选择 2、4、8、16 或 32 部影片</string>
+    <string name="onboarding_tournament_feature2">为每一组对决选出胜者</string>
+    <string name="onboarding_tournament_feature3">持续投票，直到一部影片夺冠</string>
     <string name="rolling_the_dice">掷骰子中...</string>
     <string name="finding_random_movie">正在寻找您的随机电影</string>
     <string name="reroll">重新掷骰</string>

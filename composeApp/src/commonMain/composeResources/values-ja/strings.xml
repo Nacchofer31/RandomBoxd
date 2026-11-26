@@ -30,6 +30,7 @@
     <string name="onboarding_search_subtitle">任意のユーザーのリストやカスタムリストを検索。以前の検索はクイックアクセスタグとして保存されます。</string>
     <string name="onboarding_search_feature1">ユーザー名を保存して素早く再利用</string>
     <string name="onboarding_search_feature2">Letterboxdのカスタムリストにアクセス</string>
+    <string name="onboarding_search_feature3">人気のLetterboxdリストを見つける</string>
     <string name="onboarding_multiuser_title">マルチユーザーモード</string>
     <string name="onboarding_multiuser_subtitle">複数ユーザーのウォッチリストを結合。共通の映画を見つける（共通）か、すべての結合リストから選ぶ（結合）。</string>
     <string name="onboarding_multiuser_feature1">共通の映画のみ</string>
@@ -75,6 +76,11 @@
     <string name="onboarding_history_feature2">ハートをタップしてお気に入りをマーク</string>
     <string name="onboarding_history_feature3">いつでも履歴をクリアできます</string>
     <string name="onboarding_history_footer">合計24作品を選択済み</string>
+    <string name="onboarding_tournament_title">トーナメント</string>
+    <string name="onboarding_tournament_subtitle">ウォッチリストを勝ち抜きトーナメント表にして、最優秀作品を決めよう。</string>
+    <string name="onboarding_tournament_feature1">2・4・8・16・32本から選べる</string>
+    <string name="onboarding_tournament_feature2">各対戦の勝者を選ぶ</string>
+    <string name="onboarding_tournament_feature3">1本がチャンピオンになるまで投票を続ける</string>
     <string name="rolling_the_dice">サイコロを振っています...</string>
     <string name="finding_random_movie">ランダム映画を探しています</string>
     <string name="reroll">もう一度振る</string>

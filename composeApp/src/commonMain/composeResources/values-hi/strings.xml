@@ -30,6 +30,7 @@
     <string name="onboarding_search_subtitle">किसी भी उपयोगकर्ता की सूची या कस्टम सूची खोजें। आपकी पिछली खोजें त्वरित-पहुंच टैग के रूप में सहेजी जाती हैं।</string>
     <string name="onboarding_search_feature1">त्वरित पुन: उपयोग के लिए उपयोगकर्ता नाम सहेजें</string>
     <string name="onboarding_search_feature2">किसी भी कस्टम Letterboxd सूची तक पहुंचें</string>
+    <string name="onboarding_search_feature3">लोकप्रिय Letterboxd सूचियाँ खोजें</string>
     <string name="onboarding_multiuser_title">बहु-उपयोगकर्ता मोड</string>
     <string name="onboarding_multiuser_subtitle">कई उपयोगकर्ताओं की वॉचलिस्ट को संयोजित करें। साझा फिल्में खोजें (प्रतिच्छेदन) या सभी संयुक्त सूचियों में से चुनें (संघ)।</string>
     <string name="onboarding_multiuser_feature1">केवल साझा फिल्में</string>
@@ -75,6 +76,11 @@
     <string name="onboarding_history_feature2">दिल पर टैप करके पसंदीदा चिह्नित करें</string>
     <string name="onboarding_history_feature3">कभी भी अपना इतिहास साफ़ करें</string>
     <string name="onboarding_history_footer">कुल 24 फ़िल्में चयनित</string>
+    <string name="onboarding_tournament_title">टूर्नामेंट</string>
+    <string name="onboarding_tournament_subtitle">अपनी वॉचलिस्ट को नॉकआउट ब्रैकेट में बदलें और एक विजेता फ़िल्म का ताज पहनाएँ।</string>
+    <string name="onboarding_tournament_feature1">2, 4, 8, 16 या 32 फ़िल्में चुनें</string>
+    <string name="onboarding_tournament_feature2">हर आमने-सामने के मुक़ाबले का विजेता चुनें</string>
+    <string name="onboarding_tournament_feature3">एक फ़िल्म के चैंपियन बनने तक वोट करते रहें</string>
     <string name="rolling_the_dice">पासा फेंक रहे हैं...</string>
     <string name="finding_random_movie">आपकी यादृच्छिक फिल्म खोज रहे हैं</string>
     <string name="reroll">फिर से फेंकें</string>

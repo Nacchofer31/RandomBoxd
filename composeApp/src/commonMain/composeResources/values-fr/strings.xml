@@ -30,6 +30,7 @@
     <string name="onboarding_search_subtitle">Recherchez la liste de n\'importe quel utilisateur ou liste personnalisée. Vos recherches précédentes sont sauvegardées comme tags d\'accès rapide.</string>
     <string name="onboarding_search_feature1">Sauvegarder les noms d\'utilisateur pour réutilisation</string>
     <string name="onboarding_search_feature2">Accéder à toute liste personnalisée Letterboxd</string>
+    <string name="onboarding_search_feature3">Découvrir les listes populaires de Letterboxd</string>
     <string name="onboarding_multiuser_title">Mode multi-utilisateur</string>
     <string name="onboarding_multiuser_subtitle">Combinez les listes de suivi de plusieurs utilisateurs. Trouvez les films communs (Intersection) ou choisissez parmi toutes les listes combinées (Union).</string>
     <string name="onboarding_multiuser_feature1">Films partagés uniquement</string>
@@ -75,6 +76,11 @@
     <string name="onboarding_history_feature2">Touchez le cœur pour marquer vos favoris</string>
     <string name="onboarding_history_feature3">Effacez votre historique à tout moment</string>
     <string name="onboarding_history_footer">24 films sélectionnés au total</string>
+    <string name="onboarding_tournament_title">Tournoi</string>
+    <string name="onboarding_tournament_subtitle">Transformez votre liste de suivi en tableau à élimination directe et couronnez un film gagnant.</string>
+    <string name="onboarding_tournament_feature1">Choisissez 2, 4, 8, 16 ou 32 films</string>
+    <string name="onboarding_tournament_feature2">Désignez le gagnant de chaque duel</string>
+    <string name="onboarding_tournament_feature3">Continuez de voter jusqu\'à couronner un film champion</string>
     <string name="rolling_the_dice">Lancement des dés...</string>
     <string name="finding_random_movie">Trouver votre film aléatoire</string>
     <string name="reroll">Relancer</string>

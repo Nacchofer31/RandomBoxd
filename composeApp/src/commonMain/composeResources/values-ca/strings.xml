@@ -30,6 +30,7 @@
     <string name="onboarding_search_subtitle">Cerca la llista de qualsevol usuari o llista personalitzada. Les teves cerques anteriors es guarden com a etiquetes d\'accés ràpid.</string>
     <string name="onboarding_search_feature1">Guarda noms d\'usuari per reutilitzar-los</string>
     <string name="onboarding_search_feature2">Accedeix a qualsevol llista personalitzada de Letterboxd</string>
+    <string name="onboarding_search_feature3">Descobreix llistes populars de Letterboxd</string>
     <string name="onboarding_multiuser_title">Mode multiusuari</string>
     <string name="onboarding_multiuser_subtitle">Combina llistes de seguiment de múltiples usuaris. Troba pel·lícules compartides (Intersecció) o tria de totes les llistes combinades (Unió).</string>
     <string name="onboarding_multiuser_feature1">Només pel·lícules compartides</string>
@@ -75,6 +76,11 @@
     <string name="onboarding_history_feature2">Marca favorits amb un toc al cor</string>
     <string name="onboarding_history_feature3">Esborra el teu historial quan vulguis</string>
     <string name="onboarding_history_footer">24 pel·lícules seleccionades en total</string>
+    <string name="onboarding_tournament_title">Torneig</string>
+    <string name="onboarding_tournament_subtitle">Converteix la teva llista de seguiment en un quadre eliminatori i corona una pel·lícula guanyadora.</string>
+    <string name="onboarding_tournament_feature1">Tria entre 2, 4, 8, 16 o 32 pel·lícules</string>
+    <string name="onboarding_tournament_feature2">Tria el guanyador de cada enfrontament</string>
+    <string name="onboarding_tournament_feature3">Segueix votant fins a coronar una pel·lícula campiona</string>
     <string name="rolling_the_dice">Llançant els daus...</string>
     <string name="finding_random_movie">Trobar la teva pel·lícula aleatòria</string>
     <string name="reroll">Tornar a tirar</string>

@@ -30,6 +30,7 @@
     <string name="onboarding_search_subtitle">Busca la lista de cualquier usuario o lista personalizada. Tus búsquedas anteriores se guardan como etiquetas de acceso rápido.</string>
     <string name="onboarding_search_feature1">Guarda nombres de usuario para reutilizarlos</string>
     <string name="onboarding_search_feature2">Accede a cualquier lista personalizada de Letterboxd</string>
+    <string name="onboarding_search_feature3">Descubre listas populares de Letterboxd</string>
     <string name="onboarding_multiuser_title">Modo multiusuario</string>
     <string name="onboarding_multiuser_subtitle">Combina listas de seguimiento de múltiples usuarios. Encuentra películas compartidas (Intersección) o elige de todas las listas combinadas (Unión).</string>
     <string name="onboarding_multiuser_feature1">Solo películas compartidas</string>
@@ -75,6 +76,11 @@
     <string name="onboarding_history_feature2">Marca favoritos con un toque en el corazón</string>
     <string name="onboarding_history_feature3">Borra tu historial cuando quieras</string>
     <string name="onboarding_history_footer">24 películas seleccionadas en total</string>
+    <string name="onboarding_tournament_title">Torneo</string>
+    <string name="onboarding_tournament_subtitle">Convierte tu watchlist en un cuadro eliminatorio y corona una película ganadora.</string>
+    <string name="onboarding_tournament_feature1">Elige entre 2, 4, 8, 16 o 32 películas</string>
+    <string name="onboarding_tournament_feature2">Elige el ganador de cada enfrentamiento</string>
+    <string name="onboarding_tournament_feature3">Sigue votando hasta coronar una película campeona</string>
     <string name="rolling_the_dice">Lanzando los dados...</string>
     <string name="finding_random_movie">Encontrando tu película aleatoria</string>
     <string name="reroll">Tirar de nuevo</string>
