@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
@@ -53,6 +54,9 @@ fun UserPill(
             fontSize = 11.sp,
             lineHeight = 14.sp,
             fontWeight = FontWeight.SemiBold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            softWrap = false,
             style =
                 TextStyle(
                     lineHeightStyle =

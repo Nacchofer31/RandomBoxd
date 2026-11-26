@@ -1,15 +1,26 @@
 package com.randomboxd.feature.random_film.presentation
 
 import android.graphics.Bitmap
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.assertWidthIsEqualTo
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.longClick
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import coil3.ImageLoader
@@ -28,6 +39,7 @@ import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmA
 import com.nacchofer31.randomboxd.utils.startTestKoin
 import com.nacchofer31.randomboxd.utils.stopTestKoin
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import org.junit.After
 import org.junit.Assert.assertTrue
@@ -37,6 +49,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import randomboxd.composeapp.generated.resources.Res
 import randomboxd.composeapp.generated.resources.discover_lists_label
+import randomboxd.composeapp.generated.resources.genre_button_label
+import randomboxd.composeapp.generated.resources.tournament_button_label
+import randomboxd.composeapp.generated.resources.tournament_results_count
 
 @RunWith(AndroidJUnit4::class)
 class RandomFilmScreenTest {
@@ -61,7 +76,11 @@ class RandomFilmScreenTest {
         SingletonImageLoader.reset()
     }
 
+    @OptIn(DelicateCoilApi::class)
     private fun setImageLoader(engine: FakeImageLoaderEngine) {
+        // Another test class in the same instrumentation run may have already created the singleton
+        // (any AsyncImage triggers the default loader), which makes setSafe throw: reset it first.
+        SingletonImageLoader.reset()
         SingletonImageLoader.setSafe {
             ImageLoader.Builder(context).components { add(engine) }.build()
         }
@@ -262,6 +281,113 @@ class RandomFilmScreenTest {
         }
 
         composeTestRule.onNodeWithTag("test-random-film-genre-badge").assertDoesNotExist()
+    }
+
+    // ── Filter pills (icon only) ────────────────────────────────────
+
+    @Test
+    fun genre_pill_is_icon_only_and_opens_genre_bottom_sheet() {
+        val actions = mutableListOf<RandomFilmAction>()
+        var label = ""
+        composeTestRule.setContent {
+            label = stringResource(Res.string.genre_button_label)
+            var showGenreBottomSheet by remember { mutableStateOf(false) }
+            RandomFilmScreen(
+                userNameList = MutableStateFlow<List<UserName>>(emptyList()),
+                showGenreBottomSheet = showGenreBottomSheet,
+                onAction = { action ->
+                    actions += action
+                    if (action is RandomFilmAction.OnGenreBottomSheetOpen) {
+                        showGenreBottomSheet = true
+                    }
+                },
+            )
+        }
+
+        // The label must no longer be rendered as visible text on the pill.
+        composeTestRule.onNodeWithText(label).assertDoesNotExist()
+
+        // The icon carries the accessible name so the clickable keeps it.
+        composeTestRule.onNodeWithContentDescription(label).assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription(label).performClick()
+
+        assertTrue(actions.contains(RandomFilmAction.OnGenreBottomSheetOpen))
+        composeTestRule.onNodeWithText("Filter by Genre").assertIsDisplayed()
+    }
+
+    @Test
+    fun tournament_pill_is_icon_only_and_opens_tournament_bottom_sheet() {
+        val actions = mutableListOf<RandomFilmAction>()
+        var label = ""
+        var resultsDescription = ""
+        composeTestRule.setContent {
+            label = stringResource(Res.string.tournament_button_label)
+            resultsDescription = pluralStringResource(Res.plurals.tournament_results_count, 3, 3)
+            var showTournamentBottomSheet by remember { mutableStateOf(false) }
+            RandomFilmScreen(
+                userNameList = MutableStateFlow<List<UserName>>(emptyList()),
+                numberOfResults = 3,
+                showTournamentBottomSheet = showTournamentBottomSheet,
+                onAction = { action ->
+                    actions += action
+                    if (action is RandomFilmAction.OnTournamentBottomSheetOpen) {
+                        showTournamentBottomSheet = true
+                    }
+                },
+            )
+        }
+
+        // The pill label is icon only: no visible text, the icon carries the name.
+        composeTestRule.onNodeWithText(label).assertDoesNotExist()
+        composeTestRule.onNodeWithTag("test-tournament-pill").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription(label).assertIsDisplayed()
+
+        // The badge mirrors the available results and is announced via stateDescription.
+        composeTestRule.onNodeWithTag("test-random-film-tournament-badge").assertIsDisplayed()
+        composeTestRule.onNodeWithText("3").assertIsDisplayed()
+        composeTestRule
+            .onNodeWithTag("test-tournament-pill")
+            .assert(SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, resultsDescription))
+        // The badge number is not duplicated as an extra text announcement on the pill.
+        composeTestRule.onNodeWithTag("test-tournament-pill").assertTextEquals()
+
+        composeTestRule.onNodeWithContentDescription(label).performClick()
+
+        assertTrue(actions.contains(RandomFilmAction.OnTournamentBottomSheetOpen))
+        composeTestRule.onNodeWithTag("test-tournament-start").assertExists()
+    }
+
+    @Test
+    fun tournament_badge_shows_multi_digit_results_count() {
+        var resultsDescription = ""
+        composeTestRule.setContent {
+            resultsDescription = pluralStringResource(Res.plurals.tournament_results_count, 12, 12)
+            RandomFilmScreen(
+                userNameList = MutableStateFlow<List<UserName>>(emptyList()),
+                numberOfResults = 12,
+            ) { }
+        }
+
+        composeTestRule.onNodeWithTag("test-random-film-tournament-badge").assertIsDisplayed()
+        composeTestRule.onNodeWithText("12").assertIsDisplayed()
+        // The badge must not widen the 56.dp pill.
+        composeTestRule.onNodeWithTag("test-tournament-pill").assertWidthIsEqualTo(56.dp)
+        composeTestRule
+            .onNodeWithTag("test-tournament-pill")
+            .assert(SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, resultsDescription))
+    }
+
+    @Test
+    fun tournament_pill_is_not_shown_without_results() {
+        var label = ""
+        composeTestRule.setContent {
+            label = stringResource(Res.string.tournament_button_label)
+            RandomFilmScreen(userNameList = MutableStateFlow<List<UserName>>(emptyList())) { }
+        }
+
+        composeTestRule.onNodeWithTag("test-tournament-pill").assertDoesNotExist()
+        composeTestRule.onNodeWithTag("test-random-film-tournament-badge").assertDoesNotExist()
+        composeTestRule.onNodeWithContentDescription(label).assertDoesNotExist()
     }
 
     @Test

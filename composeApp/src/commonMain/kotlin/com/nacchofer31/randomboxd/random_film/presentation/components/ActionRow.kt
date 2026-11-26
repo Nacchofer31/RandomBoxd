@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
@@ -25,6 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.hideFromAccessibility
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,11 +37,13 @@ import com.nacchofer31.randomboxd.random_film.domain.model.FilmGenre
 import com.nacchofer31.randomboxd.random_film.domain.model.FilmSearchMode
 import com.nacchofer31.randomboxd.random_film.presentation.viewmodel.RandomFilmAction
 import com.nacchofer31.randomboxd.tournament.domain.model.TournamentSize
+import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import randomboxd.composeapp.generated.resources.Res
 import randomboxd.composeapp.generated.resources.genre_button_label
 import randomboxd.composeapp.generated.resources.submit
 import randomboxd.composeapp.generated.resources.tournament_button_label
+import randomboxd.composeapp.generated.resources.tournament_results_count
 
 @Composable
 internal fun ActionRow(
@@ -60,27 +66,21 @@ internal fun ActionRow(
         contentAlignment = Alignment.TopEnd,
     ) {
         Surface(
-            modifier = Modifier.fillMaxHeight(),
+            modifier = Modifier.fillMaxHeight().width(56.dp),
             onClick = { onAction(RandomFilmAction.OnGenreBottomSheetOpen) },
             color = RandomBoxdColors.CardBackground,
             shape = RoundedCornerShape(topStart = 10.dp, bottomStart = 10.dp, bottomEnd = 10.dp, topEnd = 10.dp),
         ) {
             Column(
-                modifier = Modifier.padding(horizontal = 14.dp),
+                modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
                 Icon(
                     imageVector = Icons.Default.FilterList,
-                    contentDescription = null,
+                    contentDescription = stringResource(Res.string.genre_button_label),
                     tint = RandomBoxdColors.BackgroundLightColor,
-                    modifier = Modifier.size(18.dp),
-                )
-                Text(
-                    text = stringResource(Res.string.genre_button_label),
-                    fontSize = 9.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = RandomBoxdColors.BackgroundLightColor,
+                    modifier = Modifier.size(20.dp),
                 )
             }
         }
@@ -178,32 +178,52 @@ internal fun ActionRow(
     }
 
     if (numberOfResults > 0) {
-        Surface(
-            modifier =
-                Modifier
-                    .fillMaxHeight()
-                    .padding(start = 5.dp)
-                    .testTag("test-tournament-pill"),
-            onClick = onTournamentClick,
-            color = RandomBoxdColors.CardBackground,
-            shape = RoundedCornerShape(10.dp),
+        val resultsDescription =
+            pluralStringResource(Res.plurals.tournament_results_count, numberOfResults, numberOfResults)
+        Box(
+            modifier = Modifier.fillMaxHeight().padding(start = 5.dp),
+            contentAlignment = Alignment.TopEnd,
         ) {
-            Column(
-                modifier = Modifier.padding(horizontal = 14.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
+            Surface(
+                modifier =
+                    Modifier
+                        .fillMaxHeight()
+                        .width(56.dp)
+                        .testTag("test-tournament-pill")
+                        .semantics { stateDescription = resultsDescription },
+                onClick = onTournamentClick,
+                color = RandomBoxdColors.CardBackground,
+                shape = RoundedCornerShape(10.dp),
             ) {
-                Icon(
-                    imageVector = Icons.Filled.EmojiEvents,
-                    contentDescription = null,
-                    tint = RandomBoxdColors.TournamentOrange,
-                    modifier = Modifier.size(18.dp),
-                )
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.EmojiEvents,
+                        contentDescription = stringResource(Res.string.tournament_button_label),
+                        tint = RandomBoxdColors.TournamentOrange,
+                        modifier = Modifier.size(20.dp),
+                    )
+                }
+            }
+            Surface(
+                modifier = Modifier.testTag("test-random-film-tournament-badge"),
+                shape = RoundedCornerShape(50),
+                color = RandomBoxdColors.TournamentOrange,
+            ) {
                 Text(
-                    text = stringResource(Res.string.tournament_button_label),
+                    text = numberOfResults.toString(),
+                    modifier =
+                        Modifier
+                            .padding(horizontal = 5.dp, vertical = 2.dp)
+                            .semantics { hideFromAccessibility() },
                     fontSize = 10.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = RandomBoxdColors.BackgroundLightColor,
+                    lineHeight = 10.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = RandomBoxdColors.BackgroundDarkColor,
+                    maxLines = 1,
                 )
             }
         }

@@ -2,6 +2,7 @@ package com.nacchofer31.randomboxd.onboarding.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -28,8 +30,10 @@ import androidx.compose.ui.unit.sp
 import com.nacchofer31.randomboxd.core.presentation.RandomBoxdColors
 import org.jetbrains.compose.resources.stringResource
 import randomboxd.composeapp.generated.resources.Res
+import randomboxd.composeapp.generated.resources.onboarding_new_badge
 import randomboxd.composeapp.generated.resources.onboarding_search_feature1
 import randomboxd.composeapp.generated.resources.onboarding_search_feature2
+import randomboxd.composeapp.generated.resources.onboarding_search_feature3
 import randomboxd.composeapp.generated.resources.onboarding_search_subtitle
 import randomboxd.composeapp.generated.resources.onboarding_search_title
 
@@ -134,13 +138,33 @@ internal fun OnboardingSearchTagsPage() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Text(
-                text = stringResource(Res.string.onboarding_search_title),
-                color = Color.White,
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                Box(
+                    modifier =
+                        Modifier
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(RandomBoxdColors.GreenAccent)
+                            .padding(horizontal = 10.dp, vertical = 5.dp),
+                ) {
+                    Text(
+                        text = stringResource(Res.string.onboarding_new_badge),
+                        color = RandomBoxdColors.BackgroundDarkColor,
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 1.sp,
+                    )
+                }
+                Text(
+                    text = stringResource(Res.string.onboarding_search_title),
+                    color = Color.White,
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                )
+            }
             Text(
                 text = stringResource(Res.string.onboarding_search_subtitle),
                 color = RandomBoxdColors.BackgroundLightColor,
@@ -176,6 +200,18 @@ internal fun OnboardingSearchTagsPage() {
                 },
                 text = stringResource(Res.string.onboarding_search_feature2),
                 iconBackgroundColor = TagOrangeBg,
+            )
+            OnboardingFeatureRow(
+                icon = {
+                    Icon(
+                        imageVector = Icons.Filled.Explore,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp),
+                        tint = RandomBoxdColors.GreenAccent,
+                    )
+                },
+                text = stringResource(Res.string.onboarding_search_feature3),
+                iconBackgroundColor = TagGreenBg,
             )
         }
     }

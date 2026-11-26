@@ -17,7 +17,7 @@
     <string name="tip_username_format">試す：ユーザー名 または ユーザー名/リスト名</string>
     <string name="tip_hold_submit">マルチユーザーモードにするには、送信またはタグを長押ししてください</string>
     <string name="tip_genre_filter">ジャンルボタンを使って結果をジャンルで絞り込めます</string>
-    <string name="tip_history">履歴ボタンを押すと、これまでの選択履歴を確認できます</string>
+    <string name="tip_tournament">映画トーナメントで競い、チャンピオンを決めよう</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">もう映画選びに迷わない</string>
     <string name="onboarding_welcome_description">Letterboxdのウォッチリストやカスタムリストからランダムな映画を提案します。映画の夜にぴったり！</string>
@@ -30,6 +30,7 @@
     <string name="onboarding_search_subtitle">任意のユーザーのリストやカスタムリストを検索。以前の検索はクイックアクセスタグとして保存されます。</string>
     <string name="onboarding_search_feature1">ユーザー名を保存して素早く再利用</string>
     <string name="onboarding_search_feature2">Letterboxdのカスタムリストにアクセス</string>
+    <string name="onboarding_search_feature3">人気のLetterboxdリストを見つける</string>
     <string name="onboarding_multiuser_title">マルチユーザーモード</string>
     <string name="onboarding_multiuser_subtitle">複数ユーザーのウォッチリストを結合。共通の映画を見つける（共通）か、すべての結合リストから選ぶ（結合）。</string>
     <string name="onboarding_multiuser_feature1">共通の映画のみ</string>
@@ -75,6 +76,11 @@
     <string name="onboarding_history_feature2">ハートをタップしてお気に入りをマーク</string>
     <string name="onboarding_history_feature3">いつでも履歴をクリアできます</string>
     <string name="onboarding_history_footer">合計24作品を選択済み</string>
+    <string name="onboarding_tournament_title">トーナメント</string>
+    <string name="onboarding_tournament_subtitle">ウォッチリストを勝ち抜きトーナメント表にして、最優秀作品を決めよう。</string>
+    <string name="onboarding_tournament_feature1">2・4・8・16・32本から選べる</string>
+    <string name="onboarding_tournament_feature2">各対戦の勝者を選ぶ</string>
+    <string name="onboarding_tournament_feature3">1本がチャンピオンになるまで投票を続ける</string>
     <string name="rolling_the_dice">サイコロを振っています...</string>
     <string name="finding_random_movie">ランダム映画を探しています</string>
     <string name="reroll">もう一度振る</string>
@@ -97,6 +103,9 @@
     <string name="history_days_ago">%1$d日前</string>
     <string name="tournament_size_title">トーナメント規模</string>
     <string name="tournament_button_label">トーナメント</string>
+    <plurals name="tournament_results_count">
+        <item quantity="other">%1$d件</item>
+    </plurals>
     <string name="tournament_round_final">決勝</string>
     <string name="tournament_round_semifinals">準決勝</string>
     <string name="tournament_round_quarterfinals">準々決勝</string>

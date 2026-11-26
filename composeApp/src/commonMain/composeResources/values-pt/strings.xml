@@ -17,7 +17,7 @@
     <string name="tip_username_format">Tente: usuário ou usuário/nome-lista</string>
     <string name="tip_hold_submit">Pressione e segure Enviar ou as tags para o modo multiusuário</string>
     <string name="tip_genre_filter">Use o botão Gênero para filtrar os resultados por gênero</string>
-    <string name="tip_history">Agora você pode ver seu histórico de seleções pressionando o botão Histórico</string>
+    <string name="tip_tournament">Compita em um torneio de filmes e coroe um campeão</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">Nunca mais tenha dificuldade em escolher um filme</string>
     <string name="onboarding_welcome_description">Receba sugestões aleatórias de filmes das suas listas de observação e listas personalizadas do Letterboxd. Perfeito para noites de cinema!</string>
@@ -30,6 +30,7 @@
     <string name="onboarding_search_subtitle">Pesquise a lista de qualquer usuário ou lista personalizada. Suas pesquisas anteriores são salvas como tags de acesso rápido.</string>
     <string name="onboarding_search_feature1">Salvar nomes de usuário para reutilização rápida</string>
     <string name="onboarding_search_feature2">Acessar qualquer lista personalizada do Letterboxd</string>
+    <string name="onboarding_search_feature3">Descobrir listas populares do Letterboxd</string>
     <string name="onboarding_multiuser_title">Modo multiusuário</string>
     <string name="onboarding_multiuser_subtitle">Combine listas de observação de vários usuários. Encontre filmes compartilhados (Interseção) ou escolha de todas as listas combinadas (União).</string>
     <string name="onboarding_multiuser_feature1">Apenas filmes compartilhados</string>
@@ -75,6 +76,11 @@
     <string name="onboarding_history_feature2">Marque favoritos com um toque no coração</string>
     <string name="onboarding_history_feature3">Limpe seu histórico quando quiser</string>
     <string name="onboarding_history_footer">24 filmes selecionados no total</string>
+    <string name="onboarding_tournament_title">Torneio</string>
+    <string name="onboarding_tournament_subtitle">Transforme sua lista de observação em uma chave eliminatória e coroe um filme vencedor.</string>
+    <string name="onboarding_tournament_feature1">Escolha 2, 4, 8, 16 ou 32 filmes</string>
+    <string name="onboarding_tournament_feature2">Escolha o vencedor de cada confronto</string>
+    <string name="onboarding_tournament_feature3">Continue votando até um filme ser coroado campeão</string>
     <string name="rolling_the_dice">Lançando os dados...</string>
     <string name="finding_random_movie">Encontrando seu filme aleatório</string>
     <string name="reroll">Rolar novamente</string>
@@ -97,6 +103,10 @@
     <string name="history_days_ago">Há %1$d dias</string>
     <string name="tournament_size_title">Tamanho do torneio</string>
     <string name="tournament_button_label">Torneio</string>
+    <plurals name="tournament_results_count">
+        <item quantity="one">%1$d resultado</item>
+        <item quantity="other">%1$d resultados</item>
+    </plurals>
     <string name="tournament_round_final">Final</string>
     <string name="tournament_round_semifinals">Semifinais</string>
     <string name="tournament_round_quarterfinals">Quartas de final</string>

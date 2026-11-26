@@ -17,7 +17,7 @@
     <string name="tip_username_format">جرب: اسم المستخدم أو اسم المستخدم/اسم القائمة</string>
     <string name="tip_hold_submit">اضغط مطولاً على إرسال أو الوسوم لوضع متعدد المستخدمين</string>
     <string name="tip_genre_filter">استخدم زر النوع لتصفية النتائج حسب النوع</string>
-    <string name="tip_history">يمكنك الآن مشاهدة سجل اختياراتك بالضغط على زر السجل</string>
+    <string name="tip_tournament">تنافس في بطولة أفلام وتوّج بطلاً</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">لا تواجه صعوبة في اختيار الفيلم مرة أخرى</string>
     <string name="onboarding_welcome_description">احصل على اقتراحات أفلام عشوائية من قوائم المراقبة والقوائم المخصصة على Letterboxd. مثالي لأمسيات الأفلام!</string>
@@ -30,6 +30,7 @@
     <string name="onboarding_search_subtitle">ابحث عن قائمة أي مستخدم أو قائمة مخصصة. يتم حفظ عمليات البحث السابقة كوسوم وصول سريع.</string>
     <string name="onboarding_search_feature1">احفظ أسماء المستخدمين لإعادة الاستخدام السريع</string>
     <string name="onboarding_search_feature2">الوصول إلى أي قائمة مخصصة على Letterboxd</string>
+    <string name="onboarding_search_feature3">اكتشف قوائم Letterboxd الشائعة</string>
     <string name="onboarding_multiuser_title">وضع متعدد المستخدمين</string>
     <string name="onboarding_multiuser_subtitle">ادمج قوائم المراقبة من عدة مستخدمين. ابحث عن الأفلام المشتركة (التقاطع) أو اختر من جميع القوائم المدمجة (الاتحاد).</string>
     <string name="onboarding_multiuser_feature1">الأفلام المشتركة فقط</string>
@@ -75,6 +76,11 @@
     <string name="onboarding_history_feature2">علّم على المفضلة بلمسة على القلب</string>
     <string name="onboarding_history_feature3">امسح سجلك في أي وقت</string>
     <string name="onboarding_history_footer">24 أفلام مختارة إجمالاً</string>
+    <string name="onboarding_tournament_title">البطولة</string>
+    <string name="onboarding_tournament_subtitle">حوّل قائمة المراقبة الخاصة بك إلى جدول إقصائي وتوّج فيلمًا فائزًا.</string>
+    <string name="onboarding_tournament_feature1">اختر 2 أو 4 أو 8 أو 16 أو 32 فيلمًا</string>
+    <string name="onboarding_tournament_feature2">اختر الفائز في كل مباراة مباشرة</string>
+    <string name="onboarding_tournament_feature3">استمر في التصويت حتى يتم تتويج فيلم واحد بالبطولة</string>
     <string name="rolling_the_dice">جاري رمي النرد...</string>
     <string name="finding_random_movie">جاري البحث عن فيلمك العشوائي</string>
     <string name="reroll">إعادة الرمي</string>
@@ -97,6 +103,13 @@
     <string name="history_days_ago">منذ %1$d أيام</string>
     <string name="tournament_size_title">حجم البطولة</string>
     <string name="tournament_button_label">البطولة</string>
+    <plurals name="tournament_results_count">
+        <item quantity="one">%1$d نتيجة</item>
+        <item quantity="two">%1$d نتيجتان</item>
+        <item quantity="few">%1$d نتائج</item>
+        <item quantity="many">%1$d نتيجة</item>
+        <item quantity="other">%1$d نتيجة</item>
+    </plurals>
     <string name="tournament_round_final">النهائي</string>
     <string name="tournament_round_semifinals">نصف النهائي</string>
     <string name="tournament_round_quarterfinals">ربع النهائي</string>

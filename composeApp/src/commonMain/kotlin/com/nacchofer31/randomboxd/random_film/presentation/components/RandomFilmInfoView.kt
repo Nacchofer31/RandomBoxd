@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -36,8 +39,8 @@ import randomboxd.composeapp.generated.resources.onboarding_new_badge
 import randomboxd.composeapp.generated.resources.ready_to_spin
 import randomboxd.composeapp.generated.resources.roulette_icon
 import randomboxd.composeapp.generated.resources.tip_genre_filter
-import randomboxd.composeapp.generated.resources.tip_history
 import randomboxd.composeapp.generated.resources.tip_hold_submit
+import randomboxd.composeapp.generated.resources.tip_tournament
 import randomboxd.composeapp.generated.resources.tip_username_format
 
 @Composable
@@ -114,6 +117,12 @@ fun RandomFilmInfoView() {
             verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier.padding(horizontal = 10.dp),
         ) {
+            NewFeatureTipCard(
+                icon = Icons.Filled.EmojiEvents,
+                iconTint = RandomBoxdColors.TournamentOrange,
+                newBadge = stringResource(Res.string.onboarding_new_badge),
+                text = stringResource(Res.string.tip_tournament),
+            )
             TipCard(
                 icon = "💡",
                 text = stringResource(Res.string.tip_username_format),
@@ -128,11 +137,6 @@ fun RandomFilmInfoView() {
                 icon = "🎭",
                 text = stringResource(Res.string.tip_genre_filter),
                 accentColor = RandomBoxdColors.BlueAccent,
-            )
-            NewFeatureTipCard(
-                icon = "🕘",
-                newBadge = stringResource(Res.string.onboarding_new_badge),
-                text = stringResource(Res.string.tip_history),
             )
         }
     }
@@ -178,9 +182,31 @@ private fun TipCard(
 
 @Composable
 private fun NewFeatureTipCard(
-    icon: String = "🎭",
+    icon: ImageVector,
+    iconTint: Color,
     newBadge: String,
     text: String,
+) {
+    NewFeatureTipCardLayout(
+        newBadge = newBadge,
+        text = text,
+        iconBackground = iconTint.copy(alpha = 0.12f),
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = iconTint,
+            modifier = Modifier.size(18.dp),
+        )
+    }
+}
+
+@Composable
+private fun NewFeatureTipCardLayout(
+    newBadge: String,
+    text: String,
+    iconBackground: Color,
+    iconContent: @Composable () -> Unit,
 ) {
     Row(
         modifier =
@@ -201,13 +227,10 @@ private fun NewFeatureTipCard(
                 Modifier
                     .height(32.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .background(RandomBoxdColors.GreenAccent.copy(alpha = 0.12f)),
+                    .background(iconBackground),
             contentAlignment = Alignment.Center,
         ) {
-            Text(
-                text = icon,
-                fontSize = 16.sp,
-            )
+            iconContent()
         }
         Text(
             text = text,

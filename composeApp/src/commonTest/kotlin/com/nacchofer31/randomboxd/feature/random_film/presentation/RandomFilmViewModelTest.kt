@@ -658,6 +658,89 @@ class RandomFilmViewModelTest {
             }
         }
 
+    // ── Tournament champion ─────────────────────────────────────────
+
+    @Test
+    fun `given a tournament champion when it comes back then it becomes the result without saving history again`() =
+        runTest(testDispatchers.testDispatcher) {
+            repository.getRandomMoviesResult = ResultData.Error(DataError.Remote.SERIALIZATION)
+            createViewModel()
+            observeState()
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
+            viewModel.onAction(RandomFilmAction.OnSubmitButtonClick())
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+            assertNotNull(viewModel.state.value.resultError)
+
+            viewModel.onAction(RandomFilmAction.OnTournamentChampion(testFilm))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val state = viewModel.state.value
+            assertEquals(testFilm, state.resultFilm)
+            assertNull(state.resultError)
+            assertSame(false, state.isLoading)
+            // The tournament is the one that saves the champion pick, RandomFilm must not duplicate it.
+            assertEquals(0, historyRepository.saveCount)
+        }
+
+    @Test
+    fun `given a finished tournament when the champion comes back then pool count and search context are preserved`() =
+        runTest(testDispatchers.testDispatcher) {
+            val films = distinctTestFilms(4)
+            val champion = films.last()
+            repository.getRandomMoviesResult = ResultData.Success(films)
+            createViewModel()
+            observeState()
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
+            viewModel.onAction(RandomFilmAction.OnAddOrRemoveUserNameSearchList("user2"))
+            viewModel.onAction(RandomFilmAction.OnGenreToggled(FilmGenre.ACTION))
+            viewModel.onAction(RandomFilmAction.OnSubmitButtonClick())
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val submitted = viewModel.state.value
+            assertEquals(4, submitted.numberOfResults)
+            assertEquals(setOf("user2"), submitted.userNameSearchList)
+            val savesAfterSubmit = historyRepository.saveCount
+
+            viewModel.onAction(RandomFilmAction.OnTournamentChampion(champion))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val state = viewModel.state.value
+            assertEquals(champion, state.resultFilm)
+            assertEquals(4, state.numberOfResults)
+            assertEquals(submitted.userNameSearchList, state.userNameSearchList)
+            assertEquals(submitted.filmSearchMode, state.filmSearchMode)
+            assertEquals(submitted.selectedGenres, state.selectedGenres)
+            assertEquals(savesAfterSubmit, historyRepository.saveCount)
+        }
+
+    @Test
+    fun `given a champion result when rerolled then it is excluded and the cached pool is still used`() =
+        runTest(testDispatchers.testDispatcher) {
+            val films = distinctTestFilms(2).toList()
+            val champion = films[0]
+            val otherFilm = films[1]
+            repository.getRandomMoviesResult = ResultData.Success(films.toSet())
+            createViewModel()
+            observeState()
+            viewModel.onAction(RandomFilmAction.OnUserNameChanged("user"))
+            viewModel.onAction(RandomFilmAction.OnSubmitButtonClick())
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            viewModel.onAction(RandomFilmAction.OnTournamentChampion(champion))
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+            assertEquals(champion, viewModel.state.value.resultFilm)
+
+            viewModel.onAction(RandomFilmAction.OnRerollClicked)
+            testDispatchers.testDispatcher.scheduler.advanceUntilIdle()
+
+            val state = viewModel.state.value
+            // The champion is the excluded one, so the reroll must land on the remaining cached film.
+            assertEquals(otherFilm, state.resultFilm)
+            assertNull(state.resultError)
+            assertSame(false, state.isLoading)
+            assertEquals(2, state.numberOfResults)
+        }
+
     // ── Save hooks ──────────────────────────────────────────────────
 
     @Test

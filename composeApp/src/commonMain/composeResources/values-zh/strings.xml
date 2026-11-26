@@ -17,7 +17,7 @@
     <string name="tip_username_format">尝试：用户名 或 用户名/列表名</string>
     <string name="tip_hold_submit">长按"提交"或标签以启用多用户模式</string>
     <string name="tip_genre_filter">使用"类型"按钮按类型筛选结果</string>
-    <string name="tip_history">现在你可以点击历史记录按钮查看你的挑选记录</string>
+    <string name="tip_tournament">参加电影锦标赛，加冕冠军</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">再也不用为选电影而烦恼</string>
     <string name="onboarding_welcome_description">从您的 Letterboxd 想看列表和自定义列表中获取随机电影建议。非常适合电影之夜！</string>
@@ -30,6 +30,7 @@
     <string name="onboarding_search_subtitle">搜索任何用户的列表或自定义列表。您之前的搜索将保存为快速访问标签。</string>
     <string name="onboarding_search_feature1">保存用户名以便快速重复使用</string>
     <string name="onboarding_search_feature2">访问任何 Letterboxd 自定义列表</string>
+    <string name="onboarding_search_feature3">发现热门的 Letterboxd 列表</string>
     <string name="onboarding_multiuser_title">多用户模式</string>
     <string name="onboarding_multiuser_subtitle">合并多个用户的想看列表。查找共同电影（交集）或从所有合并列表中选择（并集）。</string>
     <string name="onboarding_multiuser_feature1">仅共同电影</string>
@@ -75,6 +76,11 @@
     <string name="onboarding_history_feature2">点击心形图标标记收藏</string>
     <string name="onboarding_history_feature3">随时清除您的历史记录</string>
     <string name="onboarding_history_footer">共选择了 24 部电影</string>
+    <string name="onboarding_tournament_title">锦标赛</string>
+    <string name="onboarding_tournament_subtitle">把想看列表变成淘汰赛对阵图，选出最终获胜影片。</string>
+    <string name="onboarding_tournament_feature1">可选择 2、4、8、16 或 32 部影片</string>
+    <string name="onboarding_tournament_feature2">为每一组对决选出胜者</string>
+    <string name="onboarding_tournament_feature3">持续投票，直到一部影片夺冠</string>
     <string name="rolling_the_dice">掷骰子中...</string>
     <string name="finding_random_movie">正在寻找您的随机电影</string>
     <string name="reroll">重新掷骰</string>
@@ -97,6 +103,9 @@
     <string name="history_days_ago">%1$d天前</string>
     <string name="tournament_size_title">锦标赛规模</string>
     <string name="tournament_button_label">锦标赛</string>
+    <plurals name="tournament_results_count">
+        <item quantity="other">%1$d 个结果</item>
+    </plurals>
     <string name="tournament_round_final">决赛</string>
     <string name="tournament_round_semifinals">半决赛</string>
     <string name="tournament_round_quarterfinals">四分之一决赛</string>

@@ -37,7 +37,6 @@ import randomboxd.composeapp.generated.resources.onboarding_history_feature3
 import randomboxd.composeapp.generated.resources.onboarding_history_footer
 import randomboxd.composeapp.generated.resources.onboarding_history_subtitle
 import randomboxd.composeapp.generated.resources.onboarding_history_title
-import randomboxd.composeapp.generated.resources.onboarding_new_badge
 
 private data class MockHistoryItem(
     val title: String,
@@ -109,33 +108,13 @@ internal fun OnboardingHistoryPage() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-                Box(
-                    modifier =
-                        Modifier
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(RandomBoxdColors.GreenAccent)
-                            .padding(horizontal = 10.dp, vertical = 5.dp),
-                ) {
-                    Text(
-                        text = stringResource(Res.string.onboarding_new_badge),
-                        color = RandomBoxdColors.BackgroundDarkColor,
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                        letterSpacing = 1.sp,
-                    )
-                }
-                Text(
-                    text = stringResource(Res.string.onboarding_history_title),
-                    color = Color.White,
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                )
-            }
+            Text(
+                text = stringResource(Res.string.onboarding_history_title),
+                color = Color.White,
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+            )
             Text(
                 text = stringResource(Res.string.onboarding_history_subtitle),
                 color = RandomBoxdColors.BackgroundLightColor,

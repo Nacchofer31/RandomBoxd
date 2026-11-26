@@ -41,6 +41,7 @@ import com.nacchofer31.randomboxd.onboarding.presentation.components.OnboardingM
 import com.nacchofer31.randomboxd.onboarding.presentation.components.OnboardingPageIndicator
 import com.nacchofer31.randomboxd.onboarding.presentation.components.OnboardingRandomSelectionPage
 import com.nacchofer31.randomboxd.onboarding.presentation.components.OnboardingSearchTagsPage
+import com.nacchofer31.randomboxd.onboarding.presentation.components.OnboardingTournamentPage
 import com.nacchofer31.randomboxd.onboarding.presentation.components.OnboardingWelcomePage
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -50,7 +51,7 @@ import randomboxd.composeapp.generated.resources.onboarding_next
 import randomboxd.composeapp.generated.resources.onboarding_skip
 import randomboxd.composeapp.generated.resources.onboarding_start_exploring
 
-private const val PAGE_COUNT = 6
+private const val PAGE_COUNT = 7
 
 @Composable
 fun OnboardingScreen(onFinish: () -> Unit) {
@@ -113,6 +114,7 @@ fun OnboardingScreen(onFinish: () -> Unit) {
                         3 -> OnboardingMultiUserPage()
                         4 -> OnboardingGenreFiltersPage()
                         5 -> OnboardingHistoryPage()
+                        6 -> OnboardingTournamentPage()
                     }
                 }
             }

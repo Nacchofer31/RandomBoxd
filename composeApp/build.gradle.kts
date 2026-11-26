@@ -85,6 +85,8 @@ kotlin {
             implementation("org.jetbrains.compose.material3:material3:1.9.0")
             implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
             implementation("org.jetbrains.compose.ui:ui:1.10.0")
+            // BackHandler multiplatform (system back handling in commonMain)
+            implementation("org.jetbrains.compose.ui:ui-backhandler:1.10.0")
             implementation("org.jetbrains.compose.components:components-resources:1.10.0")
             implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.0")
             implementation(libs.androidx.lifecycle.viewmodel)

@@ -17,7 +17,7 @@
     <string name="tip_username_format">Versuche: Benutzername oder Benutzername/Listenname</string>
     <string name="tip_hold_submit">Gedrückt halten auf „Senden" oder Tags für den Mehrbenutzermodus</string>
     <string name="tip_genre_filter">Nutze den Genre-Button, um Ergebnisse nach Genre zu filtern</string>
-    <string name="tip_history">Jetzt kannst du deine Auswahlhistorie ansehen, indem du auf den Verlauf-Button drückst</string>
+    <string name="tip_tournament">Tritt in einem Film-Turnier an und küre einen Champion</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">Nie wieder Schwierigkeiten bei der Filmauswahl</string>
     <string name="onboarding_welcome_description">Erhalte zufällige Filmvorschläge aus deinen Letterboxd-Watchlists und benutzerdefinierten Listen. Perfekt für Filmabende!</string>
@@ -30,6 +30,7 @@
     <string name="onboarding_search_subtitle">Suche nach der Liste eines beliebigen Benutzers oder einer benutzerdefinierten Liste. Deine vorherigen Suchen werden als Schnellzugriff-Tags gespeichert.</string>
     <string name="onboarding_search_feature1">Benutzernamen für schnelle Wiederverwendung speichern</string>
     <string name="onboarding_search_feature2">Auf jede benutzerdefinierte Letterboxd-Liste zugreifen</string>
+    <string name="onboarding_search_feature3">Beliebte Letterboxd-Listen entdecken</string>
     <string name="onboarding_multiuser_title">Mehrbenutzermodus</string>
     <string name="onboarding_multiuser_subtitle">Kombiniere Watchlists mehrerer Benutzer. Finde gemeinsame Filme (Schnittmenge) oder wähle aus allen kombinierten Listen (Vereinigung).</string>
     <string name="onboarding_multiuser_feature1">Nur gemeinsame Filme</string>
@@ -75,6 +76,11 @@
     <string name="onboarding_history_feature2">Markiere Favoriten mit einem Herz-Tipp</string>
     <string name="onboarding_history_feature3">Lösche deinen Verlauf jederzeit</string>
     <string name="onboarding_history_footer">24 Filme insgesamt ausgewählt</string>
+    <string name="onboarding_tournament_title">Turnier</string>
+    <string name="onboarding_tournament_subtitle">Verwandle deine Watchlist in einen Turnierbaum und kröne einen Gewinnerfilm.</string>
+    <string name="onboarding_tournament_feature1">Wähle 2, 4, 8, 16 oder 32 Filme</string>
+    <string name="onboarding_tournament_feature2">Bestimme den Sieger jedes Duells</string>
+    <string name="onboarding_tournament_feature3">Stimme weiter ab, bis ein Film als Champion gekrönt wird</string>
     <string name="rolling_the_dice">Würfel rollen...</string>
     <string name="finding_random_movie">Finde deinen zufälligen Film</string>
     <string name="reroll">Neu würfeln</string>
@@ -97,6 +103,10 @@
     <string name="history_days_ago">Vor %1$d Tagen</string>
     <string name="tournament_size_title">Turniergröße</string>
     <string name="tournament_button_label">Turnier</string>
+    <plurals name="tournament_results_count">
+        <item quantity="one">%1$d Ergebnis</item>
+        <item quantity="other">%1$d Ergebnisse</item>
+    </plurals>
     <string name="tournament_round_final">Finale</string>
     <string name="tournament_round_semifinals">Halbfinale</string>
     <string name="tournament_round_quarterfinals">Viertelfinale</string>

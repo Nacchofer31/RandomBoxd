@@ -17,7 +17,7 @@
     <string name="tip_username_format">Try: username or username/list-name</string>
     <string name="tip_hold_submit">Long-press Submit or tags for multi-user mode</string>
     <string name="tip_genre_filter">Use the Genre button to filter results by genre</string>
-    <string name="tip_history">Now you can view your pick history by pressing the History button</string>
+    <string name="tip_tournament">Compete in a film tournament and crown a champion</string>
     <string name="onboarding_welcome_title">RandomBoxd</string>
     <string name="onboarding_welcome_subtitle">Never struggle to pick a movie again</string>
     <string name="onboarding_welcome_description">Get random movie suggestions from your Letterboxd watchlists and custom lists. Perfect for movie nights!</string>
@@ -30,6 +30,7 @@
     <string name="onboarding_search_subtitle">Search for any user\'s list or custom list. Your previous searches are saved as quick-access tags.</string>
     <string name="onboarding_search_feature1">Save usernames for quick reuse</string>
     <string name="onboarding_search_feature2">Access any custom Letterboxd list</string>
+    <string name="onboarding_search_feature3">Discover popular Letterboxd lists</string>
     <string name="onboarding_multiuser_title">Multi-User Mode</string>
     <string name="onboarding_multiuser_subtitle">Combine watchlists from multiple users. Find shared movies (Intersection) or pick from all combined lists (Union).</string>
     <string name="onboarding_multiuser_feature1">Shared movies only</string>
@@ -75,6 +76,11 @@
     <string name="onboarding_history_feature2">Mark favorites with a heart tap</string>
     <string name="onboarding_history_feature3">Clear your history anytime</string>
     <string name="onboarding_history_footer">24 movies picked in total</string>
+    <string name="onboarding_tournament_title">Tournament</string>
+    <string name="onboarding_tournament_subtitle">Turn your watchlist into a knockout bracket and crown one winning film.</string>
+    <string name="onboarding_tournament_feature1">Choose 2, 4, 8, 16 or 32 films</string>
+    <string name="onboarding_tournament_feature2">Pick the winner of each head-to-head match</string>
+    <string name="onboarding_tournament_feature3">Keep voting until one film is crowned champion</string>
     <string name="rolling_the_dice">Rolling the dice...</string>
     <string name="finding_random_movie">Finding your random movie</string>
     <string name="reroll">Reroll</string>
@@ -97,6 +103,10 @@
     <string name="history_days_ago">%1$d days ago</string>
     <string name="tournament_size_title">Tournament Size</string>
     <string name="tournament_button_label">Tournament</string>
+    <plurals name="tournament_results_count">
+        <item quantity="one">%1$d result</item>
+        <item quantity="other">%1$d results</item>
+    </plurals>
     <string name="tournament_round_final">Final</string>
     <string name="tournament_round_semifinals">Semifinals</string>
     <string name="tournament_round_quarterfinals">Quarterfinals</string>
