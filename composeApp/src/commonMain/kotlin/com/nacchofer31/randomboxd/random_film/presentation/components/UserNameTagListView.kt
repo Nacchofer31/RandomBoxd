@@ -8,7 +8,6 @@ import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -68,7 +67,7 @@ fun UserNameTagListView(
     }
 
     return Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         // Pinned outside the LazyRow so the entry point to the popular lists never scrolls away with the chips.
@@ -80,7 +79,6 @@ fun UserNameTagListView(
                 Modifier
                     .weight(1f)
                     .testTag("test-user-name-tag-list"),
-            contentPadding = PaddingValues(vertical = 8.dp),
         ) {
             val sortedUserNames = userNames.filter { it.username in userNameSearchList }.reversed() + userNames.filter { it.username !in userNameSearchList }.reversed()
 
@@ -104,15 +102,15 @@ private fun DiscoverListsButton(
         modifier =
             Modifier
                 .padding(horizontal = 4.dp, vertical = 2.dp)
-                .height(32.dp)
+                .height(40.dp)
                 .clip(RoundedCornerShape(18.dp))
                 .background(
-                    color = RandomBoxdColors.Black,
+                    color = RandomBoxdColors.TextFieldBackgroundColor,
                     shape = RoundedCornerShape(18.dp),
                 ).testTag("test-discover-lists-button")
                 .semantics { contentDescription = description }
                 .clickable(role = Role.Button) { onAction(RandomFilmAction.OnDiscoverListsClick) }
-                .padding(horizontal = 12.dp),
+                .padding(horizontal = 12.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
